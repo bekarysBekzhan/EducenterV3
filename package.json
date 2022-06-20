@@ -10,6 +10,10 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@native-html/iframe-plugin": "^2.6.1",
+    "@native-html/table-plugin": "^5.3.1",
+    "@react-native-async-storage/async-storage": "^1.17.6",
+    "@react-native-community/netinfo": "^9.0.0",
     "@react-navigation/bottom-tabs": "^6.3.1",
     "@react-navigation/material-top-tabs": "^6.2.1",
     "@react-navigation/native": "^6.0.10",
@@ -19,9 +23,14 @@
     "react-native": "0.68.2",
     "react-native-fast-image": "^8.5.11",
     "react-native-image-picker": "^4.8.4",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-localization": "^2.3.1",
     "react-native-pager-view": "^5.4.24",
+    "react-native-render-html": "^6.3.4",
+    "react-native-restart": "^0.0.24",
     "react-native-svg": "^12.3.0",
-    "react-native-tab-view": "^3.1.1"
+    "react-native-tab-view": "^3.1.1",
+    "react-native-webview": "^11.22.2"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
