@@ -1,12 +1,20 @@
-import {View, Text} from 'react-native';
-import React from 'react';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, {useMemo} from 'react';
 
-const SimpleButton = () => {
+const SimpleButton = ({onPress, loading, style, text, textStyle}) => {
+  const memoStyle = useMemo(() => []);
+
   return (
-    <View>
-      <Text>SimpleButton</Text>
-    </View>
+    <TouchableOpacity activeOpacity={0.9}>
+      <Text>{text}</Text>
+    </TouchableOpacity>
   );
 };
 
 export default SimpleButton;
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: '',
+  },
+});
