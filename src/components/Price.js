@@ -28,12 +28,12 @@ export default Price;
 const styles = StyleSheet.create({
   price: {
     ...setFontStyle(17, '600', ColorApp.primary),
-    marginRight: 4,
   },
   oldPrice: {
     ...setFontStyle(17, '400', '#808191'),
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
     textDecorationColor: '#808191',
+    marginLeft: 4,
   },
 });
