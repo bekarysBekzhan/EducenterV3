@@ -5,15 +5,15 @@ export const setFontStyle = (
   fontSize = 16,
   fontWeight = '400',
   color = ColorApp.font,
-  lineHeight = fontSize + 3
+  lineHeight = fontSize + 3,
 ) => {
   const styles = StyleSheet.create({
     font: {
       fontSize,
       fontWeight,
       color,
-      lineHeight
-    }
+      lineHeight,
+    },
   });
 
   return styles.font;
