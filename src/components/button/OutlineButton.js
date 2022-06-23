@@ -1,4 +1,9 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useMemo} from 'react';
 import {setFontStyle} from '../../utils/setFontStyle';
 import {ColorApp} from '../../constans/ColorApp';
@@ -9,6 +14,7 @@ const OutlineButton = ({
   loading = false,
   onPress = () => undefined,
   style,
+  colorIndicator = ColorApp.primary,
   ...props
 }) => {
   const memoStyle = useMemo(() => [styles.button, style], [style]);
@@ -21,9 +27,13 @@ const OutlineButton = ({
       disabled={loading}
       style={memoStyle}
       {...props}>
-      <Text numberOfLines={2} style={memoTextStyle}>
-        {text}
-      </Text>
+      {loading ? (
+        <ActivityIndicator color={colorIndicator} />
+      ) : (
+        <Text numberOfLines={2} style={memoTextStyle}>
+          {text}
+        </Text>
+      )}
     </TouchableOpacity>
   );
 };
