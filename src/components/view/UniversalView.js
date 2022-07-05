@@ -26,7 +26,7 @@ const UniversalView = ({
     );
   }
 
-  return <View style={memoStyle}> {haveLoader ? <Loader /> : children}</View>;
+  return <View style={memoStyle}>{haveLoader ? <Loader /> : children}</View>;
 };
 
 export default UniversalView;
