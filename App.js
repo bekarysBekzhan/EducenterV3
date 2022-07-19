@@ -13,6 +13,7 @@ import NavButtonRow from './src/components/view/NavButtonRow';
 import TopTab from './src/components/view/TopTab';
 import HomeScreen from './src/HomeScreen';
 import HomeScreen2 from './src/HomeScreen2';
+import AnswerOption from './src/components/test/AnswerOption';
 
 const viewstyle = { padding: 16 };
 
@@ -27,7 +28,9 @@ const App = () => {
   ]
 
   return (
-    <UniversalView>
+    <UniversalView
+      haveScroll
+    >
       <HeaderView
         leftIcon={left_icon}
         onLeftPress={() => Alert.alert('onLeftPress')}
@@ -102,12 +105,19 @@ const App = () => {
           title="Журнал"
           onPress={() => Alert.alert('fff')}
         />
-        <View style={viewstyle} />
+<<<<<<< HEAD
+  <View style={viewstyle} />
 
 
+=======
+        <View style={{marginBottom: 15}}/>
+        <AnswerOption _selected={true} text={"Пользователю легко с интерфейсом"}/>
+        <View style={{marginBottom: 15}}/>
+        <AnswerOption _selected={false} text={"Пользователю легко с интерфейсом"}/>
+>>>>>>> components
 
-      </View>
-    </UniversalView>
+      </View >
+    </UniversalView >
   );
 };
 
