@@ -17,6 +17,13 @@ export const left_icon = (
   </Svg>
 );
 
+export const check = (size = 1, color = "white") => (
+  <Svg width={10*size + ""} height={8*size + ""} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path d="M3.34363 6.1012L1.18848 3.83966L0.45459 4.60435L3.34363 7.63601L9.5455 1.12798L8.81678 0.363281L3.34363 6.1012Z" fill={color}/>
+  </Svg>
+
+)
+
 export const right_icon = (
   <Svg
     width="24"
