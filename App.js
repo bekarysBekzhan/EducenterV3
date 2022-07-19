@@ -9,6 +9,7 @@ import HeaderView from './src/components/view/HeaderView';
 import ReviewItem from './src/components/view/ReviewItem';
 import RatingStar from './src/components/RatingStar';
 import { left_icon, right_icon } from './src/assets/icons';
+import NavButtonRow from './src/components/view/NavButtonRow';
 
 const viewstyle = { padding: 16 };
 
@@ -77,7 +78,13 @@ const App = () => {
           rating={rating}
           starSize={50}
           selectedStar={rating => setRating(rating)} /> */}
+        <View style={viewstyle} />
 
+        <NavButtonRow
+          leftIcon={right_icon}
+          title="Журнал"
+          onPress={() => Alert.alert('fff')}
+        />
 
       </View>
     </UniversalView>

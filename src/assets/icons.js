@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, {Path} from 'react-native-svg';
+import Svg, { Path } from 'react-native-svg';
 
 export const left_icon = (
   <Svg
@@ -88,3 +88,8 @@ export const emptyStar = (size = 24) => (
     />
   </Svg>
 );
+
+
+export const iconNext = <Svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <Path fill-rule="evenodd" clip-rule="evenodd" d="M16 12C16 11.7901 15.9145 11.5889 15.7625 11.4413L9.36247 5.22697C9.04828 4.9219 8.54176 4.92472 8.23112 5.23327C7.92047 5.54182 7.92334 6.03926 8.23753 6.34433L14.0622 12L8.23753 17.6557C7.92334 17.9607 7.92047 18.4582 8.23112 18.7667C8.54176 19.0753 9.04828 19.0781 9.36247 18.773L15.7625 12.5587C15.9145 12.4111 16 12.2099 16 12Z" fill="#808191" />
+</Svg>
