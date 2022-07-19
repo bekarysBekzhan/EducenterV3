@@ -105,16 +105,13 @@ const App = () => {
           title="Журнал"
           onPress={() => Alert.alert('fff')}
         />
-<<<<<<< HEAD
-  <View style={viewstyle} />
+        <View style={viewstyle} />
 
 
-=======
-        <View style={{marginBottom: 15}}/>
-        <AnswerOption _selected={true} text={"Пользователю легко с интерфейсом"}/>
-        <View style={{marginBottom: 15}}/>
-        <AnswerOption _selected={false} text={"Пользователю легко с интерфейсом"}/>
->>>>>>> components
+        <View style={{ marginBottom: 15 }} />
+        <AnswerOption _selected={true} text={"Пользователю легко с интерфейсом"} />
+        <View style={{ marginBottom: 15 }} />
+        <AnswerOption _selected={false} text={"Пользователю легко с интерфейсом"} />
 
       </View >
     </UniversalView >
