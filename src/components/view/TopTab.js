@@ -27,7 +27,6 @@ function TopTab({
                     tabBarActiveTintColor: '#111621',
                     swipeEnabled: swipeEnabled
                 }}
-
             >
                 {screens.map((element) => {
                     return (
