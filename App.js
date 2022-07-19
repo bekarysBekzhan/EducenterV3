@@ -10,12 +10,22 @@ import ReviewItem from './src/components/view/ReviewItem';
 import RatingStar from './src/components/RatingStar';
 import { left_icon, right_icon } from './src/assets/icons';
 import NavButtonRow from './src/components/view/NavButtonRow';
+import TopTab from './src/components/view/TopTab';
+import HomeScreen from './src/HomeScreen';
+import HomeScreen2 from './src/HomeScreen2';
 import AnswerOption from './src/components/test/AnswerOption';
 
 const viewstyle = { padding: 16 };
 
 const App = () => {
   const [rating, setRating] = useState(0);
+
+
+  const screens = [
+    { "name": "Мои курсы", "component": HomeScreen },
+    { "name": "Мои тесты", "component": HomeScreen2 },
+    { "name": "Мои задания", "component": HomeScreen }
+  ]
 
   return (
     <UniversalView
@@ -40,6 +50,13 @@ const App = () => {
           />
         }
       />
+
+
+      <TopTab
+        screens={screens}
+        swipeEnabled={true}
+      />
+
       <View style={viewstyle}>
         <OutlineButton text={'Outline Button'} />
 
@@ -88,13 +105,19 @@ const App = () => {
           title="Журнал"
           onPress={() => Alert.alert('fff')}
         />
+<<<<<<< HEAD
+  <View style={viewstyle} />
+
+
+=======
         <View style={{marginBottom: 15}}/>
         <AnswerOption _selected={true} text={"Пользователю легко с интерфейсом"}/>
         <View style={{marginBottom: 15}}/>
         <AnswerOption _selected={false} text={"Пользователю легко с интерфейсом"}/>
+>>>>>>> components
 
-      </View>
-    </UniversalView>
+      </View >
+    </UniversalView >
   );
 };
 
