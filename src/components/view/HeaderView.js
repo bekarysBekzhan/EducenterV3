@@ -32,7 +32,7 @@ const HeaderView = ({
 }) => {
   return (
     <View>
-      <MyStatusBar backgroundColor="green" barStyle="light-content" />
+      <MyStatusBar backgroundColor="white" barStyle="dark-content" />
       <View style={styles.appBar} {...props}>
         {title && <Text style={styles.title}>{title}</Text>}
         {component && <View style={styles.component}>{component}</View>}
