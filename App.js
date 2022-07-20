@@ -14,6 +14,7 @@ import TopTab from './src/components/view/TopTab';
 import HomeScreen from './src/HomeScreen';
 import HomeScreen2 from './src/HomeScreen2';
 import AnswerOption from './src/components/test/AnswerOption';
+import CourseRow from './src/components/CourseRow';
 
 const viewstyle = { padding: 16 };
 
@@ -112,7 +113,16 @@ const App = () => {
         <AnswerOption _selected={true} text={"Пользователю легко с интерфейсом"} />
         <View style={{ marginBottom: 15 }} />
         <AnswerOption _selected={false} text={"Пользователю легко с интерфейсом"} />
-
+        <View style={{ marginBottom: 15 }} />
+        <CourseRow
+          poster={"https://demo.educenter.kz/storage/poster/269232162262d79a449c52b4.08770484_i.jpg"}
+          category_name="Реклама"
+          title="Турецкий язык"
+          old_price={500000}
+          price={100000}
+          rating="4.2"
+          reviewCount={68}
+        />
       </View >
     </UniversalView >
   );
