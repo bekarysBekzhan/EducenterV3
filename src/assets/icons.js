@@ -18,8 +18,15 @@ export const left_icon = (
 );
 
 export const check = (size = 1, color = "white") => (
-  <Svg width={10*size + ""} height={8*size + ""} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <Svg width={10*size} height={8*size} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
     <Path d="M3.34363 6.1012L1.18848 3.83966L0.45459 4.60435L3.34363 7.63601L9.5455 1.12798L8.81678 0.363281L3.34363 6.1012Z" fill={color}/>
+  </Svg>
+
+)
+
+export const x = (size = 8, color = "#FEFEFE") => (
+  <Svg width={size} height={size} viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path d="M0.8 0L0 0.8L3.2 4L0 7.2L0.8 8L4 4.8L7.2 8L8 7.2L4.8 4L8 0.8L7.2 0L4 3.2L0.8 0Z" fill={color}/>
   </Svg>
 
 )

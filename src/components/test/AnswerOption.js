@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { ColorApp } from '../../constans/ColorApp'
-import { check } from '../../assets/icons'
+import { check, x } from '../../assets/icons'
 import { setFontStyle } from '../../utils/setFontStyle'
 
-const AnswerOption = ({_selected, text, is_multiple, onPress}) => {
+const AnswerOption = ({_selected, text, is_multiple, onPress, disabled, correct}) => {
 
   const [selected, setSelected] = useState(_selected)
 
@@ -12,22 +12,29 @@ const AnswerOption = ({_selected, text, is_multiple, onPress}) => {
     <TouchableOpacity
       style={[styles.container, { 
         borderColor: selected ? "#F1F2FE" : "#F5F5F5",
-        backgroundColor: selected ? "#F1F2FE" : "#FFFFFF"
+        backgroundColor: correct === undefined ? selected ? "#F1F2FE" : "#FFFFFF" : correct ? "#F0F6ED" : "#FFEFEE"
       }]}
       onPress={() => setSelected(!selected)}
       activeOpacity={0.7}
+      disabled={disabled}
     >
       <View
         style={[styles.checkbox, {
-          backgroundColor: selected ? ColorApp.primary : "#FFFFFF",
+          backgroundColor: correct === undefined ? selected ? ColorApp.primary : "#FFFFFF" : correct ? "green" : "red",
           borderRadius: is_multiple ? 50 : 4,
           borderColor: selected ? ColorApp.primary : "#ACB4BE"
         }]}
       >
-        {check()}
+        {
+          correct === false
+          ?
+          x()
+          :
+          check()
+        }
       </View>
       <Text style={[setFontStyle(), {
-
+        
       }]}>{text}</Text>
     </TouchableOpacity>
   )
