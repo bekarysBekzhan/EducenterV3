@@ -40,6 +40,7 @@
     "react-native-svg": "^12.3.0",
     "react-native-tab-view": "^3.1.1",
     "react-native-toast-message": "^2.1.5",
+    "react-native-track-player": "^2.2.0-rc4",
     "react-native-webview": "^11.22.2",
     "socket.io-client": "^4.5.1"
   },
