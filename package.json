@@ -40,7 +40,8 @@
     "react-native-svg": "^12.3.0",
     "react-native-tab-view": "^3.1.1",
     "react-native-toast-message": "^2.1.5",
-    "react-native-webview": "^11.22.2"
+    "react-native-webview": "^11.22.2",
+    "socket.io-client": "^4.5.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
