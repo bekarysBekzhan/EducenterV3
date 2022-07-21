@@ -97,9 +97,28 @@ const App = () => {
         <View style={{marginBottom: 15}}/>
         <AnswerOption correct={false} disabled={true} text={"Пользователю легко с интерфейсом"}/>
 
+
+
+
       </View>
     </UniversalView>
   );
 };
+
+
+// "id": 2756,
+//         "question": "<p><span class=\"math-tex\">\\(x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}\\)</span></p>",
+//         "created_at": "2022-07-21T07:35:41.000000Z",
+//         "updated_at": "2022-07-21T07:35:41.000000Z",
+//         "deleted_at": null,
+//         "lesson_id": 94,
+//         "is_open": false,
+//         "is_multiple": false,
+
+// "id": 2755,
+// "question": "<div class=\"ckeditor-html5-audio\" style=\"text-align:center\">\r\n<audio controls=\"controls\" controlslist=\"nodownload\" src=\"https://demo.educenter.kz/storage/files/243573902162d8ffa8da5fa8.96197209_Audio - Steve Jobs - Stay Hung.mp3\">&nbsp;</audio>\r\n</div>\r\n\r\n<p>&nbsp;</p>",
+
+// "id": 110,
+// "question": "<p>She _____________ drinks any alcohol at all.</p>",
 
 export default App;
