@@ -4,25 +4,38 @@ import { ColorApp } from '../../constans/ColorApp'
 import { check, x } from '../../assets/icons'
 import { setFontStyle } from '../../utils/setFontStyle'
 
-const AnswerOption = ({_selected, text, is_multiple, onPress, disabled, correct}) => {
+const dynamicContainerStyle = (state, component) => {
+  switch(state) {
+    case "selected":
+      return selectedStyles[component]
+    case "unselected":
+      return unselectedStyles[component]
+    case "correct":
+      return correctStyles[component]
+    case "incorrect":
+      return incorrectStyles[component]
+    default:
+      console.error("There is no state called " + state)
+  }
+}
 
-  const [selected, setSelected] = useState(_selected)
+const AnswerOption = ({selected, text, is_multiple, onPress, disabled, correct}) => {
+
+  const [state, setState] = useState(correct === undefined ? selected ? "selected" : "unselected" : correct ? "correct" : "incorrect")
 
   return (
     <TouchableOpacity
-      style={[styles.container, { 
-        borderColor: selected ? "#F1F2FE" : "#F5F5F5",
-        backgroundColor: correct === undefined ? selected ? "#F1F2FE" : "#FFFFFF" : correct ? "#F0F6ED" : "#FFEFEE"
-      }]}
-      onPress={() => setSelected(!selected)}
+      style={[styles.container, dynamicContainerStyle(state, "container")]}
+      onPress={() => {
+        setState(prev => prev === "selected" ? "unselected" : "selected")
+      }}
       activeOpacity={0.7}
       disabled={disabled}
     >
       <View
-        style={[styles.checkbox, {
-          backgroundColor: correct === undefined ? selected ? ColorApp.primary : "#FFFFFF" : correct ? "green" : "red",
+        style={[styles.checkbox, dynamicContainerStyle(state, "checkbox") , {
           borderRadius: is_multiple ? 50 : 4,
-          borderColor: selected ? ColorApp.primary : "#ACB4BE"
+          padding: correct === false ? 7 : 6 
         }]}
       >
         {
@@ -50,12 +63,55 @@ const styles = StyleSheet.create({
     borderWidth: 5/4
   },
   checkbox: {
-    padding: 6,
     paddingVertical: 7,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
     borderWidth: 5/4
+  }
+})
+
+const selectedStyles = StyleSheet.create({
+  container: {
+    backgroundColor: "#F1F2FE",
+    borderColor: "#F1F2FE"
+  },
+  checkbox: {
+    backgroundColor: ColorApp.primary,
+    borderColor: ColorApp.primary
+  }
+})
+
+const unselectedStyles = StyleSheet.create({
+  container: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#F5F5F5"
+  },
+  checkbox: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#F5F5F5"
+  }
+})
+
+const correctStyles = StyleSheet.create({
+  container: {
+    backgroundColor: "#F0F6ED",
+    borderColor: "#F0F6ED"
+  },
+  checkbox: {
+    backgroundColor: "green",
+    borderColor: "green"
+  }
+})
+
+const incorrectStyles = StyleSheet.create({
+  container: {
+    backgroundColor: "#FFEFEE",
+    borderColor: "#FFEFEE"
+  },
+  checkbox: {
+    backgroundColor: "red",
+    borderColor: "red"
   }
 })
 

@@ -92,6 +92,10 @@ const App = () => {
         <AnswerOption _selected={true} text={"Пользователю легко с интерфейсом"}/>
         <View style={{marginBottom: 15}}/>
         <AnswerOption _selected={false} text={"Пользователю легко с интерфейсом"}/>
+        <View style={{marginBottom: 15}}/>
+        <AnswerOption correct={true} disabled={true} text={"Пользователю легко с интерфейсом"}/>
+        <View style={{marginBottom: 15}}/>
+        <AnswerOption correct={false} disabled={true} text={"Пользователю легко с интерфейсом"}/>
 
       </View>
     </UniversalView>
