@@ -11,11 +11,23 @@ import RatingStar from './src/components/RatingStar';
 import { left_icon, right_icon } from './src/assets/icons';
 import NavButtonRow from './src/components/view/NavButtonRow';
 import AnswerOption from './src/components/test/AnswerOption';
+import { useEffect } from 'react';
+import TrackPlayer from 'react-native-track-player';
+import Question from './src/components/test/Question';
 
 const viewstyle = { padding: 16 };
 
 const App = () => {
+  
   const [rating, setRating] = useState(0);
+
+  const setupPlayer = async() => {
+    await TrackPlayer.setupPlayer()
+  }
+
+  useEffect(() => {
+    setupPlayer()
+  }, [])
 
   return (
     <UniversalView
@@ -89,15 +101,13 @@ const App = () => {
           onPress={() => Alert.alert('fff')}
         />
         <View style={{marginBottom: 15}}/>
+        <Question item={{
+          question: "<div class=\"ckeditor-html5-audio\" style=\"text-align:center\">\r\n<audio controls=\"controls\" controlslist=\"nodownload\" src=\"https://demo.educenter.kz/storage/files/243573902162d8ffa8da5fa8.96197209_Audio - Steve Jobs - Stay Hung.mp3\">&nbsp;</audio>\r\n</div>\r\n\r\n<p>&nbsp;</p>"
+        }}/>
+
         <AnswerOption _selected={true} text={"Пользователю легко с интерфейсом"}/>
-        <View style={{marginBottom: 15}}/>
-        <AnswerOption _selected={false} text={"Пользователю легко с интерфейсом"}/>
-        <View style={{marginBottom: 15}}/>
-        <AnswerOption correct={true} disabled={true} text={"Пользователю легко с интерфейсом"}/>
-        <View style={{marginBottom: 15}}/>
-        <AnswerOption correct={false} disabled={true} text={"Пользователю легко с интерфейсом"}/>
 
-
+        
 
 
       </View>

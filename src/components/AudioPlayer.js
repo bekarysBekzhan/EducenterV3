@@ -1,14 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import TrackPlayer, { State, useProgress } from 'react-native-track-player';
-import RowContainer from './RowContainer';
 import Slider from '@react-native-community/slider';
-import { setFontStyle } from '../../util/fontStyle';
-import { THEME } from '../../constants/theme';
-import SvgPlay from '../../assets/svg/ic_play.svg';
-import SvgPause from '../../assets/svg/ic_pause.svg';
+import RowView from './view/RowView';
+import { ColorApp } from '../constans/ColorApp';
 
 const AudioPlayer = ({
+    url,
     style,
     playStyle,
     positionStyle,
@@ -135,6 +133,8 @@ const AudioPlayer = ({
 
     useEffect(() => {
 
+        
+
         return async () => {
 
             const track = await TrackPlayer.getQueue();
@@ -149,37 +149,32 @@ const AudioPlayer = ({
     }, []);
 
     return (
-        <RowContainer style={memoStyle}>
+        <RowView style={memoStyle}>
 
             <TouchableOpacity
                 style={memoPlayStyle}
                 activeOpacity={0.9}
                 onPress={onPlay}
             >
-                {
-                    refToggle.current ?
-                        <SvgPause />
-                        :
-                        <SvgPlay />
-                }
+                
             </TouchableOpacity>
 
             <View style={styles.playerView}>
-                <RowContainer style={styles.infoPlayerView}>
+                <RowView style={styles.infoPlayerView}>
                     <Text style={memoPositionStyle}>{secondsToHms(progress.position)}</Text>
                     <Text style={memoDurationStyle}>{secondsToHms(progress.duration)}</Text>
-                </RowContainer>
+                </RowView>
                 <Slider
                     maximumValue={progress.duration}
                     value={progress.position}
                     onValueChange={onValueChange}
                     onSlidingComplete={onSlidingComplete}
-                    thumbTintColor={THEME.primary}
-                    minimumTrackTintColor={THEME.primary}
-                    maximumTrackTintColor={THEME.maximumTrackTintColor}
+                    thumbTintColor={ColorApp.primary}
+                    minimumTrackTintColor={ColorApp.primary}
+                    maximumTrackTintColor={"red"}
                 />
             </View>
-        </RowContainer>
+        </RowView>
     )
 };
 
@@ -187,16 +182,16 @@ const styles = StyleSheet.create({
     view: {
         marginBottom: 16,
         padding: 10,
-        backgroundColor: THEME.white,
+        backgroundColor: "#FFFFFF",
         borderRadius: 12,
         borderWidth: 1,
-        borderColor: THEME.border
+        borderColor: ColorApp.placeholder
     },
     play: {
         width: 40,
         height: 40,
         borderRadius: 40,
-        backgroundColor: THEME.primary,
+        backgroundColor: ColorApp.primary,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 16
@@ -205,7 +200,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     infoPlayerView: {
-        backgroundColor: THEME.transparent,
+        backgroundColor: ColorApp.transparent,
         justifyContent: 'space-between'
     },
     position: {

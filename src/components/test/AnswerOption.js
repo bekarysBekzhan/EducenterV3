@@ -89,7 +89,7 @@ const unselectedStyles = StyleSheet.create({
   },
   checkbox: {
     backgroundColor: "#FFFFFF",
-    borderColor: "#F5F5F5"
+    borderColor: "#ACB4BE"
   }
 })
 
