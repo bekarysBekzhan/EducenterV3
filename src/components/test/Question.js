@@ -5,14 +5,15 @@ import MathView from './MathView'
 import { setFontStyle } from '../../utils/setFontStyle'
 import { ColorApp } from '../../constans/ColorApp'
 import HtmlView from '../HtmlView'
+import { getAudioUrl } from '../../utils/regex'
 
-const Question = ({item, index}) => {
+const Question = ({item, index, children}) => {
   console.log('item : ' , item)
   return (
     <View
       style={styles.container}
     >
-      <Text style={[setFontStyle(18, "400", ColorApp.primary)]}>{index} вопрос</Text>
+      <Text style={[setFontStyle(18, "400", ColorApp.primary)]}>{index+1} - вопрос</Text>
       {
         item?.question.includes("audio")
         ?
@@ -27,6 +28,9 @@ const Question = ({item, index}) => {
         <HtmlView html={item.question} baseStyle={styles.baseStyle} tagsStyles={tagsStyles}/>
         :
         null
+      }
+      {
+        children
       }
     </View>
   )
