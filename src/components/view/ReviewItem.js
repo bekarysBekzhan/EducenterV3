@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useMemo } from 'react';
 import FastImage from 'react-native-fast-image';
 import RowView from './RowView';
-import { setFontStyle } from '../../utils/setFontStyle';
+import { setFontStyle } from '../../utils/utils';
 import RatingStar from '../RatingStar';
 
 const ReviewItem = ({

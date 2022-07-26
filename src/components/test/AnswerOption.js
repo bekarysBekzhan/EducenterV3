@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { ColorApp } from '../../constans/ColorApp'
 import { check, x } from '../../assets/icons'
-import { setFontStyle } from '../../utils/setFontStyle'
+import { setFontStyle } from '../../utils/utils'
 
 const dynamicContainerStyle = (state, component) => {
   switch(state) {
@@ -19,16 +19,14 @@ const dynamicContainerStyle = (state, component) => {
   }
 }
 
-const AnswerOption = ({selected, text, is_multiple, onPress, disabled, correct}) => {
+const AnswerOption = ({selected, text, is_multiple, onPress, disabled = false, correct}) => {
 
   const [state, setState] = useState(correct === undefined ? selected ? "selected" : "unselected" : correct ? "correct" : "incorrect")
 
   return (
     <TouchableOpacity
       style={[styles.container, dynamicContainerStyle(state, "container")]}
-      onPress={() => {
-        setState(prev => prev === "selected" ? "unselected" : "selected")
-      }}
+      onPress={() => setState(prev => prev === "selected" ? "unselected" : "selected")}
       activeOpacity={0.7}
       disabled={disabled}
     >
@@ -56,6 +54,7 @@ const AnswerOption = ({selected, text, is_multiple, onPress, disabled, correct})
 const styles = StyleSheet.create({
   container: {
     padding: 11,
+    width: "100%",
     flexDirection: 'row',
     justifyContent: "flex-start",
     alignItems: 'center',

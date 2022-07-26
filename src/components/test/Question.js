@@ -1,14 +1,20 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import AudioPlayer from '../AudioPlayer'
 import MathView from './MathView'
-import { setFontStyle } from '../../utils/setFontStyle'
+import { setFontStyle } from '../../utils/utils'
 import { ColorApp } from '../../constans/ColorApp'
 import HtmlView from '../HtmlView'
 import { getAudioUrl } from '../../utils/regex'
+import SimpleButton from '../button/SimpleButton'
+import TrackPlayer from 'react-native-track-player'
 
 const Question = ({item, index, children}) => {
-  console.log('item : ' , item)
+
+  useEffect(() => {
+    console.log('item : ' , item)
+  }, [])
+
   return (
     <View
       style={styles.container}

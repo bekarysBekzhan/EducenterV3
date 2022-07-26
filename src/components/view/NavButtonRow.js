@@ -1,7 +1,7 @@
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import React, { useMemo } from 'react';
 import { iconNext } from '../../assets/icons';
-import { setFontStyle } from '../../utils/setFontStyle';
+import { setFontStyle } from '../../utils/utils';
 
 const NavButtonRow = ({
     leftIcon,

@@ -1,7 +1,7 @@
 import {StyleSheet, Text} from 'react-native';
 import React, {useMemo} from 'react';
 import RowView from './view/RowView';
-import {setFontStyle} from '../utils/setFontStyle';
+import {setFontStyle} from '../utils/utils';
 import {ColorApp} from '../constans/ColorApp';
 
 const Price = ({price = 0, priceStyle, oldPrice = 0, oldPriceStyle, style}) => {

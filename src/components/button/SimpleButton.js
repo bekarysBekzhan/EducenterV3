@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {ColorApp} from '../../constans/ColorApp';
-import {setFontStyle} from '../../utils/setFontStyle';
+import {setFontStyle} from '../../utils/utils';
 
 const SimpleButton = ({
   onPress = () => undefined,

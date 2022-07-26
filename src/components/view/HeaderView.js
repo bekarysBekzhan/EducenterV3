@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import React, {useMemo} from 'react';
-import {setFontStyle} from '../../utils/setFontStyle';
+import {setFontStyle} from '../../utils/utils';
 
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const APPBAR_HEIGHT = Platform.OS === 'ios' ? 44 : 56;
