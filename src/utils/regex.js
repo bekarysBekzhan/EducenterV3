@@ -5,7 +5,7 @@ export const getAudioUrl = (html) => {
 
     let start = pattern1.exec(html)
     if(start !== null) {
-        let startIndex = start.index + 4
+        let startIndex = start.index + 5
         let finishIndex = null
         if(audioFormats.filter(format => {
             if(html.includes(format)) {
@@ -20,7 +20,7 @@ export const getAudioUrl = (html) => {
 
         // console.log(html.slice(startIndex, finishIndex + 1))
 
-        return html.slice(startIndex, finishIndex + 1)
+        return html.slice(startIndex, finishIndex)
     }
 
     return null
