@@ -3,16 +3,16 @@ import React, { useEffect } from 'react'
 import AudioPlayer from '../AudioPlayer'
 import MathView from './MathView'
 import { setFontStyle } from '../../utils/utils'
-import { ColorApp } from '../../constans/ColorApp'
+import { ColorApp } from '../../constans/constants'
 import HtmlView from '../HtmlView'
 import { getAudioUrl } from '../../utils/regex'
 import SimpleButton from '../button/SimpleButton'
 import TrackPlayer from 'react-native-track-player'
 
-const Question = ({item, index, children}) => {
+const Question = ({item, index, onTrackChange, children}) => {
 
   useEffect(() => {
-    console.log('item : ' , item)
+    // console.log('item : ' , item)
   }, [])
 
   return (
@@ -23,7 +23,7 @@ const Question = ({item, index, children}) => {
       {
         item?.question.includes("audio")
         ?
-        <AudioPlayer url={getAudioUrl(item.question)}/>
+        <AudioPlayer url={getAudioUrl(item.question)} _index={index} onTrackChange={onTrackChange}/>
         :
         item?.question.includes("math-text")
         ?

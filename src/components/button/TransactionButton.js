@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React, {useMemo} from 'react';
 import RowView from '../view/RowView';
-import {ColorApp} from '../../constans/ColorApp';
+import {ColorApp} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
 import Price from '../Price';
 

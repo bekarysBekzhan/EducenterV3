@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
-import { ColorApp } from '../../constans/ColorApp'
+import { ColorApp } from '../../constans/constants'
 import { check, x } from '../../assets/icons'
 import { setFontStyle } from '../../utils/utils'
 
@@ -19,7 +19,7 @@ const dynamicContainerStyle = (state, component) => {
   }
 }
 
-const AnswerOption = ({selected, text, is_multiple, onPress, disabled = false, correct}) => {
+const AnswerOption = ({selected, text, is_multiple = false, onPress, disabled = false, correct}) => {
 
   const [state, setState] = useState(correct === undefined ? selected ? "selected" : "unselected" : correct ? "correct" : "incorrect")
 
@@ -28,7 +28,7 @@ const AnswerOption = ({selected, text, is_multiple, onPress, disabled = false, c
       style={[styles.container, dynamicContainerStyle(state, "container")]}
       onPress={() => setState(prev => prev === "selected" ? "unselected" : "selected")}
       activeOpacity={0.7}
-      disabled={disabled}
+      disabled={correct !== undefined ? true : false}
     >
       <View
         style={[styles.checkbox, dynamicContainerStyle(state, "checkbox") , {

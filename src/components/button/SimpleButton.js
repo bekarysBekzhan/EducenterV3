@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {ColorApp} from '../../constans/ColorApp';
+import {ColorApp} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
 
 const SimpleButton = ({
