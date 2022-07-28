@@ -3,13 +3,15 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import TrackPlayer, { State, useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
 import RowView from './view/RowView';
-import { ColorApp } from '../constans/ColorApp';
+import { ColorApp } from '../constans/constants';
 import { setFontStyle } from '../utils/utils';
 import { iconPause, iconPlay } from '../assets/icons';
 import { getFormattedTime } from '../utils/utils';
 
 const AudioPlayer = ({
+    _index,
     url,
+    onTrackChange,
     style,
     playStyle,
     positionStyle,
@@ -24,6 +26,9 @@ const AudioPlayer = ({
 
     const [playing, setPlaying] = useState(false)
     const [index, setIndex] = useState(null)
+
+    const [position, setPosition] = useState(0)
+    const [duration, setDuration] = useState(0)
     const progress = useProgress()
 
     useEffect(() => {
@@ -33,19 +38,21 @@ const AudioPlayer = ({
     }, []);
 
     const add = async() => {
-        console.log("Audio url : " , url)
-
-        let index = (await TrackPlayer.getQueue()).length
 
         const track = {
+            id: _index,
             url: url,
-            title: "track " + index,
-            artist: "artist " + index
+            title: "track " + _index,
+            artist: "artist " + _index
         }
 
-        await TrackPlayer.add(track)
+        let trackIndex = await TrackPlayer.add(track)
 
-        setIndex(index)
+        setIndex(trackIndex)
+
+        if(trackIndex === 0) {
+            onTrackChange(duration, setDuration, setPosition, setPlaying)
+        }
         
         let tracks = await TrackPlayer.getQueue()
 
@@ -54,26 +61,52 @@ const AudioPlayer = ({
     }
 
     const play = async() => {
+
         if(playing || index === null) {
             return
         }
+
         let currentIndex = await TrackPlayer.getCurrentTrack()
+        
         if(currentIndex !== index){
-            await TrackPlayer.skip(index)
+
+            TrackPlayer.skip(index).then(async(res) => {
+                await TrackPlayer.play()
+            })
+
+        } else {
+
+            await TrackPlayer.play()
+
         }
-        TrackPlayer.play()
+
+        if(currentIndex !== index) {
+            onTrackChange(progress.duration, setDuration, setPosition, setPlaying)
+        }
+
         setPlaying(true)
     }
 
     const pause = async() => {
+
         if(!playing) {
             return
         }
+
         let currentIndex = await TrackPlayer.getCurrentTrack()
+
         if(currentIndex != index){
-            await TrackPlayer.skip(index)
+            TrackPlayer.skip(index).then(async(res) => {
+                await TrackPlayer.pause()
+            }).catch(err => {
+                console.warn(err)
+            })
+        } else {
+            await TrackPlayer.pause()
         }
-        TrackPlayer.pause()
+
+        setPosition(progress.position)
+        setDuration(progress.duration)
         setPlaying(false)
     }
 
@@ -103,12 +136,12 @@ const AudioPlayer = ({
 
             <View style={styles.playerView}>
                 <RowView style={styles.infoPlayerView}>
-                    <Text style={memoPositionStyle}>{getFormattedTime(progress.position)}</Text>
-                    <Text style={memoDurationStyle}>{getFormattedTime(progress.duration)}</Text>
+                    <Text style={memoPositionStyle}>{getFormattedTime(playing ? progress.position : position)}</Text>
+                    <Text style={memoDurationStyle}>{getFormattedTime(playing ? progress.duration : duration)}</Text>
                 </RowView>
                 <Slider
-                    maximumValue={progress.duration}
-                    value={progress.position}
+                    maximumValue={playing ? progress.duration : duration}
+                    value={playing ? progress.position : position}
                     onValueChange={() => {}}
                     onSlidingComplete={() => {}}
                     thumbTintColor={ColorApp.primary}
