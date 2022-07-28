@@ -32,8 +32,6 @@ export const getAudioUrl = html => {
       finishIndex = finish.index + 4;
     }
 
-    // console.log(html.slice(startIndex, finishIndex + 1))
-
     return html.slice(startIndex, finishIndex);
   }
 
@@ -65,3 +63,18 @@ export const getFormattedTime = time => {
   seconds = seconds < 10 ? '0' + seconds : seconds.toString();
   return minutes + ':' + seconds;
 };
+
+export const selectComponent = (value, audioComponent, mathComponent, htmlComponent) => {
+
+  if(value === null) {
+    return null
+  }
+
+  if (value?.includes("audio")) {
+    return audioComponent
+  } else if(value?.includes("math-tex")) {
+    return mathComponent
+  } 
+
+  return htmlComponent
+}
