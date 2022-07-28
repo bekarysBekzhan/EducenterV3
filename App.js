@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Alert, TextInput } from 'react-native';
+import React, { useRef, useState } from 'react';
+import { View, Text, Alert, TextInput, FlatList } from 'react-native';
 import UniversalView from './src/components/view/UniversalView';
 import OutlineButton from './src/components/button/OutlineButton';
 import SimpleButton from './src/components/button/SimpleButton';
@@ -22,6 +22,26 @@ const Stack = createNativeStackNavigator()
 
 const App = () => {
 
+  useTrackPlayerEvents(events, (event) => {
+    if(event.type === Event.PlaybackError) {
+      console.warn('An error occured while playing the current track.');
+    } else if(event.type === Event.PlaybackState) {
+      console.log("state : " , event.state)
+    } else if(event.type === Event.PlaybackTrackChanged) {
+      console.log("event : " , event)
+    } else if(event.type === Event.PlaybackProgressUpdated) {
+      console.log("PlaybackProgressUpdated : " , event)
+    }
+  })
+
+  useEffect(() => {
+    setupPlayer()
+
+    return () => {
+      destroyPlayer()
+    }
+  }, [])
+
   const setupPlayer = async() => {
     try {
       await TrackPlayer.setupPlayer()
@@ -35,13 +55,6 @@ const App = () => {
   const destroyPlayer = async() => {
     await TrackPlayer.destroy()
   }
-
-  useEffect(() => {
-    setupPlayer()
-    return () => {
-      destroyPlayer()
-    }
-  }, [])
 
   return (
     <NavigationContainer>
@@ -143,23 +156,30 @@ const events = [
   Event.PlaybackState
 ]
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+const questions = [
+  "<div class=\"ckeditor-html5-audio\" style=\"text-align:center\">\r\n<audio controls=\"controls\" controlslist=\"nodownload\" src=\"https://demo.educenter.kz/storage/files/243573902162d8ffa8da5fa8.96197209_Audio - Steve Jobs - Stay Hung.mp3\">&nbsp;</audio>\r\n</div>\r\n\r\n<p>&nbsp;</p>",
+  "<div class=\"ckeditor-html5-audio\" style=\"text-align:center\">\r\n<audio controls=\"controls\" controlslist=\"nodownload\" src=\"https://demo.educenter.kz/storage/files/352707353262dfae818540b0.82868427_English_Speeches_Elon_Musk_Fut.mp3\">&nbsp;</audio>\r\n</div>\r\n\r\n<p>&nbsp;</p>",
+  "<p><span class=\"math-tex\">\\(x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}\\)</span></p>",
+  '<p><em>Что выведет данный код:<code>&lt;?php<br />\r\n&nbsp; echo&nbsp;&quot;1&quot;&nbsp;+&nbsp;&quot;2&quot;;<br />\r\n?&gt;</code></em></p>',
+  "<p><em>Марина написала код:<code>&lt;?php<br />\r\n&nbsp;&nbsp;function&nbsp;myfunc(&amp;$a)&nbsp;{<br />\r\n&nbsp; &nbsp; $a++;<br />\r\n&nbsp;&nbsp;}<br />\r\n&nbsp; $b&nbsp;=&nbsp;5;<br />\r\n&nbsp; myfunc($b);<br />\r\n&nbsp; echo $b;<br />\r\n?&gt;</code>Что она увидит, когда запустит скрипт?</em></p>",
+]
+
+const DATA = Array(200).fill(null).map((_, index) => (
+  {
+    id: index, 
+    question: questions[getRandomInt(4)]
+  }
+))
+
 const AudioView = () => {
 
-
-  const [state, setState] = useState(false)
-
-
-  useTrackPlayerEvents(events, (event) => {
-    if(event.type === Event.PlaybackError) {
-      console.warn('An error occured while playing the current track.');
-    } else if(event.type === Event.PlaybackState) {
-      console.log("state : " , event.state)
-    } else if(event.type === Event.PlaybackTrackChanged) {
-      console.log("event : " , event)
-    } else if(event.type === Event.PlaybackProgressUpdated) {
-      console.log("PlaybackProgressUpdated : " , event)
-    }
-  })
+  const currentSetPlaying = useRef(null)
+  const currentSetDuration = useRef(null)
+  const currentSetPosition = useRef(null)
 
   useEffect(() => {
     
@@ -172,17 +192,41 @@ const AudioView = () => {
     await TrackPlayer.reset()
   }
 
+  const onTrackChange = (duration, setDuration, setPosition, setPlaying) => {
+
+    if(currentSetDuration.current) {
+      currentSetDuration.current(duration)
+      currentSetPosition.current(0)
+    }
+    currentSetDuration.current = setDuration
+    currentSetPosition.current = setPosition
+
+    if(currentSetPlaying.current) {
+      currentSetPlaying.current(false)
+    }
+    currentSetPlaying.current = setPlaying
+  }
+
+  const renderQuestion = ({item, index}) => {
+    return (
+      <Question 
+        item={{question: item.question}} 
+        index={index}
+        is_multiple={false}
+        onTrackChange={onTrackChange}
+      />)
+  }
 
   return(
     <UniversalView>
-      <Question item={{
-          question: "<div class=\"ckeditor-html5-audio\" style=\"text-align:center\">\r\n<audio controls=\"controls\" controlslist=\"nodownload\" src=\"https://demo.educenter.kz/storage/files/243573902162d8ffa8da5fa8.96197209_Audio - Steve Jobs - Stay Hung.mp3\">&nbsp;</audio>\r\n</div>\r\n\r\n<p>&nbsp;</p>"
-        }} index={0}>
-        <AnswerOption selected={false} text={"Пользователю легко с интерфейсом"}/>
-        <AnswerOption selected={false} text={"Пользователю легко с интерфейсом"}/>
-        <AnswerOption selected={false} text={"Пользователю легко с интерфейсом"}/>
-      </Question>
-      <SimpleButton text={"Reset player"} onPress={() => setState(prev => !prev)}/>
+      <FlatList
+        data={DATA}
+        renderItem={renderQuestion}
+        style={{padding: 16}}
+        // maxToRenderPerBatch={10}
+        keyExtractor={(item, index) => index.toString()}
+        // initialNumToRender={12}
+      />
     </UniversalView>
   )
 }
@@ -202,5 +246,6 @@ const AudioView = () => {
 
 // "id": 110,
 // "question": "<p>She _____________ drinks any alcohol at all.</p>",
+
 
 export default App;
