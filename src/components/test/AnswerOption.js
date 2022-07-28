@@ -2,7 +2,10 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React, { useMemo, useState } from 'react'
 import { ColorApp } from '../../constans/constants'
 import { check, x } from '../../assets/icons'
-import { setFontStyle } from '../../utils/utils'
+import { getAudioUrl, selectComponent, setFontStyle } from '../../utils/utils'
+import AudioPlayer from '../AudioPlayer'
+import MathView from './MathView'
+import HtmlView from '../HtmlView'
 
 const dynamicContainerStyle = (state, component) => {
   switch(state) {
@@ -19,15 +22,16 @@ const dynamicContainerStyle = (state, component) => {
   }
 }
 
-const AnswerOption = ({selected, text, is_multiple = false, onPress, disabled = false, correct}) => {
+const AnswerOption = ({selected, answer, is_multiple = false, onPress, onTrackChange, correct, extraStyle, extraTextStyle}) => {
 
   const [state, setState] = useState(correct === undefined ? selected ? "selected" : "unselected" : correct ? "correct" : "incorrect")
 
-  const memoStylesContainer = useMemo(() => [styles.container, dynamicContainerStyle(state, "container")], [])
+  const memoStylesContainer = useMemo(() => [styles.container, dynamicContainerStyle(state, "container"), extraStyle], [state])
   const memoStylesCheckbox = useMemo(() => [styles.checkbox, dynamicContainerStyle(state, "checkbox") , {
     borderRadius: is_multiple ? 50 : 4,
     padding: correct === false ? 7 : 6 
-  }], [])
+  }], [state])
+  const memoStylesText = useMemo(() => [setFontStyle(), {}, extraTextStyle], [])
 
 
   return (
@@ -48,22 +52,32 @@ const AnswerOption = ({selected, text, is_multiple = false, onPress, disabled = 
           check()
         }
       </View>
-      <Text style={[setFontStyle(), {
-        
-      }]}>{text}</Text>
+      {
+        selectComponent(answer, 
+        <AudioPlayer 
+          url={getAudioUrl(answer)} 
+          _index={100} onTrackChange={onTrackChange} 
+          style={styles.audioContainer} 
+          sliderStyle={styles.slider}
+          maximumTrackTintColor={"#FFFFFF"}
+        />, 
+        <MathView text={answer}/>, 
+        <HtmlView html={answer}/>)
+      }
     </TouchableOpacity>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 11,
+    padding: 12,
     width: "100%",
     flexDirection: 'row',
     justifyContent: "flex-start",
     alignItems: 'center',
     borderRadius: 10,
-    borderWidth: 5/4
+    borderWidth: 5/4,
+    marginBottom: 7
   },
   checkbox: {
     paddingVertical: 7,
@@ -71,6 +85,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     borderWidth: 5/4
+  },
+  audioContainer: {
+    backgroundColor: "transparent"
+  },
+  slider: {
+    width: 20
   }
 })
 

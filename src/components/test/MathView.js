@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { MathJaxSvg } from 'react-native-mathjax-html-to-svg';
 import { ColorApp } from '../../constans/constants';
 
@@ -9,15 +10,20 @@ const MathView = ({
 }) => {
 
     return (
-        <MathJaxSvg
+        <View
             style={mathStyle}
-            fontSize={mathFontSize}
-            color={ColorApp.font}
-            fontCache
         >
-            {text}
-        </MathJaxSvg>
+            <MathJaxSvg
+                style={mathStyle}
+                fontSize={mathFontSize}
+                color={ColorApp.font}
+                fontCache
+            >
+                {text}
+            </MathJaxSvg>
+        </View>
     )
 };
+
 
 export default MathView;

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useWindowDimensions } from 'react-native';
 import RenderHTML from 'react-native-render-html';
 import { WebView } from 'react-native-webview';
@@ -13,6 +13,10 @@ const HtmlView = ({
     tagsStyles,
     ...props
 }) => {
+
+    useEffect(() => {
+        console.log("HTML View")
+    }, [])
 
     const memoRenderers = useMemo(() => ({
         iframe: IframeRenderer,

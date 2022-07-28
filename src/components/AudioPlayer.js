@@ -14,15 +14,18 @@ const AudioPlayer = ({
     onTrackChange,
     style,
     playStyle,
+    sliderStyle,
     positionStyle,
-    durationStyle
+    durationStyle,
+    minimumTrackTintColor = ColorApp.primary,
+    maximumTrackTintColor = "#F1F2FE",
 }) => {
 
     const memoStyle = useMemo(() => [styles.view, style], []);
     const memoPlayStyle = useMemo(() => [styles.play, playStyle], []);
     const memoPositionStyle = useMemo(() => [styles.position, positionStyle], []);
     const memoDurationStyle = useMemo(() => [styles.duration, durationStyle], []);
-
+    const memoSliderStyle = useMemo(() => [styles.slider, sliderStyle], [])
 
     const [playing, setPlaying] = useState(false)
     const [index, setIndex] = useState(null)
@@ -55,8 +58,6 @@ const AudioPlayer = ({
         }
         
         let tracks = await TrackPlayer.getQueue()
-
-        console.log("tracks : ", tracks)
 
     }
 
@@ -143,10 +144,11 @@ const AudioPlayer = ({
                     maximumValue={playing ? progress.duration : duration}
                     value={playing ? progress.position : position}
                     onValueChange={() => {}}
+                    style={memoSliderStyle}
                     onSlidingComplete={() => {}}
                     thumbTintColor={ColorApp.primary}
-                    minimumTrackTintColor={ColorApp.primary}
-                    maximumTrackTintColor={"#F1F2FE"}
+                    minimumTrackTintColor={minimumTrackTintColor}
+                    maximumTrackTintColor={maximumTrackTintColor}
                 />
             </View>
         </RowView>
@@ -155,7 +157,6 @@ const AudioPlayer = ({
 
 const styles = StyleSheet.create({
     view: {
-        marginBottom: 16,
         padding: 10,
         backgroundColor: "#FFFFFF",
         borderRadius: 12,
@@ -175,6 +176,9 @@ const styles = StyleSheet.create({
     infoPlayerView: {
         backgroundColor: ColorApp.transparent,
         justifyContent: 'space-between'
+    },
+    slider: {
+
     },
     position: {
         ...setFontStyle(13)
