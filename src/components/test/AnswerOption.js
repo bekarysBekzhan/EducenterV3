@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { ColorApp } from '../../constans/constants'
 import { check, x } from '../../assets/icons'
 import { setFontStyle } from '../../utils/utils'
@@ -23,18 +23,22 @@ const AnswerOption = ({selected, text, is_multiple = false, onPress, disabled = 
 
   const [state, setState] = useState(correct === undefined ? selected ? "selected" : "unselected" : correct ? "correct" : "incorrect")
 
+  const memoStylesContainer = useMemo(() => [styles.container, dynamicContainerStyle(state, "container")], [])
+  const memoStylesCheckbox = useMemo(() => [styles.checkbox, dynamicContainerStyle(state, "checkbox") , {
+    borderRadius: is_multiple ? 50 : 4,
+    padding: correct === false ? 7 : 6 
+  }], [])
+
+
   return (
     <TouchableOpacity
-      style={[styles.container, dynamicContainerStyle(state, "container")]}
+      style={memoStylesContainer}
       onPress={() => setState(prev => prev === "selected" ? "unselected" : "selected")}
       activeOpacity={0.7}
       disabled={correct !== undefined ? true : false}
     >
       <View
-        style={[styles.checkbox, dynamicContainerStyle(state, "checkbox") , {
-          borderRadius: is_multiple ? 50 : 4,
-          padding: correct === false ? 7 : 6 
-        }]}
+        style={memoStylesCheckbox}
       >
         {
           correct === false
