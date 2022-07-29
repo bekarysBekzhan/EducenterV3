@@ -15,7 +15,6 @@ function TopTab({
 
 
     return (
-        <NavigationContainer>
             <Tab.Navigator
                 screenOptions={{
                     tabBarStyle: styles.tabBarStyle,
@@ -28,13 +27,12 @@ function TopTab({
                     swipeEnabled: swipeEnabled
                 }}
             >
-                {screens.map((element) => {
+                {screens.map((element, index) => {
                     return (
-                        <Tab.Screen name={element.name} component={element.component} />
+                        <Tab.Screen name={element.name} component={element.component} key={index}/>
                     )
                 })}
             </Tab.Navigator>
-        </NavigationContainer>
     );
 }
 

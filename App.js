@@ -80,7 +80,6 @@ const App = () => {
 const Home = ({navigation}) => {
   const [rating, setRating] = useState(0);
 
-
   const screens = [
     { "name": "Мои курсы", "component": HomeScreen },
     { "name": "Мои тесты", "component": HomeScreen2 },

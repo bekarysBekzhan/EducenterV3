@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {ColorApp} from '../constans/ColorApp';
+import { ColorApp } from '../constans/constants';
 
 export const setFontStyle = (
   fontSize = 16,

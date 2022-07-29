@@ -3,7 +3,7 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import FastImage from 'react-native-fast-image'
 import { setFontStyle } from '../utils/setFontStyle'
-import { ColorApp } from '../constans/ColorApp'
+import { ColorApp } from '../constans/constants'
 import Price from './Price'
 import ItemRating from './ItemRating'
 
