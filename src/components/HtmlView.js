@@ -15,7 +15,7 @@ const HtmlView = ({
 }) => {
 
     useEffect(() => {
-        console.log("HTML View")
+        // console.log("HTML View")
     }, [])
 
     const memoRenderers = useMemo(() => ({
