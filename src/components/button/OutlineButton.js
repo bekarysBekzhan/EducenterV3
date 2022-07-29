@@ -5,8 +5,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import React, {useMemo} from 'react';
-import {setFontStyle} from '../../utils/setFontStyle';
-import {ColorApp} from '../../constans/ColorApp';
+import {setFontStyle} from '../../utils/utils';
+import {ColorApp} from '../../constans/constants';
 
 const OutlineButton = ({
   text,

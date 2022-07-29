@@ -18,8 +18,15 @@ export const left_icon = (
 );
 
 export const check = (size = 1, color = "white") => (
-  <Svg width={10*size + ""} height={8*size + ""} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <Svg width={10*size} height={8*size} viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
     <Path d="M3.34363 6.1012L1.18848 3.83966L0.45459 4.60435L3.34363 7.63601L9.5455 1.12798L8.81678 0.363281L3.34363 6.1012Z" fill={color}/>
+  </Svg>
+
+)
+
+export const x = (size = 8, color = "#FEFEFE") => (
+  <Svg width={size} height={size} viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path d="M0.8 0L0 0.8L3.2 4L0 7.2L0.8 8L4 4.8L7.2 8L8 7.2L4.8 4L8 0.8L7.2 0L4 3.2L0.8 0Z" fill={color}/>
   </Svg>
 
 )
@@ -100,3 +107,17 @@ export const emptyStar = (size = 24) => (
 export const iconNext = <Svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
   <Path fill-rule="evenodd" clip-rule="evenodd" d="M16 12C16 11.7901 15.9145 11.5889 15.7625 11.4413L9.36247 5.22697C9.04828 4.9219 8.54176 4.92472 8.23112 5.23327C7.92047 5.54182 7.92334 6.03926 8.23753 6.34433L14.0622 12L8.23753 17.6557C7.92334 17.9607 7.92047 18.4582 8.23112 18.7667C8.54176 19.0753 9.04828 19.0781 9.36247 18.773L15.7625 12.5587C15.9145 12.4111 16 12.2099 16 12Z" fill="#808191" />
 </Svg>
+
+export const iconPlay = (size = 1, color = "white") => (
+  <Svg width={11*size} height={14*size} viewBox="0 0 11 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path d="M10.5 6.13398C11.1667 6.51888 11.1667 7.48112 10.5 7.86603L1.5 13.0622C0.833333 13.4471 0 12.966 0 12.1962V1.80385C0 1.03405 0.833333 0.552922 1.5 0.937822L10.5 6.13398Z" fill={color}/>
+  </Svg>
+)
+
+export const iconPause = (size = 1, color = "white") => (
+  <Svg width={8*size} height={14*size} viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path d="M1.66667 13.3333H1C0.447715 13.3333 0 12.8856 0 12.3333V1C0 0.447715 0.447716 0 1 0H1.66667C2.21895 0 2.66667 0.447714 2.66667 0.999999V12.3333C2.66667 12.8856 2.21895 13.3333 1.66667 13.3333Z" fill={color}/>
+    <Path d="M7 13.3333H6.33333C5.78105 13.3333 5.33333 12.8856 5.33333 12.3333V1C5.33333 0.447715 5.78105 0 6.33333 0H7C7.55228 0 8 0.447714 8 0.999999V12.3333C8 12.8856 7.55228 13.3333 7 13.3333Z" fill={color}/>
+  </Svg>
+
+)
