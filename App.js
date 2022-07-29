@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -17,8 +17,10 @@ import ReviewItem from './src/components/view/ReviewItem';
 import RatingStar from './src/components/RatingStar';
 import {left_icon, right_icon} from './src/assets/icons';
 import NavButtonRow from './src/components/view/NavButtonRow';
+import TopTab from './src/components/view/TopTab';
+import HomeScreen from './src/HomeScreen';
+import HomeScreen2 from './src/HomeScreen2';
 import AnswerOption from './src/components/test/AnswerOption';
-import {useEffect} from 'react';
 import TrackPlayer, {
   useTrackPlayerEvents,
   Event,
@@ -26,6 +28,7 @@ import TrackPlayer, {
 import Question from './src/components/test/Question';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import CourseRow from './src/components/CourseRow';
 
 const viewstyle = {padding: 16};
 const Stack = createNativeStackNavigator();
@@ -77,6 +80,13 @@ const App = () => {
 const Home = ({navigation}) => {
   const [rating, setRating] = useState(0);
 
+
+  const screens = [
+    { "name": "Мои курсы", "component": HomeScreen },
+    { "name": "Мои тесты", "component": HomeScreen2 },
+    { "name": "Мои задания", "component": HomeScreen }
+  ]
+
   return (
     <UniversalView haveScroll>
       <HeaderView
@@ -98,6 +108,13 @@ const Home = ({navigation}) => {
           />
         }
       />
+
+
+      <TopTab
+        screens={screens}
+        swipeEnabled={true}
+      />
+
       <View style={viewstyle}>
         <OutlineButton text={'Outline Button'} />
 
@@ -149,9 +166,19 @@ const Home = ({navigation}) => {
           title="Журнал"
           onPress={() => Alert.alert('fff')}
         />
+        <CourseRow
+          poster={"https://demo.educenter.kz/storage/poster/269232162262d79a449c52b4.08770484_i.jpg"}
+          category_name="Реклама"
+          title="Турецкий язык"
+          old_price={500000}
+          price={100000}
+          rating="4.2"
+          reviewCount={68}
+        />
         <View style={{marginBottom: 15}} />
       </View>
     </UniversalView>
+
   );
 };
 
@@ -328,20 +355,5 @@ const AudioView = () => {
     </UniversalView>
   );
 };
-
-// "id": 2756,
-//         "question": "<p><span class=\"math-tex\">\\(x = {-b \\pm \\sqrt{b^2-4ac} \\over 2a}\\)</span></p>",
-//         "created_at": "2022-07-21T07:35:41.000000Z",
-//         "updated_at": "2022-07-21T07:35:41.000000Z",
-//         "deleted_at": null,
-//         "lesson_id": 94,
-//         "is_open": false,
-//         "is_multiple": false,
-
-// "id": 2755,
-// "question": "<div class=\"ckeditor-html5-audio\" style=\"text-align:center\">\r\n<audio controls=\"controls\" controlslist=\"nodownload\" src=\"https://demo.educenter.kz/storage/files/243573902162d8ffa8da5fa8.96197209_Audio - Steve Jobs - Stay Hung.mp3\">&nbsp;</audio>\r\n</div>\r\n\r\n<p>&nbsp;</p>",
-
-// "id": 110,
-// "question": "<p>She _____________ drinks any alcohol at all.</p>",
 
 export default App;
