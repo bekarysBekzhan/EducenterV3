@@ -29,6 +29,7 @@ import Question from './src/components/test/Question';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import CourseRow from './src/components/CourseRow';
+import Input from './src/components/Input';
 
 const viewstyle = {padding: 16};
 const Stack = createNativeStackNavigator();
@@ -152,6 +153,10 @@ const Home = ({navigation}) => {
 
         <View style={viewstyle} />
 
+        <Input
+          placeholder={'E-mail или телефон'}
+          
+        />
         {/* <RatingStar
         halfStarEnabled={true}
         maxStars={5}
@@ -166,6 +171,8 @@ const Home = ({navigation}) => {
           title="Журнал"
           onPress={() => Alert.alert('fff')}
         />
+
+
         {/* <CourseRow
           poster={"https://demo.educenter.kz/storage/poster/269232162262d79a449c52b4.08770484_i.jpg"}
           category_name="Реклама"
