@@ -94,8 +94,6 @@ const Home = ({navigation}) => {
         rightIcon={right_icon}
         onRightPress={() => Alert.alert('onRightPress')}
         haveBottomLine
-        // title or component
-        // title={'titleText'}
         component={
           <TextInput
             style={{
@@ -126,11 +124,11 @@ const Home = ({navigation}) => {
 
         <View style={viewstyle} />
 
-        <TransactionButton
+        {/* <TransactionButton
           text={'Transaction Button'}
           price={990}
           oldPrice={1000}
-        />
+        /> */}
 
         <View style={viewstyle} />
 
@@ -141,14 +139,17 @@ const Home = ({navigation}) => {
 
         <View style={viewstyle} />
 
-        <ReviewItem
+        {/* <ReviewItem
           avatar="https://edukey.kz/custom/img/illustration1.png"
           name="Devon Lane"
           date="25 августа"
           rating="4.5 из 5"
           startRating={4.5}
           review="As a developer, I really appreciated the chapter on Color Theory. It was just the right balance of theory combined with examples."
-        />
+        /> */}
+
+        
+
         <View style={viewstyle} />
 
         {/* <RatingStar
@@ -165,7 +166,7 @@ const Home = ({navigation}) => {
           title="Журнал"
           onPress={() => Alert.alert('fff')}
         />
-        <CourseRow
+        {/* <CourseRow
           poster={"https://demo.educenter.kz/storage/poster/269232162262d79a449c52b4.08770484_i.jpg"}
           category_name="Реклама"
           title="Турецкий язык"
@@ -173,7 +174,7 @@ const Home = ({navigation}) => {
           price={100000}
           rating="4.2"
           reviewCount={68}
-        />
+        /> */}
         <View style={{marginBottom: 15}} />
       </View>
     </UniversalView>
@@ -209,12 +210,12 @@ const getMultiple = () => {
   return is_multiple
 }
 
-const DATA = Array(5)
+const DATA = Array(100)
   .fill(null)
   .map((_, index) => ({
     id: index,
     question: questions[getRandomInt(4)],
-    is_multiple: getMultiple(),
+    is_multiple: false,
     answers: [
       {
         id: 0,
@@ -346,9 +347,10 @@ const AudioView = () => {
           data={DATA}
           renderItem={renderQuestion}
           style={{padding: 16}}
-          // maxToRenderPerBatch={10}
+          maxToRenderPerBatch={10}
           keyExtractor={(item, index) => index.toString()}
-          // initialNumToRender={12}
+          initialNumToRender={12}
+          windowSize={10}
         />
       )}
     </UniversalView>

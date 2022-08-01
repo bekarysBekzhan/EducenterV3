@@ -24,11 +24,11 @@ const dynamicContainerStyle = (state, component) => {
 };
 
 const AnswerOption = ({
-  item,
+  item = {},
   index,
   is_multiple = false,
   onSelect,
-  selected,
+  selected = false,
   onTrackChange,
   correct,
   extraStyle,
@@ -70,10 +70,17 @@ const AnswerOption = ({
   );
 
   useEffect(() => {
+    // console.log("useEffect ", index)
     if (selected && !is_multiple) {
+      console.log("onSelect : " , index)
       onSelect(index, setState)
     }
+    console.log("item anser: ",item)
   }, []);
+
+  useEffect(() => {
+    item.selected = state === "selected" ? true : false
+  },[state])
 
   return (
     <TouchableOpacity

@@ -44,7 +44,7 @@ const Question = ({
   const currentSetState = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState(null)
 
-  useEffect(() => {console.log("question item : " , questionItem)}, []);
+  // useEffect(() => {console.log("question item : " , questionItem)}, []);
 
   const onSelect = (newIndex, setState) => {
     if (selectedIndex !== newIndex) {
@@ -69,13 +69,13 @@ const Question = ({
       {selectComponent(
         questionItem?.question,
         <AudioPlayer
-          url={getAudioUrl(questionItem.question)}
+          url={getAudioUrl(questionItem?.question)}
           _index={index}
           onTrackChange={onTrackChange}
         />,
-        <MathView text={questionItem.question} mathStyle={{padding: 14}} />,
+        <MathView text={questionItem?.question} mathStyle={{padding: 14}} />,
         <HtmlView
-          html={questionItem.question}
+          html={questionItem?.question}
           baseStyle={styles.baseStyle}
           tagsStyles={tagsStyles}
         />,
@@ -85,7 +85,7 @@ const Question = ({
           <AnswerOption
             item={option}
             index={i}
-            selected={selectedIndex === null ? passing_answers[questionItem.id][option.id].selected : selectedIndex === i}
+            selected={option?.selected !== undefined ? option?.selected : selectedIndex === null ? passing_answers?.[questionItem?.id]?.[option?.id]?.selected : selectedIndex === i}
             onSelect={onSelect}
             is_multiple={is_multiple}
             onTrackChange={onTrackChange}
