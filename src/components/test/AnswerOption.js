@@ -72,10 +72,8 @@ const AnswerOption = ({
   useEffect(() => {
     // console.log("useEffect ", index)
     if (selected && !is_multiple) {
-      console.log("onSelect : " , index)
       onSelect(index, setState)
     }
-    console.log("item anser: ",item)
   }, []);
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import MathView from './MathView';
 import {selectComponent, setFontStyle} from '../../utils/utils';
 import {ColorApp} from '../../constans/constants';
 import HtmlView from '../HtmlView';
-import {getAudioUrl} from '../../utils/regex';
+import { getAudioUrl } from '../../utils/utils';
 import AnswerOption from './AnswerOption';
 import {useRef} from 'react';
 

@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { starIcon } from '../assets/icons'
-import { setFontStyle } from '../utils/setFontStyle'
+import { setFontStyle } from '../utils/utils'
 
 const ItemRating = ({rating, reviewCount, starSize}) => {
   return (
