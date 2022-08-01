@@ -19,16 +19,15 @@ const Input = ({
     extraInputStyle,
     ...props
 }) => {
-    
-    const memoStyles = useMemo(() => [styles.container, extraStyle, focus ? styles.focus : {} ], [focus])
-    const memoInputStyles = useMemo(() => [styles.input, extraInputStyle], [])
 
-    const [focus, setFocus] = useState(false);
+    const [focus, setFocus] = useState(false)
+    
+    const memoStyles = useMemo(() => [styles.container, extraStyle, focus ? styles.focus : {}], [focus])
+    const memoInputStyles = useMemo(() => [styles.input, extraInputStyle], [])
 
     useEffect(() => {
         console.log("Focus : " , focus)
     }, [focus])
-
     
     return (
         <RowView
@@ -71,7 +70,9 @@ const styles = StyleSheet.create({
         height: 48,
         justifyContent: 'center',
         paddingHorizontal: 12,
-        marginBottom: 8
+        marginBottom: 8,
+        borderWidth: 1,
+        borderColor: ColorApp.input
     },
     input: {
         flex: 1,
