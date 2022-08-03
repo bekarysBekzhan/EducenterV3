@@ -11,7 +11,11 @@ const Navigation = ({
 
     return (
       <NavigationContainer>
-        <MainStack.Navigator>
+        <MainStack.Navigator
+          screenOptions={{
+            headerShown: false  
+          }}
+        >
           {
             ROUTES.general.map((route, index) => (
               <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ ROUTES: route?.ROUTES }}/>
@@ -39,7 +43,11 @@ const SplashNavigation = ({
 }) => {
 
   return (
-    <SplashStack.Navigator>
+    <SplashStack.Navigator
+      screenOptions={{
+        headerShown: false
+      }}
+    >
       {
         route?.params?.ROUTES.map((route, index) => (
           <SplashStack.Screen name={route.name} component={route.component} key={index}/>
