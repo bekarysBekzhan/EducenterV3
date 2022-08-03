@@ -19,7 +19,7 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your FaceID.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<string>${PRODUCT_NAME} needs access to your LocationAlwaysAndWhenInUse.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>YOUR TEXT</string>
 	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
