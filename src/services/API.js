@@ -4,12 +4,11 @@ import { API_V2 } from "./axios"
 class MobileSettingsService {
 
     static fetchSettings = async() => {
-        const url = DOMAIN + URLS.mobileSettings
+        console.log("fetchSettings")
         try {
-            const response = API_V2.get(url) 
-            if (response.status == 200) {
-                return response.data
-            }
+            const response = await API_V2.get(URLS.mobileSettings) 
+            console.log("SETTINGS : " , response.data)
+            return response
         } catch (error) {
             console.error(error)
         }

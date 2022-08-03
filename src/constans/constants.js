@@ -13,7 +13,7 @@ export const APP_COLORS = {
 
 export const DOMAIN = "https://demo.educenter.kz"
 export const REQUEST_HEADERS = {
-
+  'Accept': 'application/json'
 }
 export const URLS = {
   mobileSettings: "settings/mobile",
