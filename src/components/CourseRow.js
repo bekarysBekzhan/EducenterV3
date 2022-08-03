@@ -3,7 +3,7 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import FastImage from 'react-native-fast-image'
 import { setFontStyle } from '../utils/utils'
-import { ColorApp } from '../constans/constants'
+import { APP_COLORS } from '../constans/constants'
 import Price from './Price'
 import ItemRating from './ItemRating'
 
@@ -20,8 +20,8 @@ const CourseRow = ({poster, title, category_name, price, old_price, rating, revi
         <View
             style={styles.data}
         >
-            <Text style={setFontStyle(11, "400", ColorApp.placeholder)}>{category_name}</Text>
-            <Text style={setFontStyle(17, "600", ColorApp.font)}>{title}</Text>
+            <Text style={setFontStyle(11, "400", APP_COLORS.placeholder)}>{category_name}</Text>
+            <Text style={setFontStyle(17, "600", APP_COLORS.font)}>{title}</Text>
             <Price price={price} oldPrice={old_price} oldPriceStyle={styles.textOldPrice} priceStyle={styles.textPrice}/>
         </View>
         <ItemRating rating={rating} reviewCount={reviewCount} starSize={16 }/>

@@ -1,7 +1,7 @@
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import React, {useMemo} from 'react';
 import RowView from '../view/RowView';
-import {ColorApp} from '../../constans/constants';
+import {APP_COLORS} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
 import Price from '../Price';
 
@@ -54,7 +54,7 @@ export default TransactionButton;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: ColorApp.primary,
+    backgroundColor: APP_COLORS.primary,
     paddingVertical: 17,
     paddingHorizontal: 16,
     maxHeight: 74,

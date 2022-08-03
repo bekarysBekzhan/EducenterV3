@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { routes } from '../../constans/constants'
+import { ROUTES } from '../../constans/constants'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 const MainStack = createNativeStackNavigator()
@@ -13,19 +13,19 @@ const Navigation = ({
       <NavigationContainer>
         <MainStack.Navigator>
           {
-            routes.general.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ routes: route?.routes }}/>
+            ROUTES.general.map((route, index) => (
+              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ ROUTES: route?.ROUTES }}/>
             ))
           }
           {
             isAuth
             ?
-            routes.private.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} initialParams={{ routes: route?.routes }}/>
+            ROUTES.private.map((route, index) => (
+              <MainStack.Screen name={route.name} component={route.component} initialParams={{ ROUTES: route?.ROUTES }}/>
             ))
             :
-            routes.public.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} initialParams={{ routes: route?.routes }}/>
+            ROUTES.public.map((route, index) => (
+              <MainStack.Screen name={route.name} component={route.component} initialParams={{ ROUTES: route?.ROUTES }}/>
             ))
           }
         </MainStack.Navigator>
@@ -37,11 +37,11 @@ const SplashStack = createNativeStackNavigator()
 const SplashNavigation = ({
   route, navigation
 }) => {
-  
+
   return (
     <SplashStack.Navigator>
       {
-        route?.params?.routes.map((route, index) => (
+        route?.params?.ROUTES.map((route, index) => (
           <SplashStack.Screen name={route.name} component={route.component} key={index}/>
         ))
       }
@@ -57,7 +57,7 @@ const BottomTabBar = ({
   return(
     <BottomTabStack.Navigator>
       {
-        route?.params?.routes.map((route, index) => (
+        route?.params?.ROUTES.map((route, index) => (
           <BottomTabStack.Screen name={route.name} component={route.component} key={index}/>
         ))
       }

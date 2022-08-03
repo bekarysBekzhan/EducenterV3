@@ -4,20 +4,22 @@ import { SplashNavigation, BottomTabBar } from '../components/navigation/index'
 import LanguageScreen from '../screens/LanguageScreen';
 import SplashScreen from '../screens/SplashScreen';
 
-export const ColorApp = {
+export const APP_COLORS = {
   primary: '#5559F4',
   placeholder: '#808191',
   font: '#111621',
   input: '#F5F5F5',
 };
 
-export const baseURL = "https://demo.educenter.kz/api/v2/"
+export const DOMAIN = "https://demo.educenter.kz"
+export const REQUEST_HEADERS = {
+
+}
 export const URLS = {
   mobileSettings: "settings/mobile",
-  
 }
 
-export const routeNames = {
+export const ROUTE_NAMES = {
   // MAIN STACK SCREENS
   search: "Search",
   courseReview: "CourseReview",
@@ -72,18 +74,18 @@ export const routeNames = {
   aboutService: "AboutService",
 }
 
-export const routes = {
+export const ROUTES = {
   general: [
     {
       name: "SplashStack",
       component: SplashNavigation,
-      routes: [
+      ROUTES: [
         {
-          name: routeNames.splash,
+          name: ROUTE_NAMES.splash,
           component: SplashScreen
         },
         {
-          name: routeNames.language,
+          name: ROUTE_NAMES.language,
           component: LanguageScreen
         }
       ]
@@ -91,65 +93,65 @@ export const routes = {
   ],
   public: [
     {
-      name: routeNames.bottomTab,
+      name: ROUTE_NAMES.bottomTab,
       component: BottomTabBar,
-      routes: [
+      ROUTES: [
         {
-          name: routeNames.coursesStack,
+          name: ROUTE_NAMES.coursesStack,
           component: <View/>,
-          routes: [
+          ROUTES: [
             {
-              name: routeNames.courses,
+              name: ROUTE_NAMES.courses,
               component: <View/>,
             },
             {
-              name: routeNames.courseDetail,
+              name: ROUTE_NAMES.courseDetail,
               component: <View/>,
             }
           ]
         },
         {
-          name: routeNames.testsStack,
+          name: ROUTE_NAMES.testsStack,
           component: <View/>,
-          routes: [
+          ROUTES: [
             {
-              name: routeNames.tests,
+              name: ROUTE_NAMES.tests,
               component: <View/>,
             },
             {
-              name: routeNames.testDetail,
+              name: ROUTE_NAMES.testDetail,
               component: <View/>,
             }
           ]
         },
         {
-          name: routeNames.myCoursesStack,
+          name: ROUTE_NAMES.myCoursesStack,
           component: <View/>,
-          routes: [
+          ROUTES: [
             {
-              name: routeNames.myCoursesTopBar,
+              name: ROUTE_NAMES.myCoursesTopBar,
               component: <View/>,
-              routes: [
+              ROUTES: [
                 {
-                  name: routeNames.myCourses,
+                  name: ROUTE_NAMES.myCourses,
                   component: <View/>
                 },
                 {
-                  name: routeNames.myTests,
+                  name: ROUTE_NAMES.myTests,
                   component: <View/>
                 },
                 {
-                  name: routeNames.myTasks,
+                  name: ROUTE_NAMES.myTasks,
                   component: <View/>
                 }
               ]
             },
             {
-              name: routeNames.myTestDetail,
+              name: ROUTE_NAMES.myTestDetail,
               component: <View/>,
             },
             {
-              name: routeNames.myCourseDetail,
+              name: ROUTE_NAMES.myCourseDetail,
               component: <View/>
             },
             {
@@ -158,49 +160,49 @@ export const routes = {
           ]
         },
         {
-          name: routeNames.tasksStack,
+          name: ROUTE_NAMES.tasksStack,
           component: <View/>,
-          routes: [
+          ROUTES: [
             {
-              name: routeNames.tasks,
+              name: ROUTE_NAMES.tasks,
               component: <View/>,
             },
             {
-              name: routeNames.taskDetail,
+              name: ROUTE_NAMES.taskDetail,
               component: <View/>,
             }
           ]
         },
         {
-          name: routeNames.menuStack,
+          name: ROUTE_NAMES.menuStack,
           component: <View/>,
-          routes: [
+          ROUTES: [
             {
-              name: routeNames.menu,
+              name: ROUTE_NAMES.menu,
               component: <View/>,
             },
             {
-              name: routeNames.journal,
+              name: ROUTE_NAMES.journal,
               component: <View/>,
             },
             {
-              name: routeNames.rating,
+              name: ROUTE_NAMES.rating,
               component: <View/>,
             },
             {
-              name: routeNames.refProgram,
+              name: ROUTE_NAMES.refProgram,
               component: <View/>,
             },
             {
-              name: routeNames.news,
+              name: ROUTE_NAMES.news,
               component: <View/>,
             },
             {
-              name: routeNames.privacyPolicy,
+              name: ROUTE_NAMES.privacyPolicy,
               component: <View/>,
             },
             {
-              name: routeNames.aboutService,
+              name: ROUTE_NAMES.aboutService,
               component: <View/>,
             }
           ]
@@ -208,43 +210,43 @@ export const routes = {
       ]
     },
     // {
-    //   name: routeNames.search,
+    //   name: ROUTE_NAMES.search,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.courseReview,
+    //   name: ROUTE_NAMES.courseReview,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.courseLeaveReview,
+    //   name: ROUTE_NAMES.courseLeaveReview,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.courseFinish,
+    //   name: ROUTE_NAMES.courseFinish,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.payment,
+    //   name: ROUTE_NAMES.payment,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.testPreview,
+    //   name: ROUTE_NAMES.testPreview,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.testPass,
+    //   name: ROUTE_NAMES.testPass,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.testResult,
+    //   name: ROUTE_NAMES.testResult,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.testFinish,
+    //   name: ROUTE_NAMES.testFinish,
     //   component: <View/>
     // },
     // {
-    //   name: routeNames.taskOpen,
+    //   name: ROUTE_NAMES.taskOpen,
     //   component: <View/>
     // }
   ],
@@ -252,7 +254,7 @@ export const routes = {
     {
       name: "BottomTab",
       component: BottomTabBar,
-      routes: [
+      ROUTES: [
         
       ]
     }

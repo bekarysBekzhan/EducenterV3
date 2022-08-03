@@ -1,12 +1,12 @@
-import axios from "axios"
-import { baseURL, URLS } from "../constans/constants"
+import { DOMAIN, URLS } from "../constans/constants"
+import { API_V2 } from "./axios"
 
-export default class MobileSettingsService {
+class MobileSettingsService {
 
-    static fetchData = async() => {
-        const url = baseURL + URLS.mobileSettings
+    static fetchSettings = async() => {
+        const url = DOMAIN + URLS.mobileSettings
         try {
-            const response  = await axios.get(url)
+            const response = API_V2.get(url) 
             if (response.status == 200) {
                 return response.data
             }
@@ -16,3 +16,14 @@ export default class MobileSettingsService {
     }
 
 }
+
+class CoursesService {
+
+    static fetchData = async() => {
+
+    }
+}
+
+
+export { MobileSettingsService, CoursesService}
+

@@ -3,7 +3,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import AudioPlayer from '../AudioPlayer';
 import MathView from './MathView';
 import {selectComponent, setFontStyle} from '../../utils/utils';
-import {ColorApp} from '../../constans/constants';
+import {APP_COLORS} from '../../constans/constants';
 import HtmlView from '../HtmlView';
 import { getAudioUrl } from '../../utils/utils';
 import AnswerOption from './AnswerOption';
@@ -37,7 +37,7 @@ const Question = ({
 }) => {
   const memoStylesContainer = useMemo(() => [styles.container, extraStyle], []);
   const memoStylesText = useMemo(
-    () => [setFontStyle(18, '400', ColorApp.primary), {}, extraTextStyle],
+    () => [setFontStyle(18, '400', APP_COLORS.primary), {}, extraTextStyle],
     [],
   );
 

@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { TextInputMask } from 'react-native-masked-text'
 import { useEffect } from 'react'
 import RowView from './view/RowView'
-import { ColorApp } from '../constans/constants'
+import { APP_COLORS } from '../constans/constants'
 import { setFontStyle } from '../utils/utils'
 import { useState } from 'react'
 
@@ -38,7 +38,7 @@ const Input = ({
             mask === undefined
             ?
             <TextInput
-                placeholderTextColor={ColorApp.placeholder}
+                placeholderTextColor={APP_COLORS.placeholder}
                 placeholder={placeholder}
                 style={memoInputStyles}
                 onFocus={() => setFocus(true)}
@@ -47,7 +47,7 @@ const Input = ({
             />
             :
             <TextInputMask
-                placeholderTextColor={ColorApp.placeholder}
+                placeholderTextColor={APP_COLORS.placeholder}
                 placeholder={placeholder}
                 style={memoInputStyles}
                 type='custom'
@@ -65,14 +65,14 @@ const Input = ({
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: ColorApp.input,
+        backgroundColor: APP_COLORS.input,
         borderRadius: 8,
         height: 48,
         justifyContent: 'center',
         paddingHorizontal: 12,
         marginBottom: 8,
         borderWidth: 1,
-        borderColor: ColorApp.input
+        borderColor: APP_COLORS.input
     },
     input: {
         flex: 1,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
     focus: {
         borderWidth: 1,
-        borderColor: ColorApp.primary,
+        borderColor: APP_COLORS.primary,
     }
 })
 
