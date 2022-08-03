@@ -5,7 +5,6 @@ import { routes } from '../../constans/constants'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 const MainStack = createNativeStackNavigator()
-
 const Navigation = ({
     isAuth = false
 }) => {
@@ -15,18 +14,18 @@ const Navigation = ({
         <MainStack.Navigator>
           {
             routes.general.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} key={index} />
+              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ routes: route?.routes }}/>
             ))
           }
           {
             isAuth
             ?
             routes.private.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component}/>
+              <MainStack.Screen name={route.name} component={route.component} initialParams={{ routes: route?.routes }}/>
             ))
             :
             routes.public.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component}/>
+              <MainStack.Screen name={route.name} component={route.component} initialParams={{ routes: route?.routes }}/>
             ))
           }
         </MainStack.Navigator>
@@ -35,28 +34,37 @@ const Navigation = ({
 }
 
 const SplashStack = createNativeStackNavigator()
-
 const SplashNavigation = ({
-
+  route, navigation
 }) => {
+
+  console.log("Splash route : " , route)
+  console.log("Splash navigation : " , navigation)
+
   return (
     <SplashStack.Navigator>
-      <SplashStack.Screen/>
-      <SplashStack.Screen/>
+      {
+
+      }
     </SplashStack.Navigator>
   )
 }
 
 const BottomTabStack = createBottomTabNavigator()
-
 const BottomTabBar = ({
-
+  route, navigation
 }) => {
+
+  console.log("Splash route : " , route)
+  console.log("Splash navigation : " , navigation)
+
   return(
     <BottomTabStack.Navigator>
-      
+      {
+
+      }
     </BottomTabStack.Navigator>
   )
 }
 
-export default {Navigation, SplashNavigation, BottomTabBar}
+export  {Navigation, SplashNavigation, BottomTabBar}
