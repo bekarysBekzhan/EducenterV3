@@ -37,14 +37,13 @@ const SplashStack = createNativeStackNavigator()
 const SplashNavigation = ({
   route, navigation
 }) => {
-
-  console.log("Splash route : " , route)
-  console.log("Splash navigation : " , navigation)
-
+  
   return (
     <SplashStack.Navigator>
       {
-
+        route?.params?.routes.map((route, index) => (
+          <SplashStack.Screen name={route.name} component={route.component} key={index}/>
+        ))
       }
     </SplashStack.Navigator>
   )
@@ -55,13 +54,12 @@ const BottomTabBar = ({
   route, navigation
 }) => {
 
-  console.log("Splash route : " , route)
-  console.log("Splash navigation : " , navigation)
-
   return(
     <BottomTabStack.Navigator>
       {
-
+        route?.params?.routes.map((route, index) => (
+          <BottomTabStack.Screen name={route.name} component={route.component} key={index}/>
+        ))
       }
     </BottomTabStack.Navigator>
   )

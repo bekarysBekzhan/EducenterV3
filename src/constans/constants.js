@@ -1,6 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import { SplashNavigation, BottomTabBar } from '../components/navigation/index'
+import LanguageScreen from '../screens/LanguageScreen';
+import SplashScreen from '../screens/SplashScreen';
 
 export const ColorApp = {
   primary: '#5559F4',
@@ -8,6 +10,12 @@ export const ColorApp = {
   font: '#111621',
   input: '#F5F5F5',
 };
+
+export const baseURL = "https://demo.educenter.kz/api/v2/"
+export const URLS = {
+  mobileSettings: "settings/mobile",
+  
+}
 
 export const routeNames = {
   // MAIN STACK SCREENS
@@ -72,11 +80,11 @@ export const routes = {
       routes: [
         {
           name: routeNames.splash,
-          component: <View/>
+          component: SplashScreen
         },
         {
           name: routeNames.language,
-          component: <View/>
+          component: LanguageScreen
         }
       ]
     }
@@ -199,46 +207,46 @@ export const routes = {
         }
       ]
     },
-    {
-      name: routeNames.search,
-      component: <View/>
-    },
-    {
-      name: routeNames.courseReview,
-      component: <View/>
-    },
-    {
-      name: routeNames.courseLeaveReview,
-      component: <View/>
-    },
-    {
-      name: routeNames.courseFinish,
-      component: <View/>
-    },
-    {
-      name: routeNames.payment,
-      component: <View/>
-    },
-    {
-      name: routeNames.testPreview,
-      component: <View/>
-    },
-    {
-      name: routeNames.testPass,
-      component: <View/>
-    },
-    {
-      name: routeNames.testResult,
-      component: <View/>
-    },
-    {
-      name: routeNames.testFinish,
-      component: <View/>
-    },
-    {
-      name: routeNames.taskOpen,
-      component: <View/>
-    }
+    // {
+    //   name: routeNames.search,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.courseReview,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.courseLeaveReview,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.courseFinish,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.payment,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.testPreview,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.testPass,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.testResult,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.testFinish,
+    //   component: <View/>
+    // },
+    // {
+    //   name: routeNames.taskOpen,
+    //   component: <View/>
+    // }
   ],
   private: [
     {
