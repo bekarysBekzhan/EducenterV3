@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {APP_COLORS} from '../constans/constants';
+import { APP_COLORS } from '../constans/constants';
 
 export const getAudioUrl = html => {
   let pattern1 = new RegExp('src=');

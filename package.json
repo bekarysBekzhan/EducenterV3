@@ -31,6 +31,7 @@
     "react-native-gifted-chat": "^1.0.2",
     "react-native-image-crop-picker": "^0.38.0",
     "react-native-image-picker": "^4.8.4",
+    "react-native-is-screen-captured-ios": "^0.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-localization": "^2.3.1",
     "react-native-masked-text": "^1.13.0",

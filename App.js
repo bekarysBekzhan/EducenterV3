@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect } from 'react'
+import { Provider } from './src/components/context/Provider'
 import { Navigation } from './src/components/navigation'
 
 const App = () => {
@@ -9,7 +10,9 @@ const App = () => {
   }, [])
 
   return (
-    <Navigation isAuth={false}/>
+    <Provider>
+      <Navigation isAuth={false}/>
+    </Provider>
   )
 }
 
