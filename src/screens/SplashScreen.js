@@ -7,20 +7,35 @@ import { setFontStyle } from '../utils/utils'
 import { APP_COLORS, WIDTH } from '../constans/constants'
 import SimpleButton from '../components/button/SimpleButton'
 import OutlineButton from '../components/button/OutlineButton'
+import HtmlView from '../components/HtmlView'
+import { useIsCaptured } from 'react-native-is-screen-captured-ios'
+
+const html = '<iframe width="871" height="490" src="https://www.youtube.com/embed/GNrdg3PzpJQ" title="React JS фундаментальный курс от А до Я" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
 
 const SplashScreen = () => {
 
-  const { settings } = useSettings() 
+  const { settings } = useSettings()
+  const isCaptured = useIsCaptured()
+
+  useEffect(() => {
+    console.log('isCaptured')
+  }, [isCaptured])
 
   useEffect(() => {
     console.log("SETTINGS : " , settings)
   }, [])
 
+  if (isCaptured) {
+    return null
+  }
+
   return (
     <UniversalView
       style={styles.container}
     >
-      <View style={styles.section1}/>
+      <View style={styles.section1}>
+        <HtmlView html={html}/>
+      </View>
       <View
         style={styles.section2}
       >
