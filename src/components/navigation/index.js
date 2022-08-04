@@ -1,16 +1,39 @@
 import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { APP_COLORS, ROUTES, ROUTE_NAMES } from '../../constans/constants'
+import { APP_COLORS, ROUTE_NAMES } from '../../constans/constants'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFetching } from '../hooks/useFetching'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { MobileSettingsService } from '../../services/API'
+import { useSettings } from '../context/Provider'
+import { ROUTES } from "../navigation/routes"
 
 const MainStack = createNativeStackNavigator()
 const Navigation = ({
     isAuth = false
 }) => {
+
+  const { setSettings } = useSettings()
+  const [fetchSettings, isLoading, settingsError] = useFetching(async() => {
+    const response  = await MobileSettingsService.fetchSettings()
+    setSettings(response.data?.data)
+  })
+
+  useEffect(() => {
+    console.log("index.js")
+    fetchSettings()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <View
+        style={styles.container}
+      >
+        {/* <ActivityIndicator color={APP_COLORS.primary}/> */}
+      </View>
+    )
+  } 
     return (
       <NavigationContainer>
         <MainStack.Navigator
@@ -20,18 +43,18 @@ const Navigation = ({
         >
           {
             ROUTES.general.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ ROUTES: route?.ROUTES }}/>
+              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ ROUTES: route?.ROUTES}}/>
             ))
           }
           {
             isAuth
             ?
             ROUTES.private.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ ROUTES: route?.ROUTES }}/>
+              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ ROUTES: route?.ROUTES}}/>
             ))
             :
             ROUTES.public.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ ROUTES: route?.ROUTES }}/>
+              <MainStack.Screen name={route.name} component={route.component} key={index} initialParams={{ ROUTES: route?.ROUTES}}/>
             ))
           }
         </MainStack.Navigator>
