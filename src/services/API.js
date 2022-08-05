@@ -1,16 +1,17 @@
-import { DOMAIN, URLS } from "../constans/constants"
+import { useSettings } from "../components/context/Provider"
+import { URLS } from "../constans/constants"
 import { API_V2 } from "./axios"
 
 class MobileSettingsService {
 
     static fetchSettings = async() => {
-        console.log("fetchSettings")
         try {
+            console.log("SETTINGS : ")
             const response = await API_V2.get(URLS.mobileSettings) 
-            console.log("SETTINGS : " , response.data)
+            console.log(response.data)
             return response
         } catch (error) {
-            console.error(error)
+            console.log(error)
         }
     }
 

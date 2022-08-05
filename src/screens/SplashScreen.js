@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { Logo } from '../assets/icons'
@@ -7,44 +7,39 @@ import { setFontStyle } from '../utils/utils'
 import { APP_COLORS, WIDTH } from '../constans/constants'
 import SimpleButton from '../components/button/SimpleButton'
 import OutlineButton from '../components/button/OutlineButton'
-import HtmlView from '../components/HtmlView'
-import { useIsCaptured } from 'react-native-is-screen-captured-ios'
+import { ROUTE_NAMES } from '../components/navigation/routes'
+import FastImage from 'react-native-fast-image'
 
-const html = '<iframe width="871" height="490" src="https://www.youtube.com/embed/GNrdg3PzpJQ" title="React JS фундаментальный курс от А до Я" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
-
-const SplashScreen = () => {
+const SplashScreen = ({navigation, route}) => {
 
   const { settings } = useSettings()
-  const isCaptured = useIsCaptured()
 
   useEffect(() => {
-    console.log('isCaptured')
-  }, [isCaptured])
-
-  useEffect(() => {
-    console.log("SETTINGS : " , settings)
+    
   }, [])
 
-  if (isCaptured) {
-    return null
+  const changeLanguagePressed = () => {
+    console.log("changeLanguagePressed")
+    navigation.navigate(ROUTE_NAMES.language)
   }
 
   return (
     <UniversalView
       style={styles.container}
     >
-      <View style={styles.section1}>
-        <HtmlView html={html}/>
-      </View>
+      <View style={styles.section1}/>
       <View
         style={styles.section2}
       >
-        {Logo()}
+        <FastImage
+          style={styles.logo}
+          source={{ uri: settings?.logo }}
+        />
         <Text style={styles.description}>{settings?.description}</Text>
       </View>
       <View style={styles.section3}>
         <SimpleButton text="Продолжить на русском" style={styles.simpleButton}/>
-        <OutlineButton text="Поменять язык" style={styles.outlineButton}/>
+        <OutlineButton text="Поменять язык" style={styles.outlineButton} onPress={changeLanguagePressed}/>
       </View>
       <View
         style={styles.section4}
@@ -92,9 +87,11 @@ const styles = StyleSheet.create({
     marginTop: 10, 
     paddingVertical: 16
   },
-  text: {
-
-  },
+  logo: {
+    width: 80,
+    height: 80,
+    borderRadius: 10
+  }
 })
 
 export default SplashScreen

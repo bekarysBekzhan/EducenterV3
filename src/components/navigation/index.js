@@ -1,39 +1,45 @@
 import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { APP_COLORS, ROUTE_NAMES } from '../../constans/constants'
+import { APP_COLORS } from '../../constans/constants'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useFetching } from '../hooks/useFetching'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { MobileSettingsService } from '../../services/API'
 import { useSettings } from '../context/Provider'
-import { ROUTES } from "../navigation/routes"
+import { ROUTES, ROUTE_NAMES } from "../navigation/routes"
+import UniversalView from '../view/UniversalView'
+import { getString } from '../../storage/AsyncStorage'
 
 const MainStack = createNativeStackNavigator()
-const Navigation = ({
-    isAuth = false
-}) => {
+const SplashStack = createNativeStackNavigator()
+const BottomTabStack = createBottomTabNavigator()
 
-  const { setSettings } = useSettings()
+const Navigation = () => {
+
+  const { setSettings, setUserToken, setIsAuth, isAuth } = useSettings()
+
   const [fetchSettings, isLoading, settingsError] = useFetching(async() => {
-    const response  = await MobileSettingsService.fetchSettings()
+    const language = await getString("language")
+    const isAuth = await getString("isAuth")
+    const userToken = await getString("userToken")
+    const response = await MobileSettingsService.fetchSettings()
+    if (isAuth) {
+      setIsAuth(true)
+    }
+    if(userToken) {
+      setUserToken(userToken)
+    }
     setSettings(response.data?.data)
   })
 
   useEffect(() => {
-    console.log("index.js")
     fetchSettings()
   }, [])
 
   if (isLoading) {
-    return (
-      <View
-        style={styles.container}
-      >
-        {/* <ActivityIndicator color={APP_COLORS.primary}/> */}
-      </View>
-    )
-  } 
+    return <UniversalView style={{ flex: 1 }}/>
+  }
     return (
       <NavigationContainer>
         <MainStack.Navigator
@@ -62,7 +68,6 @@ const Navigation = ({
   )
 }
 
-const SplashStack = createNativeStackNavigator()
 const SplashNavigation = ({
   route, navigation
 }) => {
@@ -75,38 +80,16 @@ const SplashNavigation = ({
     >
       {
         route?.params?.ROUTES.map((route, index) => (
-          <SplashStack.Screen name={route.name} component={route.component} key={index}/>
+          <SplashStack.Screen name={route.name} component={route.component} key={index} options={{ headerShown: route.name === ROUTE_NAMES.language, headerTitle: route.name === ROUTE_NAMES.language ? "Поменять язык" : undefined }}/>
         ))
       }
     </SplashStack.Navigator>
   )
 }
 
-const BottomTabStack = createBottomTabNavigator()
 const BottomTabBar = ({
   route, navigation
 }) => {
-
-  const [data, setData] = useState(null)
-  const [fetchSettings, isLoading, settingsError] = useFetching(async() => {
-    const response  = await MobileSettingsService.fetchSettings()
-    setData(response.data?.data)
-  })
-
-  useEffect(() => {
-    console.log("index.js")
-    fetchSettings()
-  }, [])
-
-  if (isLoading) {
-    return (
-      <View
-        style={styles.container}
-      >
-        <ActivityIndicator color={APP_COLORS.primary}/>
-      </View>
-    )
-  } 
   return(
     <BottomTabStack.Navigator>
       {
@@ -150,4 +133,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export  {Navigation, SplashNavigation, BottomTabBar}
+export {Navigation, SplashNavigation, BottomTabBar}
