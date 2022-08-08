@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useMemo, useState} from 'react';
-import {ColorApp} from '../../constans/constants';
+import {APP_COLORS} from '../../constans/constants';
 import {check, x} from '../../assets/icons';
 import {getAudioUrl, selectComponent, setFontStyle} from '../../utils/utils';
 import AudioPlayer from '../AudioPlayer';
@@ -145,8 +145,8 @@ const selectedStyles = StyleSheet.create({
     borderColor: '#F1F2FE',
   },
   checkbox: {
-    backgroundColor: ColorApp.primary,
-    borderColor: ColorApp.primary,
+    backgroundColor: APP_COLORS.primary,
+    borderColor: APP_COLORS.primary,
   },
 });
 

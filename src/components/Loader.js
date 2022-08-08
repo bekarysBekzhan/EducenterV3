@@ -1,8 +1,8 @@
 import {ActivityIndicator} from 'react-native';
 import React from 'react';
-import {ColorApp} from '../constans/constants';
+import {APP_COLORS} from '../constans/constants';
 
-const Loader = ({color = ColorApp.primary, ...props}) => {
+const Loader = ({color = APP_COLORS.primary, ...props}) => {
   return <ActivityIndicator color={color} {...props} />;
 };
 

@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import React, {useMemo} from 'react';
 import {setFontStyle} from '../../utils/utils';
-import {ColorApp} from '../../constans/constants';
+import {APP_COLORS} from '../../constans/constants';
 
 const OutlineButton = ({
   text,
@@ -14,7 +14,7 @@ const OutlineButton = ({
   loading = false,
   onPress = () => undefined,
   style,
-  colorIndicator = ColorApp.primary,
+  colorIndicator = APP_COLORS.primary,
   ...props
 }) => {
   const memoStyle = useMemo(() => [styles.button, style], [style]);
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     maxHeight: 64,
   },
   text: {
-    ...setFontStyle(17, '600', ColorApp.primary),
+    ...setFontStyle(17, '600', APP_COLORS.primary),
     textAlign: 'center',
   },
 });

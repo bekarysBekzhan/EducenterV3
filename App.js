@@ -1,11 +1,13 @@
-import { View, Text } from 'react-native'
 import React from 'react'
+import { Provider } from './src/components/context/Provider'
+import { Navigation } from './src/components/navigation'
 
 const App = () => {
+
   return (
-    <View>
-      <Text>App</Text>
-    </View>
+    <Provider>
+      <Navigation/>
+    </Provider>
   )
 }
 

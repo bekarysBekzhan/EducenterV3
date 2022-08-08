@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {ColorApp} from '../constans/constants';
+import { APP_COLORS } from '../constans/constants';
 
 export const getAudioUrl = html => {
   let pattern1 = new RegExp('src=');
@@ -41,7 +41,7 @@ export const getAudioUrl = html => {
 export const setFontStyle = (
   fontSize = 16,
   fontWeight = '400',
-  color = ColorApp.font,
+  color = APP_COLORS.font,
   lineHeight = fontSize + 3,
 ) => {
   const styles = StyleSheet.create({

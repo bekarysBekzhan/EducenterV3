@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {ColorApp} from '../../constans/constants';
+import {APP_COLORS} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
 
 const SimpleButton = ({
@@ -41,7 +41,7 @@ export default SimpleButton;
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: ColorApp.primary,
+    backgroundColor: APP_COLORS.primary,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 14,

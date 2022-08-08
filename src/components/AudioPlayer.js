@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import TrackPlayer, { State, useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
 import RowView from './view/RowView';
-import { ColorApp } from '../constans/constants';
+import { APP_COLORS } from '../constans/constants';
 import { setFontStyle } from '../utils/utils';
 import { iconPause, iconPlay } from '../assets/icons';
 import { getFormattedTime } from '../utils/utils';
@@ -17,7 +17,7 @@ const AudioPlayer = ({
     sliderStyle,
     positionStyle,
     durationStyle,
-    minimumTrackTintColor = ColorApp.primary,
+    minimumTrackTintColor = APP_COLORS.primary,
     maximumTrackTintColor = "#F1F2FE",
 }) => {
 
@@ -146,7 +146,7 @@ const AudioPlayer = ({
                     onValueChange={() => {}}
                     style={memoSliderStyle}
                     onSlidingComplete={() => {}}
-                    thumbTintColor={ColorApp.primary}
+                    thumbTintColor={APP_COLORS.primary}
                     minimumTrackTintColor={minimumTrackTintColor}
                     maximumTrackTintColor={maximumTrackTintColor}
                 />
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
         width: 40,
         height: 40,
         borderRadius: 40,
-        backgroundColor: ColorApp.primary,
+        backgroundColor: APP_COLORS.primary,
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 16
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     infoPlayerView: {
-        backgroundColor: ColorApp.transparent,
+        backgroundColor: APP_COLORS.transparent,
         justifyContent: 'space-between'
     },
     slider: {
