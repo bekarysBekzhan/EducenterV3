@@ -7,6 +7,7 @@ import { setFontStyle } from '../utils/utils'
 import { storeString } from '../storage/AsyncStorage'
 import { useFetching } from '../components/hooks/useFetching'
 import SelectOption from '../components/SelectOption'
+import SectionView from '../components/view/SectionView'
 
 const languages = [ { label: "Русский" , key: "ru"}, { label: "Қазақша", key: "kz" }, { label: "English", key: "en" } ]
 
@@ -25,11 +26,7 @@ const LanguageScreen = ({ navigation, route }) => {
     <UniversalView
       style={styles.container}
     >
-      <View
-        style={styles.actionContainer}
-      >
-        <Text style={styles.actionText}>Выберите язык</Text>
-      </View>
+      <SectionView label={'Выберите язык'}/>
       {
         languages.map((value, index) => (
           <SelectOption
@@ -47,13 +44,6 @@ const LanguageScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
-  actionContainer: {
-    width: "100%",
-    backgroundColor: APP_COLORS.input,
-    padding: 16,
-    paddingVertical: 14
-  },
-  actionText: [setFontStyle(13, "400", APP_COLORS.placeholder)],
   label: {
     width: "100%",
     padding: 16,
