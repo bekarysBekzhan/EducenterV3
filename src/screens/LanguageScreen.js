@@ -5,9 +5,10 @@ import { check } from '../assets/icons'
 import { APP_COLORS } from '../constans/constants'
 import { setFontStyle } from '../utils/utils'
 import { storeString } from '../storage/AsyncStorage'
-import { useFetching } from '../components/hooks/useFetching'
+import { useFetching } from '../hooks/useFetching'
 import SelectOption from '../components/SelectOption'
 import SectionView from '../components/view/SectionView'
+import { strings } from '../localization'
 
 const languages = [ { label: "Русский" , key: "ru"}, { label: "Қазақша", key: "kz" }, { label: "English", key: "en" } ]
 
@@ -26,7 +27,7 @@ const LanguageScreen = ({ navigation, route }) => {
     <UniversalView
       style={styles.container}
     >
-      <SectionView label={'Выберите язык'}/>
+      <SectionView label={strings['Выберите язык']}/>
       {
         languages.map((value, index) => (
           <SelectOption

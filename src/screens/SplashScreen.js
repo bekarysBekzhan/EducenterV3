@@ -8,6 +8,7 @@ import SimpleButton from '../components/button/SimpleButton'
 import OutlineButton from '../components/button/OutlineButton'
 import { ROUTE_NAMES } from '../components/navigation/routes'
 import FastImage from 'react-native-fast-image'
+import { strings } from '../localization'
 
 const SplashScreen = ({navigation, route}) => {
 
@@ -37,8 +38,8 @@ const SplashScreen = ({navigation, route}) => {
         <Text style={styles.description}>{settings?.description}</Text>
       </View>
       <View style={styles.section3}>
-        <SimpleButton text="Продолжить на русском" style={styles.simpleButton}/>
-        <OutlineButton text="Поменять язык" style={styles.outlineButton} onPress={changeLanguagePressed}/>
+        <SimpleButton text={strings['Продолжить на русском']} style={styles.simpleButton}/>
+        <OutlineButton text={strings['Поменять язык']} style={styles.outlineButton} onPress={changeLanguagePressed}/>
       </View>
       <View
         style={styles.section4}
