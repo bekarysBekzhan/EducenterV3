@@ -3,12 +3,11 @@ import React, { useEffect } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { useSettings } from '../components/context/Provider'
 import { setFontStyle } from '../utils/utils'
-import { APP_COLORS, WIDTH } from '../constans/constants'
+import { APP_COLORS } from '../constans/constants'
 import SimpleButton from '../components/button/SimpleButton'
 import OutlineButton from '../components/button/OutlineButton'
 import { ROUTE_NAMES } from '../components/navigation/routes'
 import FastImage from 'react-native-fast-image'
-import SearchButton from '../components/button/SearchButton'
 
 const SplashScreen = ({navigation, route}) => {
 
@@ -27,12 +26,10 @@ const SplashScreen = ({navigation, route}) => {
     <UniversalView
       style={styles.container}
     >
-
       <View style={styles.section1}/>
       <View
         style={styles.section2}
       >
-        <SearchButton/>
         <FastImage
           style={styles.logo}
           source={{ uri: settings?.logo }}
