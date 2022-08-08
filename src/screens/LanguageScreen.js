@@ -6,6 +6,7 @@ import { APP_COLORS } from '../constans/constants'
 import { setFontStyle } from '../utils/utils'
 import { storeString } from '../storage/AsyncStorage'
 import { useFetching } from '../components/hooks/useFetching'
+import SelectOption from '../components/SelectOption'
 
 const languages = [ { label: "Русский" , key: "ru"}, { label: "Қазақша", key: "kz" }, { label: "English", key: "en" } ]
 
@@ -31,20 +32,13 @@ const LanguageScreen = ({ navigation, route }) => {
       </View>
       {
         languages.map((value, index) => (
-          <TouchableOpacity
-            style={styles.label}
-            onPress={() => selectKeyPressed(value.key)}
-            activeOpacity={0.78}
+          <SelectOption
+            selectKeyPressed={selectKeyPressed}
+            value={value}
+            currentKey={currentKey}
+            isLoading={isLoading}
             key={index}
-            disabled={isLoading}
-          >
-            <Text style={styles.labelText}>{value.label}</Text>
-            <View
-              style={[styles.box, { backgroundColor: value.key === currentKey ? APP_COLORS.primary : "white" }]}
-            >
-              {check(1.3)}
-            </View>
-          </TouchableOpacity>
+          />
         ))
       }
     </UniversalView>
