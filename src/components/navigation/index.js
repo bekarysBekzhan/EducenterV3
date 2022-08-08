@@ -3,13 +3,14 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { APP_COLORS } from '../../constans/constants'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { useFetching } from '../hooks/useFetching'
+import { useFetching } from '../../hooks/useFetching'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { MobileSettingsService } from '../../services/API'
 import { useSettings } from '../context/Provider'
 import { ROUTES, ROUTE_NAMES } from "../navigation/routes"
 import UniversalView from '../view/UniversalView'
 import { getString } from '../../storage/AsyncStorage'
+import { strings } from '../../localization'
 
 const MainStack = createNativeStackNavigator()
 const SplashStack = createNativeStackNavigator()
@@ -21,6 +22,11 @@ const Navigation = () => {
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async() => {
     const language = await getString("language")
+    if (language) {
+      strings.setLanguage(language)
+    } else {
+      strings.setLanguage("ru")
+    }
     const isAuth = await getString("isAuth")
     const userToken = await getString("userToken")
     const response = await MobileSettingsService.fetchSettings()
