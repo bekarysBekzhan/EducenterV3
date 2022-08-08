@@ -1,23 +1,24 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { check } from '../assets/icons'
 import { APP_COLORS } from '../constans/constants'
 import { setFontStyle } from '../utils/utils'
 import { storeString } from '../storage/AsyncStorage'
+import { useFetching } from '../components/hooks/useFetching'
 
 const languages = [ { label: "Русский" , key: "ru"}, { label: "Қазақша", key: "kz" }, { label: "English", key: "en" } ]
 
 const LanguageScreen = ({ navigation, route }) => {
 
   const [ currentKey, setCurrentKey ] = useState("ru")
-
-  const selectKeyPressed = (key) => {
+  const [selectKeyPressed, isLoading, keyError] = useFetching(async(key) => {
+    console.log("key : " , key)
     if (currentKey !== key) {
+      await storeString("language", key)
       setCurrentKey(key)
-      // await storeString("language", key)
     }
-  }
+  })
 
   return (
     <UniversalView
@@ -34,6 +35,8 @@ const LanguageScreen = ({ navigation, route }) => {
             style={styles.label}
             onPress={() => selectKeyPressed(value.key)}
             activeOpacity={0.78}
+            key={index}
+            disabled={isLoading}
           >
             <Text style={styles.labelText}>{value.label}</Text>
             <View
