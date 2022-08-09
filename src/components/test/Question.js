@@ -44,8 +44,6 @@ const Question = ({
   const currentSetState = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState(null)
 
-  // useEffect(() => {console.log("question item : " , questionItem)}, []);
-
   const onSelect = (newIndex, setState) => {
     if (selectedIndex !== newIndex) {
 
