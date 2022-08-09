@@ -110,7 +110,7 @@ const BottomTabBar = ({
 
           const screen = <BottomTabStack.Screen name={route.name} component={route.component} key={index} 
             options={{ 
-              tabBarIcon: (focused) => {
+              tabBarIcon: ({ focused }) => {
                 return focused ? route.icon.active : route.icon.inactive
               }, 
               tabBarActiveTintColor: APP_COLORS.primary, 
