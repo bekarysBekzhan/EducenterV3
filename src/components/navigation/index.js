@@ -3,13 +3,15 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { APP_COLORS } from '../../constans/constants'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { useFetching } from '../hooks/useFetching'
+import { useFetching } from '../../hooks/useFetching'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { MobileSettingsService } from '../../services/API'
 import { useSettings } from '../context/Provider'
 import { ROUTES, ROUTE_NAMES } from "../navigation/routes"
 import UniversalView from '../view/UniversalView'
 import { getString } from '../../storage/AsyncStorage'
+import { strings } from '../../localization'
+import FastImage from 'react-native-fast-image'
 
 const MainStack = createNativeStackNavigator()
 const SplashStack = createNativeStackNavigator()
@@ -21,6 +23,13 @@ const Navigation = () => {
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async() => {
     const language = await getString("language")
+    if (language) {
+      console.log(language)
+      strings.setLanguage(language)
+    } else {
+      console.log("strings.setLanguage(ru)")
+      strings.setLanguage("ru")
+    }
     const isAuth = await getString("isAuth")
     const userToken = await getString("userToken")
     const response = await MobileSettingsService.fetchSettings()
@@ -80,37 +89,51 @@ const SplashNavigation = ({
     >
       {
         route?.params?.ROUTES.map((route, index) => (
-          <SplashStack.Screen name={route.name} component={route.component} key={index} options={{ headerShown: route.name === ROUTE_NAMES.language, headerTitle: route.name === ROUTE_NAMES.language ? "Поменять язык" : undefined }}/>
+          <SplashStack.Screen name={route.name} component={route.component} key={index} options={{ headerShown: route.name === ROUTE_NAMES.language, headerTitle: route.name === ROUTE_NAMES.language ? strings['Поменять язык'] : undefined }}/>
         ))
       }
     </SplashStack.Navigator>
   )
 }
 
+
 const BottomTabBar = ({
   route, navigation
 }) => {
+
+  const { settings } = useSettings()
+
   return(
     <BottomTabStack.Navigator>
       {
         route?.params?.ROUTES.map((route, index) => {
 
-          const screen = <BottomTabStack.Screen name={route.name} component={route.component} key={index}/>
+          const screen = <BottomTabStack.Screen name={route.name} component={route.component} key={index} 
+            options={{ 
+              tabBarIcon: (focused) => {
+                return focused ? route.icon.active : route.icon.inactive
+              }, 
+              tabBarActiveTintColor: APP_COLORS.primary, 
+              tabBarInactiveTintColor: APP_COLORS.placeholder, 
+              tabBarLabel: route.label, 
+              headerLeft: () => <FastImage source={{ uri: settings?.logo }} style={styles.logo}/>, 
+              headerTitle: route.label}}
+          />
 
           if (route.name === ROUTE_NAMES.coursesStack) {
-            if (data?.modules_enabled_courses) {
+            if (settings?.modules_enabled_courses) {
               return screen
             } else {
               return null
             }
           } else if (route.name === ROUTE_NAMES.testsStack) {
-            if (data?.modules_enabled_tests) {
+            if (settings?.modules_enabled_tests) {
               return screen
             } else {
               return null
             }
           } else if (route.name === ROUTE_NAMES.tasksStack) {
-            if (data?.modules_enabled_tasks) {
+            if (settings?.modules_enabled_tasks) {
               return screen
             } else {
               return null
@@ -130,6 +153,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  logo: {
+    width: 40,
+    height: 40,
+    borderRadius: 6
   }
 })
 

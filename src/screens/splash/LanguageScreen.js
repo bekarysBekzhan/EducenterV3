@@ -1,19 +1,20 @@
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
-import UniversalView from '../components/view/UniversalView'
-import { check } from '../assets/icons'
-import { APP_COLORS } from '../constans/constants'
-import { setFontStyle } from '../utils/utils'
-import { storeString } from '../storage/AsyncStorage'
-import { useFetching } from '../components/hooks/useFetching'
-import SelectOption from '../components/SelectOption'
-import SectionView from '../components/view/SectionView'
+import UniversalView from '../../components/view/UniversalView'
+import { check } from '../../assets/icons'
+import { APP_COLORS } from '../../constans/constants'
+import { setFontStyle } from '../../utils/utils'
+import { storeString } from '../../storage/AsyncStorage'
+import { useFetching } from '../../hooks/useFetching'
+import SelectOption from '../../components/SelectOption'
+import SectionView from '../../components/view/SectionView'
+import { strings } from '../../localization'
 
 const languages = [ { label: "Русский" , key: "ru"}, { label: "Қазақша", key: "kz" }, { label: "English", key: "en" } ]
 
 const LanguageScreen = ({ navigation, route }) => {
 
-  const [ currentKey, setCurrentKey ] = useState("ru")
+  const [ currentKey, setCurrentKey ] = useState(strings.getLanguage())
   const [selectKeyPressed, isLoading, keyError] = useFetching(async(key) => {
     console.log("key : " , key)
     if (currentKey !== key) {
@@ -26,7 +27,7 @@ const LanguageScreen = ({ navigation, route }) => {
     <UniversalView
       style={styles.container}
     >
-      <SectionView label={'Выберите язык'}/>
+      <SectionView label={strings['Выберите язык']}/>
       {
         languages.map((value, index) => (
           <SelectOption

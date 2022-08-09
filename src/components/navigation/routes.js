@@ -1,8 +1,16 @@
 import React from 'react';
 import { View } from 'react-native';
 import { SplashNavigation, BottomTabBar } from '.';
-import LanguageScreen from '../../screens/LanguageScreen';
-import SplashScreen from '../../screens/SplashScreen';
+import { coursesOFF, coursesON, myCoursesOFF, myCoursesON, profileOFF, profileON, tasksOFF, tasksON, testsOFF, testsON } from '../../assets/icons';
+import { strings } from '../../localization';
+import CoursesScreen from '../../screens/bottomtab/courses/CoursesScreen';
+import TestsScreen from "../../screens/bottomtab/tests/TestsScreen"
+import MyCoursesScreen from "../../screens/bottomtab/myCourses/MyCoursesScreen"
+import TasksScreen from "../../screens/bottomtab/tasks/TasksScreen"
+import ProfileScreen from "../../screens/bottomtab/profile/ProfileScreen"
+import LanguageScreen from '../../screens/splash/LanguageScreen';
+import SplashScreen from '../../screens/splash/SplashScreen';
+
 
 export const ROUTE_NAMES = {
   // MAIN STACK SCREENS
@@ -83,7 +91,12 @@ export const ROUTES = {
         ROUTES: [
           {
             name: ROUTE_NAMES.coursesStack,
-            component: <View/>,
+            icon: {
+              active: coursesON,
+              inactive: coursesOFF
+            },
+            label: strings.Курсы,
+            component: CoursesScreen,
             ROUTES: [
               {
                 name: ROUTE_NAMES.courses,
@@ -97,7 +110,12 @@ export const ROUTES = {
           },
           {
             name: ROUTE_NAMES.testsStack,
-            component: <View/>,
+            component: TestsScreen,
+            icon: {
+              active: testsON,
+              inactive: testsOFF
+            },
+            label: strings.Тесты, 
             ROUTES: [
               {
                 name: ROUTE_NAMES.tests,
@@ -111,7 +129,12 @@ export const ROUTES = {
           },
           {
             name: ROUTE_NAMES.myCoursesStack,
-            component: <View/>,
+            component: MyCoursesScreen,
+            icon: {
+              active: myCoursesON,
+              inactive: myCoursesOFF,
+            },
+            label: strings['Мои курсы'],
             ROUTES: [
               {
                 name: ROUTE_NAMES.myCoursesTopBar,
@@ -146,7 +169,12 @@ export const ROUTES = {
           },
           {
             name: ROUTE_NAMES.tasksStack,
-            component: <View/>,
+            component: TasksScreen,
+            icon: {
+              active: tasksON,
+              inactive: tasksOFF
+            },
+            label: strings.Задания,
             ROUTES: [
               {
                 name: ROUTE_NAMES.tasks,
@@ -160,7 +188,12 @@ export const ROUTES = {
           },
           {
             name: ROUTE_NAMES.menuStack,
-            component: <View/>,
+            component: ProfileScreen,
+            icon: {
+              active: profileON,
+              inactive: profileOFF
+            },
+            label: strings.Профиль,
             ROUTES: [
               {
                 name: ROUTE_NAMES.menu,
@@ -245,3 +278,8 @@ export const ROUTES = {
       }
     ],
   }
+
+
+export const BOTTOM_TAB_OPTIONS = () => {
+  
+}
