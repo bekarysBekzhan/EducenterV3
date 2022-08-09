@@ -2,16 +2,27 @@ import { useSettings } from "../components/context/Provider"
 import { URLS } from "../constans/constants"
 import { API_V2 } from "./axios"
 
+const requesToFailed = (url) => "Request to " + url + " failed!"
+
 class MobileSettingsService {
 
     static fetchSettings = async() => {
         try {
-            console.log("SETTINGS : ")
-            const response = await API_V2.get(URLS.mobileSettings) 
-            console.log(response.data)
+            const response = await API_V2.get(URLS.settings) 
             return response
-        } catch (error) {
-            console.log(error)
+        } catch (e) {
+            console.log(e)
+            console.log(requesToFailed(URLS.settings))
+        }
+    }
+
+    static fetchLanguages = async() => {
+        try {
+            const response = await API_V2.get(URLS.languages)
+            return response
+        } catch(e) {
+            console.log(e)
+            console.log(requesToFailed(URLS.languages))
         }
     }
 

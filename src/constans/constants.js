@@ -16,5 +16,6 @@ export const REQUEST_HEADERS = {
 }
 
 export const URLS = {
-  mobileSettings: "settings/mobile",
+  settings: "settings/mobile",
+  languages: "languages"
 }
