@@ -3,8 +3,14 @@ import { View } from 'react-native';
 import { SplashNavigation, BottomTabBar } from '.';
 import { coursesOFF, coursesON, myCoursesOFF, myCoursesON, profileOFF, profileON, tasksOFF, tasksON, testsOFF, testsON } from '../../assets/icons';
 import { strings } from '../../localization';
-import LanguageScreen from '../../screens/LanguageScreen';
-import SplashScreen from '../../screens/SplashScreen';
+import CoursesScreen from '../../screens/bottomtab/courses/CoursesScreen';
+import TestsScreen from "../../screens/bottomtab/tests/TestsScreen"
+import MyCoursesScreen from "../../screens/bottomtab/myCourses/MyCoursesScreen"
+import TasksScreen from "../../screens/bottomtab/tasks/TasksScreen"
+import ProfileScreen from "../../screens/bottomtab/profile/ProfileScreen"
+import LanguageScreen from '../../screens/splash/LanguageScreen';
+import SplashScreen from '../../screens/splash/SplashScreen';
+
 
 export const ROUTE_NAMES = {
   // MAIN STACK SCREENS
@@ -90,7 +96,7 @@ export const ROUTES = {
               inactive: coursesOFF
             },
             label: strings.Курсы,
-            component: <View/>,
+            component: CoursesScreen,
             ROUTES: [
               {
                 name: ROUTE_NAMES.courses,
@@ -104,7 +110,7 @@ export const ROUTES = {
           },
           {
             name: ROUTE_NAMES.testsStack,
-            component: <View/>,
+            component: TestsScreen,
             icon: {
               active: testsON,
               inactive: testsOFF
@@ -123,7 +129,7 @@ export const ROUTES = {
           },
           {
             name: ROUTE_NAMES.myCoursesStack,
-            component: <View/>,
+            component: MyCoursesScreen,
             icon: {
               active: myCoursesON,
               inactive: myCoursesOFF,
@@ -163,7 +169,7 @@ export const ROUTES = {
           },
           {
             name: ROUTE_NAMES.tasksStack,
-            component: <View/>,
+            component: TasksScreen,
             icon: {
               active: tasksON,
               inactive: tasksOFF
@@ -182,7 +188,7 @@ export const ROUTES = {
           },
           {
             name: ROUTE_NAMES.menuStack,
-            component: <View/>,
+            component: ProfileScreen,
             icon: {
               active: profileON,
               inactive: profileOFF
