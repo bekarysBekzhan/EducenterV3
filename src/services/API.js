@@ -9,6 +9,7 @@ class MobileSettingsService {
     static fetchSettings = async() => {
         try {
             const response = await API_V2.get(URLS.settings) 
+            console.log('settings : ' , response)
             return response
         } catch (e) {
             console.log(e)
