@@ -14,10 +14,6 @@ const SplashScreen = ({navigation, route}) => {
 
   const { settings } = useSettings()
 
-  useEffect(() => {
-    
-  }, [])
-
   const keepGoingPressed = () => {
     navigation.replace(ROUTE_NAMES.bottomTab)
   }
