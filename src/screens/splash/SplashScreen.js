@@ -1,14 +1,14 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React, { useEffect } from 'react'
-import UniversalView from '../components/view/UniversalView'
-import { useSettings } from '../components/context/Provider'
-import { setFontStyle } from '../utils/utils'
-import { APP_COLORS } from '../constans/constants'
-import SimpleButton from '../components/button/SimpleButton'
-import OutlineButton from '../components/button/OutlineButton'
-import { ROUTE_NAMES } from '../components/navigation/routes'
+import UniversalView from '../../components/view/UniversalView'
+import { useSettings } from '../../components/context/Provider'
+import { setFontStyle } from '../../utils/utils'
+import { APP_COLORS } from '../../constans/constants'
+import SimpleButton from '../../components/button/SimpleButton'
+import OutlineButton from '../../components/button/OutlineButton'
+import { ROUTE_NAMES } from '../../components/navigation/routes'
 import FastImage from 'react-native-fast-image'
-import { strings } from '../localization'
+import { strings } from '../../localization'
 
 const SplashScreen = ({navigation, route}) => {
 
@@ -17,6 +17,10 @@ const SplashScreen = ({navigation, route}) => {
   useEffect(() => {
     
   }, [])
+
+  const keepGoingPressed = () => {
+    navigation.replace(ROUTE_NAMES.bottomTab)
+  }
 
   const changeLanguagePressed = () => {
     console.log("changeLanguagePressed")
@@ -38,7 +42,7 @@ const SplashScreen = ({navigation, route}) => {
         <Text style={styles.description}>{settings?.description}</Text>
       </View>
       <View style={styles.section3}>
-        <SimpleButton text={strings['Продолжить на русском']} style={styles.simpleButton}/>
+        <SimpleButton text={strings['Продолжить на русском']} style={styles.simpleButton} onPress={keepGoingPressed}/>
         <OutlineButton text={strings['Поменять язык']} style={styles.outlineButton} onPress={changeLanguagePressed}/>
       </View>
       <View
