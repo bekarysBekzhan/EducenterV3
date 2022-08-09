@@ -1,6 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import { SplashNavigation, BottomTabBar } from '.';
+import { coursesOFF, coursesON, myCoursesOFF, myCoursesON, profileOFF, profileON, tasksOFF, tasksON, testsOFF, testsON } from '../../assets/icons';
+import { strings } from '../../localization';
 import LanguageScreen from '../../screens/LanguageScreen';
 import SplashScreen from '../../screens/SplashScreen';
 
@@ -83,6 +85,11 @@ export const ROUTES = {
         ROUTES: [
           {
             name: ROUTE_NAMES.coursesStack,
+            icon: {
+              active: coursesON,
+              inactive: coursesOFF
+            },
+            label: strings.Курсы,
             component: <View/>,
             ROUTES: [
               {
@@ -98,6 +105,11 @@ export const ROUTES = {
           {
             name: ROUTE_NAMES.testsStack,
             component: <View/>,
+            icon: {
+              active: testsON,
+              inactive: testsOFF
+            },
+            label: strings.Тесты, 
             ROUTES: [
               {
                 name: ROUTE_NAMES.tests,
@@ -112,6 +124,11 @@ export const ROUTES = {
           {
             name: ROUTE_NAMES.myCoursesStack,
             component: <View/>,
+            icon: {
+              active: myCoursesON,
+              inactive: myCoursesOFF,
+            },
+            label: strings['Мои курсы'],
             ROUTES: [
               {
                 name: ROUTE_NAMES.myCoursesTopBar,
@@ -147,6 +164,11 @@ export const ROUTES = {
           {
             name: ROUTE_NAMES.tasksStack,
             component: <View/>,
+            icon: {
+              active: tasksON,
+              inactive: tasksOFF
+            },
+            label: strings.Задания,
             ROUTES: [
               {
                 name: ROUTE_NAMES.tasks,
@@ -161,6 +183,11 @@ export const ROUTES = {
           {
             name: ROUTE_NAMES.menuStack,
             component: <View/>,
+            icon: {
+              active: profileON,
+              inactive: profileOFF
+            },
+            label: strings.Профиль,
             ROUTES: [
               {
                 name: ROUTE_NAMES.menu,
@@ -245,3 +272,8 @@ export const ROUTES = {
       }
     ],
   }
+
+
+export const BOTTOM_TAB_OPTIONS = () => {
+  
+}

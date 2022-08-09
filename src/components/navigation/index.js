@@ -101,7 +101,7 @@ const BottomTabBar = ({
       {
         route?.params?.ROUTES.map((route, index) => {
 
-          const screen = <BottomTabStack.Screen name={route.name} component={route.component} key={index}/>
+          const screen = <BottomTabStack.Screen name={route.name} component={route.component} key={index} options={{ tabbarc }}/>
 
           if (route.name === ROUTE_NAMES.coursesStack) {
             if (data?.modules_enabled_courses) {
