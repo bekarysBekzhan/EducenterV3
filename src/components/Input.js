@@ -15,6 +15,8 @@ const Input = ({
     mask,
     keyboardType='phone-pad',
     right,
+    value = "",
+    onChangeText,
     left,
     extraStyle,
     extraInputStyle,
@@ -42,6 +44,8 @@ const Input = ({
                 placeholderTextColor={APP_COLORS.placeholder}
                 placeholder={placeholder}
                 style={memoInputStyles}
+                value={value}
+                onChangeText={onChangeText}
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}
                 {...props}
