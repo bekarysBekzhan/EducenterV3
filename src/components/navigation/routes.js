@@ -1,6 +1,8 @@
 export const ROUTE_NAMES = {
   // MAIN STACK SCREENS
   search: "Search",
+  filter: "Filter",
+  selectCategory: "SelectCategory",
   courseReview: "CourseReview",
   courseLeaveReview: "CourseLeaveReview",
   courseFinish: "CourseFinish",

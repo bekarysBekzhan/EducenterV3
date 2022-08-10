@@ -22,6 +22,8 @@ import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen'
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen'
 import { setFontStyle } from '../../utils/utils'
 import SearchScreen from '../../screens/SearchScreen'
+import FilterScreen from '../../screens/FilterScreen'
+import SelectCategoryScreen from '../../screens/SelectCategoryScreen'
 
 const MainStack = createNativeStackNavigator()
 const SplashStack = createNativeStackNavigator()
@@ -42,6 +44,14 @@ const Navigation = () => {
     {
       name: ROUTE_NAMES.search,
       component: SearchScreen
+    },
+    {
+      name: ROUTE_NAMES.filter,
+      component: FilterScreen
+    },
+    {
+      name: ROUTE_NAMES.selectCategory,
+      component: SelectCategoryScreen
     }
   ]
   const PRIVATE = [
