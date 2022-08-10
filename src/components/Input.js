@@ -10,7 +10,8 @@ import { setFontStyle } from '../utils/utils'
 import { useState } from 'react'
 
 const Input = ({
-    placeholder,
+    placeholder = "",
+    _focus = false,
     mask,
     keyboardType='phone-pad',
     right,
@@ -20,9 +21,9 @@ const Input = ({
     ...props
 }) => {
 
-    const [focus, setFocus] = useState(false)
+    const [focus, setFocus] = useState(_focus)
     
-    const memoStyles = useMemo(() => [styles.container, extraStyle, focus ? styles.focus : {}], [focus])
+    const memoStyles = useMemo(() => [styles.container, focus ? styles.focus : {}, extraStyle], [focus])
     const memoInputStyles = useMemo(() => [styles.input, extraInputStyle], [])
 
     useEffect(() => {
@@ -67,10 +68,8 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: APP_COLORS.input,
         borderRadius: 8,
-        height: 48,
         justifyContent: 'center',
         paddingHorizontal: 12,
-        marginBottom: 8,
         borderWidth: 1,
         borderColor: APP_COLORS.input
     },
