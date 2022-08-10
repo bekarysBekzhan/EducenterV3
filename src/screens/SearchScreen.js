@@ -9,7 +9,6 @@ import { APP_COLORS, WIDTH } from '../constans/constants'
 import { setFontStyle } from '../utils/utils'
 import SectionView from '../components/view/SectionView'
 import { useState } from 'react'
-import { useEffect } from 'react'
 import { FlatList } from 'react-native-gesture-handler'
 import CourseRow from '../components/CourseRow'
 import { CourseService } from '../services/API'
@@ -21,9 +20,20 @@ const SearchScreen = (props) => {
     const [page, setPage] = useState(1)
 
     const renderItem = ({item, index}) => {
-        console.log(item)
         return(
-            <CourseRow/>
+            <View
+                style={styles.item}
+            >
+                <CourseRow 
+                    title={item?.title}
+                    poster={item?.poster}
+                    reviewCount={item?.reviews_count}
+                    rating={item?.rating}
+                    category_name={item?.category_name}
+                    price={item?.price}
+                    old_price={item?.old_price}
+                />
+            </View>
         )
     }
 
@@ -39,6 +49,7 @@ const SearchScreen = (props) => {
                             data={data}
                             renderItem={renderItem}
                             keyExtractor={(_, index) => index.toString()}
+                            
                         />
                         :
                         data
@@ -55,12 +66,13 @@ const SearchBar = ({ navigation, setIsEmpty, setData, page }) => {
     const onChangeText = async(text) => {
         setValue(text)
         if (text === '') {
+            console.log("empty")
             setIsEmpty(true)
             setData(null)
         } else {
             setIsEmpty(false)
-            const response = await CourseService.fetchCourses(text, page, price, categoryID)
-            setData(response.data)
+            const response = await CourseService.fetchCourses(text, page)
+            setData(response.data?.data)
         }
     }
 
@@ -111,6 +123,12 @@ const SearchBar = ({ navigation, setIsEmpty, setData, page }) => {
 }
 
 const styles = StyleSheet.create({
+    listContainer: {
+
+    },
+    item: {
+        padding: 16
+    },
     searchBar: {
         width: WIDTH,
         justifyContent: 'space-between',

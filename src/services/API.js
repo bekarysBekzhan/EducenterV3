@@ -47,6 +47,7 @@ class CourseService {
                 params.category_id = categoryID
             }
             const response = await API_V2.get(URLS.courses, {params: params})
+            console.log("Courses : " , response)
             return response
         } catch(e) {
             console.log(e)
