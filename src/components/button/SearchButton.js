@@ -2,13 +2,15 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import { search } from '../../assets/icons'
 import { setFontStyle } from '../../utils/utils'
-import { APP_COLORS } from '../../constans/constants'
+import { APP_COLORS, WIDTH } from '../../constans/constants'
+import { ROUTE_NAMES } from '../navigation/routes'
 
-const SearchButton = () => {
+const SearchButton = (props) => {
   return (
     <TouchableOpacity
         style={styles.container}
         activeOpacity={0.8}
+        onPress={() => props.navigation.navigate(ROUTE_NAMES.search)}
     >
         {search()}
         <Text style={styles.text}>Поиск курсов и тестов</Text>
@@ -18,8 +20,9 @@ const SearchButton = () => {
 
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
+        width: WIDTH - 32,
         padding: 14,
+        margin: 16,
         paddingVertical: 12,
         borderRadius: 14,
         backgroundColor: APP_COLORS.input,
