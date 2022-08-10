@@ -21,30 +21,34 @@ import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen'
 import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen'
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen'
 import { setFontStyle } from '../../utils/utils'
+import SearchScreen from '../../screens/SearchScreen'
 
 const MainStack = createNativeStackNavigator()
 const SplashStack = createNativeStackNavigator()
 const BottomTabStack = createBottomTabNavigator()
 
-const GENERAL = [
-  {
-    name: ROUTE_NAMES.splashStack,
-    component: SplashNavigation,
-  }
-]
-const PUBLIC = [
-  {
-    name: ROUTE_NAMES.bottomTab,
-    component: BottomTabBar
-  }
-]
-const PRIVATE = [
-  {
-
-  }
-].concat(PUBLIC)
 
 const Navigation = () => {
+
+  const GENERAL = [
+    {
+      name: ROUTE_NAMES.splashStack,
+      component: SplashNavigation,
+    },
+    {
+      name: ROUTE_NAMES.bottomTab,
+      component: BottomTabBar
+    },
+    {
+      name: ROUTE_NAMES.search,
+      component: SearchScreen
+    }
+  ]
+  const PRIVATE = [
+    {
+  
+    }
+  ]
 
   const { setSettings, setUserToken, setIsAuth, isAuth } = useSettings()
 
@@ -85,7 +89,7 @@ const Navigation = () => {
         >
           {
             GENERAL.map((route, index) => (
-              <MainStack.Screen name={route.name} component={SplashNavigation} key={index}/>
+              <MainStack.Screen name={route.name} component={route.component} key={index}/>
             ))
           }
           {
@@ -95,9 +99,7 @@ const Navigation = () => {
               <MainStack.Screen name={route.name} component={route.component} key={index}/>
             ))
             :
-            PUBLIC.map((route, index) => (
-              <MainStack.Screen name={route.name} component={BottomTabBar} key={index}/>
-            ))
+            null
           }
         </MainStack.Navigator>
       </NavigationContainer>
@@ -120,7 +122,7 @@ const SplashNavigation = (props) => {
   return (
     <SplashStack.Navigator>
       {
-        SPLASH.map((route, index) => (
+         SPLASH.map((route, index) => (
           <SplashStack.Screen name={route.name} component={route.component} key={index} options={{ headerShown: route.name === ROUTE_NAMES.language, headerTitle: route.name === ROUTE_NAMES.language ? strings['Поменять язык'] : undefined }}/>
         ))
       }
