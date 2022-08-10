@@ -29,13 +29,32 @@ class MobileSettingsService {
 
 }
 
-class CoursesService {
+class CourseService {
 
-    static fetchData = async() => {
-
+    static fetchCourses = async(query = '', page = 1, price = undefined, categoryID = undefined) => {
+        try {
+            let params = {
+                filter: true,
+                page: page
+            }
+            if (query.length > 0) {
+                params.query = query
+            }
+            if (price) {
+                params.price = price
+            }
+            if (categoryID) {
+                params.category_id = categoryID
+            }
+            const response = await API_V2.get(URLS.courses, {params: params})
+            return response
+        } catch(e) {
+            console.log(e)
+            console.log(requesToFailed(URLS.courses))
+        }
     }
 }
 
 
-export { MobileSettingsService, CoursesService}
+export { MobileSettingsService, CourseService}
 

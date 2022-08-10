@@ -17,5 +17,6 @@ export const REQUEST_HEADERS = {
 
 export const URLS = {
   settings: "settings/mobile",
-  languages: "languages"
+  languages: "languages",
+  courses: "courses"
 }

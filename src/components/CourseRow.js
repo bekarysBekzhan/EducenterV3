@@ -7,7 +7,16 @@ import { APP_COLORS } from '../constans/constants'
 import Price from './Price'
 import ItemRating from './ItemRating'
 
-const CourseRow = ({poster, title, category_name, price, old_price, rating, reviewCount, onPress}) => {
+const CourseRow = ({
+    poster, 
+    title, 
+    category_name, 
+    price, 
+    old_price, 
+    rating, 
+    reviewCount, 
+    onPress
+}) => {
   return (
     <TouchableOpacity
         style={styles.container}

@@ -12,14 +12,16 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { FlatList } from 'react-native-gesture-handler'
 import CourseRow from '../components/CourseRow'
+import { CourseService } from '../services/API'
 
 const SearchScreen = (props) => {
 
     const [isEmpty, setIsEmpty] = useState(true)
     const [data, setData] = useState(null)
+    const [page, setPage] = useState(1)
 
-
-    const renderItem = () => {
+    const renderItem = ({item, index}) => {
+        console.log(item)
         return(
             <CourseRow/>
         )
@@ -28,7 +30,7 @@ const SearchScreen = (props) => {
     return (
             <UniversalView>
                 <SafeAreaView>
-                    <SearchBar {...props} setIsEmpty={setIsEmpty}/>
+                    <SearchBar {...props} setIsEmpty={setIsEmpty} setData={setData} page={page}/>
                     <SectionView label={isEmpty ? strings['История поиска'] : strings.Курсы}/>
                     {
                         data !== null
@@ -46,21 +48,24 @@ const SearchScreen = (props) => {
     )
 }
 
-const SearchBar = (props) => {
+const SearchBar = ({ navigation, setIsEmpty, setData, page }) => {
 
     const [value, setValue] = useState("")
 
-    const onChangeText = (text) => {
-        if (text === '') {
-            props.setIsEmpty(true)
-        } else {
-            props.setIsEmpty(false)
-        }
+    const onChangeText = async(text) => {
         setValue(text)
+        if (text === '') {
+            setIsEmpty(true)
+            setData(null)
+        } else {
+            setIsEmpty(false)
+            const response = await CourseService.fetchCourses(text, page, price, categoryID)
+            setData(response.data)
+        }
     }
 
     const clearTapped = () => {
-        props.setIsEmpty(true)
+        setIsEmpty(true)
         setValue("")
     }
     
@@ -69,7 +74,7 @@ const SearchBar = (props) => {
             style={styles.searchBar}
         >
             <TouchableOpacity
-                onPress={() => props.navigation.goBack()}
+                onPress={() => navigation.goBack()}
                 activeOpacity={0.8}
             >
                 {x(16, APP_COLORS.placeholder)}
