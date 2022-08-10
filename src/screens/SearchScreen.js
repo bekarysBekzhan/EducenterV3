@@ -8,20 +8,61 @@ import { strings } from '../localization'
 import { APP_COLORS, WIDTH } from '../constans/constants'
 import { setFontStyle } from '../utils/utils'
 import SectionView from '../components/view/SectionView'
+import { useState } from 'react'
+import { useEffect } from 'react'
+import { FlatList } from 'react-native-gesture-handler'
+import CourseRow from '../components/CourseRow'
 
 const SearchScreen = (props) => {
-  return (
-        <UniversalView>
-            <SafeAreaView>
-                <SearchBar {...props}/>
-                <SectionView label={strings['История поиска']}/>
-            </SafeAreaView>
-        </UniversalView>
-  )
+
+    const [isEmpty, setIsEmpty] = useState(true)
+    const [data, setData] = useState(null)
+
+
+    const renderItem = () => {
+        return(
+            <CourseRow/>
+        )
+    }
+
+    return (
+            <UniversalView>
+                <SafeAreaView>
+                    <SearchBar {...props} setIsEmpty={setIsEmpty}/>
+                    <SectionView label={isEmpty ? strings['История поиска'] : strings.Курсы}/>
+                    {
+                        data !== null
+                        ?
+                        <FlatList
+                            data={data}
+                            renderItem={renderItem}
+                            keyExtractor={(_, index) => index.toString()}
+                        />
+                        :
+                        data
+                    }
+                </SafeAreaView>
+            </UniversalView>
+    )
 }
 
 const SearchBar = (props) => {
 
+    const [value, setValue] = useState("")
+
+    const onChangeText = (text) => {
+        if (text === '') {
+            props.setIsEmpty(true)
+        } else {
+            props.setIsEmpty(false)
+        }
+        setValue(text)
+    }
+
+    const clearTapped = () => {
+        props.setIsEmpty(true)
+        setValue("")
+    }
     
     return(
         <RowView
@@ -37,19 +78,21 @@ const SearchBar = (props) => {
                 _focus={true}
                 placeholder={strings['Поиск курсов и тестов']}
                 left={
-                <TouchableOpacity
+                <View
                     style={styles.searchIcon}
-                    activeOpacity={0.8}
                 >
                     {search("#000")}
-                </TouchableOpacity>}
+                </View>}
                 right={
                     <TouchableOpacity
                         activeOpacity={0.8}
+                        onPress={clearTapped}
                     >
                         {clear()}
                     </TouchableOpacity>
                 }
+                value={value}
+                onChangeText={onChangeText}
                 extraStyle={styles.inputContainer}
                 extraInputStyle={styles.input}
             />
@@ -75,10 +118,11 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         padding: 14,
         paddingVertical: 12,
-        borderRadius: 16
+        borderRadius: 16,
+        marginHorizontal: 16
     },
     input: [setFontStyle(15, "400"), {
-        // marginLeft: 15
+
     }],
     searchIcon: {
         marginRight: 10
