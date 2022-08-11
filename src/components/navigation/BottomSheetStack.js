@@ -21,10 +21,11 @@ const BottomSheetStack = () => {
     ]
 
     return (
-        <BottomSheet.Navigator>
+        <BottomSheet.Navigator
+        >
             {
                 SCREENS.map((route, index) => (
-                    <BottomSheet.Screen name={route.name} component={route.component}/>
+                    <BottomSheet.Screen name={route.name} component={route.component} key={index}/>
                 ))
             }
         </BottomSheet.Navigator>

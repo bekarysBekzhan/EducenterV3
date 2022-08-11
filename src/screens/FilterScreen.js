@@ -1,12 +1,26 @@
-import { View, Text } from 'react-native'
+import { BottomSheetView } from '@gorhom/bottom-sheet'
 import React from 'react'
+import { StyleSheet } from 'react-native'
+import UniversalView from '../components/view/UniversalView'
 
-const FilterScreen = () => {
+const FilterScreen = ({ navigatiom, route }) => {
+
+
+  console.log("FilterScreen")
+  
   return (
-    <View>
-      <Text>Filter</Text>
-    </View>
+    <BottomSheetView
+      style={styles.container}
+    >
+
+    </BottomSheetView>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+})
 
 export default FilterScreen

@@ -12,12 +12,28 @@ import { useState } from 'react'
 import { FlatList } from 'react-native-gesture-handler'
 import CourseRow from '../components/CourseRow'
 import { CourseService } from '../services/API'
+import { ROUTE_NAMES } from '../components/navigation/routes'
+import BottomSheet from '@gorhom/bottom-sheet'
+import BottomSheetStack from '../components/navigation/BottomSheetStack'
+import { useRef } from 'react'
+import { useMemo } from 'react'
+import { useCallback } from 'react'
 
 const SearchScreen = (props) => {
 
     const [isEmpty, setIsEmpty] = useState(true)
     const [data, setData] = useState(null)
     const [page, setPage] = useState(1)
+    const [ isFilter, setIsFilter] = useState(false)
+    
+    const bottomSheetRef = useRef(null)
+    const snapPoints = useMemo(() => ["25%", "85%"], [])
+    const handleSheetChanges = useCallback((index) => {
+        console.log("handleSheetChanges : " , index)
+        if (index === -1) {
+            setIsEmpty(false)
+        }
+    }, []);
 
     const renderItem = ({item, index}) => {
         return(
@@ -39,8 +55,8 @@ const SearchScreen = (props) => {
 
     return (
             <UniversalView>
-                <SafeAreaView>
-                    <SearchBar {...props} setIsEmpty={setIsEmpty} setData={setData} page={page}/>
+                <SafeAreaView style={{flex:1}}>
+                    <SearchBar {...props} setIsEmpty={setIsEmpty} setData={setData} page={page} setIsFilter={setIsFilter}/>
                     <SectionView label={isEmpty ? strings['История поиска'] : strings.Курсы}/>
                     {
                         data !== null
@@ -54,12 +70,27 @@ const SearchScreen = (props) => {
                         :
                         data
                     }
+                    {
+                        isFilter
+                        ?
+                        <BottomSheet
+                            ref={bottomSheetRef}
+                            snapPoints={snapPoints}
+                            index={0}
+                            onChange={handleSheetChanges}
+                            enablePanDownToClose
+                        >
+                            <BottomSheetStack/>
+                        </BottomSheet>
+                        :
+                        null
+                    }
                 </SafeAreaView>
             </UniversalView>
     )
 }
 
-const SearchBar = ({ navigation, setIsEmpty, setData, page }) => {
+const SearchBar = ({ navigation, setIsEmpty, setData, page, setIsFilter }) => {
 
     const [value, setValue] = useState("")
 
@@ -115,6 +146,7 @@ const SearchBar = ({ navigation, setIsEmpty, setData, page }) => {
             />
             <TouchableOpacity
                 activeOpacity={0.8}
+                onPress={() => setIsFilter(true)}
             >
                 {filter}
             </TouchableOpacity>

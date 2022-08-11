@@ -18,10 +18,10 @@ const SelectOption = ({selectKeyPressed, isLoading = false, value, currentKey}) 
           styles.box,
           {
             backgroundColor:
-              value.key === currentKey ? APP_COLORS.primary : 'white',
+              value.key === currentKey ? APP_COLORS.primary : APP_COLORS.input,
           },
         ]}>
-        {check(1.3)}
+        {check(1.3, value.key === currentKey ? "white" : APP_COLORS.input )}
       </View>
     </TouchableOpacity>
   );
