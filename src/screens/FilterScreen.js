@@ -12,12 +12,14 @@ import { strings } from '../localization'
 const FilterScreen = ({ navigation, route }) => {
 
   console.log("FilterScreen : " , route.params)
+  const [selectedCategory, setSelectedCategory] = useState(route.params?.category?.name)
 
   const renderFilter = ({ item, index }) => {
     return(
       <NavButtonRow
         title={item.title}
-        onPress={() => navigation.navigate(ROUTE_NAMES.selectCategory, { data: item.data })}
+        selectedCategory={selectedCategory}
+        onPress={() => navigation.navigate(ROUTE_NAMES.selectCategory, { data: item.data, setSelectedCategory: setSelectedCategory })}
         style={styles.navButton}
       />
     )
@@ -35,6 +37,7 @@ const FilterScreen = ({ navigation, route }) => {
           sort={route.params.sort}
           setSort={route.params.setSort}
           setCategory={route.params.setCategory}
+          setSelectedCategory={setSelectedCategory}
         />}
         keyExtractor={(_, index) => index.toString()}
       />
@@ -42,7 +45,7 @@ const FilterScreen = ({ navigation, route }) => {
   )
 }
 
-const Footer = ({ options, sort, setSort, setCategory }) => {
+const Footer = ({ options, sort, setSort, setCategory, setSelectedCategory }) => {
 
   const [currentKey, setCurrentKey] = useState(sort)
 
@@ -55,6 +58,7 @@ const Footer = ({ options, sort, setSort, setCategory }) => {
     setCurrentKey(null)
     setSort(null)
     setCategory(null)
+    setSelectedCategory(null)
   }
 
   return(
@@ -63,7 +67,9 @@ const Footer = ({ options, sort, setSort, setCategory }) => {
       {
         options.map((o, index) => (
           <SelectOption
-            value={o}
+            value={o.key}
+            _key={o.key}
+            label={o.label}
             key={index}
             currentKey={currentKey}
             selectKeyPressed={selectKeyPressed}
