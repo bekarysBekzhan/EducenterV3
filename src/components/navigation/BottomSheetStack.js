@@ -8,29 +8,40 @@ import { strings } from '../../localization'
 
 const BottomSheet = createNativeStackNavigator() 
 
-const BottomSheetStack = ({ setSort, setCategory, filterConfigs }) => {
+const BottomSheetStack = ({ sort, category, setSort, setCategory, filterConfigs }) => {
 
     const SCREENS = [
         {
             name: ROUTE_NAMES.filter,
             component: FilterScreen,
-            setState: setSort,
-            label: strings.Фильтр
+            title: strings.Фильтр
         },
         {
             name: ROUTE_NAMES.selectCategory,
             component: SelectCategoryScreen,
-            setState: setCategory,
-            label: strings['Выберите категорию']
+            title: strings['Выберите категорию']
         }
     ]
 
     return (
-        <BottomSheet.Navigator
-        >
+        <BottomSheet.Navigator>
             {
                 SCREENS.map((route, index) => (
-                    <BottomSheet.Screen name={route.name} component={route.component} key={index} initialParams={{ setSort: route?.setState, setCategory: route?.setState, filterConfigs: filterConfigs }} options={{ headerTitle: route.label }}/>
+                    <BottomSheet.Screen 
+                        name={route.name} 
+                        component={route.component} 
+                        key={index} 
+                        initialParams={{ 
+                            sort: sort,
+                            category: category,
+                            setSort: setSort,
+                            setCategory: setCategory, 
+                            filterConfigs: filterConfigs 
+                        }} 
+                        options={{ 
+                            headerTitle: route.title 
+                        }}
+                    />
                 ))
             }
         </BottomSheet.Navigator>

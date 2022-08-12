@@ -64,12 +64,12 @@ const SearchScreen = props => {
     sort: {
       options: [
         {
-          key: strings['По убыванию цены'],
-          value: "desc"
+          key: "desc",
+          label: strings['По убыванию цены']
         },
         {
-          key: strings['По повышению цены'],
-          value: "asc"
+          key: "asc",
+          label: strings['По повышению цены']
         }
       ]
     }
@@ -133,7 +133,13 @@ const SearchScreen = props => {
             enablePanDownToClose
             backdropComponent={renderBackdrop}
           >
-            <BottomSheetStack setSort={setSort} setCategory={setCategory} filterConfigs={filterConfigs}/>
+            <BottomSheetStack
+              sort={sort}
+              category={category}
+              setSort={setSort} 
+              setCategory={setCategory} 
+              filterConfigs={filterConfigs}
+            />
           </BottomSheet>
         ) : null}
       </SafeAreaView>
