@@ -19,6 +19,7 @@ const LanguageScreen = ({ navigation, route }) => {
     console.log("key : " , key)
     if (currentKey !== key) {
       await storeString("language", key)
+      strings.setLanguage(key)
       setCurrentKey(key)
     }
   })
@@ -32,7 +33,9 @@ const LanguageScreen = ({ navigation, route }) => {
         languages.map((value, index) => (
           <SelectOption
             selectKeyPressed={selectKeyPressed}
-            value={value}
+            value={value.key}
+            _key={value.key}
+            label={value.label}
             currentKey={currentKey}
             isLoading={isLoading}
             key={index}

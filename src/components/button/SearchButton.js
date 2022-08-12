@@ -4,6 +4,7 @@ import { search } from '../../assets/icons'
 import { setFontStyle } from '../../utils/utils'
 import { APP_COLORS, WIDTH } from '../../constans/constants'
 import { ROUTE_NAMES } from '../navigation/routes'
+import { strings } from '../../localization'
 
 const SearchButton = (props) => {
   return (
@@ -13,7 +14,7 @@ const SearchButton = (props) => {
         onPress={() => props.navigation.navigate(ROUTE_NAMES.search)}
     >
         {search()}
-        <Text style={styles.text}>Поиск курсов и тестов</Text>
+        <Text style={styles.text}>{strings['Поиск курсов и тестов']}</Text>
     </TouchableOpacity>
   )
 }

@@ -46,6 +46,7 @@ const Input = ({
                 style={memoInputStyles}
                 value={value}
                 onChangeText={onChangeText}
+                autoFocus={focus}
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}
                 {...props}
@@ -57,6 +58,7 @@ const Input = ({
                 style={memoInputStyles}
                 type='custom'
                 options={{ mask: mask }}
+                autoFocus={focus}
                 keyboardType={keyboardType}
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}

@@ -2,10 +2,12 @@ import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 import React, { useMemo } from 'react';
 import { iconNext } from '../../assets/icons';
 import { setFontStyle } from '../../utils/utils';
+import { APP_COLORS } from '../../constans/constants';
 
 const NavButtonRow = ({
     leftIcon,
     title,
+    selectedCategory,
     titleStyle,
     style,
     onPress = () => undefined,
@@ -21,6 +23,13 @@ const NavButtonRow = ({
             {...props}>
             {leftIcon}
             <Text style={titleMemoStyle}>{title}</Text>
+            {
+                selectedCategory
+                ?
+                <Text style={styles.selectedCategory}>{selectedCategory}</Text>
+                :
+                null
+            }
             {iconNext}
         </TouchableOpacity>
     );
@@ -32,6 +41,7 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         alignItems: 'center',
+        // justifyContent: "space-between",
         height: 48,
         borderBottomWidth: 0.5,
         borderBottomColor: 'rgba(0, 0, 0, 0.1)',
@@ -41,5 +51,8 @@ const styles = StyleSheet.create({
         flex: 1,
         marginLeft: 16,
         ...setFontStyle(17, '400', "#111621")
+    },
+    selectedCategory: {
+        ...setFontStyle(14, "400", APP_COLORS.placeholder)
     }
 });

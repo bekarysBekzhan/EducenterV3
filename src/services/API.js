@@ -47,10 +47,22 @@ class CourseService {
                 params.category_id = categoryID
             }
             const response = await API_V2.get(URLS.courses, {params: params})
+            console.log("Courses : " , response)
             return response
         } catch(e) {
             console.log(e)
             console.log(requesToFailed(URLS.courses))
+        }
+    }
+
+    static fetchCategories = async() => {
+        try {
+            const response = await API_V2.get(URLS.categories)
+            console.log("CATEGORIES: " , response)
+            return response
+        } catch(e) {
+            console.log(e)
+            console.log(requesToFailed(URLS.categories))
         }
     }
 }
