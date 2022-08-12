@@ -58,6 +58,7 @@ class CourseService {
     static fetchCategories = async() => {
         try {
             const response = await API_V2.get(URLS.categories)
+            console.log("CATEGORIES: " , response)
             return response
         } catch(e) {
             console.log(e)

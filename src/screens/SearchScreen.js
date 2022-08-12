@@ -28,31 +28,41 @@ import { useEffect } from 'react';
 
 const SearchScreen = props => {
 
-  const [isEmpty, setIsEmpty] = useState(true);
-  const [data, setData] = useState(null);
+  const [value, setValue] = useState('');
+  const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
+  const [lastPage, setLastPage] = useState(null)
   const [isFilter, setIsFilter] = useState(false);
   const [sort, setSort] = useState(null);
   const [category, setCategory] = useState(null);
   const [categories, setCategories] = useState(null)
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ['25%', '40%', '50%', "60%"], []);
+
+  console.log("data : " , data)
+
   const [fetchCategories, isLoading, categoriesError] = useFetching(async() => {
     const response = await CourseService.fetchCategories()
     setCategories(response.data?.data)
-    console.log("categories : " , response.data?.data)
   })
 
   useEffect(() => {
     fetchCategories()
   }, [] )
 
-  const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['25%', '40%', '50%', "60%"], []);
-  const handleSheetChanges = useCallback(index => {
-    console.log('handleSheetChanges : ', index);
-    if (index === -1) {
-      setIsFilter(false);
+  useEffect(() => {
+    if (value === '') {
+      setData([]);
+    } else {
+      fetchInitialPage()
     }
-  }, []);
+  }, [value])
+
+  useEffect(() => {
+    if(page !== 1) {
+      fetchNextPage()
+    }
+  }, [page])
 
   const filterConfigs = {
     filters: [
@@ -102,27 +112,79 @@ const SearchScreen = props => {
     [],
   );
 
+  const onChangeText = async text => {
+    console.log("onChangeText")
+    setValue(text);
+  };
+
+  const clearTapped = () => {
+    setValue('');
+  };
+
+  const fetchInitialPage = async() => {
+    const response = await CourseService.fetchCourses(value, 1, sort, category);
+    setData(response.data?.data)
+    setLastPage(response.data?.last_page)
+  }
+  const fetchNextPage = async() => {
+    const response = await CourseService.fetchCourses(value, page, sort, category);
+    setData(data.concat(response.data?.data))
+  }
+
+  const onEndReached = () => {
+    if (page < lastPage) {
+      setPage(prev => prev + 1)
+    }
+  }
+
+  const handleSheetChanges = useCallback(index => {
+    console.log('handleSheetChanges : ', index);
+    if (index === -1) {
+      setIsFilter(false);
+    }
+  }, []);
+
   return (
     <UniversalView>
       <SafeAreaView style={{flex: 1}}>
-        <SearchBar
-          {...props}
-          setIsEmpty={setIsEmpty}
-          setData={setData}
-          page={page}
-          setIsFilter={setIsFilter}
-        />
+        <RowView style={styles.searchBar}>
+          <TouchableOpacity onPress={() => props.navigation.goBack()} activeOpacity={0.8}>
+            {x(16, APP_COLORS.placeholder)}
+          </TouchableOpacity>
+          <Input
+            _focus={true}
+            placeholder={strings['Поиск курсов и тестов']}
+            left={<View style={styles.searchIcon}>{search('#000')}</View>}
+            right={
+              <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
+                {clear()}
+              </TouchableOpacity>
+            }
+            value={value}
+            onChangeText={onChangeText}
+            extraStyle={styles.inputContainer}
+            extraInputStyle={styles.input}
+          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              setIsFilter(true);
+            }}>
+            {filter}
+          </TouchableOpacity>
+        </RowView>
         <SectionView
-          label={isEmpty ? strings['История поиска'] : strings.Курсы}
+          label={value.length === 0 ? strings['История поиска'] : strings.Курсы}
         />
-        {data !== null ? (
+        {data.length === 0 ? (
+          null
+        ) : (
           <FlatList
             data={data}
             renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
+            onEndReached={() => onEndReached()}
           />
-        ) : (
-          data
         )}
         {isFilter ? (
           <BottomSheet
@@ -139,6 +201,7 @@ const SearchScreen = props => {
               setSort={setSort} 
               setCategory={setCategory} 
               filterConfigs={filterConfigs}
+              fetchCourses={fetchInitialPage}
             />
           </BottomSheet>
         ) : null}
@@ -147,59 +210,7 @@ const SearchScreen = props => {
   );
 };
 
-const SearchBar = ({navigation, setIsEmpty, setData, page, setIsFilter}) => {
-  const [value, setValue] = useState('');
-
-  const onChangeText = async text => {
-    setValue(text);
-    if (text === '') {
-      console.log('empty');
-      setIsEmpty(true);
-      setData(null);
-    } else {
-      setIsEmpty(false);
-      const response = await CourseService.fetchCourses(text, page);
-      setData(response.data?.data);
-    }
-  };
-
-  const clearTapped = () => {
-    setIsEmpty(true);
-    setValue('');
-  };
-
-  return (
-    <RowView style={styles.searchBar}>
-      <TouchableOpacity onPress={() => navigation.goBack()} activeOpacity={0.8}>
-        {x(16, APP_COLORS.placeholder)}
-      </TouchableOpacity>
-      <Input
-        _focus={true}
-        placeholder={strings['Поиск курсов и тестов']}
-        left={<View style={styles.searchIcon}>{search('#000')}</View>}
-        right={
-          <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
-            {clear()}
-          </TouchableOpacity>
-        }
-        value={value}
-        onChangeText={onChangeText}
-        extraStyle={styles.inputContainer}
-        extraInputStyle={styles.input}
-      />
-      <TouchableOpacity
-        activeOpacity={0.8}
-        onPress={() => {
-          setIsFilter(true);
-        }}>
-        {filter}
-      </TouchableOpacity>
-    </RowView>
-  );
-};
-
 const styles = StyleSheet.create({
-  listContainer: {},
   item: {
     padding: 16,
   },
