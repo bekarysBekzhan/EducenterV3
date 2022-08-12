@@ -30,7 +30,7 @@ const CourseRow = ({
             style={styles.data}
         >
             <Text style={setFontStyle(11, "400", APP_COLORS.placeholder)}>{category_name}</Text>
-            <Text style={setFontStyle(17, "600", APP_COLORS.font)}>{title}</Text>
+            <Text style={setFontStyle(17, "600", APP_COLORS.font)} numberOfLines={1}>{title}</Text>
             <Price price={price} oldPrice={old_price} oldPriceStyle={styles.textOldPrice} priceStyle={styles.textPrice}/>
         </View>
         <ItemRating rating={rating} reviewCount={reviewCount} starSize={16 }/>
