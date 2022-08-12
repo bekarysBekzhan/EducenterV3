@@ -54,6 +54,16 @@ class CourseService {
             console.log(requesToFailed(URLS.courses))
         }
     }
+
+    static fetchCategories = async() => {
+        try {
+            const response = await API_V2.get(URLS.categories)
+            return response
+        } catch(e) {
+            console.log(e)
+            console.log(requesToFailed(URLS.categories))
+        }
+    }
 }
 
 

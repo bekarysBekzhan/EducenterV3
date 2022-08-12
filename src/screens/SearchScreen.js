@@ -23,23 +23,57 @@ import BottomSheetStack from '../components/navigation/BottomSheetStack';
 import {useRef} from 'react';
 import {useMemo} from 'react';
 import {useCallback} from 'react';
+import { useFetching } from '../hooks/useFetching';
+import { useEffect } from 'react';
 
 const SearchScreen = props => {
+
   const [isEmpty, setIsEmpty] = useState(true);
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
   const [isFilter, setIsFilter] = useState(false);
   const [sort, setSort] = useState(null);
   const [category, setCategory] = useState(null);
+  const [categories, setCategories] = useState(null)
+  const [fetchCategories, isLoading, categoriesError] = useFetching(async() => {
+    const response = await CourseService.fetchCategories()
+    setCategories(response.data?.data)
+    console.log("categories : " , response.data?.data)
+  })
+
+  useEffect(() => {
+    fetchCategories()
+  }, [] )
 
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['25%', '85%'], []);
+  const snapPoints = useMemo(() => ['25%', '40%', '50%', "60%"], []);
   const handleSheetChanges = useCallback(index => {
     console.log('handleSheetChanges : ', index);
     if (index === -1) {
-      setIsEmpty(false);
+      setIsFilter(false);
     }
   }, []);
+
+  const filterConfigs = {
+    filters: [
+      {
+        title: strings.Категория,
+        data: categories
+      }
+    ],
+    sort: {
+      options: [
+        {
+          key: strings['По убыванию цены'],
+          value: "desc"
+        },
+        {
+          key: strings['По повышению цены'],
+          value: "asc"
+        }
+      ]
+    }
+  }
 
   const renderItem = ({item, index}) => {
     return (
@@ -99,7 +133,7 @@ const SearchScreen = props => {
             enablePanDownToClose
             backdropComponent={renderBackdrop}
           >
-            <BottomSheetStack setSort={setSort} setCategory={setCategory} />
+            <BottomSheetStack setSort={setSort} setCategory={setCategory} filterConfigs={filterConfigs}/>
           </BottomSheet>
         ) : null}
       </SafeAreaView>
@@ -150,9 +184,7 @@ const SearchBar = ({navigation, setIsEmpty, setData, page, setIsFilter}) => {
       <TouchableOpacity
         activeOpacity={0.8}
         onPress={() => {
-          if (value) {
-            setIsFilter(true);
-          }
+          setIsFilter(true);
         }}>
         {filter}
       </TouchableOpacity>
