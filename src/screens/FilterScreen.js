@@ -11,9 +11,7 @@ import { strings } from '../localization'
 
 const FilterScreen = ({ navigation, route }) => {
 
-  const fetchCourses = route.params.fetchCourses
   const sort = route.params.sort
-  const category = route.params.category
   const setSort = route.params.setSort
   const setCategory = route.params.setCategory
   const [selectedCategory, setSelectedCategory] = useState(route.params?.category?.name)
@@ -43,7 +41,7 @@ const FilterScreen = ({ navigation, route }) => {
           setSort={setSort}
           setCategory={setCategory}
           setSelectedCategory={setSelectedCategory}
-          fetchCourses={fetchCourses}
+          close={route.params.close}
         />}
         keyExtractor={(_, index) => index.toString()}
       />
@@ -51,11 +49,20 @@ const FilterScreen = ({ navigation, route }) => {
   )
 }
 
-const Footer = ({ options, sort, selectedCategory, setSort, setCategory, setSelectedCategory, fetchCourses }) => {
+const Footer = ({ 
+  options, 
+  sort, 
+  selectedCategory, 
+  setSort, 
+  setCategory, 
+  setSelectedCategory, 
+  close
+}) => {
 
   const [currentKey, setCurrentKey] = useState(sort)
 
   const selectKeyPressed = (key) => {
+    console.log("setSort : " , setSort)
     setCurrentKey(key)
     setSort(key)
   }
@@ -68,7 +75,7 @@ const Footer = ({ options, sort, selectedCategory, setSort, setCategory, setSele
   }
 
   const applyFilterTapped = async() => {
-    await fetchCourses()
+    close()
   }
 
   return(

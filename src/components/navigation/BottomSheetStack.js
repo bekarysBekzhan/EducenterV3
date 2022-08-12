@@ -14,7 +14,8 @@ const BottomSheetStack = ({
     setSort, 
     setCategory, 
     filterConfigs,
-    fetchCourses 
+    fetchCourses, 
+    close
 }) => {
 
     const SCREENS = [
@@ -43,8 +44,8 @@ const BottomSheetStack = ({
                             category: category,
                             setSort: setSort,
                             setCategory: setCategory, 
-                            filterConfigs: filterConfigs ,
-                            fetchCourses: fetchCourses
+                            filterConfigs: filterConfigs,
+                            close: close
                         }} 
                         options={{ 
                             headerTitle: route.title 
