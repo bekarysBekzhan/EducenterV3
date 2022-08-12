@@ -11,7 +11,11 @@ import { strings } from '../localization'
 
 const FilterScreen = ({ navigation, route }) => {
 
-  console.log("FilterScreen : " , route.params)
+  const fetchCourses = route.params.fetchCourses
+  const sort = route.params.sort
+  const category = route.params.category
+  const setSort = route.params.setSort
+  const setCategory = route.params.setCategory
   const [selectedCategory, setSelectedCategory] = useState(route.params?.category?.name)
 
   const renderFilter = ({ item, index }) => {
@@ -34,10 +38,12 @@ const FilterScreen = ({ navigation, route }) => {
         renderItem={renderFilter}
         ListFooterComponent={<Footer 
           options={route.params.filterConfigs.sort.options} 
-          sort={route.params.sort}
-          setSort={route.params.setSort}
-          setCategory={route.params.setCategory}
+          sort={sort}
+          selectCategory={selectedCategory}
+          setSort={setSort}
+          setCategory={setCategory}
           setSelectedCategory={setSelectedCategory}
+          fetchCourses={fetchCourses}
         />}
         keyExtractor={(_, index) => index.toString()}
       />
@@ -45,7 +51,7 @@ const FilterScreen = ({ navigation, route }) => {
   )
 }
 
-const Footer = ({ options, sort, setSort, setCategory, setSelectedCategory }) => {
+const Footer = ({ options, sort, selectedCategory, setSort, setCategory, setSelectedCategory, fetchCourses }) => {
 
   const [currentKey, setCurrentKey] = useState(sort)
 
@@ -59,6 +65,10 @@ const Footer = ({ options, sort, setSort, setCategory, setSelectedCategory }) =>
     setSort(null)
     setCategory(null)
     setSelectedCategory(null)
+  }
+
+  const applyFilterTapped = async() => {
+    await fetchCourses()
   }
 
   return(
@@ -76,11 +86,21 @@ const Footer = ({ options, sort, setSort, setCategory, setSelectedCategory }) =>
           />
         ))
       }
-      <SimpleButton
-        text={strings.Отменить}
-        onPress={clearFilterTapped}
-        style={styles.button}
-      />
+      {
+        selectedCategory || currentKey
+        ?
+        <SimpleButton
+          text={strings.Применить}
+          onPress={applyFilterTapped}
+          style={styles.button}
+        />
+        :
+        <SimpleButton
+          text={strings.Отменить}
+          onPress={clearFilterTapped}
+          style={styles.button}
+        />
+      }
     </View>
   )
 }

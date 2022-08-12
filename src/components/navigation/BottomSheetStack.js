@@ -8,7 +8,14 @@ import { strings } from '../../localization'
 
 const BottomSheet = createNativeStackNavigator() 
 
-const BottomSheetStack = ({ sort, category, setSort, setCategory, filterConfigs }) => {
+const BottomSheetStack = ({ 
+    sort, 
+    category, 
+    setSort, 
+    setCategory, 
+    filterConfigs,
+    fetchCourses 
+}) => {
 
     const SCREENS = [
         {
@@ -36,7 +43,8 @@ const BottomSheetStack = ({ sort, category, setSort, setCategory, filterConfigs 
                             category: category,
                             setSort: setSort,
                             setCategory: setCategory, 
-                            filterConfigs: filterConfigs 
+                            filterConfigs: filterConfigs ,
+                            fetchCourses: fetchCourses
                         }} 
                         options={{ 
                             headerTitle: route.title 
