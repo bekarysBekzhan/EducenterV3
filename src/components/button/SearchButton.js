@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
         width: WIDTH - 32,
         padding: 14,
         margin: 16,
+        marginVertical: 8,
         paddingVertical: 12,
         borderRadius: 14,
         backgroundColor: APP_COLORS.input,
