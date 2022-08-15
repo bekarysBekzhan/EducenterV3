@@ -24,6 +24,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet} from 'react-native';
 import {setFontStyle} from '../../utils/utils';
 import {APP_COLORS} from '../../constans/constants';
+import Courses from './CoursesStack';
 
 const BottomTabStack = createBottomTabNavigator();
 
@@ -36,7 +37,7 @@ const BottomTab = props => {
         inactive: coursesOFF,
       },
       label: strings.Курсы,
-      component: CoursesScreen,
+      component: Courses,
     },
     {
       name: ROUTE_NAMES.testsStack,
