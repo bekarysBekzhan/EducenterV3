@@ -12,6 +12,7 @@ import RowView from '../../../components/view/RowView'
 import Price from '../../../components/Price'
 import ItemRating from '../../../components/ItemRating'
 import { setFontStyle } from '../../../utils/utils'
+import { ROUTE_NAMES } from '../../../components/navigation/routes'
 
 const CoursesScreen = (props) => {
 
@@ -49,7 +50,7 @@ const CoursesScreen = (props) => {
 
   const renderCourse = ({ item, index }) => {
     return(
-      <CourseCard item={item} index={index}/>
+      <CourseCard item={item} index={index} navigation={props?.navigation}/>
     )
   }
 
@@ -68,9 +69,7 @@ const CoursesScreen = (props) => {
   )
 
   return (
-    <UniversalView
-      style={styles.container}
-    >
+    <UniversalView>
       <SearchButton {...props}/>
       {
         isLoading
@@ -93,11 +92,12 @@ const CoursesScreen = (props) => {
   )
 }
 
-const CourseCard = ({item, index}) => {
+const CourseCard = ({item, index, navigation}) => {
   return(
     <TouchableOpacity
       style={styles.courseCard}
       activeOpacity={0.9}
+      onPress={() => navigation.navigate(ROUTE_NAMES.courseDetail, { courseID: item?.id })}
     >
       <FastImage
         source={{ uri: item?.poster }}
@@ -130,9 +130,6 @@ const CourseCard = ({item, index}) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // padding: 16,
-  },
   contentContainer: {
     padding: 16
   },
@@ -159,11 +156,11 @@ const styles = StyleSheet.create({
   },
   title: {
     margin: 10,
-    ...setFontStyle(17, "700")
+    ...setFontStyle(17, "800")
   },
   category: {
     textTransform: "uppercase",
-    ...setFontStyle(14, "500", APP_COLORS.placeholder)
+    ...setFontStyle(14, "700", APP_COLORS.placeholder)
   },
   poster: {
     width: "100%",

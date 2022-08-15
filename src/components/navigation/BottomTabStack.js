@@ -13,17 +13,13 @@ import {
   testsOFF,
   testsON,
 } from '../../assets/icons';
-import CoursesScreen from '../../screens/bottomtab/courses/CoursesScreen';
 import {strings} from '../../localization';
 import TestsScreen from '../../screens/bottomtab/tests/TestsScreen';
 import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen';
 import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
-import FastImage from 'react-native-fast-image';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet} from 'react-native';
-import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS, navHeaderOptions} from '../../constans/constants';
 import Courses from './CoursesStack';
 
 const BottomTabStack = createBottomTabNavigator();
@@ -80,7 +76,13 @@ const BottomTab = props => {
   const {settings} = useSettings();
 
   return (
-    <BottomTabStack.Navigator>
+    <BottomTabStack.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: APP_COLORS.primary,
+        tabBarInactiveTintColor: APP_COLORS.placeholder,
+      }}
+    >
       {BOTTOM_TAB.map((route, index) => {
         const screen = (
           <BottomTabStack.Screen
@@ -91,16 +93,7 @@ const BottomTab = props => {
               tabBarIcon: ({focused}) => {
                 return focused ? route.icon.active : route.icon.inactive;
               },
-              tabBarActiveTintColor: APP_COLORS.primary,
-              tabBarInactiveTintColor: APP_COLORS.placeholder,
               tabBarLabel: route.label,
-              headerLeft: () => (
-                <FastImage source={{uri: settings?.logo}} style={styles.logo} />
-              ),
-              headerTitle: route.label,
-              headerTitleAlign: 'left',
-              headerTitleStyle: styles.navigationTitle,
-              headerLeftContainerStyle: styles.navigationHeader,
             }}
           />
         );
@@ -132,23 +125,5 @@ const BottomTab = props => {
     </BottomTabStack.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  logo: {
-    width: 38,
-    height: 38,
-    borderRadius: 6,
-  },
-  navigationHeader: {
-    paddingLeft: 16,
-  },
-  navigationTitle: [setFontStyle(30, '700')],
-});
 
 export default BottomTab;
