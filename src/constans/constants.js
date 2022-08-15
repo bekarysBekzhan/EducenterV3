@@ -1,4 +1,4 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 
 export const WIDTH = Dimensions.get('screen').width
 export const HEIGHT = Dimensions.get("screen").height
@@ -19,6 +19,7 @@ export const URLS = {
   settings: "settings/mobile",
   languages: "languages",
   courses: "courses",
+  courseByID: "course/",
   categories: "categories",
-  
 }
+
