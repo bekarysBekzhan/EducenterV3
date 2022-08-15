@@ -16,21 +16,56 @@ import { setFontStyle } from '../../../utils/utils'
 const CoursesScreen = (props) => {
 
   const [page, setPage] = useState(1)
+  const [lastPage, setLastPage] = useState(1)
   const [data, setData] = useState([])
+  const [loadingNext, setLoadingNext] = useState(false)
   const [fetchCourses, isLoading, coursesError] = useFetching(async() => {
     const response = await CourseService.fetchCourses()
-    setData(data.concat(response.data?.data))
+    setData(response.data?.data)
+    setLastPage(response.data?.last_page)
   })
+  
 
   useEffect(() => {
-    fetchCourses()
-  }, [])
+    if(page === 1) {
+      fetchCourses()
+    } else {
+      fetchNextPage()
+    }
+  }, [page])
+
+  const fetchNextPage = async() => {
+    const response = await CourseService.fetchCourses("", page)
+    setData(data.concat(response.data?.data))
+    setLoadingNext(false)
+  }
+
+  const onEndReached = () => {
+    if(page < lastPage) {
+      setLoadingNext(true)
+      setPage(prev => prev + 1)
+    }
+  }
 
   const renderCourse = ({ item, index }) => {
     return(
       <CourseCard item={item} index={index}/>
     )
   }
+
+  const renderFooter = () => (
+    <View
+      style={styles.footer}
+    >
+      {
+        loadingNext
+        ?
+        <ActivityIndicator color={APP_COLORS.primary}/>
+        :
+        null
+      }
+    </View>
+  )
 
   return (
     <UniversalView
@@ -45,9 +80,13 @@ const CoursesScreen = (props) => {
         <FlatList
           data={data}
           renderItem={renderCourse}
+          ListFooterComponent={renderFooter}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}
+          onEndReached={onEndReached}
+          refreshing={isLoading}
+          onRefresh={fetchCourses}
         />
       }
     </UniversalView>
@@ -100,7 +139,7 @@ const styles = StyleSheet.create({
   courseCard: {
     borderRadius: 10,
     backgroundColor: "white",
-    marginBottom: 16,
+    marginBottom: 22,
     shadowOffset: {
       width: 0,
       height: 0
@@ -134,6 +173,12 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 14
+  },
+  footer: {
+    width: WIDTH - 32,
+    height: 30,
+    justifyContent: "center",
+    alignItems: 'center'
   }
 })
 
