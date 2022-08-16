@@ -4,6 +4,7 @@ import FastImage from 'react-native-fast-image';
 import RowView from './RowView';
 import { setFontStyle } from '../../utils/utils';
 import RatingStar from '../RatingStar';
+import { APP_COLORS } from '../../constans/constants';
 
 const ReviewItem = ({
   avatar,
@@ -40,7 +41,7 @@ export default ReviewItem;
 const styles = StyleSheet.create({
   item: {
     justifyContent: 'center',
-    backgroundColor: '#F5F5F5',
+    backgroundColor: APP_COLORS.gray,
     borderRadius: 10,
     padding: 12,
   },

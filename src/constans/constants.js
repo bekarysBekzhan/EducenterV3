@@ -8,6 +8,9 @@ export const APP_COLORS = {
   placeholder: '#808191',
   font: '#111621',
   input: '#F5F5F5',
+  border: 'rgba(0, 0, 0, 0.1)',
+  gray: "#F5F5F5",
+  gray2: "#FDFDFE"
 };
 
 export const DOMAIN = "https://demo.educenter.kz"
