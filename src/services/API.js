@@ -55,6 +55,17 @@ class CourseService {
         }
     }
 
+    static fetchCourseByID = async(id) => {
+        try {
+            const response = await API_V2.get(URLS.courseByID + id)
+            console.log("Course with id " + id + ":" , response)
+            return response
+        } catch(e) {
+            console.log(e)
+            console.log(requesToFailed(URLS.courseByID + id))
+        }
+    }
+
     static fetchCategories = async() => {
         try {
             const response = await API_V2.get(URLS.categories)

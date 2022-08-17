@@ -12,30 +12,64 @@ import RowView from '../../../components/view/RowView'
 import Price from '../../../components/Price'
 import ItemRating from '../../../components/ItemRating'
 import { setFontStyle } from '../../../utils/utils'
+import { ROUTE_NAMES } from '../../../components/navigation/routes'
 
 const CoursesScreen = (props) => {
 
   const [page, setPage] = useState(1)
+  const [lastPage, setLastPage] = useState(1)
   const [data, setData] = useState([])
+  const [loadingNext, setLoadingNext] = useState(false)
   const [fetchCourses, isLoading, coursesError] = useFetching(async() => {
     const response = await CourseService.fetchCourses()
-    setData(data.concat(response.data?.data))
+    setData(response.data?.data)
+    setLastPage(response.data?.last_page)
   })
+  
 
   useEffect(() => {
-    fetchCourses()
-  }, [])
+    if(page === 1) {
+      fetchCourses()
+    } else {
+      fetchNextPage()
+    }
+  }, [page])
+
+  const fetchNextPage = async() => {
+    const response = await CourseService.fetchCourses("", page)
+    setData(data.concat(response.data?.data))
+    setLoadingNext(false)
+  }
+
+  const onEndReached = () => {
+    if(page < lastPage) {
+      setLoadingNext(true)
+      setPage(prev => prev + 1)
+    }
+  }
 
   const renderCourse = ({ item, index }) => {
     return(
-      <CourseCard item={item} index={index}/>
+      <CourseCard item={item} index={index} navigation={props?.navigation}/>
     )
   }
 
-  return (
-    <UniversalView
-      style={styles.container}
+  const renderFooter = () => (
+    <View
+      style={styles.footer}
     >
+      {
+        loadingNext
+        ?
+        <ActivityIndicator color={APP_COLORS.primary}/>
+        :
+        null
+      }
+    </View>
+  )
+
+  return (
+    <UniversalView>
       <SearchButton {...props}/>
       {
         isLoading
@@ -45,20 +79,25 @@ const CoursesScreen = (props) => {
         <FlatList
           data={data}
           renderItem={renderCourse}
+          ListFooterComponent={renderFooter}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}
+          onEndReached={onEndReached}
+          refreshing={isLoading}
+          onRefresh={fetchCourses}
         />
       }
     </UniversalView>
   )
 }
 
-const CourseCard = ({item, index}) => {
+const CourseCard = ({item, index, navigation}) => {
   return(
     <TouchableOpacity
       style={styles.courseCard}
       activeOpacity={0.9}
+      onPress={() => navigation.navigate(ROUTE_NAMES.courseDetail, { courseID: item?.id })}
     >
       <FastImage
         source={{ uri: item?.poster }}
@@ -91,16 +130,13 @@ const CourseCard = ({item, index}) => {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    // padding: 16,
-  },
   contentContainer: {
     padding: 16
   },
   courseCard: {
     borderRadius: 10,
     backgroundColor: "white",
-    marginBottom: 16,
+    marginBottom: 22,
     shadowOffset: {
       width: 0,
       height: 0
@@ -120,11 +156,11 @@ const styles = StyleSheet.create({
   },
   title: {
     margin: 10,
-    ...setFontStyle(17, "700")
+    ...setFontStyle(18, "700")
   },
   category: {
     textTransform: "uppercase",
-    ...setFontStyle(14, "500", APP_COLORS.placeholder)
+    ...setFontStyle(14, "700", APP_COLORS.placeholder)
   },
   poster: {
     width: "100%",
@@ -134,6 +170,12 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 14
+  },
+  footer: {
+    width: WIDTH - 32,
+    height: 30,
+    justifyContent: "center",
+    alignItems: 'center'
   }
 })
 
