@@ -9,7 +9,7 @@ import { APP_COLORS, HEIGHT, WIDTH } from '../../../constans/constants'
 import FastImage from 'react-native-fast-image'
 import { setFontStyle } from '../../../utils/utils'
 import RowView from '../../../components/view/RowView'
-import { iconPlay, lock, time } from '../../../assets/icons'
+import { down, iconPlay, lock, time, up } from '../../../assets/icons'
 import { strings } from '../../../localization'
 import ItemRating from '../../../components/ItemRating'
 import HtmlView from '../../../components/HtmlView'
@@ -18,6 +18,9 @@ import Divider from '../../../components/Divider'
 import { Collapse } from "accordion-collapse-react-native"
 import Collapsible from 'react-native-collapsible'
 import { useSettings } from '../../../components/context/Provider'
+import TransactionButton from '../../../components/button/TransactionButton'
+import Person from '../../../components/Person'
+import ReviewItem from '../../../components/view/ReviewItem'
 
 
 const CourseDetailScreen = (props) => {
@@ -48,9 +51,7 @@ const CourseDetailScreen = (props) => {
 
   const renderFooter = () => {
     return(
-      <UniversalView>
-
-      </UniversalView>
+      <CourseListFooter data={data}/>
     )
   }
 
@@ -72,12 +73,23 @@ const CourseDetailScreen = (props) => {
           showsVerticalScrollIndicator={false}
         />
       }
+      {
+        isLoading
+        ?
+        null
+        :
+        <TransactionButton
+          text={strings['Купить полный курс']}
+          price={data?.price}
+          oldPrice={data?.old_price}
+          onPress={() => undefined}
+        />
+      }
     </UniversalView>
   )
 }
 
 const CourseListHeader = ({ data }) => {
-
 
   const [isDescriptionMore, setDescriptionMore] = useState(false)
 
@@ -175,16 +187,27 @@ const CourseChapter = ({ item, index, hasSubscribed }) => {
             }
             </View>
           </View>
-          <FastImage
-            source={{ uri: item?.lessons?.length > 0 ? item?.lessons[0]?.preview : settings?.logo }}
-            style={styles.chapterPoster}
-          >
-            <View style={styles.posterOpacity}>
-              <View style={styles.chapterPlay}>
-                {iconPlay(0.9, APP_COLORS.primary)}
+          <RowView>
+            <FastImage
+              source={{ uri: item?.lessons?.length > 0 ? item?.lessons[0]?.preview : settings?.logo }}
+              style={styles.chapterPoster}
+            >
+              <View style={styles.chapterPosterOpacity}>
+                <View style={styles.chapterPlay}>
+                  {iconPlay(0.9, APP_COLORS.primary)}
+                </View>
               </View>
+            </FastImage>
+            <View style={{ marginLeft: 8 }}>
+              {
+                isCollapsed
+                ?
+                down
+                :
+                up
+              }
             </View>
-          </FastImage>
+          </RowView>
       </TouchableOpacity>
       <Divider
           isAbsolute={false}
@@ -231,28 +254,55 @@ const CourseChapter = ({ item, index, hasSubscribed }) => {
   )
 }
 
+const CourseListFooter = ({ data }) => {
+
+  const renderReview = ({ item, index }) => {
+    return(
+      <ReviewItem
+
+      />
+    )
+  }
+
+  return(
+    <UniversalView>
+      <View style={{ padding: 16, paddingTop: 32 }}>
+        <Person
+          status={strings['Автор курса']}
+          image={data?.author?.avatar}
+          name={data?.author?.name + " " + data?.author?.surname}
+          description={data?.author?.description}
+        />
+        <RowView style={{ justifyContent: "space-between" }}>
+          <Text style={styles.courseProgram}>{strings.Отзывы}</Text>
+          <TextButton 
+            text={strings.Все}
+            textStyle={styles.allButton}
+            onPress={() => undefined}
+          />
+        </RowView>
+      </View>
+      <FlatList
+        data={data?.reviews}
+        renderItem={renderReview}
+        keyExtractor={(_ , index) => index.toString()}
+        showsHorizontalScrollIndicator={false}
+      />
+    </UniversalView>
+  )
+}
 
 const styles = StyleSheet.create({
   container: {
 
   },
-  chapter: {
-    padding: 8,
-    paddingHorizontal: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
-  },  
-  chapterInfo: {
+  category: {
+    textTransform: "uppercase",
+    ...setFontStyle(14, "700", APP_COLORS.placeholder)
   },
-  chapterPoster: {
-    width: 62,
-    height: 62,
-    borderRadius: 8,
-  },
-  chapterTitle: {
-    ...setFontStyle(16, "600"),
-    marginBottom: 7
+  title: {
+    ...setFontStyle(21, "700"),
+    marginVertical: 8
   },
   counts: {
     ...setFontStyle(13, "400", APP_COLORS.placeholder),
@@ -269,7 +319,25 @@ const styles = StyleSheet.create({
     width: WIDTH,
     height: HEIGHT / 3.6,
   },
-  posterOpacity: {
+  chapter: {
+    padding: 8,
+    paddingLeft: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },  
+  chapterInfo: {
+  },
+  chapterPoster: {
+    width: 62,
+    height: 62,
+    borderRadius: 8,
+  },
+  chapterTitle: {
+    ...setFontStyle(16, "600"),
+    marginBottom: 7
+  },
+  chapterPosterOpacity: {
     flex: 1,
     backgroundColor: "rgba(0, 0, 0, 0.15)",
     justifyContent: "center",
@@ -282,14 +350,6 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: 'center',
     alignItems: "center"
-  },
-  category: {
-    textTransform: "uppercase",
-    ...setFontStyle(14, "700", APP_COLORS.placeholder)
-  },
-  title: {
-    ...setFontStyle(21, "700"),
-    marginVertical: 8
   },
   time: {
     marginHorizontal: 4,
@@ -350,7 +410,10 @@ const styles = StyleSheet.create({
   },
   lessonTime: {
     ...setFontStyle(11, "400", APP_COLORS.placeholder),
-
+  },
+  allButton: {
+    ...setFontStyle(15, "600", APP_COLORS.primary),
+    textTransform: "uppercase"
   }
 })
 
