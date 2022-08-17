@@ -113,6 +113,7 @@ const CourseListHeader = ({ data }) => {
               rating={data?.rating}
               reviewCount={data?.reviews_count}
               starSize={16}
+              word={true}
             />
           </RowView>
           <UniversalView
@@ -151,10 +152,6 @@ const CourseChapter = ({ item, index, hasSubscribed }) => {
 
   const [isCollapsed, setIsCollapsed] = useState(true)
   const { settings } = useSettings()
-
-  useEffect(() => {
-    console.log("item, " , item)
-  }, [])
 
   return(
     <View>
@@ -259,7 +256,18 @@ const CourseListFooter = ({ data }) => {
   const renderReview = ({ item, index }) => {
     return(
       <ReviewItem
-
+        avatar={item?.user?.avatar}
+        name={item?.user?.name}
+        date={item?.added_at}
+        rating={item?.stars}
+        startRating={item?.stars}
+        review={item?.text}
+        style={{
+          ...styles.reviewItem,
+          marginLeft: index === 0 ? 16 : 0,
+          marginRight: index === data?.reviews.length - 1 ? 16 : 10
+        }}
+        numberOfLines={3}
       />
     )
   }
@@ -286,7 +294,9 @@ const CourseListFooter = ({ data }) => {
         data={data?.reviews}
         renderItem={renderReview}
         keyExtractor={(_ , index) => index.toString()}
+
         showsHorizontalScrollIndicator={false}
+        horizontal
       />
     </UniversalView>
   )
@@ -414,6 +424,10 @@ const styles = StyleSheet.create({
   allButton: {
     ...setFontStyle(15, "600", APP_COLORS.primary),
     textTransform: "uppercase"
+  },
+  reviewItem: {
+    width: WIDTH - 64,
+    height: 200,
   }
 })
 

@@ -13,10 +13,15 @@ const ReviewItem = ({
   rating,
   startRating,
   review,
+  style,
+  numberOfLines,
   ...props
 }) => {
+
+  const memoContainerStyle = useMemo(() => [styles.item, style], [])
+
   return (
-    <View style={styles.item}>
+    <View style={memoContainerStyle}>
       <RowView justifyContent="space-between">
         <RowView>
           <FastImage style={styles.avatar} source={{ uri: avatar }} />
@@ -31,7 +36,7 @@ const ReviewItem = ({
         </View>
         <RatingStar disabled={true} maxStars={5} rating={startRating} />
       </RowView>
-      <Text style={styles.review}>{review}</Text>
+      <Text style={styles.review} numberOfLines={numberOfLines}>{review}</Text>
     </View>
   );
 };
@@ -40,10 +45,10 @@ export default ReviewItem;
 
 const styles = StyleSheet.create({
   item: {
-    justifyContent: 'center',
+    flex: 1,
     backgroundColor: APP_COLORS.gray,
     borderRadius: 10,
-    padding: 12,
+    padding: 13
   },
   avatar: {
     width: 36,
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
     ...setFontStyle(13, '400', '#111621'),
   },
   review: {
-    ...setFontStyle(15, '400', '#111621'),
+    ...setFontStyle(15, '400', '#111621', 22),
     marginTop: 12,
   },
 });
