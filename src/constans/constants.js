@@ -10,7 +10,7 @@ export const APP_COLORS = {
   input: '#F5F5F5',
   border: 'rgba(0, 0, 0, 0.1)',
   gray: "#F5F5F5",
-  gray2: "#FDFDFE"
+  gray2: "#FCFCFD"
 };
 
 export const DOMAIN = "https://demo.educenter.kz"

@@ -17,6 +17,7 @@ import TextButton from '../../../components/button/TextButton'
 import Divider from '../../../components/Divider'
 import { Collapse } from "accordion-collapse-react-native"
 import Collapsible from 'react-native-collapsible'
+import { useSettings } from '../../../components/context/Provider'
 
 
 const CourseDetailScreen = (props) => {
@@ -68,6 +69,7 @@ const CourseDetailScreen = (props) => {
           renderItem={renderChapter}
           ListFooterComponent={renderFooter}
           keyExtractor={(_, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
         />
       }
     </UniversalView>
@@ -93,7 +95,7 @@ const CourseListHeader = ({ data }) => {
           <Text style={styles.category}>{data?.category?.name}</Text>
           <Text style={styles.title}>{data?.title}</Text>
           <RowView>
-            {time}
+            {time()}
             <Text style={styles.time}>{data?.time + " " +  strings.мин}.</Text>
             <ItemRating
               rating={data?.rating}
@@ -136,22 +138,27 @@ const CourseListHeader = ({ data }) => {
 const CourseChapter = ({ item, index, hasSubscribed }) => {
 
   const [isCollapsed, setIsCollapsed] = useState(true)
+  const { settings } = useSettings()
 
   useEffect(() => {
     console.log("item, " , item)
   }, [])
 
   return(
-    <UniversalView>
+    <View>
       <TouchableOpacity
         onPress={() => setIsCollapsed(prev => !prev)}
         style={[styles.chapter, { backgroundColor: isCollapsed ? APP_COLORS.gray2 : "white" }]}
         activeOpacity={0.8}
       >
-        <RowView>
-          <View>
+          <View
+            style={styles.chapterInfo}
+          >
             <Text style={styles.chapterTitle}>{item?.title}</Text>
             <Text style={styles.counts}>{item?.lessons?.length} {strings.лекции}・{item?.files_count} {strings.файла}・{item?.tests_count} {strings.тест}</Text>
+            <View
+              style={styles.courseStatus}
+            >
             {
               !hasSubscribed
               ?
@@ -166,38 +173,61 @@ const CourseChapter = ({ item, index, hasSubscribed }) => {
               :
               lock()
             }
+            </View>
           </View>
-        </RowView>
-        <Divider
+          <FastImage
+            source={{ uri: item?.lessons?.length > 0 ? item?.lessons[0]?.preview : settings?.logo }}
+            style={styles.chapterPoster}
+          >
+            <View style={styles.posterOpacity}>
+              <View style={styles.chapterPlay}>
+                {iconPlay(0.9, APP_COLORS.primary)}
+              </View>
+            </View>
+          </FastImage>
+      </TouchableOpacity>
+      <Divider
           isAbsolute={false}
           style={{
             width: WIDTH - 32
           }}
         />
-      </TouchableOpacity>
       <Collapsible 
         collapsed={isCollapsed}
         style={styles.collapsed}
       >
       {
           item?.lessons.map((lesson, i) => (
-            <RowView
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => undefined}
               key={i}
             >
-              {
-                lesson?.is_promo
-                ?
-                iconPlay()
-                :
-                lock()
-              }
-              <Text>{index + 1}.{i + 1} {lesson?.title}</Text>
-              {time}
-            </RowView>
+              <RowView style={styles.lesson}>
+                <RowView style={styles.lessonRow1}>
+                  <View style={styles.lessonIcon}>
+                    {
+                      lesson?.is_promo
+                      ?
+                      <View style={styles.lessonPlay}>
+                        {iconPlay(0.85)}
+                      </View>
+                      :
+                      lock()
+                    }
+                  </View>
+                  <Text style={lesson?.is_promo ? styles.lessonTitle : styles.lessonLockedTitle} numberOfLines={3}>{index + 1}.{i + 1} {lesson?.title}</Text>
+                </RowView>
+                <RowView>
+                  {time(undefined, APP_COLORS.placeholder)}
+                  <Text style={styles.lessonTime}>{lesson?.time < 10 ? "0" + lesson?.time : lesson?.time}:00</Text>
+                </RowView>
+              </RowView>
+            </TouchableOpacity>
           ))
       }
       </Collapsible>
-    </UniversalView>
+    </View>
   )
 }
 
@@ -208,8 +238,18 @@ const styles = StyleSheet.create({
   },
   chapter: {
     padding: 8,
-    paddingLeft: 16
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between"
   },  
+  chapterInfo: {
+  },
+  chapterPoster: {
+    width: 62,
+    height: 62,
+    borderRadius: 8,
+  },
   chapterTitle: {
     ...setFontStyle(16, "600"),
     marginBottom: 7
@@ -222,9 +262,26 @@ const styles = StyleSheet.create({
     ...setFontStyle(14, "400", APP_COLORS.placeholder),
     marginLeft: 6,
   },
+  courseStatus: {
+    marginBottom: 10
+  },
   poster: {
     width: WIDTH,
     height: HEIGHT / 3.6,
+  },
+  posterOpacity: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.15)",
+    justifyContent: "center",
+    alignItems: 'center'
+  },
+  chapterPlay: {
+    width: 32,
+    height: 32,
+    borderRadius: 100,
+    backgroundColor: "white",
+    justifyContent: 'center',
+    alignItems: "center"
   },
   category: {
     textTransform: "uppercase",
@@ -259,7 +316,41 @@ const styles = StyleSheet.create({
     ...setFontStyle(21, "700")
   },
   collapsed: {
-    // padding: 16
+    padding: 0
+  },
+  lesson: {
+    flex: 1,
+    marginHorizontal: 6,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    padding: 10,
+    marginVertical: 2,
+    borderRadius: 8,
+  },
+  lessonRow1: {
+    flex: 1,
+    paddingRight: 40,
+  },
+  lessonIcon: {
+    marginRight: 9
+  },
+  lessonPlay: {
+    width: 24,
+    height: 24,
+    borderRadius: 100,
+    backgroundColor: APP_COLORS.primary,
+    justifyContent: 'center',
+    alignItems: "center",
+  },
+  lessonTitle: {
+    ...setFontStyle(12, "500"),
+  },
+  lessonLockedTitle: {
+    ...setFontStyle(12, "400", APP_COLORS.placeholder)
+  },
+  lessonTime: {
+    ...setFontStyle(11, "400", APP_COLORS.placeholder),
+
   }
 })
 
