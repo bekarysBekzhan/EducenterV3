@@ -1,69 +1,72 @@
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
-import UniversalView from '../../../components/view/UniversalView'
-import { useFetching } from '../../../hooks/useFetching'
-import { CourseService } from '../../../services/API'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { APP_COLORS, HEIGHT, WIDTH } from '../../../constans/constants'
-import FastImage from 'react-native-fast-image'
-import { setFontStyle } from '../../../utils/utils'
-import RowView from '../../../components/view/RowView'
-import { down, iconPlay, lock, time, up } from '../../../assets/icons'
-import { strings } from '../../../localization'
-import ItemRating from '../../../components/ItemRating'
-import HtmlView from '../../../components/HtmlView'
-import TextButton from '../../../components/button/TextButton'
-import Divider from '../../../components/Divider'
-import { Collapse } from "accordion-collapse-react-native"
-import Collapsible from 'react-native-collapsible'
-import { useSettings } from '../../../components/context/Provider'
-import TransactionButton from '../../../components/button/TransactionButton'
-import Person from '../../../components/Person'
-import ReviewItem from '../../../components/view/ReviewItem'
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import React from 'react';
+import UniversalView from '../../../components/view/UniversalView';
+import {useFetching} from '../../../hooks/useFetching';
+import {CourseService} from '../../../services/API';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import {APP_COLORS, HEIGHT, WIDTH} from '../../../constans/constants';
+import FastImage from 'react-native-fast-image';
+import {setFontStyle} from '../../../utils/utils';
+import RowView from '../../../components/view/RowView';
+import {down, iconPlay, lock, time, up} from '../../../assets/icons';
+import {strings} from '../../../localization';
+import TextButton from '../../../components/button/TextButton';
+import Divider from '../../../components/Divider';
+import Collapsible from 'react-native-collapsible';
+import {useSettings} from '../../../components/context/Provider';
+import TransactionButton from '../../../components/button/TransactionButton';
+import Person from '../../../components/Person';
+import ReviewItem from '../../../components/view/ReviewItem';
+import DetailView from '../../../components/view/DetailView';
 
+const CourseDetailScreen = props => {
+  const courseID = props.route?.params?.courseID;
 
-const CourseDetailScreen = (props) => {
+  const [data, setData] = useState(null);
+  const [fetchCourse, isLoading, courseError] = useFetching(async () => {
+    const response = await CourseService.fetchCourseByID(courseID);
+    setData(response.data?.data);
+  });
 
-  const courseID = props.route?.params?.courseID
-
-  const [data, setData] = useState(null)
-  const [fetchCourse, isLoading, courseError] = useFetching(async() => {
-    const response = await CourseService.fetchCourseByID(courseID)
-    setData(response.data?.data)
-  })
-  
   useEffect(() => {
-    fetchCourse()
-  }, [])
+    fetchCourse();
+  }, []);
 
   const renderHeader = () => {
-    return(
-      <CourseListHeader data={data}/>
-    )
-  }
+    return <CourseListHeader data={data} />;
+  };
 
-  const renderChapter = ({ item, index }) => {
-    return(
-      <CourseChapter item={item} index={index} hasSubscribed={data?.has_subscribed}/>
-    )
-  }
+  const renderChapter = ({item, index}) => {
+    return (
+      <CourseChapter
+        item={item}
+        index={index}
+        hasSubscribed={data?.has_subscribed}
+      />
+    );
+  };
 
   const renderFooter = () => {
-    return(
-      <CourseListFooter data={data}/>
-    )
-  }
+    return <CourseListFooter data={data} />;
+  };
 
   return (
-    <UniversalView
-      style={styles.container}
-    >
-      {
-        isLoading
-        ?
-        <ActivityIndicator color={APP_COLORS.primary} style={{ marginTop: 120}}/>
-        :
+    <UniversalView style={styles.container}>
+      {isLoading ? (
+        <ActivityIndicator
+          color={APP_COLORS.primary}
+          style={{marginTop: 120}}
+        />
+      ) : (
         <FlatList
           data={data?.chapters}
           ListHeaderComponent={renderHeader}
@@ -72,189 +75,137 @@ const CourseDetailScreen = (props) => {
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
         />
-      }
-      {
-        isLoading
-        ?
-        null
-        :
+      )}
+      {isLoading ? null : (
         <TransactionButton
           text={strings['Купить полный курс']}
           price={data?.price}
           oldPrice={data?.old_price}
           onPress={() => undefined}
         />
-      }
+      )}
     </UniversalView>
-  )
-}
+  );
+};
 
-const CourseListHeader = ({ data }) => {
-
-  const [isDescriptionMore, setDescriptionMore] = useState(false)
-
+const CourseListHeader = ({data}) => {
   return (
     <UniversalView>
-        <FastImage
-          source={{ uri: data?.poster, priority: "high" }}
-          style={styles.poster}
-        />
-        <UniversalView
-          style={{
-            padding: 16
-          }}
-        >
-          <Text style={styles.category}>{data?.category?.name}</Text>
-          <Text style={styles.title}>{data?.title}</Text>
-          <RowView>
-            {time()}
-            <Text style={styles.time}>{data?.time + " " +  strings.мин}.</Text>
-            <ItemRating
-              rating={data?.rating}
-              reviewCount={data?.reviews_count}
-              starSize={16}
-              word={true}
-            />
-          </RowView>
-          <UniversalView
-            style={isDescriptionMore ? styles.descriptionViewShow : styles.descriptionViewHidden}
-          >
-            {
-              data?.description
-              ?
-              <HtmlView
-                html={data?.description}
-              />
-              :
-              null
-            }
-          </UniversalView>
-          {
-              data?.description && !isDescriptionMore
-              ?
-              <TextButton
-                text={strings.Подробнее}
-                style={styles.moreButton}
-                textStyle={styles.moreButtonText}
-                onPress={() => setDescriptionMore(true)}
-              />
-              :
-              null
-          }
-          <Divider isAbsolute={false}/>
-          <Text style={styles.courseProgram}>{strings['Программа курса']}</Text>
-        </UniversalView>
-      </UniversalView>
-  )
-}
+      <DetailView
+        poster={data?.poster}
+        category={data?.category?.name}
+        title={data?.title}
+        duration={data?.time}
+        rating={data?.rating}
+        reviewCount={data?.reviews_count}
+        description={data?.description}
+      />
+      <Divider isAbsolute={false} />
+      <Text style={styles.courseProgram}>{strings['Программа курса']}</Text>
+    </UniversalView>
+  );
+};
 
-const CourseChapter = ({ item, index, hasSubscribed }) => {
+const CourseChapter = ({item, index, hasSubscribed}) => {
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const {settings} = useSettings();
 
-  const [isCollapsed, setIsCollapsed] = useState(true)
-  const { settings } = useSettings()
-
-  return(
+  return (
     <View>
       <TouchableOpacity
         onPress={() => setIsCollapsed(prev => !prev)}
-        style={[styles.chapter, { backgroundColor: isCollapsed ? APP_COLORS.gray2 : "white" }]}
-        activeOpacity={0.8}
-      >
-          <View
-            style={styles.chapterInfo}
-          >
-            <Text style={styles.chapterTitle}>{item?.title}</Text>
-            <Text style={styles.counts}>{item?.lessons?.length} {strings.лекции}・{item?.files_count} {strings.файла}・{item?.tests_count} {strings.тест}</Text>
-            <View
-              style={styles.courseStatus}
-            >
-            {
-              !hasSubscribed
-              ?
+        style={[
+          styles.chapter,
+          {backgroundColor: isCollapsed ? APP_COLORS.gray2 : 'white'},
+        ]}
+        activeOpacity={0.8}>
+        <View style={styles.chapterInfo}>
+          <Text style={styles.chapterTitle}>{item?.title}</Text>
+          <Text style={styles.counts}>
+            {item?.lessons?.length} {strings.лекции}・{item?.files_count}{' '}
+            {strings.файла}・{item?.tests_count} {strings.тест}
+          </Text>
+          <View style={styles.courseStatus}>
+            {!hasSubscribed ? (
               <RowView>
                 {lock()}
-                <Text style={styles.subscribeToCourseText}>{strings['Купите курс чтобы смотреть']}</Text>
+                <Text style={styles.subscribeToCourseText}>
+                  {strings['Купите курс чтобы смотреть']}
+                </Text>
               </RowView>
-              :
-              item?.lessons.filter((lesson) => lesson?.is_promo).length > 0
-              ?
+            ) : item?.lessons.filter(lesson => lesson?.is_promo).length > 0 ? (
               iconPlay()
-              :
+            ) : (
               lock()
-            }
-            </View>
+            )}
           </View>
-          <RowView>
-            <FastImage
-              source={{ uri: item?.lessons?.length > 0 ? item?.lessons[0]?.preview : settings?.logo }}
-              style={styles.chapterPoster}
-            >
-              <View style={styles.chapterPosterOpacity}>
-                <View style={styles.chapterPlay}>
-                  {iconPlay(0.9, APP_COLORS.primary)}
-                </View>
+        </View>
+        <RowView>
+          <FastImage
+            source={{
+              uri:
+                item?.lessons?.length > 0
+                  ? item?.lessons[0]?.preview
+                  : settings?.logo,
+            }}
+            style={styles.chapterPoster}>
+            <View style={styles.chapterPosterOpacity}>
+              <View style={styles.chapterPlay}>
+                {iconPlay(0.9, APP_COLORS.primary)}
               </View>
-            </FastImage>
-            <View style={{ marginLeft: 8 }}>
-              {
-                isCollapsed
-                ?
-                down
-                :
-                up
-              }
             </View>
-          </RowView>
+          </FastImage>
+          <View style={{marginLeft: 8}}>{isCollapsed ? down : up}</View>
+        </RowView>
       </TouchableOpacity>
       <Divider
-          isAbsolute={false}
-          style={{
-            width: WIDTH - 32
-          }}
-        />
-      <Collapsible 
-        collapsed={isCollapsed}
-        style={styles.collapsed}
-      >
-      {
-          item?.lessons.map((lesson, i) => (
-            <TouchableOpacity
-              activeOpacity={0.8}
-              onPress={() => undefined}
-              key={i}
-            >
-              <RowView style={styles.lesson}>
-                <RowView style={styles.lessonRow1}>
-                  <View style={styles.lessonIcon}>
-                    {
-                      lesson?.is_promo
-                      ?
-                      <View style={styles.lessonPlay}>
-                        {iconPlay(0.85)}
-                      </View>
-                      :
-                      lock()
-                    }
-                  </View>
-                  <Text style={lesson?.is_promo ? styles.lessonTitle : styles.lessonLockedTitle} numberOfLines={3}>{index + 1}.{i + 1} {lesson?.title}</Text>
-                </RowView>
-                <RowView>
-                  {time(undefined, APP_COLORS.placeholder)}
-                  <Text style={styles.lessonTime}>{lesson?.time < 10 ? "0" + lesson?.time : lesson?.time}:00</Text>
-                </RowView>
+        isAbsolute={false}
+        style={{
+          width: WIDTH - 32,
+        }}
+      />
+      <Collapsible collapsed={isCollapsed} style={styles.collapsed}>
+        {item?.lessons.map((lesson, i) => (
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => undefined}
+            key={i}>
+            <RowView style={styles.lesson}>
+              <RowView style={styles.lessonRow1}>
+                <View style={styles.lessonIcon}>
+                  {lesson?.is_promo ? (
+                    <View style={styles.lessonPlay}>{iconPlay(0.85)}</View>
+                  ) : (
+                    lock()
+                  )}
+                </View>
+                <Text
+                  style={
+                    lesson?.is_promo
+                      ? styles.lessonTitle
+                      : styles.lessonLockedTitle
+                  }
+                  numberOfLines={3}>
+                  {index + 1}.{i + 1} {lesson?.title}
+                </Text>
               </RowView>
-            </TouchableOpacity>
-          ))
-      }
+              <RowView>
+                {time(undefined, APP_COLORS.placeholder)}
+                <Text style={styles.lessonTime}>
+                  {lesson?.time < 10 ? '0' + lesson?.time : lesson?.time}:00
+                </Text>
+              </RowView>
+            </RowView>
+          </TouchableOpacity>
+        ))}
       </Collapsible>
     </View>
-  )
-}
+  );
+};
 
-const CourseListFooter = ({ data }) => {
-
-  const renderReview = ({ item, index }) => {
-    return(
+const CourseListFooter = ({data}) => {
+  const renderReview = ({item, index}) => {
+    return (
       <ReviewItem
         avatar={item?.user?.avatar}
         name={item?.user?.name}
@@ -265,25 +216,25 @@ const CourseListFooter = ({ data }) => {
         style={{
           ...styles.reviewItem,
           marginLeft: index === 0 ? 16 : 0,
-          marginRight: index === data?.reviews.length - 1 ? 16 : 10
+          marginRight: index === data?.reviews.length - 1 ? 16 : 10,
         }}
         numberOfLines={3}
       />
-    )
-  }
+    );
+  };
 
-  return(
+  return (
     <UniversalView>
-      <View style={{ padding: 16, paddingTop: 32 }}>
+      <View style={{padding: 16, paddingTop: 32}}>
         <Person
           status={strings['Автор курса']}
           image={data?.author?.avatar}
-          name={data?.author?.name + " " + data?.author?.surname}
+          name={data?.author?.name + ' ' + data?.author?.surname}
           description={data?.author?.description}
         />
-        <RowView style={{ justifyContent: "space-between" }}>
+        <RowView style={{justifyContent: 'space-between'}}>
           <Text style={styles.courseProgram}>{strings.Отзывы}</Text>
-          <TextButton 
+          <TextButton
             text={strings.Все}
             textStyle={styles.allButton}
             onPress={() => undefined}
@@ -293,106 +244,70 @@ const CourseListFooter = ({ data }) => {
       <FlatList
         data={data?.reviews}
         renderItem={renderReview}
-        keyExtractor={(_ , index) => index.toString()}
-
+        keyExtractor={(_, index) => index.toString()}
         showsHorizontalScrollIndicator={false}
         horizontal
       />
     </UniversalView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  container: {
-
-  },
-  category: {
-    textTransform: "uppercase",
-    ...setFontStyle(14, "700", APP_COLORS.placeholder)
-  },
-  title: {
-    ...setFontStyle(21, "700"),
-    marginVertical: 8
-  },
+  container: {},
   counts: {
-    ...setFontStyle(13, "400", APP_COLORS.placeholder),
-    marginBottom: 8
+    ...setFontStyle(13, '400', APP_COLORS.placeholder),
+    marginBottom: 8,
   },
   subscribeToCourseText: {
-    ...setFontStyle(14, "400", APP_COLORS.placeholder),
+    ...setFontStyle(14, '400', APP_COLORS.placeholder),
     marginLeft: 6,
   },
   courseStatus: {
-    marginBottom: 10
-  },
-  poster: {
-    width: WIDTH,
-    height: HEIGHT / 3.6,
+    marginBottom: 10,
   },
   chapter: {
     padding: 8,
     paddingLeft: 16,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between"
-  },  
-  chapterInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
+  chapterInfo: {},
   chapterPoster: {
     width: 62,
     height: 62,
     borderRadius: 8,
   },
   chapterTitle: {
-    ...setFontStyle(16, "600"),
-    marginBottom: 7
+    ...setFontStyle(16, '600'),
+    marginBottom: 7,
   },
   chapterPosterOpacity: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.15)",
-    justifyContent: "center",
-    alignItems: 'center'
+    backgroundColor: 'rgba(0, 0, 0, 0.15)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chapterPlay: {
     width: 32,
     height: 32,
     borderRadius: 100,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     justifyContent: 'center',
-    alignItems: "center"
-  },
-  time: {
-    marginHorizontal: 4,
-    ...setFontStyle(15, "400", APP_COLORS.primary)
-  },
-  descriptionViewHidden: {
-    overflow: 'hidden',
-    maxHeight: 120
-  },
-  descriptionViewShow: {
-      overflow: 'hidden',
-      maxHeight: null
-  },
-  moreButton: {
-    alignSelf: "flex-start",
-    marginVertical: 10
-  },
-  moreButtonText: {
-    ...setFontStyle(15, "500", APP_COLORS.primary),
-    textTransform: "uppercase",
+    alignItems: 'center',
   },
   courseProgram: {
     marginTop: 24,
-    ...setFontStyle(21, "700")
+    ...setFontStyle(21, '700'),
   },
   collapsed: {
-    padding: 0
+    padding: 0,
   },
   lesson: {
     flex: 1,
     marginHorizontal: 6,
-    alignItems: "center",
-    justifyContent: "space-evenly",
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
     padding: 10,
     marginVertical: 2,
     borderRadius: 8,
@@ -402,7 +317,7 @@ const styles = StyleSheet.create({
     paddingRight: 40,
   },
   lessonIcon: {
-    marginRight: 9
+    marginRight: 9,
   },
   lessonPlay: {
     width: 24,
@@ -410,25 +325,25 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     backgroundColor: APP_COLORS.primary,
     justifyContent: 'center',
-    alignItems: "center",
+    alignItems: 'center',
   },
   lessonTitle: {
-    ...setFontStyle(12, "500"),
+    ...setFontStyle(12, '500'),
   },
   lessonLockedTitle: {
-    ...setFontStyle(12, "400", APP_COLORS.placeholder)
+    ...setFontStyle(12, '400', APP_COLORS.placeholder),
   },
   lessonTime: {
-    ...setFontStyle(11, "400", APP_COLORS.placeholder),
+    ...setFontStyle(11, '400', APP_COLORS.placeholder),
   },
   allButton: {
-    ...setFontStyle(15, "600", APP_COLORS.primary),
-    textTransform: "uppercase"
+    ...setFontStyle(15, '600', APP_COLORS.primary),
+    textTransform: 'uppercase',
   },
   reviewItem: {
     width: WIDTH - 64,
     height: 200,
-  }
-})
+  },
+});
 
-export default CourseDetailScreen
+export default CourseDetailScreen;
