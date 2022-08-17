@@ -33,9 +33,6 @@ target 'Educenter' do
   pod 'Permission-StoreKit', :path => "#{permissions_path}/StoreKit"
   # Permission handlers
 
-  # React Native File System library pod
-  pod 'RNFS', :path => '../node_modules/react-native-fs'
-
   # Flags change depending on the env values.
   flags = get_default_flags()
 
