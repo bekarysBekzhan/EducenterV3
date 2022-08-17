@@ -1,6 +1,9 @@
 import {StyleSheet} from 'react-native';
 import { APP_COLORS } from '../constans/constants';
 import { strings } from '../localization';
+import RNFS from 'react-native-fs';
+import FileViewer from 'react-native-file-viewer';
+import { Alert } from 'react-native';
 
 export const getAudioUrl = html => {
   let pattern1 = new RegExp('src=');
@@ -94,3 +97,54 @@ export const wordLocalization = (word, args = {}, type = false) => {
   }
   return word;
 }
+
+export const fileDownloader = async (url, fileName, onDone, onProgress,) => {
+
+  console.log('url: ', url);
+  console.log('fileName: ', fileName);
+
+  if (url) {
+
+      try {
+
+          let localFile = `${RNFS.DocumentDirectoryPath}/${fileName}`
+
+          let options = {
+              fromUrl: encodeURI(url),
+              toFile: localFile,
+              background: false,
+              discretionary: true,
+              cacheable: true,
+              progressInterval: 200,
+              progressDivider: 20,
+              begin: () => { },
+              progress: onProgress
+          };
+
+          let res = await RNFS.downloadFile(options).promise;
+
+          console.log('res file downloader: ', res);
+
+          if (res.statusCode == 200) {
+              if (onDone) {
+                  onDone();
+                  onProgress(0);
+              }
+              let optionsFileView = { showAppsSuggestions: true, showOpenWithDialog: true };
+              setTimeout(async () => await FileViewer.open(localFile, optionsFileView), 400);
+          } else {
+              onDone();
+              Alert.alert(strings['Внимание !!!'], strings['Ошибка !!!']);
+          }
+
+
+      } catch (e) {
+          console.log('catch file downloader: ', e);
+          if (onDone) {
+              onDone();
+          }
+      }
+
+  }
+
+};
