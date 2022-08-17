@@ -24,5 +24,6 @@ export const URLS = {
   courses: "courses",
   courseByID: "course/",
   categories: "categories",
+  lesson: "lesson/"
 }
 
