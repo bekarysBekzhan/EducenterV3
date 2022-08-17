@@ -98,7 +98,6 @@ const styles = StyleSheet.create({
   },
   moreButton: {
     alignSelf: 'flex-start',
-    marginVertical: 10,
   },
   moreButtonText: {
     ...setFontStyle(15, '500', APP_COLORS.primary),

@@ -233,7 +233,9 @@ const CourseListFooter = ({data}) => {
           description={data?.author?.description}
         />
         <RowView style={{justifyContent: 'space-between'}}>
-          <Text style={styles.courseProgram}>{strings.Отзывы}</Text>
+          <Text style={{
+            ...setFontStyle(21, '700')
+          }}>{strings.Отзывы}</Text>
           <TextButton
             text={strings.Все}
             textStyle={styles.allButton}
@@ -297,7 +299,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   courseProgram: {
-    marginTop: 24,
+    margin: 16,
     ...setFontStyle(21, '700'),
   },
   collapsed: {
@@ -345,5 +347,9 @@ const styles = StyleSheet.create({
     height: 200,
   },
 });
+
+const chapter = StyleSheet.create({
+
+})
 
 export default CourseDetailScreen;
