@@ -11,6 +11,8 @@ import { strings } from '../../localization'
 import SearchScreen from '../../screens/SearchScreen'
 import Splash from './SplashStack'
 import BottomTab from './BottomTabStack'
+import LessonScreen from '../../screens/LessonScreen'
+import { API_V2 } from '../../services/axios'
 
 const MainStack = createNativeStackNavigator()
 
@@ -30,7 +32,8 @@ const GENERAL = [
 ]
 const PRIVATE = [
   {
-
+    name: ROUTE_NAMES.lesson,
+    component: LessonScreen
   }
 ]
 
@@ -40,19 +43,22 @@ const Navigation = () => {
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async() => {
     const language = await getString("language")
+    API_V2.defaults.headers.Authorization = "Bearer pjfx0g4VoVnFSJnSAiCr1QJETPXOt0IlTcLHhKbe1zcjIPOKYksh0D1B6lxJ" 
     if (language) {
       console.log(language)
       strings.setLanguage(language)
+      API_V2.defaults.headers.lang = language
     } else {
-      console.log("strings.setLanguage(ru)")
       strings.setLanguage("ru")
+      API_V2.defaults.headers.lang = "ru"
     }
-    const isAuth = await getString("isAuth")
+    const auth = await getString("isAuth")
     const userToken = await getString("userToken")
     const response = await MobileSettingsService.fetchSettings()
-    if (isAuth) {
-      setIsAuth(true)
-    }
+    setIsAuth(true)
+    // if (isAuth) {
+    //   setIsAuth(true)
+    // }
     if(userToken) {
       setUserToken(userToken)
     }
@@ -84,7 +90,14 @@ const Navigation = () => {
             isAuth
             ?
             PRIVATE.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} key={index}/>
+              <MainStack.Screen 
+                name={route.name} 
+                component={route.component} 
+                key={index} 
+                options={{
+                  headerShown: true
+                }}
+              />
             ))
             :
             null

@@ -8,7 +8,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 const SplashStack = createNativeStackNavigator()
 
-const SPLASH = [
+const Splash = (props) => {
+
+  const screens = [
     {
       name: ROUTE_NAMES.splash,
       component: SplashScreen
@@ -19,16 +21,15 @@ const SPLASH = [
     }
   ]
 
-const Splash = (props) => {
     return (
-        <SplashStack.Navigator>
+      <SplashStack.Navigator>
           {
-             SPLASH.map((route, index) => (
-              <SplashStack.Screen name={route.name} component={route.component} key={index} options={{ headerShown: route.name === ROUTE_NAMES.language, headerTitle: route.name === ROUTE_NAMES.language ? strings['Поменять язык'] : undefined }}/>
+             screens.map((screen, index) => (
+              <SplashStack.Screen name={screen.name} component={screen.component} key={index} options={{ headerShown: screen.name === ROUTE_NAMES.language, headerTitle: screen.name === ROUTE_NAMES.language ? strings['Поменять язык'] : undefined }}/>
             ))
           }
         </SplashStack.Navigator>
-      )
+    )
 }
 
 export default Splash

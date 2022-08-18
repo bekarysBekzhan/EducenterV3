@@ -45,7 +45,9 @@ const HtmlView = ({
     }), []);
 
     const memoRenderersProps = useMemo(() => ({
-        iframe: { scalesPageToFit: true }
+        iframe: { 
+            scalesPageToFit: true,
+        }
     }), []);
 
     const memoHtml = useMemo(() => ({
