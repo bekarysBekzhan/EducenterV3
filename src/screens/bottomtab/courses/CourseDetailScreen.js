@@ -27,6 +27,7 @@ import TransactionButton from '../../../components/button/TransactionButton';
 import Person from '../../../components/Person';
 import ReviewItem from '../../../components/view/ReviewItem';
 import DetailView from '../../../components/view/DetailView';
+import { ROUTE_NAMES } from '../../../components/navigation/routes';
 
 const CourseDetailScreen = props => {
   const courseID = props.route?.params?.courseID;
@@ -51,6 +52,7 @@ const CourseDetailScreen = props => {
         item={item}
         index={index}
         hasSubscribed={data?.has_subscribed}
+        navigation={props.navigation}
       />
     );
   };
@@ -106,7 +108,7 @@ const CourseListHeader = ({data}) => {
   );
 };
 
-const CourseChapter = ({item, index, hasSubscribed}) => {
+const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
   const {settings} = useSettings();
 
@@ -168,7 +170,13 @@ const CourseChapter = ({item, index, hasSubscribed}) => {
         {item?.lessons.map((lesson, i) => (
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => undefined}
+            onPress={() => {
+              if(lesson?.is_promo) {
+                navigation.navigate(ROUTE_NAMES.lesson, { id: lesson?.id })
+              } else {
+                
+              }
+            }}
             key={i}>
             <RowView style={styles.lesson}>
               <RowView style={styles.lessonRow1}>
