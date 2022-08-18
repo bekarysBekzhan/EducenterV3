@@ -13,6 +13,7 @@ import { pdf } from '../assets/icons'
 import { useRef } from 'react'
 import { useCallback } from 'react'
 import { Fragment } from 'react'
+import Downloader from '../components/Downloader'
 
 const LessonScreen = (props) => {
 
@@ -43,8 +44,7 @@ const LessonScreen = (props) => {
                     <Text style={styles.title}>{data?.title}</Text>
                     {
                         data?.files.map((file, index) => (
-                            // <FileItem urlFile={file}/>
-                            null
+                            <FileItem urlFile={file?.link}/>
                         ))
                     }
                 </View>
