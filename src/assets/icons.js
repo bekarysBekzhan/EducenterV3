@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, {Path, Rect, G, Defs, ClipPath, Circle} from 'react-native-svg';
+import Svg, { Path, Rect, G, Defs, ClipPath, Circle, Line } from 'react-native-svg';
 
 export const Logo = (size = 1) => (
   <Svg
@@ -201,7 +201,7 @@ export const iconPlay = (size = 1, color = 'white') => (
       fill={color}
     />
   </Svg>
-);
+)
 
 export const iconPause = (size = 1, color = 'white') => (
   <Svg

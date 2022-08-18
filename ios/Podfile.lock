@@ -436,6 +436,10 @@ PODS:
     - React-Core
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
+  - RNFileViewer (2.1.5):
+    - React-Core
+  - RNFS (2.20.0):
+    - React-Core
   - RNGestureHandler (2.4.2):
     - React-Core
   - RNImageCropPicker (0.38.0):
@@ -590,6 +594,8 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFastImage (from `../node_modules/react-native-fast-image`)
+  - RNFileViewer (from `../node_modules/react-native-file-viewer`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -754,6 +760,10 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-device-info"
   RNFastImage:
     :path: "../node_modules/react-native-fast-image"
+  RNFileViewer:
+    :path: "../node_modules/react-native-file-viewer"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNImageCropPicker:
@@ -853,6 +863,8 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 466b9df1a14bccda91da86e0b7d9a345d78e1673
   RNDeviceInfo: 0a7c1d2532aa7691f9b9925a27e43af006db4dae
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
+  RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
+  RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 61628a2c859172551aa2100d3e73d1e57878392f
   RNImageCropPicker: ffbba608264885c241cbf3a8f78eb7aeeb978241
   RNPermissions: de7b7c3fe1680d974ac7a85e3e97aa539c0e68ea
