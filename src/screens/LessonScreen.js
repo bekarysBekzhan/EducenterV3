@@ -17,6 +17,7 @@ import RNFS from 'react-native-fs';
 import OutlineButton from '../components/button/OutlineButton'
 import { strings } from '../localization'
 import { LeftIcon, left_icon, RightIcon, right_icon } from '../assets/icons'
+import { ROUTE_NAMES } from '../components/navigation/routes'
 
 const LessonScreen = (props) => {
 
@@ -30,6 +31,25 @@ const LessonScreen = (props) => {
     useEffect(() => {
         fetchLesson()
     }, [])
+
+    const nextLessonTapped = () => {
+
+        if(data?.isLast) {
+            props.navigation.navigate("")
+            return
+        }
+
+        props.navigation.replace(ROUTE_NAMES.lesson, { id: data?.next_lesson_id })
+
+    }
+
+    const previousLessonTapped = () => {
+        if(data?.isFirst) {
+            return
+        }
+
+        props.navigation.replace(ROUTE_NAMES.lesson, { id: data?.previous_lesson_id })
+    }
 
     return (
         <UniversalView>
@@ -82,10 +102,16 @@ const LessonScreen = (props) => {
                 null
                 :
                 <RowView style={styles.switchBar}>
-                    <TouchableOpacity style={styles.switchButton}>
-                        <LeftIcon color={APP_COLORS.placeholder}/>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.switchButton}>
+                    {
+                        data?.isFirst
+                        ?
+                        null
+                        :
+                        <TouchableOpacity style={styles.switchButton} onPress={previousLessonTapped}>
+                            <LeftIcon color={APP_COLORS.placeholder}/>
+                        </TouchableOpacity>
+                    }
+                    <TouchableOpacity style={styles.switchButton} onPress={nextLessonTapped}>
                         <RightIcon color={APP_COLORS.placeholder}/>
                     </TouchableOpacity>
                 </RowView>
