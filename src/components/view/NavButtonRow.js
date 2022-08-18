@@ -5,6 +5,7 @@ import { setFontStyle } from '../../utils/utils';
 import { APP_COLORS } from '../../constans/constants';
 
 const NavButtonRow = ({
+    item,
     leftIcon,
     title,
     selectedCategory,
@@ -15,20 +16,26 @@ const NavButtonRow = ({
     const memoStyle = useMemo(() => [styles.row, style], [style]);
     const titleMemoStyle = useMemo(() => [styles.title, titleStyle], [titleStyle]);
 
+    const onHandlerPress = () => {
+        if (onPress) {
+            onPress(item)
+        }
+    }
+
     return (
         <TouchableOpacity
             style={memoStyle}
             activeOpacity={0.9}
-            onPress={onPress}
+            onPress={onHandlerPress}
             {...props}>
             {leftIcon}
             <Text style={titleMemoStyle}>{title}</Text>
             {
                 selectedCategory
-                ?
-                <Text style={styles.selectedCategory}>{selectedCategory}</Text>
-                :
-                null
+                    ?
+                    <Text style={styles.selectedCategory}>{selectedCategory}</Text>
+                    :
+                    null
             }
             {iconNext}
         </TouchableOpacity>
