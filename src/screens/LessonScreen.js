@@ -14,6 +14,9 @@ import { useCallback } from 'react'
 import { Fragment } from 'react'
 import Downloader from '../components/Downloader'
 import RNFS from 'react-native-fs';
+import OutlineButton from '../components/button/OutlineButton'
+import { strings } from '../localization'
+import { LeftIcon, left_icon, RightIcon, right_icon } from '../assets/icons'
 
 const LessonScreen = (props) => {
 
@@ -30,30 +33,63 @@ const LessonScreen = (props) => {
 
     return (
         <UniversalView>
+            <UniversalView haveScroll style={styles.container}>
+                {
+                    isLoading
+                    ?
+                    <ActivityIndicator style={styles.indicator} color={APP_COLORS.primary}/>
+                    :
+                    <View>
+                        <View style={styles.video}>
+                            <HtmlView
+                                html={data?.video}
+                            />
+                        </View>
+                        <Text style={styles.title}>{data?.title}</Text>
+                        {
+                            data?.files.map((file, index) => (
+                                <FileItem 
+                                    fileName={file?.file_name}
+                                    urlFile={file?.link} 
+                                    style={{ marginVertical: 16}}
+                                    key={index}
+                                />
+                            ))
+                        }
+                        <View
+                            style={styles.descriptionContainer}
+                        >
+                            <HtmlView
+                                html={data?.description}
+                            />
+                        </View>
+                        <OutlineButton
+                            text={strings['Пройти тест']}
+                            onPress={() => undefined}
+                            style={styles.testButton}
+                        />
+                        <OutlineButton
+                            text={strings['Пройти задание']}
+                            onPress={() => undefined}
+                            style={styles.taskButton}
+                        />
+                    </View>
+                }
+            </UniversalView>
             {
                 isLoading
                 ?
-                <ActivityIndicator style={styles.indicator} color={APP_COLORS.primary}/>
+                null
                 :
-                <View>
-                    <View style={styles.video}>
-                        <HtmlView
-                            html={data?.video}
-                        />
-                    </View>
-                    <Text style={styles.title}>{data?.title}</Text>
-                    {
-                        data?.files.map((file, index) => (
-                            <FileItem 
-                                fileName={file?.file_name}
-                                urlFile={file?.link} 
-                                style={{ marginHorizontal: 16 }}
-                                key={index}
-                            />
-                        ))
-                    }
-                </View>
-            }
+                <RowView style={styles.switchBar}>
+                    <TouchableOpacity style={styles.switchButton}>
+                        <LeftIcon color={APP_COLORS.placeholder}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.switchButton}>
+                        <RightIcon color={APP_COLORS.placeholder}/>
+                    </TouchableOpacity>
+                </RowView>
+            }          
         </UniversalView>
     )
 }
@@ -141,23 +177,21 @@ const FileItem = ({
 
 const styles = StyleSheet.create({
     container: {
-
+        padding: 16,
+        // marginBottom: 100
     },
     indicator: {
         marginTop: 130
     },
     video: {
-        width: WIDTH,
+        width: WIDTH - 32,
         alignItems: "center",
-        marginTop: 16,
     },
     title: {
         ...setFontStyle(21, '700'),
-        margin: 16
+        marginTop: 16
     },
     file: {
-        width: WIDTH - 32,
-        marginHorizontal: 16,
         justifyContent: "space-between"
     },
     row: {
@@ -181,6 +215,37 @@ const styles = StyleSheet.create({
     fileName: {
         marginHorizontal: 8,
         ...setFontStyle()
+    },
+    descriptionContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    testButton: {
+        marginTop: 16,
+        marginBottom: 8
+    },
+    taskButton: {
+        marginBottom: 150
+    },
+    switchBar: {
+        position: "absolute",
+        bottom: 0,
+        width: WIDTH,
+        padding: 16,
+        paddingTop: 7,
+        paddingBottom: 50,
+        justifyContent: "space-between",
+        backgroundColor: "white",
+        borderTopWidth: 0.75,
+        borderColor: APP_COLORS.border
+    },
+    switchButton: {
+        width: 42,
+        height: 42,
+        borderRadius: 100,
+        backgroundColor: APP_COLORS.input,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
 
