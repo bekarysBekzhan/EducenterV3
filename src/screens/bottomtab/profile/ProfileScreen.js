@@ -1,12 +1,25 @@
-import {View, Text} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React, {Fragment} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {strings} from '../../../localization';
 import NavButtonRow from '../../../components/view/NavButtonRow';
 import SectionView from '../../../components/view/SectionView';
-import {Calendar, History, Password} from '../../../assets/icons';
+import {
+  Calendar,
+  History,
+  Journal,
+  NewsIcon,
+  Password,
+  Rating,
+  Reclament,
+  Referal,
+  Settings,
+} from '../../../assets/icons';
+import {useSettings} from '../../../components/context/Provider';
 
 const ProfileScreen = () => {
+  const {settings} = useSettings();
+
   const MENU = [
     {
       section: strings['Мои профиль'],
@@ -29,6 +42,7 @@ const ProfileScreen = () => {
         {
           id: 4,
           text: strings.Настройки,
+          iconLeft: <Settings />,
         },
       ],
     },
@@ -37,36 +51,41 @@ const ProfileScreen = () => {
       data: [
         {
           id: 1,
-          text: 'Журнал',
+          text: settings?.modules_enabled_journals_title,
+          iconLeft: <Journal />,
+          enabled: settings?.modules_enabled_journals,
         },
         {
           id: 2,
-          text: strings.Рейтинг,
+          text: settings?.modules_enabled_rating_title,
+          iconLeft: <Rating />,
+          enabled: settings?.modules_enabled_rating,
         },
-        {
-          id: 3,
-          text: strings['Реферальная программа'],
-        },
+        // {
+        //   id: 3,
+        //   text: strings['Реферальная программа'],
+        //   iconLeft: <Referal />,
+        // },
         {
           id: 4,
-          text: strings.Новости,
+          text: settings?.modules_enabled_news_title,
+          iconLeft: <NewsIcon />,
+          enabled: settings?.modules_enabled_news,
         },
         {
           id: 5,
           text: strings['Правила и соглашения'],
+          iconLeft: <Reclament />,
+          enabled: true,
         },
       ],
     },
     {
-      section: 'Помощ',
+      section: strings.Помощь,
       data: [
         {
           id: 1,
-          text: '',
-        },
-        {
-          id: 2,
-          text: 'О сервисе ',
+          text: settings?.phone,
         },
       ],
     },
@@ -74,16 +93,30 @@ const ProfileScreen = () => {
 
   return (
     <UniversalView haveLoader={false} haveScroll>
-      {MENU.map(s => (
-        <Fragment>
+      {MENU.map((s, sKey) => (
+        <Fragment key={sKey.toString()}>
           <SectionView label={s.section} />
-          {s.data.map(d => {
-            return <NavButtonRow leftIcon={d.iconLeft} title={d.text} />;
+          {s.data.map((d, dKey) => {
+            return (
+              <NavButtonRow
+                key={dKey.toString()}
+                leftIcon={d.iconLeft}
+                title={d.text}
+                style={styles.view}
+              />
+            );
           })}
         </Fragment>
       ))}
     </UniversalView>
   );
 };
+
+const styles = StyleSheet.create({
+  view: {
+    paddingLeft: 20,
+    paddingRight: 16,
+  },
+});
 
 export default ProfileScreen;

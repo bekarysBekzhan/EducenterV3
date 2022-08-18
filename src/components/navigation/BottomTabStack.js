@@ -1,6 +1,6 @@
 import React from 'react';
-import {useSettings} from '../context/Provider';
-import {ROUTE_NAMES} from './routes';
+import { useSettings } from '../context/Provider';
+import { ROUTE_NAMES } from './routes';
 import {
   coursesOFF,
   coursesON,
@@ -14,20 +14,24 @@ import {
   testsON,
 } from '../../assets/icons';
 import CoursesScreen from '../../screens/bottomtab/courses/CoursesScreen';
-import {strings} from '../../localization';
+import { strings } from '../../localization';
 import TestsScreen from '../../screens/bottomtab/tests/TestsScreen';
 import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen';
 import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import FastImage from 'react-native-fast-image';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet} from 'react-native';
-import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS} from '../../constans/constants';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { StyleSheet } from 'react-native';
+import { setFontStyle } from '../../utils/utils';
+import { APP_COLORS } from '../../constans/constants';
+import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
 
 const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
+
+  const { settings, isAuth } = useSettings();
+
   const BOTTOM_TAB = [
     {
       name: ROUTE_NAMES.coursesStack,
@@ -66,17 +70,17 @@ const BottomTab = props => {
       label: strings.Задания,
     },
     {
-      name: ROUTE_NAMES.menuStack,
-      component: ProfileScreen,
+      name: isAuth ? ROUTE_NAMES.menuStack : ROUTE_NAMES.profile,
+      component: isAuth ? ProfileScreen : MenuScreen,
       icon: {
         active: profileON,
         inactive: profileOFF,
       },
-      label: strings.Профиль,
+      label: strings.Меню,
     },
   ];
 
-  const {settings} = useSettings();
+
 
   return (
     <BottomTabStack.Navigator>
@@ -87,14 +91,14 @@ const BottomTab = props => {
             component={route.component}
             key={index}
             options={{
-              tabBarIcon: ({focused}) => {
+              tabBarIcon: ({ focused }) => {
                 return focused ? route.icon.active : route.icon.inactive;
               },
               tabBarActiveTintColor: APP_COLORS.primary,
               tabBarInactiveTintColor: APP_COLORS.placeholder,
               tabBarLabel: route.label,
               headerLeft: () => (
-                <FastImage source={{uri: settings?.logo}} style={styles.logo} />
+                <FastImage source={{ uri: settings?.logo }} style={styles.logo} />
               ),
               headerTitle: route.label,
               headerTitleAlign: 'left',

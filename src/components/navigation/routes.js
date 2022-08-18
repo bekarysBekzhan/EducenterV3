@@ -53,4 +53,5 @@ export const ROUTE_NAMES = {
   news: "News",
   privacyPolicy: "PrivacyPolicy",
   aboutService: "AboutService",
+  profile:"Profile"
 }
