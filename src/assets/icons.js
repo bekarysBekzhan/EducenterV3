@@ -254,7 +254,12 @@ export const profileOFF = <Svg width="24" height="24" viewBox="0 0 24 24" fill="
 <Path d="M3 12H21" stroke="#111621" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
 </Svg>
 
-
+export const CancelIcon = ({ size = 41, color = "#5559F4", width = 2.5 }) => (
+  <Svg width={size} height={size} viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <Line x1="10.7743" y1="30.0066" x2="29.0161" y2="11.7649" stroke={color} strokeWidth={width} strokeLinecap="round"/>
+  <Line x1="29.0161" y1="30.2352" x2="10.7743" y2="11.9934" stroke={color} strokeWidth={width} strokeLinecap="round"/>
+  </Svg>
+)
 
 
 
