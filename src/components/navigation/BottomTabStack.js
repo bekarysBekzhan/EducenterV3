@@ -13,7 +13,6 @@ import {
   testsOFF,
   testsON,
 } from '../../assets/icons';
-import CoursesScreen from '../../screens/bottomtab/courses/CoursesScreen';
 import {strings} from '../../localization';
 import TestsScreen from '../../screens/bottomtab/tests/TestsScreen';
 import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen';
@@ -21,9 +20,9 @@ import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import FastImage from 'react-native-fast-image';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet} from 'react-native';
-import {setFontStyle} from '../../utils/utils';
 import {APP_COLORS} from '../../constans/constants';
+import Courses from './CoursesStack';
+import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
 
 const BottomTabStack = createBottomTabNavigator();
 
@@ -100,13 +99,6 @@ const BottomTab = props => {
                 return focused ? route.icon.active : route.icon.inactive;
               },
               tabBarLabel: route.label,
-              headerLeft: () => (
-                <FastImage source={{uri: settings?.logo}} style={styles.logo} />
-              ),
-              headerTitle: route.label,
-              headerTitleAlign: 'left',
-              headerTitleStyle: styles.navigationTitle,
-              headerLeftContainerStyle: styles.navigationHeader,
             }}
           />
         );
