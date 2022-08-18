@@ -1,8 +1,8 @@
 import {StyleSheet} from 'react-native';
 import { APP_COLORS } from '../constans/constants';
 import { strings } from '../localization';
-// import RNFS from 'react-native-fs';
-// import FileViewer from 'react-native-file-viewer';
+import RNFS from 'react-native-fs';
+import FileViewer from 'react-native-file-viewer';
 import { Alert } from 'react-native';
 
 export const getAudioUrl = html => {

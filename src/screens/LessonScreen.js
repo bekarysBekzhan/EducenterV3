@@ -9,11 +9,11 @@ import { APP_COLORS, WIDTH } from '../constans/constants'
 import HtmlView from '../components/HtmlView'
 import { fileDownloader, setFontStyle } from '../utils/utils'
 import RowView from '../components/view/RowView'
-import { pdf } from '../assets/icons'
 import { useRef } from 'react'
 import { useCallback } from 'react'
 import { Fragment } from 'react'
 import Downloader from '../components/Downloader'
+import RNFS from 'react-native-fs';
 
 const LessonScreen = (props) => {
 
@@ -44,7 +44,12 @@ const LessonScreen = (props) => {
                     <Text style={styles.title}>{data?.title}</Text>
                     {
                         data?.files.map((file, index) => (
-                            <FileItem urlFile={file?.link}/>
+                            <FileItem 
+                                fileName={file?.file_name}
+                                urlFile={file?.link} 
+                                style={{ marginHorizontal: 16 }}
+                                key={index}
+                            />
                         ))
                     }
                 </View>

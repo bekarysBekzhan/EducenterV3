@@ -1,5 +1,5 @@
 import React from 'react';
-import Svg, { Path, Rect, G, Defs, ClipPath, Circle } from 'react-native-svg';
+import Svg, { Path, Rect, G, Defs, ClipPath, Circle, Line } from 'react-native-svg';
 
 export const Logo = (size = 1) => (
   <Svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
