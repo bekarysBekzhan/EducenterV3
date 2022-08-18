@@ -1,18 +1,17 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React, {Fragment} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {strings} from '../../../localization';
 import NavButtonRow from '../../../components/view/NavButtonRow';
 import SectionView from '../../../components/view/SectionView';
 import {
-  Calendar,
+  CalendarIcon,
   History,
-  Journal,
+  JournalIcon,
   NewsIcon,
   Password,
-  Rating,
-  Reclament,
-  Referal,
+  RatingIcon,
+  ReclamentIcon,
   Settings,
 } from '../../../assets/icons';
 import {useSettings} from '../../../components/context/Provider';
@@ -32,7 +31,7 @@ const ProfileScreen = () => {
         {
           id: 2,
           text: 'Расписание',
-          iconLeft: <Calendar />,
+          iconLeft: <CalendarIcon />,
         },
         {
           id: 3,
@@ -52,13 +51,13 @@ const ProfileScreen = () => {
         {
           id: 1,
           text: settings?.modules_enabled_journals_title,
-          iconLeft: <Journal />,
+          iconLeft: <JournalIcon />,
           enabled: settings?.modules_enabled_journals,
         },
         {
           id: 2,
           text: settings?.modules_enabled_rating_title,
-          iconLeft: <Rating />,
+          iconLeft: <RatingIcon />,
           enabled: settings?.modules_enabled_rating,
         },
         // {
@@ -75,7 +74,7 @@ const ProfileScreen = () => {
         {
           id: 5,
           text: strings['Правила и соглашения'],
-          iconLeft: <Reclament />,
+          iconLeft: <ReclamentIcon />,
           enabled: true,
         },
       ],
@@ -92,7 +91,7 @@ const ProfileScreen = () => {
   ];
 
   return (
-    <UniversalView haveLoader={false} haveScroll>
+    <UniversalView haveScroll>
       {MENU.map((s, sKey) => (
         <Fragment key={sKey.toString()}>
           <SectionView label={s.section} />
@@ -112,11 +111,11 @@ const ProfileScreen = () => {
   );
 };
 
+export default ProfileScreen;
+
 const styles = StyleSheet.create({
   view: {
     paddingLeft: 20,
     paddingRight: 16,
   },
 });
-
-export default ProfileScreen;
