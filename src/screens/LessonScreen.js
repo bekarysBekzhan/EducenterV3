@@ -105,7 +105,7 @@ const LessonScreen = (props) => {
                     {
                         data?.isFirst
                         ?
-                        null
+                        <View/>
                         :
                         <TouchableOpacity style={styles.switchButton} onPress={previousLessonTapped}>
                             <LeftIcon color={APP_COLORS.placeholder}/>
