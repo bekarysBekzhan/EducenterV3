@@ -11,7 +11,6 @@ export const useFetching = callback => {
       await callback(...props);
     } catch (error) {
       setError(error.message);
-      return;
     } finally {
       setIsLoading(false);
     }
