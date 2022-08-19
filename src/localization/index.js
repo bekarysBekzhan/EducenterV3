@@ -569,7 +569,7 @@ export const strings = new LocalizedStrings({
         "Создай свою онлайн школу вместе с Educenter": "Create your own online school with Educenter",
         "Помощь": "Help",
         "Календарь":"Календарь",
-        "Пройти задание" : "Complete the task",,
+        "Пройти задание" : "Complete the task",
         "E-mail или телефон":"Email or phone"
     }
 })
