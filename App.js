@@ -22,17 +22,17 @@ const App = () => {
     await TrackPlayer.setupPlayer();
   };
 
+  const toastConfig = {
+    error: ({text2}) => <ToastView text={text2} />,
+  };
+
   const deinitPlayer = async () => {
     // await TrackPlayer.destroy()
   };
 
   useTrackPlayerEvents(events, () => {
-    console.log;
-  });
-
-  const toastConfig = {
-    error: ({text2}) => <ToastView text={text2} />,
-  };
+    console.log
+  })
 
   useEffect(() => {
     initPlayer();

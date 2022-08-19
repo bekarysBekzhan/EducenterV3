@@ -110,7 +110,7 @@ const CourseListHeader = ({data}) => {
 
 const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const {settings} = useSettings();
+  const {settings, isAuth} = useSettings();
 
   return (
     <View>
@@ -171,6 +171,11 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
           <TouchableOpacity
             activeOpacity={0.8}
             onPress={() => {
+              if (!isAuth) {
+                navigation.replace(ROUTE_NAMES.bottomTab, { screen: ROUTE_NAMES.profile })
+                return
+              }
+
               if(lesson?.is_promo) {
                 navigation.navigate(ROUTE_NAMES.lesson, { id: lesson?.id })
               } else {
