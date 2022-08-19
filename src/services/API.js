@@ -85,6 +85,7 @@ class CourseService {
         } catch(e) {
             console.log(e)
             console.log(requesToFailed(URLS.lesson))
+            return e.response
         }
     }
 }

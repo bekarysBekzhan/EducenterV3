@@ -26,6 +26,11 @@ const LessonScreen = (props) => {
     const [data, setData] = useState(null)
     const [fetchLesson, isLoading, lessonError] = useFetching(async() => {
         const response = await CourseService.fetchLesson(id)
+        console.log("Lesson request status : " , response?.status)
+        if (response?.status !== 200) {
+            props.navigation.goBack()
+            return
+        }
         setData(response.data?.data)
     })
 
