@@ -7,9 +7,11 @@ export const useFetching = callback => {
   const fetching = async (...props) => {
     try {
       setIsLoading(true);
+      setError('');
       await callback(...props);
     } catch (error) {
       setError(error.message);
+      return;
     } finally {
       setIsLoading(false);
     }
