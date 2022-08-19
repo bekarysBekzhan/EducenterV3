@@ -8,6 +8,8 @@ import { setFontStyle } from '../utils/utils';
 import { iconPause, iconPlay, PauseIcon, PlayIcon } from '../assets/icons';
 import { getFormattedTime } from '../utils/utils';
 
+const events = [Event.PlaybackState, Event.PlaybackProgressUpdated]
+
 const AudioPlayer = ({
     _index,
     url,
@@ -28,6 +30,13 @@ const AudioPlayer = ({
     const memoPositionStyle = useMemo(() => [styles.position, positionStyle], [positionStyle]);
     const memoDurationStyle = useMemo(() => [styles.duration, durationStyle], [durationStyle]);
     const memoSliderStyle = useMemo(() => [styles.slider, sliderStyle], [sliderStyle])
+
+    useTrackPlayerEvents(events, (event) => {
+        console.log(event)
+        if(event.type === Event.PlaybackState) {
+            setPlaying(event.state === State.Playing ? true : false)
+        }
+    })
 
     const [playing, setPlaying] = useState(false)
     const [index, setIndex] = useState(null)
