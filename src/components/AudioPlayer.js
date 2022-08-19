@@ -42,6 +42,13 @@ const AudioPlayer = ({
 
     }, []);
 
+    useEffect(() => {
+        if(progress.position === progress.duration) {
+            console.log("Audio finished.");
+            audioFinished()
+        }
+    }, [progress.position])
+
     const add = async() => {
 
         const track = {
@@ -131,6 +138,10 @@ const AudioPlayer = ({
 
     }, []);
 
+    const audioFinished = async() => {
+        setPlaying(false)
+        await TrackPlayer.seekTo(0)
+    }
 
     return (
         <RowView style={memoStyle}>
