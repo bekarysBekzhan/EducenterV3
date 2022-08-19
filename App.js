@@ -31,7 +31,7 @@ const App = () => {
   };
 
   useTrackPlayerEvents(events, () => {
-    console.log
+    console.log()
   })
 
   useEffect(() => {
