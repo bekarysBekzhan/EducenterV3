@@ -38,7 +38,7 @@ const HtmlView = ({
                 let track = await TrackPlayer.getQueue();
 
                 if (track.length) {
-                    TrackPlayer.pause();
+                    await TrackPlayer.pause();
                 }
             }
         }

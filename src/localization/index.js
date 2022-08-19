@@ -188,7 +188,8 @@ export const strings = new LocalizedStrings({
         "Создай свою онлайн школу вместе с Educenter": "Educenter көмегімен өзіңіздің онлайн мектебіңізді жасаңыз",
         "Помощь": "Көмек",
         "Календарь":"Күнтізбе",
-        "E-mail или телефон":"E-mail немесе телефон"
+        "E-mail или телефон":"E-mail немесе телефон",
+        "Пройти задание" : "Тапсырманы орындау",
     },
     ru: {
         "Курсы": "Курсы",
@@ -377,7 +378,8 @@ export const strings = new LocalizedStrings({
         "Создай свою онлайн школу вместе с Educenter": "Создай свою онлайн школу вместе с Educenter",
         "Помощь": "Помощь",
         "Календарь":"Календарь",
-        "E-mail или телефон":"E-mail или телефон"
+        "E-mail или телефон":"E-mail или телефон",
+        "Пройти задание" : "Пройти задание",
     },
     en: {
         "Курсы": "Courses",
@@ -567,6 +569,7 @@ export const strings = new LocalizedStrings({
         "Создай свою онлайн школу вместе с Educenter": "Create your own online school with Educenter",
         "Помощь": "Help",
         "Календарь":"Календарь",
+        "Пройти задание" : "Complete the task",,
         "E-mail или телефон":"Email or phone"
     }
 })

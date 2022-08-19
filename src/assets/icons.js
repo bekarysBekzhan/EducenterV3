@@ -1,5 +1,6 @@
 import React from 'react';
 import Svg, { Path, Rect, G, Defs, ClipPath, Circle, Line } from 'react-native-svg';
+import { APP_COLORS } from '../constans/constants';
 
 export const Logo = (size = 1) => (
   <Svg
@@ -57,19 +58,25 @@ export const Logo = (size = 1) => (
   </Svg>
 );
 
-export const left_icon = (
+export const LeftIcon = ({ size = 24, color = APP_COLORS.primary  }) => (
   <Svg
-    width="24"
-    height="24"
+    width={size}
+    height={size}
     viewBox="0 0 24 24"
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M7 12C7 11.7901 7.08554 11.5889 7.23753 11.4413L13.6375 5.22697C13.9517 4.9219 14.4582 4.92472 14.7689 5.23327C15.0795 5.54182 15.0767 6.03926 14.7625 6.34433L8.93784 12L14.7625 17.6557C15.0767 17.9607 15.0795 18.4582 14.7689 18.7667C14.4582 19.0753 13.9517 19.0781 13.6375 18.773L7.23753 12.5587C7.08554 12.4111 7 12.2099 7 12Z"
-      fill="#5559F4"
+      fill={color}
     />
+  </Svg>
+);
+
+export const RightIcon = ({ size = 24, color = APP_COLORS.primary }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <Path fillRule="evenodd" clipRule="evenodd" d="M15 12C15 12.2099 14.9145 12.4111 14.7625 12.5587L8.36247 18.773C8.04828 19.0781 7.54176 19.0753 7.23112 18.7667C6.92047 18.4582 6.92335 17.9607 7.23753 17.6557L13.0622 12L7.23753 6.34433C6.92335 6.03926 6.92047 5.54182 7.23112 5.23327C7.54176 4.92472 8.04828 4.9219 8.36247 5.22697L14.7625 11.4413C14.9145 11.5889 15 11.7901 15 12Z" fill={color}/>
   </Svg>
 );
 
@@ -97,22 +104,6 @@ export const x = (size = 8, color = '#FEFEFE') => (
     <Path
       d="M0.8 0L0 0.8L3.2 4L0 7.2L0.8 8L4 4.8L7.2 8L8 7.2L4.8 4L8 0.8L7.2 0L4 3.2L0.8 0Z"
       fill={color}
-    />
-  </Svg>
-);
-
-export const right_icon = (
-  <Svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M19.425 6H22.5V7.5H19.425C19.05 9.225 17.55 10.5 15.75 10.5C13.95 10.5 12.45 9.225 12.075 7.5H1.5V6H12.075C12.45 4.275 13.95 3 15.75 3C17.55 3 19.05 4.275 19.425 6ZM13.5 6.75C13.5 8.025 14.475 9 15.75 9C17.025 9 18 8.025 18 6.75C18 5.475 17.025 4.5 15.75 4.5C14.475 4.5 13.5 5.475 13.5 6.75ZM4.575 18H1.5V16.5H4.575C4.95 14.775 6.45 13.5 8.25 13.5C10.05 13.5 11.55 14.775 11.925 16.5H22.5V18H11.925C11.55 19.725 10.05 21 8.25 21C6.45 21 4.95 19.725 4.575 18ZM10.5 17.25C10.5 15.975 9.525 15 8.25 15C6.975 15 6 15.975 6 17.25C6 18.525 6.975 19.5 8.25 19.5C9.525 19.5 10.5 18.525 10.5 17.25Z"
-      fill="#5559F4"
     />
   </Svg>
 );
@@ -203,6 +194,20 @@ export const iconPlay = (size = 1, color = 'white') => (
   </Svg>
 )
 
+export const PlayIcon = ({ size = 1, color = 'white' }) => (
+  <Svg
+    width={11 * size}
+    height={14 * size}
+    viewBox="0 0 11 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <Path
+      d="M10.5 6.13398C11.1667 6.51888 11.1667 7.48112 10.5 7.86603L1.5 13.0622C0.833333 13.4471 0 12.966 0 12.1962V1.80385C0 1.03405 0.833333 0.552922 1.5 0.937822L10.5 6.13398Z"
+      fill={color}
+    />
+  </Svg>
+) 
+
 export const iconPause = (size = 1, color = 'white') => (
   <Svg
     width={8 * size}
@@ -220,6 +225,24 @@ export const iconPause = (size = 1, color = 'white') => (
     />
   </Svg>
 );
+
+export const PauseIcon = ({ size = 1, color = "white" }) => (
+  <Svg
+    width={8 * size}
+    height={14 * size}
+    viewBox="0 0 8 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <Path
+      d="M1.66667 13.3333H1C0.447715 13.3333 0 12.8856 0 12.3333V1C0 0.447715 0.447716 0 1 0H1.66667C2.21895 0 2.66667 0.447714 2.66667 0.999999V12.3333C2.66667 12.8856 2.21895 13.3333 1.66667 13.3333Z"
+      fill={color}
+    />
+    <Path
+      d="M7 13.3333H6.33333C5.78105 13.3333 5.33333 12.8856 5.33333 12.3333V1C5.33333 0.447715 5.78105 0 6.33333 0H7C7.55228 0 8 0.447714 8 0.999999V12.3333C8 12.8856 7.55228 13.3333 7 13.3333Z"
+      fill={color}
+    />
+  </Svg>
+)
 
 export const search = (fill = '#808191') => (
   <Svg
@@ -960,6 +983,12 @@ export const Password = () => (
     />
   </Svg>
 );
+
+export const InfoIcon = ({ size = 24, color = "#FF3B30" }) => (
+  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path fillRule="evenodd" clipRule="evenodd" d="M12 2.40426C6.70054 2.40426 2.40426 6.70054 2.40426 12C2.40426 17.2995 6.70054 21.5957 12 21.5957C17.2995 21.5957 21.5957 17.2995 21.5957 12C21.5957 6.70054 17.2995 2.40426 12 2.40426ZM1 12C1 5.92499 5.92499 1 12 1C18.075 1 23 5.92499 23 12C23 18.075 18.075 23 12 23C5.92499 23 1 18.075 1 12ZM12 10.3617C12.3878 10.3617 12.7021 10.6761 12.7021 11.0638V17.617C12.7021 18.0048 12.3878 18.3191 12 18.3191C11.6122 18.3191 11.2979 18.0048 11.2979 17.617V11.0638C11.2979 10.6761 11.6122 10.3617 12 10.3617ZM12.7021 7.30979C12.7021 6.92201 12.3878 6.60766 12 6.60766C11.6122 6.60766 11.2979 6.92201 11.2979 7.30979V7.31915C11.2979 7.70692 11.6122 8.02128 12 8.02128C12.3878 8.02128 12.7021 7.70692 12.7021 7.31915V7.30979Z" fill={color}/>
+  </Svg>
+)
 
 export const ToastInfoIcon = ({
   width = '24',

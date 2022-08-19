@@ -5,8 +5,10 @@ import Slider from '@react-native-community/slider';
 import RowView from './view/RowView';
 import { APP_COLORS } from '../constans/constants';
 import { setFontStyle } from '../utils/utils';
-import { iconPause, iconPlay } from '../assets/icons';
+import { iconPause, iconPlay, PauseIcon, PlayIcon } from '../assets/icons';
 import { getFormattedTime } from '../utils/utils';
+
+const events = [Event.PlaybackState, Event.PlaybackProgressUpdated]
 
 const AudioPlayer = ({
     _index,
@@ -14,6 +16,8 @@ const AudioPlayer = ({
     onTrackChange,
     style,
     playStyle,
+    playIconSize = 1,
+    pauseIconSize = 1,
     sliderStyle,
     positionStyle,
     durationStyle,
@@ -21,11 +25,20 @@ const AudioPlayer = ({
     maximumTrackTintColor = "#F1F2FE",
 }) => {
 
-    const memoStyle = useMemo(() => [styles.view, style], []);
-    const memoPlayStyle = useMemo(() => [styles.play, playStyle], []);
-    const memoPositionStyle = useMemo(() => [styles.position, positionStyle], []);
-    const memoDurationStyle = useMemo(() => [styles.duration, durationStyle], []);
-    const memoSliderStyle = useMemo(() => [styles.slider, sliderStyle], [])
+    const memoStyle = useMemo(() => [styles.view, style], [style]);
+    const memoPlayStyle = useMemo(() => [styles.play, playStyle], [playStyle]);
+    const memoPositionStyle = useMemo(() => [styles.position, positionStyle], [positionStyle]);
+    const memoDurationStyle = useMemo(() => [styles.duration, durationStyle], [durationStyle]);
+    const memoSliderStyle = useMemo(() => [styles.slider, sliderStyle], [sliderStyle])
+
+    useTrackPlayerEvents(events, (event) => {
+        console.log(event)
+        if(event.type === Event.PlaybackState) {
+            setPlaying(event.state === State.Playing ? true : false)
+            setDuration(progress.duration)
+            setPosition(progress.position)
+        }
+    })
 
     const [playing, setPlaying] = useState(false)
     const [index, setIndex] = useState(null)
@@ -39,6 +52,13 @@ const AudioPlayer = ({
         add()
 
     }, []);
+
+    useEffect(() => {
+        if(progress.position === progress.duration) {
+            console.log("Audio finished.");
+            audioFinished()
+        }
+    }, [progress.position])
 
     const add = async() => {
 
@@ -111,6 +131,28 @@ const AudioPlayer = ({
         setPlaying(false)
     }
 
+    const onSlidingComplete = useCallback(async value => {
+
+        if (State.Paused == await TrackPlayer.getState()) {
+
+            setPlaying(false)
+            await TrackPlayer.seekTo(value);
+            await TrackPlayer.pause();
+
+        } else if (State.Playing == await TrackPlayer.getState()) {
+
+            setPlaying(true)
+            await TrackPlayer.seekTo(value);
+            await TrackPlayer.play();
+
+        }
+
+    }, []);
+
+    const audioFinished = async() => {
+        setPlaying(false)
+        await TrackPlayer.seekTo(0)
+    }
 
     return (
         <RowView style={memoStyle}>
@@ -123,7 +165,7 @@ const AudioPlayer = ({
                     activeOpacity={0.9}
                     onPress={pause}
                 >
-                    {iconPause(1.2)}
+                    <PauseIcon size={1.2 * pauseIconSize}/>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity
@@ -131,7 +173,7 @@ const AudioPlayer = ({
                     activeOpacity={0.9}
                     onPress={play}
                 >
-                    {iconPlay(1.2)}
+                    <PlayIcon size={1.2 * playIconSize}/>
                 </TouchableOpacity>
             }
 
@@ -143,9 +185,8 @@ const AudioPlayer = ({
                 <Slider
                     maximumValue={playing ? progress.duration : duration}
                     value={playing ? progress.position : position}
-                    onValueChange={() => {}}
                     style={memoSliderStyle}
-                    onSlidingComplete={() => {}}
+                    onSlidingComplete={onSlidingComplete}
                     thumbTintColor={APP_COLORS.primary}
                     minimumTrackTintColor={minimumTrackTintColor}
                     maximumTrackTintColor={maximumTrackTintColor}
@@ -164,7 +205,7 @@ const styles = StyleSheet.create({
     play: {
         width: 40,
         height: 40,
-        borderRadius: 40,
+        borderRadius: 100,
         backgroundColor: APP_COLORS.primary,
         justifyContent: 'center',
         alignItems: 'center',

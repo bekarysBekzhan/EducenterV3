@@ -78,16 +78,11 @@ class CourseService {
     }
   };
 
-  static fetchLesson = async id => {
-    try {
-      const response = await API_V2.get(URLS.lesson + id);
-      console.log('Lesson with id ' + id + ':', response);
-      return response;
-    } catch (e) {
-      console.log(e);
-      console.log(requesToFailed(URLS.lesson));
+    static fetchLesson = async(id) => {
+        const response = await API_V2.get(URLS.lesson + id)
+        console.log("Lesson with id " + id + ":" , response)
+        return response
     }
-  };
 }
 
 class AuthService {
