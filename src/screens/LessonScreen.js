@@ -16,9 +16,11 @@ import Downloader from '../components/Downloader'
 import RNFS from 'react-native-fs';
 import OutlineButton from '../components/button/OutlineButton'
 import { strings } from '../localization'
-import { LeftIcon, left_icon, RightIcon, right_icon } from '../assets/icons'
+import { LeftIcon, RightIcon } from '../assets/icons'
 import { ROUTE_NAMES } from '../components/navigation/routes'
 import { useIsCaptured } from 'react-native-is-screen-captured-ios'
+import AudioPlayer from '../components/AudioPlayer'
+import TrackPlayer from 'react-native-track-player'
 
 const LessonScreen = (props) => {
 
@@ -38,6 +40,10 @@ const LessonScreen = (props) => {
 
     useEffect(() => {
         fetchLesson()
+
+        return async() => {
+            await TrackPlayer.reset()
+        }
     }, [])
 
     const nextLessonTapped = () => {
@@ -81,6 +87,18 @@ const LessonScreen = (props) => {
                             />
                         </View>
                         <Text style={styles.title}>{data?.title}</Text>
+                        {
+                            data?.audio
+                            ?
+                            <AudioPlayer
+                                _index={1}
+                                url={data?.audio}
+                                onTrackChange={() => undefined}  
+                                style={{ padding: 0}}               
+                            />
+                            :
+                            null
+                        }
                         {
                             data?.files.map((file, index) => (
                                 <FileItem 
@@ -234,7 +252,7 @@ const styles = StyleSheet.create({
     },
     title: {
         ...setFontStyle(21, '700'),
-        marginTop: 16
+        marginVertical: 16
     },
     file: {
         justifyContent: "space-between"

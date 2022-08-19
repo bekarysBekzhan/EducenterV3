@@ -194,6 +194,20 @@ export const iconPlay = (size = 1, color = 'white') => (
   </Svg>
 )
 
+export const PlayIcon = ({ size = 1, color = 'white' }) => (
+  <Svg
+    width={11 * size}
+    height={14 * size}
+    viewBox="0 0 11 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <Path
+      d="M10.5 6.13398C11.1667 6.51888 11.1667 7.48112 10.5 7.86603L1.5 13.0622C0.833333 13.4471 0 12.966 0 12.1962V1.80385C0 1.03405 0.833333 0.552922 1.5 0.937822L10.5 6.13398Z"
+      fill={color}
+    />
+  </Svg>
+) 
+
 export const iconPause = (size = 1, color = 'white') => (
   <Svg
     width={8 * size}
@@ -211,6 +225,24 @@ export const iconPause = (size = 1, color = 'white') => (
     />
   </Svg>
 );
+
+export const PauseIcon = ({ size = 1, color = "white" }) => (
+  <Svg
+    width={8 * size}
+    height={14 * size}
+    viewBox="0 0 8 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <Path
+      d="M1.66667 13.3333H1C0.447715 13.3333 0 12.8856 0 12.3333V1C0 0.447715 0.447716 0 1 0H1.66667C2.21895 0 2.66667 0.447714 2.66667 0.999999V12.3333C2.66667 12.8856 2.21895 13.3333 1.66667 13.3333Z"
+      fill={color}
+    />
+    <Path
+      d="M7 13.3333H6.33333C5.78105 13.3333 5.33333 12.8856 5.33333 12.3333V1C5.33333 0.447715 5.78105 0 6.33333 0H7C7.55228 0 8 0.447714 8 0.999999V12.3333C8 12.8856 7.55228 13.3333 7 13.3333Z"
+      fill={color}
+    />
+  </Svg>
+)
 
 export const search = (fill = '#808191') => (
   <Svg

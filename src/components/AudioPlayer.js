@@ -5,7 +5,7 @@ import Slider from '@react-native-community/slider';
 import RowView from './view/RowView';
 import { APP_COLORS } from '../constans/constants';
 import { setFontStyle } from '../utils/utils';
-import { iconPause, iconPlay } from '../assets/icons';
+import { iconPause, iconPlay, PauseIcon, PlayIcon } from '../assets/icons';
 import { getFormattedTime } from '../utils/utils';
 
 const AudioPlayer = ({
@@ -14,6 +14,8 @@ const AudioPlayer = ({
     onTrackChange,
     style,
     playStyle,
+    playIconSize = 1,
+    pauseIconSize = 1,
     sliderStyle,
     positionStyle,
     durationStyle,
@@ -21,11 +23,11 @@ const AudioPlayer = ({
     maximumTrackTintColor = "#F1F2FE",
 }) => {
 
-    const memoStyle = useMemo(() => [styles.view, style], []);
-    const memoPlayStyle = useMemo(() => [styles.play, playStyle], []);
-    const memoPositionStyle = useMemo(() => [styles.position, positionStyle], []);
-    const memoDurationStyle = useMemo(() => [styles.duration, durationStyle], []);
-    const memoSliderStyle = useMemo(() => [styles.slider, sliderStyle], [])
+    const memoStyle = useMemo(() => [styles.view, style], [style]);
+    const memoPlayStyle = useMemo(() => [styles.play, playStyle], [playStyle]);
+    const memoPositionStyle = useMemo(() => [styles.position, positionStyle], [positionStyle]);
+    const memoDurationStyle = useMemo(() => [styles.duration, durationStyle], [durationStyle]);
+    const memoSliderStyle = useMemo(() => [styles.slider, sliderStyle], [sliderStyle])
 
     const [playing, setPlaying] = useState(false)
     const [index, setIndex] = useState(null)
@@ -123,7 +125,7 @@ const AudioPlayer = ({
                     activeOpacity={0.9}
                     onPress={pause}
                 >
-                    {iconPause(1.2)}
+                    <PauseIcon size={1.2 * pauseIconSize}/>
                 </TouchableOpacity>
                 :
                 <TouchableOpacity
@@ -131,7 +133,7 @@ const AudioPlayer = ({
                     activeOpacity={0.9}
                     onPress={play}
                 >
-                    {iconPlay(1.2)}
+                    <PlayIcon size={1.2 * playIconSize}/>
                 </TouchableOpacity>
             }
 
@@ -164,7 +166,7 @@ const styles = StyleSheet.create({
     play: {
         width: 40,
         height: 40,
-        borderRadius: 40,
+        borderRadius: 100,
         backgroundColor: APP_COLORS.primary,
         justifyContent: 'center',
         alignItems: 'center',
