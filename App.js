@@ -3,16 +3,29 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Provider } from './src/components/context/Provider'
 import Navigation from './src/components/navigation/MainStack'
 import Toast from 'react-native-toast-message';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { Event, useTrackPlayerEvents } from 'react-native-track-player';
+
+const events = [ Event.PlaybackError, Event.PlaybackState, Event.PlaybackTrackChanged, Event.PlaybackProgressUpdated, Event.PlaybackQueueEnded ]
 
 const App = () => {
 
-  const setupPlayer = async() => {
+  const initPlayer = async() => {
     await TrackPlayer.setupPlayer()
   }
 
+  const deinitPlayer = async() => {
+    // await TrackPlayer.destroy()
+  }
+
+  useTrackPlayerEvents(events, () => {
+    console.log
+  })
+
   useEffect(() => {
-    setupPlayer()
+    initPlayer()
+    return () => {
+      deinitPlayer()
+    }
   }, [])
 
   return (
