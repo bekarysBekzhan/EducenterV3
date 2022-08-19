@@ -6,6 +6,7 @@ import NavButtonRow from '../../../components/view/NavButtonRow';
 import SectionView from '../../../components/view/SectionView';
 import {
   CalendarIcon,
+  CallCenterIcon,
   History,
   JournalIcon,
   NewsIcon,
@@ -85,6 +86,7 @@ const ProfileScreen = () => {
         {
           id: 1,
           text: settings?.phone,
+          iconLeft: <CallCenterIcon />,
         },
       ],
     },
