@@ -18,6 +18,7 @@ import OutlineButton from '../components/button/OutlineButton'
 import { strings } from '../localization'
 import { LeftIcon, left_icon, RightIcon, right_icon } from '../assets/icons'
 import { ROUTE_NAMES } from '../components/navigation/routes'
+import { useIsCaptured } from 'react-native-is-screen-captured-ios'
 
 const LessonScreen = (props) => {
 
@@ -27,6 +28,8 @@ const LessonScreen = (props) => {
         const response = await CourseService.fetchLesson(id)
         setData(response.data?.data)
     })
+
+    const isCaptured = useIsCaptured()
 
     useEffect(() => {
         fetchLesson()
@@ -58,6 +61,13 @@ const LessonScreen = (props) => {
                     isLoading
                     ?
                     <ActivityIndicator style={styles.indicator} color={APP_COLORS.primary}/>
+                    :
+                    isCaptured
+                    ?
+                    <UniversalView
+                        style={styles.isCapturedContainer}
+                    >
+                    </UniversalView>
                     :
                     <View>
                         <View style={styles.video}>
@@ -97,7 +107,7 @@ const LessonScreen = (props) => {
                 }
             </UniversalView>
             {
-                isLoading
+                isLoading || isCaptured
                 ?
                 null
                 :
@@ -205,6 +215,10 @@ const styles = StyleSheet.create({
     container: {
         padding: 16,
         // marginBottom: 100
+    },
+    isCapturedContainer: {
+        justifyContent: "center",
+        alignItems: "center",
     },
     indicator: {
         marginTop: 130
