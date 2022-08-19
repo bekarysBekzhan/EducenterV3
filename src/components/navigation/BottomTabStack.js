@@ -1,6 +1,6 @@
 import React from 'react';
-import { useSettings } from '../context/Provider';
-import { ROUTE_NAMES } from './routes';
+import {useSettings} from '../context/Provider';
+import {ROUTE_NAMES} from './routes';
 import {
   coursesOFF,
   coursesON,
@@ -23,12 +23,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {APP_COLORS} from '../../constans/constants';
 import Courses from './CoursesStack';
 import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
+import AuthStack from './AuthStack';
 
 const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
-
-  const { settings, isAuth } = useSettings();
+  const {settings, isAuth} = useSettings();
 
   const BOTTOM_TAB = [
     {
@@ -69,7 +69,7 @@ const BottomTab = props => {
     },
     {
       name: isAuth ? ROUTE_NAMES.menuStack : ROUTE_NAMES.profile,
-      component: isAuth ? ProfileScreen : MenuScreen,
+      component: isAuth ? ProfileScreen : AuthStack,
       icon: {
         active: profileON,
         inactive: profileOFF,
@@ -78,16 +78,13 @@ const BottomTab = props => {
     },
   ];
 
-
-
   return (
     <BottomTabStack.Navigator
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: APP_COLORS.primary,
         tabBarInactiveTintColor: APP_COLORS.placeholder,
-      }}
-    >
+      }}>
       {BOTTOM_TAB.map((route, index) => {
         const screen = (
           <BottomTabStack.Screen
@@ -95,7 +92,7 @@ const BottomTab = props => {
             component={route.component}
             key={index}
             options={{
-              tabBarIcon: ({ focused }) => {
+              tabBarIcon: ({focused}) => {
                 return focused ? route.icon.active : route.icon.inactive;
               },
               tabBarLabel: route.label,

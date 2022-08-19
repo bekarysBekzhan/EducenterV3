@@ -19,8 +19,9 @@ import {setFontStyle} from '../../../utils/utils';
 import {APP_COLORS} from '../../../constans/constants';
 import DevView from '../../../components/view/DevView';
 import {useSettings} from '../../../components/context/Provider';
+import {ROUTE_NAMES} from '../../../components/navigation/routes';
 
-const MenuScreen = () => {
+const MenuScreen = ({navigation}) => {
   const {settings} = useSettings();
 
   const MENU = [
@@ -112,6 +113,14 @@ const MenuScreen = () => {
     }
   };
 
+  const authLoginNavigation = () => {
+    navigation.navigate(ROUTE_NAMES.login);
+  };
+
+  const authRegisterNavigation = () => {
+    navigation.navigate(ROUTE_NAMES.login);
+  };
+
   console.log('-----', settings);
 
   return (
@@ -128,9 +137,11 @@ const MenuScreen = () => {
           </Text>
 
           <Text style={styles.profileAction}>
-            <Text>{strings.Войти}</Text>
+            <Text onPress={authLoginNavigation}>{strings.Войти}</Text>
             <Text style={styles.or}> {strings.или} </Text>
-            <Text>{strings['Создайте новый']}</Text>
+            <Text onPress={authRegisterNavigation}>
+              {strings['Создайте новый']}
+            </Text>
           </Text>
         </View>
       </RowView>

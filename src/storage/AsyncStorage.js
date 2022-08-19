@@ -34,3 +34,11 @@ export const getObject = async (key) => {
       console.log("error reading object value")
     }
 }
+
+export const removeStorage = async (key) => {
+  try {
+      await AsyncStorage.removeItem(key);
+  } catch (e) {
+      console.log('Error removeStorage', e);
+  }
+};

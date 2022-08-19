@@ -1,20 +1,22 @@
-import React, { useEffect } from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { useFetching } from '../../hooks/useFetching'
-import { MobileSettingsService } from '../../services/API'
-import { useSettings } from '../context/Provider'
-import { ROUTE_NAMES } from "./routes"
-import UniversalView from '../view/UniversalView'
-import { getString } from '../../storage/AsyncStorage'
-import { strings } from '../../localization'
-import SearchScreen from '../../screens/SearchScreen'
-import Splash from './SplashStack'
-import BottomTab from './BottomTabStack'
-import LessonScreen from '../../screens/LessonScreen'
-import { API_V2 } from '../../services/axios'
+import React, {useEffect} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useFetching} from '../../hooks/useFetching';
+import {MobileSettingsService} from '../../services/API';
+import {useSettings} from '../context/Provider';
+import {ROUTE_NAMES} from './routes';
+import UniversalView from '../view/UniversalView';
+import {getString} from '../../storage/AsyncStorage';
+import {strings} from '../../localization';
+import SearchScreen from '../../screens/SearchScreen';
+import Splash from './SplashStack';
+import BottomTab from './BottomTabStack';
+import LessonScreen from '../../screens/LessonScreen';
+import {API_V2} from '../../services/axios';
+import Loader from '../Loader';
+import {StyleSheet} from 'react-native';
 
-const MainStack = createNativeStackNavigator()
+const MainStack = createNativeStackNavigator();
 
 const GENERAL = [
   {
@@ -23,88 +25,90 @@ const GENERAL = [
   },
   {
     name: ROUTE_NAMES.bottomTab,
-    component: BottomTab
+    component: BottomTab,
   },
   {
     name: ROUTE_NAMES.search,
-    component: SearchScreen
+    component: SearchScreen,
   },
-]
+];
 const PRIVATE = [
   {
     name: ROUTE_NAMES.lesson,
-    component: LessonScreen
-  }
-]
+    component: LessonScreen,
+  },
+];
 
 const Navigation = () => {
+  const {setSettings, setUserToken, setIsAuth, isAuth} = useSettings();
 
-  const { setSettings, setUserToken, setIsAuth, isAuth } = useSettings()
-
-  const [fetchSettings, isLoading, settingsError] = useFetching(async() => {
-    const language = await getString("language")
-    API_V2.defaults.headers.Authorization = "Bearer pjfx0g4VoVnFSJnSAiCr1QJETPXOt0IlTcLHhKbe1zcjIPOKYksh0D1B6lxJ" 
-    if (language) {
-      console.log(language)
-      strings.setLanguage(language)
-      API_V2.defaults.headers.lang = language
-    } else {
-      strings.setLanguage("ru")
-      API_V2.defaults.headers.lang = "ru"
-    }
-    const auth = await getString("isAuth")
-    const userToken = await getString("userToken")
-    const response = await MobileSettingsService.fetchSettings()
-    setIsAuth(true)
+  const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
+    const auth = await getString('isAuth');
+    const userToken = await getString('userToken');
+    const response = await MobileSettingsService.fetchSettings();
+    setIsAuth(false);
     // if (isAuth) {
     //   setIsAuth(true)
     // }
-    if(userToken) {
-      setUserToken(userToken)
+    if (userToken) {
+      setUserToken(userToken);
     }
-    setSettings(response.data?.data)
-  })
+    setSettings(response.data?.data);
+  });
 
   useEffect(() => {
-    fetchSettings()
-  }, [])
+    fetchSettings();
+  }, []);
 
   if (isLoading) {
-    return <UniversalView style={{ flex: 1 }}/>
-  }
     return (
-      <NavigationContainer>
-        <MainStack.Navigator
-          screenOptions={{
-            headerShown: false  
-          }}
-        >
-          {
-            GENERAL.map((route, index) => (
-              <MainStack.Screen name={route.name} component={route.component} key={index} options={{
-                animation: route.name === ROUTE_NAMES.search ? "fade_from_bottom" : "default"
-              }}/>
-            ))
-          }
-          {
-            isAuth
-            ?
-            PRIVATE.map((route, index) => (
-              <MainStack.Screen 
-                name={route.name} 
-                component={route.component} 
-                key={index} 
+      <UniversalView style={styles.view}>
+        <Loader />
+      </UniversalView>
+    );
+  }
+  return (
+    <NavigationContainer>
+      <MainStack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        {GENERAL.map((route, index) => (
+          <MainStack.Screen
+            name={route.name}
+            component={route.component}
+            key={index}
+            options={{
+              animation:
+                route.name === ROUTE_NAMES.search
+                  ? 'fade_from_bottom'
+                  : 'default',
+            }}
+          />
+        ))}
+        {isAuth
+          ? PRIVATE.map((route, index) => (
+              <MainStack.Screen
+                name={route.name}
+                component={route.component}
+                key={index}
                 options={{
-                  headerShown: true
+                  headerShown: true,
                 }}
               />
             ))
-            :
-            null
-          }
-        </MainStack.Navigator>
-      </NavigationContainer>
-  )
-}
+          : null}
+      </MainStack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-export default Navigation
+export default Navigation;
+
+const styles = StyleSheet.create({
+  view: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
