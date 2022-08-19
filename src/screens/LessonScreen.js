@@ -31,7 +31,6 @@ const LessonScreen = (props) => {
     const isCaptured = useIsCaptured()
     const [fetchLesson, isLoading, lessonError] = useFetching(async() => {
         const response = await CourseService.fetchLesson(id)
-        console.log("Lesson request status : " , response?.status)
         setData(response.data?.data)
     })
 
@@ -58,11 +57,13 @@ const LessonScreen = (props) => {
 
         try {
             const response = await CourseService.fetchLesson(data?.next_lesson_id)
-            if(data?.isLast) {
-                props.navigation.navigate("")
-                return
+            if (response.status === 200) {
+                if(data?.isLast) {
+                    props.navigation.navigate("")
+                    return
+                }
+                props.navigation.replace(ROUTE_NAMES.lesson, { id: data?.next_lesson_id })
             }
-            props.navigation.replace(ROUTE_NAMES.lesson, { id: data?.next_lesson_id })
         } catch(e) {
             console.log(e)
         }
