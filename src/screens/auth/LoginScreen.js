@@ -9,8 +9,9 @@ import TextButton from '../../components/button/TextButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS, STORAGE} from '../../constans/constants';
 import RNRestart from 'react-native-restart';
+import {storeString} from '../../storage/AsyncStorage';
 
 const LoginScreen = () => {
   const [dataSource, setDataSource] = useState({
@@ -18,13 +19,10 @@ const LoginScreen = () => {
     password: '',
   });
 
-  const [fetchLogin, isLoading, authError] = useFetching(async () => {
-    const response = await AuthService.fetchLogin(dataSource);
-    console.log('+++++++++', response);
-    console.log('AUTHER', authError);
-    // if (authError) {
-    //   RNRestart.Restart();
-    // }
+  const [fetchLogin, isLoading, authError] = useFetching(async params => {
+    const response = await AuthService.fetchLogin(params);
+    await storeString(STORAGE.token, response?.data?.data?.token);
+    RNRestart.Restart();
   });
 
   const onChangeEmailOrPhone = email => {
@@ -70,7 +68,7 @@ const LoginScreen = () => {
         style={styles.button}
         text={strings.Войти}
         loading={isLoading}
-        onPress={fetchLogin}
+        onPress={() => fetchLogin(dataSource)}
       />
       <TextButton text={strings['Я забыл пароль']} disabled={isLoading} />
       <TextButton

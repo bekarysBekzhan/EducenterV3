@@ -1,6 +1,4 @@
-import {useSettings} from '../components/context/Provider';
-import {STORAGE, URLS} from '../constans/constants';
-import {storeString} from '../storage/AsyncStorage';
+import {URLS} from '../constans/constants';
 import {API_V2} from './axios';
 
 const requesToFailed = url => 'Request to ' + url + ' failed!';
@@ -94,17 +92,10 @@ class CourseService {
 
 class AuthService {
   static fetchLogin = async params => {
-    console.log('p', params);
-    try {
-      const response = await API_V2.post(URLS.login, params);
-      console.log('Login: ', response);
-      await storeString(STORAGE.token, response?.data?.data?.token);
-      return response;
-    } catch (e) {
-      console.log(e);
-      console.log(requesToFailed(URLS.login));
-      return e;
-    }
+    console.log('AuthService Login params: ', params);
+    const response = await API_V2.post(URLS.login, params);
+    console.log('Login.js: ', response);
+    return response;
   };
 }
 

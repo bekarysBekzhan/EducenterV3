@@ -15,6 +15,7 @@ import LessonScreen from '../../screens/LessonScreen';
 import {API_V2} from '../../services/axios';
 import Loader from '../Loader';
 import {StyleSheet} from 'react-native';
+import {APP_COLORS} from '../../constans/constants';
 
 const MainStack = createNativeStackNavigator();
 
