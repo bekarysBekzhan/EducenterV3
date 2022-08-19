@@ -8,17 +8,21 @@ import { APP_COLORS } from '../constans/constants';
 import OutlineButton from '../components/button/OutlineButton';
 
 const PreviewTestScreen = props => {
+
+  const time = props.route?.params?.time
+  const count = props?.route?.params?.count
+
   return (
     <UniversalView style={styles.container}>
       <Text style={styles.onlineTest}>{strings['Онлайн тест']}</Text>
       <Text style={styles.tips}>{strings['Пройдите онлайн тест, чтобы закрепить материалы курса и получить сертификат.']}</Text>
       <RowView style={styles.row}>
         <View style={styles.dot}/>
-        <Text style={styles.label}>{wordLocalization(strings['Прохождения теста занимает :num минут.'], {num: 30})}</Text>
+        <Text style={styles.label}>{wordLocalization(strings['Прохождения теста занимает :num минут.'], {num: time})}</Text>
       </RowView>
       <RowView>
         <View style={styles.dot}/>
-        <Text style={styles.label}>{wordLocalization(strings['Тест состоит из :num вопросов'], {num: 8})}</Text>
+        <Text style={styles.label}>{wordLocalization(strings['Тест состоит из :num вопросов'], {num: count})}</Text>
       </RowView>
       <RowView>
         <View style={styles.dot}/>

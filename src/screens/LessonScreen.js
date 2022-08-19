@@ -133,7 +133,7 @@ const LessonScreen = (props) => {
                         </View>
                         <OutlineButton
                             text={strings['Пройти тест']}
-                            onPress={() => props.navigation.navigate(ROUTE_NAMES.testPreview)}
+                            onPress={() => props.navigation.navigate(ROUTE_NAMES.testPreview, { time: data?.timer, count: data?.tests_count })}
                             style={styles.testButton}
                         />
                         <OutlineButton
