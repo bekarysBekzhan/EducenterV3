@@ -21,22 +21,28 @@ import { ROUTE_NAMES } from '../components/navigation/routes'
 import { useIsCaptured } from 'react-native-is-screen-captured-ios'
 import AudioPlayer from '../components/AudioPlayer'
 import TrackPlayer from 'react-native-track-player'
+import Overlay from '../components/view/Overlay'
 
 const LessonScreen = (props) => {
 
     const id = props.route?.params?.id
     const [data, setData] = useState(null)
+    const [isModal, setIsModal] = useState(false)
+    const isCaptured = useIsCaptured()
     const [fetchLesson, isLoading, lessonError] = useFetching(async() => {
         const response = await CourseService.fetchLesson(id)
         console.log("Lesson request status : " , response?.status)
-        if (response?.status !== 200) {
-            props.navigation.goBack()
-            return
-        }
         setData(response.data?.data)
     })
 
-    const isCaptured = useIsCaptured()
+    useEffect(() => {
+        if(lessonError) {
+            if (lessonError?.status !== 200) {
+                props.navigation.goBack()
+                return
+            }
+        }
+    }, [lessonError])
 
     useEffect(() => {
         fetchLesson()
@@ -46,14 +52,22 @@ const LessonScreen = (props) => {
         }
     }, [])
 
-    const nextLessonTapped = () => {
+    const nextLessonTapped = async() => {
 
-        if(data?.isLast) {
-            props.navigation.navigate("")
-            return
+        setIsModal(true)
+
+        try {
+            const response = await CourseService.fetchLesson(data?.next_lesson_id)
+            if(data?.isLast) {
+                props.navigation.navigate("")
+                return
+            }
+            props.navigation.replace(ROUTE_NAMES.lesson, { id: data?.next_lesson_id })
+        } catch(e) {
+            console.log(e)
         }
 
-        props.navigation.replace(ROUTE_NAMES.lesson, { id: data?.next_lesson_id })
+        setIsModal(false)
 
     }
 
@@ -144,11 +158,12 @@ const LessonScreen = (props) => {
                             <LeftIcon color={APP_COLORS.placeholder}/>
                         </TouchableOpacity>
                     }
-                    <TouchableOpacity style={styles.switchButton} onPress={nextLessonTapped}>
+                    <TouchableOpacity style={styles.switchButton} onPress={nextLessonTapped} disabled={isModal}>
                         <RightIcon color={APP_COLORS.placeholder}/>
                     </TouchableOpacity>
                 </RowView>
-            }          
+            }   
+            <Overlay visible={isModal}/>
         </UniversalView>
     )
 }
