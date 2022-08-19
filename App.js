@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Provider } from './src/components/context/Provider'
 import Navigation from './src/components/navigation/MainStack'
 import Toast from 'react-native-toast-message';
+import TrackPlayer from 'react-native-track-player';
 
 const App = () => {
+
+  const setupPlayer = async() => {
+    await TrackPlayer.setupPlayer()
+  }
+
+  useEffect(() => {
+    setupPlayer()
+  }, [])
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
