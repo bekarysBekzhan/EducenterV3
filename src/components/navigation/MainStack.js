@@ -7,15 +7,13 @@ import {useSettings} from '../context/Provider';
 import {ROUTE_NAMES} from './routes';
 import UniversalView from '../view/UniversalView';
 import {getString} from '../../storage/AsyncStorage';
-import {strings} from '../../localization';
 import SearchScreen from '../../screens/SearchScreen';
 import Splash from './SplashStack';
 import BottomTab from './BottomTabStack';
 import LessonScreen from '../../screens/LessonScreen';
-import {API_V2} from '../../services/axios';
 import Loader from '../Loader';
 import {StyleSheet} from 'react-native';
-import {APP_COLORS} from '../../constans/constants';
+import PreviewTestScreen from '../../screens/PreviewTestScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -38,6 +36,10 @@ const PRIVATE = [
     name: ROUTE_NAMES.lesson,
     component: LessonScreen,
   },
+  {
+    name: ROUTE_NAMES.testPreview,
+    component: PreviewTestScreen
+  }
 ];
 
 const Navigation = () => {
