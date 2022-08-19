@@ -35,6 +35,8 @@ const AudioPlayer = ({
         console.log(event)
         if(event.type === Event.PlaybackState) {
             setPlaying(event.state === State.Playing ? true : false)
+            setDuration(progress.duration)
+            setPosition(progress.position)
         }
     })
 
