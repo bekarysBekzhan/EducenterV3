@@ -113,6 +113,24 @@ const AudioPlayer = ({
         setPlaying(false)
     }
 
+    const onSlidingComplete = useCallback(async value => {
+
+        if (State.Paused == await TrackPlayer.getState()) {
+
+            setPlaying(false)
+            await TrackPlayer.seekTo(value);
+            await TrackPlayer.pause();
+
+        } else if (State.Playing == await TrackPlayer.getState()) {
+
+            setPlaying(true)
+            await TrackPlayer.seekTo(value);
+            await TrackPlayer.play();
+
+        }
+
+    }, []);
+
 
     return (
         <RowView style={memoStyle}>
@@ -145,9 +163,8 @@ const AudioPlayer = ({
                 <Slider
                     maximumValue={playing ? progress.duration : duration}
                     value={playing ? progress.position : position}
-                    onValueChange={() => {}}
                     style={memoSliderStyle}
-                    onSlidingComplete={() => {}}
+                    onSlidingComplete={onSlidingComplete}
                     thumbTintColor={APP_COLORS.primary}
                     minimumTrackTintColor={minimumTrackTintColor}
                     maximumTrackTintColor={maximumTrackTintColor}
