@@ -28,6 +28,7 @@ export const URLS = {
   courseByID: 'course/',
   categories: 'categories',
   lesson: 'lesson/',
+  lessonTest: 'test/start/lesson/',
   login: 'auth/login',
 };
 

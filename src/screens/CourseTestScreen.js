@@ -1,21 +1,29 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import TrackPlayer from 'react-native-track-player';
 import {useFetching} from '../hooks/useFetching';
 import Question from '../components/test/Question';
+import { CourseService } from '../services/API';
+import { FlatList } from 'react-native-gesture-handler';
+import { APP_COLORS } from '../constans/constants';
 
 const CourseTestScreen = props => {
+
+  const id = props.route?.params?.id
+
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
   const currentSetPosition = useRef(null);
 
   const [data, setData] = useState(null);
   const [fetchTest, isLoading, testError] = useFetching(async () => {
-    // const response = await
+    const response = await CourseService.fetchTest(id)
+    setData(response.data?.data)
   });
 
   useEffect(() => {
+    fetchTest()
     return () => {
       resetAudio();
     };
@@ -43,9 +51,9 @@ const CourseTestScreen = props => {
     return (
       <Question
         questionItem={item}
-        passing_answers={passing_answers}
+        passing_answers={data?.passing_answers}
         index={index}
-        is_multiple={item.is_multiple}
+        is_multiple={item?.is_multiple}
         onTrackChange={onTrackChange}
       />
     );
@@ -53,10 +61,10 @@ const CourseTestScreen = props => {
   return (
     <UniversalView style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator />
+        <ActivityIndicator style={{ marginBottom: 120}} color={APP_COLORS.primary}/>
       ) : (
         <FlatList
-          data={data}
+          data={data?.tests}
           renderItem={renderQuestion}
           style={{padding: 16}}
           maxToRenderPerBatch={10}
