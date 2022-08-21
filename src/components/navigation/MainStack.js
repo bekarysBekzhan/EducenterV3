@@ -14,6 +14,7 @@ import LessonScreen from '../../screens/LessonScreen';
 import Loader from '../Loader';
 import {StyleSheet} from 'react-native';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
+import CourseTestScreen from '../../screens/CourseTestScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -39,6 +40,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.testPreview,
     component: PreviewTestScreen
+  },
+  {
+    name: ROUTE_NAMES.testPass,
+    component: CourseTestScreen
   }
 ];
 
