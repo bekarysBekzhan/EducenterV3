@@ -6,10 +6,12 @@ import {setFontStyle, wordLocalization} from '../utils/utils';
 import RowView from '../components/view/RowView';
 import {APP_COLORS} from '../constans/constants';
 import OutlineButton from '../components/button/OutlineButton';
+import { ROUTE_NAMES } from '../components/navigation/routes';
 
 const PreviewTestScreen = props => {
   const time = props.route?.params?.time;
   const count = props?.route?.params?.count;
+  const id = props.route?.params?.id
 
   return (
     <UniversalView style={styles.container}>
@@ -49,7 +51,7 @@ const PreviewTestScreen = props => {
       </RowView>
       <OutlineButton
         text={strings['Начать тестирование']}
-        onPress={() => undefined}
+        onPress={() => props.navigation.navigate(ROUTE_NAMES.testPass, {id: id})}
         style={{marginTop: 30}}
       />
     </UniversalView>

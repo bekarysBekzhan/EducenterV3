@@ -15,6 +15,7 @@ import Loader from '../Loader';
 import {StyleSheet} from 'react-native';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
+import { API_V2 } from '../../services/axios';
 
 const MainStack = createNativeStackNavigator();
 
@@ -54,6 +55,7 @@ const Navigation = () => {
     const auth = await getString('isAuth');
     const userToken = await getString('userToken');
     const response = await MobileSettingsService.fetchSettings();
+    API_V2.defaults.headers.Authorization = "Bearer ehpzFyZOGazrc5QK9mByfj22XIdhpjkJwXCTI9ekypYTptlrj5YUr3s8pNZn"
     setIsAuth(true);
     // if (isAuth) {
     //   setIsAuth(true)
