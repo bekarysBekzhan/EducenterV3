@@ -20,7 +20,7 @@ const Question = ({
 }) => {
   const memoStylesContainer = useMemo(() => [styles.container, extraStyle], []);
   const memoStylesText = useMemo(
-    () => [setFontStyle(18, '400', APP_COLORS.primary), {}, extraTextStyle],
+    () => [setFontStyle(18, '500', APP_COLORS.primary), {}, extraTextStyle],
     [],
   );
 
