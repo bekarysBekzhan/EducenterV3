@@ -110,25 +110,34 @@ class CourseService {
 
 class AuthService {
   static fetchLogin = async params => {
-    console.log('AuthService Login params: ', params);
+    console.log('AuthService LoginScreen params: ', params);
     const response = await API_V2.post(URLS.login, params);
-    console.log('Login.js: ', response);
+    console.log('LoginScreen.js: ', response);
     return response;
   };
 
   static fetchRecovery = async params => {
     console.log('AuthService Recovery  params: ', params);
     const response = await API_V2.post(URLS.recovery, params);
-    console.log('Recovery.js: ', response);
+    console.log('RecoveryScreen.js: ', response);
     return response;
   };
 
   static fetchRegister = async params => {
     console.log('AuthService Register  params: ', params);
     const response = await API_V2.post(URLS.register, params);
-    console.log('Register.js: ', response);
+    console.log('RegisterScreen.js: ', response);
     return response;
   };
 }
 
-export {MobileSettingsService, CourseService, AuthService};
+class NewsService {
+  static fetchNews = async params => {
+    console.log('NewsService News params: ', params);
+    const response = await API_V2.get(URLS.news, params);
+    console.log('NewsScreen.js: ', response);
+    return response;
+  };
+}
+
+export {MobileSettingsService, CourseService, AuthService, NewsService};

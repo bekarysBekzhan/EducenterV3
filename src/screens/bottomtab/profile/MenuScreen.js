@@ -64,6 +64,8 @@ const MenuScreen = ({navigation}) => {
           text: settings?.modules_enabled_news_title,
           iconLeft: <NewsIcon />,
           enabled: settings?.modules_enabled_news,
+          route: ROUTE_NAMES.news,
+          action: 'navigation',
         },
         {
           id: 5,
@@ -101,9 +103,13 @@ const MenuScreen = ({navigation}) => {
   ];
 
   const onAction = item => {
+    const {navigate} = navigation;
     console.log('item', item);
     switch (item?.action) {
       case 'navigation':
+        if (item?.route == ROUTE_NAMES.news) {
+          navigate(item?.route);
+        }
         break;
       case 'call':
         if (item?.text?.length) {

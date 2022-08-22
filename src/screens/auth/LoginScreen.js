@@ -12,6 +12,7 @@ import {AuthService} from '../../services/API';
 import {APP_COLORS, STORAGE} from '../../constans/constants';
 import {storeString} from '../../storage/AsyncStorage';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
+import RNRestart from 'react-native-restart';
 
 const LoginScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -22,7 +23,7 @@ const LoginScreen = ({navigation}) => {
   const [fetchLogin, isLoading, authError] = useFetching(async params => {
     const response = await AuthService.fetchLogin(params);
     await storeString(STORAGE.token, response?.data?.data?.token);
-    navigation.reset({routes: [{name: ROUTE_NAMES.bottomTab}]});
+    RNRestart.Restart();
   });
 
   const onChangeEmailOrPhone = email => {

@@ -5,10 +5,15 @@ import LoginScreen from '../../screens/auth/LoginScreen';
 import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
 import RecoveryScreen from '../../screens/auth/RecoveryScreen';
 import RegisterScreen from '../../screens/auth/RegisterScreen';
+import NewsScreen from '../../screens/news/NewsScreen';
+import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
+import {useSettings} from '../context/Provider';
 
 const Stack = createNativeStackNavigator();
 
-const AuthStack = () => {
+const MenuStack = () => {
+  const {isAuth} = useSettings();
+
   const screens = [
     {
       id: '1',
@@ -30,10 +35,21 @@ const AuthStack = () => {
       name: ROUTE_NAMES.register,
       component: RegisterScreen,
     },
+    {
+      id: '5',
+      name: ROUTE_NAMES.news,
+      component: NewsScreen,
+    },
+    {
+      id: '6',
+      name: ROUTE_NAMES.profile,
+      component: ProfileScreen,
+    },
   ];
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      initialRouteName={isAuth ? ROUTE_NAMES.profile : ROUTE_NAMES.menu}>
       {screens.map(screen => (
         <Stack.Screen
           key={screen.id}
@@ -45,4 +61,4 @@ const AuthStack = () => {
   );
 };
 
-export default AuthStack;
+export default MenuStack;

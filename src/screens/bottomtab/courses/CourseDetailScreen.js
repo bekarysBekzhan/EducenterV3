@@ -4,7 +4,6 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
@@ -13,7 +12,7 @@ import {useFetching} from '../../../hooks/useFetching';
 import {CourseService} from '../../../services/API';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import {APP_COLORS, HEIGHT, WIDTH} from '../../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../../utils/utils';
 import RowView from '../../../components/view/RowView';
@@ -173,7 +172,7 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
             onPress={() => {
               if (!isAuth) {
                 navigation.replace(ROUTE_NAMES.bottomTab, {
-                  screen: ROUTE_NAMES.profile,
+                  screen: ROUTE_NAMES.menuStack,
                 });
                 return;
               }
