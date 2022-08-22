@@ -4,12 +4,23 @@ import FastImage from 'react-native-fast-image';
 import {useSettings} from '../context/Provider';
 import {setFontStyle} from '../../utils/utils';
 
-const AuthDetailView = ({haveLogo = true, title, titleStyle}) => {
+const AuthDetailView = ({
+  haveLogo = true,
+  title,
+  titleStyle,
+  description,
+  descriptionStyle,
+}) => {
   const {settings} = useSettings();
 
   const memoTitleStyle = useMemo(
     () => [styles.title, titleStyle],
     [titleStyle],
+  );
+
+  const memoDescriptionStyle = useMemo(
+    () => [styles.description, descriptionStyle],
+    [descriptionStyle],
   );
 
   return (
@@ -22,6 +33,9 @@ const AuthDetailView = ({haveLogo = true, title, titleStyle}) => {
       ) : null}
 
       {title ? <Text style={memoTitleStyle}>{title}</Text> : null}
+      {description ? (
+        <Text style={memoDescriptionStyle}>{description}</Text>
+      ) : null}
     </View>
   );
 };
@@ -40,5 +54,9 @@ const styles = StyleSheet.create({
     ...setFontStyle(20, '700'),
     textAlign: 'center',
     marginBottom: 8,
+  },
+  description: {
+    ...setFontStyle(15),
+    marginBottom: 24,
   },
 });

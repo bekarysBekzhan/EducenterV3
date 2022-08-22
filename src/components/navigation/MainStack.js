@@ -49,7 +49,7 @@ const Navigation = () => {
     const auth = await getString('isAuth');
     const userToken = await getString('userToken');
     const response = await MobileSettingsService.fetchSettings();
-    setIsAuth(true);
+    setIsAuth(false);
     // if (isAuth) {
     //   setIsAuth(true)
     // }

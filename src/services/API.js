@@ -78,11 +78,11 @@ class CourseService {
     }
   };
 
-    static fetchLesson = async(id) => {
-        const response = await API_V2.get(URLS.lesson + id)
-        console.log("Lesson with id " + id + ":" , response)
-        return response
-    }
+  static fetchLesson = async id => {
+    const response = await API_V2.get(URLS.lesson + id);
+    console.log('Lesson with id ' + id + ':', response);
+    return response;
+  };
 }
 
 class AuthService {
@@ -90,6 +90,13 @@ class AuthService {
     console.log('AuthService Login params: ', params);
     const response = await API_V2.post(URLS.login, params);
     console.log('Login.js: ', response);
+    return response;
+  };
+
+  static fetchRecovery = async params => {
+    console.log('AuthService Recovery  params: ', params);
+    const response = await API_V2.post(URLS.recovery, params);
+    console.log('Recovery.js: ', response);
     return response;
   };
 }

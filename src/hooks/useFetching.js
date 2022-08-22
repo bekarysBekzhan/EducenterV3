@@ -10,7 +10,7 @@ export const useFetching = callback => {
       setError('');
       await callback(...props);
     } catch (error) {
-      setError(error.message);
+      setError(error);
     } finally {
       setIsLoading(false);
     }

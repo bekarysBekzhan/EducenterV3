@@ -29,6 +29,7 @@ export const URLS = {
   categories: 'categories',
   lesson: 'lesson/',
   login: 'auth/login',
+  recovery: 'auth/recovery',
 };
 
 export const STORAGE = {
