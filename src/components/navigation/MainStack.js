@@ -93,6 +93,7 @@ const Navigation = () => {
                 route.name === ROUTE_NAMES.search
                   ? 'fade_from_bottom'
                   : 'default',
+                headerBackTitleVisible: false
             }}
           />
         ))}
@@ -104,6 +105,7 @@ const Navigation = () => {
                 key={index}
                 options={{
                   headerShown: true,
+                  headerBackTitleVisible: false,
                 }}
               />
             ))

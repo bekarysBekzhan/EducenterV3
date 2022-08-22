@@ -40,7 +40,8 @@ const Courses = () => {
                             navHeaderOptions(settings?.logo, TITLE)
                             :
                             {
-                                headerTitle: "Курс"
+                                headerTitle: "Курс",
+                                headerBackTitleVisible: false
                             }
                         }
                     />
