@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Linking, StyleSheet} from 'react-native';
 import React, {Fragment} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {strings} from '../../../localization';
@@ -90,6 +90,7 @@ const ProfileScreen = ({navigation}) => {
           id: 1,
           text: settings?.phone,
           iconLeft: <CallCenterIcon />,
+          action:'call'
         },
       ],
     },
