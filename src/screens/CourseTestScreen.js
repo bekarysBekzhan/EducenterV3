@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import TrackPlayer from 'react-native-track-player';
 import {useFetching} from '../hooks/useFetching';
@@ -9,6 +9,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import { APP_COLORS } from '../constans/constants';
 import SimpleButton from '../components/button/SimpleButton';
 import { strings } from '../localization';
+import RowView from '../components/view/RowView';
+import { TimeIcon } from '../assets/icons';
+import Timer from '../components/test/Timer';
 
 const CourseTestScreen = props => {
 
@@ -27,6 +30,12 @@ const CourseTestScreen = props => {
     const response = await CourseService.finishTest(id)
     
   })
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerRight: () => <TestTimer initialTime={120}/>
+    })
+  }, [])
 
   useEffect(() => {
     fetchTest()
@@ -78,7 +87,7 @@ const CourseTestScreen = props => {
   return (
     <UniversalView style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator style={{ marginBottom: 120}} color={APP_COLORS.primary}/>
+        <ActivityIndicator style={{ marginTop: 120}} color={APP_COLORS.primary}/>
       ) : (
         <FlatList
           data={data?.tests}
@@ -87,6 +96,7 @@ const CourseTestScreen = props => {
           style={{padding: 16}}
           maxToRenderPerBatch={10}
           keyExtractor={(item, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
           initialNumToRender={12}
           windowSize={10}
         />
@@ -95,8 +105,42 @@ const CourseTestScreen = props => {
   );
 };
 
+const TestTimer = ({ initialTime }) => {
+
+  const [backgroundColor, setBackgroundColor] = useState("green")
+
+  return(
+    <RowView 
+      style={[styles.timerContainer, { 
+        backgroundColor: backgroundColor
+      }]}
+    >
+      <View style={{ paddingRight: 4}}>
+        <TimeIcon
+          color='white'
+        />
+      </View>
+      <Timer 
+        initialValue={initialTime}
+        onTimes={(time) => {
+          if(time < initialTime / 5) {
+            setBackgroundColor("red")
+          }
+          else if(time < initialTime / 2) {
+            setBackgroundColor("#FACC56")
+          }
+        }}
+      />
+    </RowView>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {},
+  timerContainer: {
+    padding: 4,
+    borderRadius: 4
+  }
 });
 
 export default CourseTestScreen;

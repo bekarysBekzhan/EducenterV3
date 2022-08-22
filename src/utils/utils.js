@@ -83,6 +83,15 @@ export const selectComponent = (value, audioComponent, mathComponent, htmlCompon
   return htmlComponent
 }
 
+export const getCurrentTimeString = time => {
+  const whole = Math.floor(time);
+  let seconds = whole % 60;
+  let minutes = (whole - seconds) / 60;
+  let secondString = seconds < 10 ? '0' + seconds : seconds;
+  let minuteString = minutes < 10 ? '0' + minutes : minutes
+  return minuteString + ':' + secondString;
+};
+
 export const wordLocalization = (word, args = {}, type = false) => {
 
   if (typeof strings[word] !== "undefined") {
