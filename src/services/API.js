@@ -85,7 +85,7 @@ class CourseService {
   };
 
   static fetchTest = async(id) => {
-    const response = await API_V2.get(URLS.lessonTest + id)
+    const response = await API_V2.get(URLS.lessonTestStart + id)
     console.log("Lesson test with id " + id + ":", response)
     return response
   }
