@@ -90,6 +90,11 @@ class CourseService {
     return response
   }
 
+  static selectTest = async(id) => {
+    const response = await API_V2.get(URLS.lessonTestSelect + id)
+    return response
+  }
+
   static finishTest = async(id) => {
     const response = await API_V2.get(URLS.lessonTestFinish + id)
     console.log("Lesson test with id " + id + " ended:" , response)

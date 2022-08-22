@@ -8,6 +8,7 @@ import MathView from './MathView';
 import HtmlView from '../HtmlView';
 import {useEffect} from 'react';
 import { useFetching } from '../../hooks/useFetching';
+import { CourseService } from '../../services/API';
 
 const dynamicContainerStyle = (state, component) => {
   switch (state) {
@@ -26,6 +27,7 @@ const dynamicContainerStyle = (state, component) => {
 
 const AnswerOption = ({
   item = {},
+  passingID,
   index,
   is_multiple = false,
   onSelect,
@@ -46,7 +48,7 @@ const AnswerOption = ({
       : 'incorrect',
   );
   const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
-
+    const response = await CourseService.selectTest(passingID)
   })
 
   const memoStylesContainer = useMemo(
@@ -67,10 +69,6 @@ const AnswerOption = ({
       },
     ],
     [state],
-  );
-  const memoStylesText = useMemo(
-    () => [setFontStyle(), {}, extraTextStyle],
-    [],
   );
 
   useEffect(() => {
