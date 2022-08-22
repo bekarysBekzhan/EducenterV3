@@ -1,37 +1,30 @@
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
-import React, { useLayoutEffect, useState } from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {strings} from '../localization';
 import {setFontStyle, wordLocalization} from '../utils/utils';
 import RowView from '../components/view/RowView';
 import {APP_COLORS} from '../constans/constants';
 import OutlineButton from '../components/button/OutlineButton';
-import { ROUTE_NAMES } from '../components/navigation/routes';
-import { useFetching } from '../hooks/useFetching';
-import { CourseService } from '../services/API';
+import {ROUTE_NAMES} from '../components/navigation/routes';
+import {useFetching} from '../hooks/useFetching';
+import {CourseService} from '../services/API';
 
 const PreviewTestScreen = props => {
+  const id = props.route?.params?.id;
 
-  const id = props.route?.params?.id
-
-  const [data, setData] = useState(null)
-  const [fetchTestInfo, isLoading, fetchingError] = useFetching(async() => {
-    const response = await CourseService.fetchTestInfo(id)
-    setData(response.data?.data)
-  })
+  const [data, setData] = useState(null);
+  const [fetchTestInfo, isLoading, fetchingError] = useFetching(async () => {
+    const response = await CourseService.fetchTestInfo(id);
+    setData(response.data?.data);
+  });
 
   useLayoutEffect(() => {
-    fetchTestInfo()
-  }, [])
-
-  if (data === null) {
-    <UniversalView style={styles.activityContainer}>
-      <ActivityIndicator color={APP_COLORS.primary}/>
-    </UniversalView>
-  }
+    fetchTestInfo();
+  }, []);
 
   return (
-    <UniversalView style={styles.container}>
+    <UniversalView style={styles.container} haveLoader={isLoading}>
       <Text style={styles.onlineTest}>{strings['Онлайн тест']}</Text>
       <Text style={styles.tips}>
         {
@@ -68,7 +61,9 @@ const PreviewTestScreen = props => {
       </RowView>
       <OutlineButton
         text={strings['Начать тестирование']}
-        onPress={() => props.navigation.navigate(ROUTE_NAMES.testPass, {id: id})}
+        onPress={() =>
+          props.navigation.navigate(ROUTE_NAMES.testPass, {id: id})
+        }
         style={{marginTop: 30}}
       />
     </UniversalView>
@@ -80,9 +75,9 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   activityContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "white"
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
   },
   onlineTest: {
     ...setFontStyle(21, '700'),
