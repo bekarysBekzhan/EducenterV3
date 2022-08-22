@@ -99,6 +99,7 @@ const ProfileScreen = ({navigation}) => {
           text: settings?.phone,
           iconLeft: <CallCenterIcon />,
           action: 'call',
+          enabled: settings?.phone?.length,
         },
       ],
     },
