@@ -27,7 +27,7 @@ const CourseTestScreen = props => {
     setData(response.data?.data)
   });
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
-    const response = await CourseService.finishTest(id)
+    const response = await CourseService.finishTest(data?.id)
     
   })
 
