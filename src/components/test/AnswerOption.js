@@ -7,6 +7,7 @@ import AudioPlayer from '../AudioPlayer';
 import MathView from './MathView';
 import HtmlView from '../HtmlView';
 import {useEffect} from 'react';
+import { useFetching } from '../../hooks/useFetching';
 
 const dynamicContainerStyle = (state, component) => {
   switch (state) {
@@ -44,6 +45,9 @@ const AnswerOption = ({
       ? 'correct'
       : 'incorrect',
   );
+  const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
+
+  })
 
   const memoStylesContainer = useMemo(
     () => [
@@ -79,18 +83,21 @@ const AnswerOption = ({
     item.selected = state === "selected" ? true : false
   },[state])
 
+  const selectTapped = () => {
+    if (is_multiple) {
+      setState(prev => prev === "selected" ? "unselected" : "selected")
+    } else {
+      onSelect(index, setState);
+    }
+    sendAnswer()
+  }
+
   return (
     <TouchableOpacity
       style={memoStylesContainer}
-      onPress={() => {
-        if (is_multiple) {
-          setState(prev => prev === "selected" ? "unselected" : "selected")
-        } else {
-          onSelect(index, setState);
-        }
-      }}
+      onPress={selectTapped}
       activeOpacity={0.7}
-      disabled={correct !== undefined ? true : false}>
+      disabled={correct !== undefined || isLoading}>
       <View style={memoStylesCheckbox}>
         {correct === false ? x() : check()}
       </View>
