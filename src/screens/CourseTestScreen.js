@@ -27,15 +27,15 @@ const CourseTestScreen = props => {
     setData(response.data?.data)
   });
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
+    console.log("Test id : " , data?.id)
     const response = await CourseService.finishTest(data?.id)
-    
   })
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => <TestTimer initialTime={120} finishTest={finishTest}/>
     })
-  }, [])
+  }, [data])
 
   useEffect(() => {
     fetchTest()
