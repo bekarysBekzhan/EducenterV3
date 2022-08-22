@@ -31,6 +31,12 @@ const CourseTestScreen = props => {
     const response = await CourseService.finishTest(data?.id)
   })
 
+  useEffect(() => {
+    if(testError) {
+      console.log("test error : " , testError)
+    }
+  }, [testError])
+
   useLayoutEffect(() => {
     props.navigation.setOptions({
       headerRight: () => <TestTimer initialTime={120} finishTest={finishTest}/>

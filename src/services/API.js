@@ -83,6 +83,29 @@ class CourseService {
     console.log('Lesson with id ' + id + ':', response);
     return response;
   };
+
+  static fetchTest = async(id) => {
+    const response = await API_V2.get(URLS.lessonTestStart + id)
+    console.log("Lesson test with id " + id + ":", response)
+    return response
+  }
+
+  static fetchTestInfo = async(id) => {
+    const response = await API_V2.get(URLS.lessonTestInfo + id)
+    console.log("Lesson test info with id : " + id + ":", response)
+    return response
+  }
+
+  static selectAnswer = async(id, params) => {
+    const response = await API_V2.get(URLS.lessonTestSelect + id, params)
+    return response
+  }
+
+  static finishTest = async(id) => {
+    const response = await API_V2.get(URLS.lessonTestFinish + id + "/lesson")
+    console.log("Lesson test with id " + id + " ended:" , response)
+    return response
+  }
 }
 
 class AuthService {
