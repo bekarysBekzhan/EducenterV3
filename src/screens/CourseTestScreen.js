@@ -33,7 +33,7 @@ const CourseTestScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      headerRight: () => <TestTimer initialTime={120}/>
+      headerRight: () => <TestTimer initialTime={120} finishTest={finishTest}/>
     })
   }, [])
 
@@ -105,7 +105,7 @@ const CourseTestScreen = props => {
   );
 };
 
-const TestTimer = ({ initialTime }) => {
+const TestTimer = ({ initialTime, finishTest }) => {
 
   const [backgroundColor, setBackgroundColor] = useState("green")
 
@@ -123,7 +123,10 @@ const TestTimer = ({ initialTime }) => {
       <Timer 
         initialValue={initialTime}
         onTimes={(time) => {
-          if(time < initialTime / 5) {
+          if(time === 0) {
+            finishTest()
+          }
+          else if(time < initialTime / 5) {
             setBackgroundColor("red")
           }
           else if(time < initialTime / 2) {
