@@ -18,17 +18,15 @@ import TestsScreen from '../../screens/bottomtab/tests/TestsScreen';
 import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen';
 import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
-import FastImage from 'react-native-fast-image';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {APP_COLORS} from '../../constans/constants';
 import Courses from './CoursesStack';
-import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
-import AuthStack from './AuthStack';
+import MenuStack from './MenuStack';
 
 const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
-  const {settings, isAuth} = useSettings();
+  const {settings} = useSettings();
 
   const BOTTOM_TAB = [
     {
@@ -68,8 +66,8 @@ const BottomTab = props => {
       label: strings.Задания,
     },
     {
-      name: isAuth ? ROUTE_NAMES.menuStack : ROUTE_NAMES.profile,
-      component: isAuth ? ProfileScreen : AuthStack,
+      name: ROUTE_NAMES.menuStack,
+      component: MenuStack,
       icon: {
         active: profileON,
         inactive: profileOFF,

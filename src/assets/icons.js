@@ -1,6 +1,14 @@
 import React from 'react';
-import Svg, { Path, Rect, G, Defs, ClipPath, Circle, Line } from 'react-native-svg';
-import { APP_COLORS } from '../constans/constants';
+import Svg, {
+  Path,
+  Rect,
+  G,
+  Defs,
+  ClipPath,
+  Circle,
+  Line,
+} from 'react-native-svg';
+import {APP_COLORS} from '../constans/constants';
 
 export const Logo = (size = 1) => (
   <Svg
@@ -58,7 +66,7 @@ export const Logo = (size = 1) => (
   </Svg>
 );
 
-export const LeftIcon = ({ size = 24, color = APP_COLORS.primary  }) => (
+export const LeftIcon = ({size = 24, color = APP_COLORS.primary}) => (
   <Svg
     width={size}
     height={size}
@@ -74,9 +82,19 @@ export const LeftIcon = ({ size = 24, color = APP_COLORS.primary  }) => (
   </Svg>
 );
 
-export const RightIcon = ({ size = 24, color = APP_COLORS.primary }) => (
-  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <Path fillRule="evenodd" clipRule="evenodd" d="M15 12C15 12.2099 14.9145 12.4111 14.7625 12.5587L8.36247 18.773C8.04828 19.0781 7.54176 19.0753 7.23112 18.7667C6.92047 18.4582 6.92335 17.9607 7.23753 17.6557L13.0622 12L7.23753 6.34433C6.92335 6.03926 6.92047 5.54182 7.23112 5.23327C7.54176 4.92472 8.04828 4.9219 8.36247 5.22697L14.7625 11.4413C14.9145 11.5889 15 11.7901 15 12Z" fill={color}/>
+export const RightIcon = ({size = 24, color = APP_COLORS.primary}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <Path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M15 12C15 12.2099 14.9145 12.4111 14.7625 12.5587L8.36247 18.773C8.04828 19.0781 7.54176 19.0753 7.23112 18.7667C6.92047 18.4582 6.92335 17.9607 7.23753 17.6557L13.0622 12L7.23753 6.34433C6.92335 6.03926 6.92047 5.54182 7.23112 5.23327C7.54176 4.92472 8.04828 4.9219 8.36247 5.22697L14.7625 11.4413C14.9145 11.5889 15 11.7901 15 12Z"
+      fill={color}
+    />
   </Svg>
 );
 
@@ -192,9 +210,9 @@ export const iconPlay = (size = 1, color = 'white') => (
       fill={color}
     />
   </Svg>
-)
+);
 
-export const PlayIcon = ({ size = 1, color = 'white' }) => (
+export const PlayIcon = ({size = 1, color = 'white'}) => (
   <Svg
     width={11 * size}
     height={14 * size}
@@ -206,7 +224,7 @@ export const PlayIcon = ({ size = 1, color = 'white' }) => (
       fill={color}
     />
   </Svg>
-) 
+);
 
 export const iconPause = (size = 1, color = 'white') => (
   <Svg
@@ -226,7 +244,7 @@ export const iconPause = (size = 1, color = 'white') => (
   </Svg>
 );
 
-export const PauseIcon = ({ size = 1, color = "white" }) => (
+export const PauseIcon = ({size = 1, color = 'white'}) => (
   <Svg
     width={8 * size}
     height={14 * size}
@@ -242,7 +260,7 @@ export const PauseIcon = ({ size = 1, color = "white" }) => (
       fill={color}
     />
   </Svg>
-)
+);
 
 export const search = (fill = '#808191') => (
   <Svg
@@ -984,11 +1002,21 @@ export const Password = () => (
   </Svg>
 );
 
-export const InfoIcon = ({ size = 24, color = "#FF3B30" }) => (
-  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <Path fillRule="evenodd" clipRule="evenodd" d="M12 2.40426C6.70054 2.40426 2.40426 6.70054 2.40426 12C2.40426 17.2995 6.70054 21.5957 12 21.5957C17.2995 21.5957 21.5957 17.2995 21.5957 12C21.5957 6.70054 17.2995 2.40426 12 2.40426ZM1 12C1 5.92499 5.92499 1 12 1C18.075 1 23 5.92499 23 12C23 18.075 18.075 23 12 23C5.92499 23 1 18.075 1 12ZM12 10.3617C12.3878 10.3617 12.7021 10.6761 12.7021 11.0638V17.617C12.7021 18.0048 12.3878 18.3191 12 18.3191C11.6122 18.3191 11.2979 18.0048 11.2979 17.617V11.0638C11.2979 10.6761 11.6122 10.3617 12 10.3617ZM12.7021 7.30979C12.7021 6.92201 12.3878 6.60766 12 6.60766C11.6122 6.60766 11.2979 6.92201 11.2979 7.30979V7.31915C11.2979 7.70692 11.6122 8.02128 12 8.02128C12.3878 8.02128 12.7021 7.70692 12.7021 7.31915V7.30979Z" fill={color}/>
+export const InfoIcon = ({size = 24, color = '#FF3B30'}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <Path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M12 2.40426C6.70054 2.40426 2.40426 6.70054 2.40426 12C2.40426 17.2995 6.70054 21.5957 12 21.5957C17.2995 21.5957 21.5957 17.2995 21.5957 12C21.5957 6.70054 17.2995 2.40426 12 2.40426ZM1 12C1 5.92499 5.92499 1 12 1C18.075 1 23 5.92499 23 12C23 18.075 18.075 23 12 23C5.92499 23 1 18.075 1 12ZM12 10.3617C12.3878 10.3617 12.7021 10.6761 12.7021 11.0638V17.617C12.7021 18.0048 12.3878 18.3191 12 18.3191C11.6122 18.3191 11.2979 18.0048 11.2979 17.617V11.0638C11.2979 10.6761 11.6122 10.3617 12 10.3617ZM12.7021 7.30979C12.7021 6.92201 12.3878 6.60766 12 6.60766C11.6122 6.60766 11.2979 6.92201 11.2979 7.30979V7.31915C11.2979 7.70692 11.6122 8.02128 12 8.02128C12.3878 8.02128 12.7021 7.70692 12.7021 7.31915V7.30979Z"
+      fill={color}
+    />
   </Svg>
-)
+);
 
 export const ToastInfoIcon = ({
   width = '24',
@@ -1005,6 +1033,22 @@ export const ToastInfoIcon = ({
       fill-rule="evenodd"
       clip-rule="evenodd"
       d="M12 2.40426C6.70054 2.40426 2.40426 6.70054 2.40426 12C2.40426 17.2995 6.70054 21.5957 12 21.5957C17.2995 21.5957 21.5957 17.2995 21.5957 12C21.5957 6.70054 17.2995 2.40426 12 2.40426ZM1 12C1 5.92499 5.92499 1 12 1C18.075 1 23 5.92499 23 12C23 18.075 18.075 23 12 23C5.92499 23 1 18.075 1 12ZM12 10.3617C12.3878 10.3617 12.7021 10.6761 12.7021 11.0638V17.617C12.7021 18.0048 12.3878 18.3191 12 18.3191C11.6122 18.3191 11.2979 18.0048 11.2979 17.617V11.0638C11.2979 10.6761 11.6122 10.3617 12 10.3617ZM12.7021 7.30979C12.7021 6.92201 12.3878 6.60766 12 6.60766C11.6122 6.60766 11.2979 6.92201 11.2979 7.30979V7.31915C11.2979 7.70692 11.6122 8.02128 12 8.02128C12.3878 8.02128 12.7021 7.70692 12.7021 7.31915V7.30979Z"
+      fill={fill}
+    />
+  </Svg>
+);
+
+export const DateIcon = ({width = '16', height = '16', fill = '#808191'}) => (
+  <Svg
+    width={width}
+    height={height}
+    viewBox="0 0 16 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <Path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M7.99976 2C11.3136 2 14 4.6863 14 8C14 11.3132 11.3136 14 7.99976 14C4.68592 14 2 11.3132 2 8C2 4.6863 4.68592 2 7.99976 2ZM7.99976 3C5.23831 3 3 5.23847 3 8C3 10.7612 5.2385 13 7.99976 13C10.7611 13 13 10.7611 13 8C13 5.23859 10.7613 3 7.99976 3ZM8.24959 3.98182C7.97728 3.98182 7.75372 4.19748 7.75372 4.46694V7.7752H5.5686C5.29619 7.7752 5.07273 7.99055 5.07273 8.26033C5.07273 8.53011 5.29619 8.74545 5.5686 8.74545H8.74545V4.46694C8.74545 4.19748 8.52189 3.98182 8.24959 3.98182Z"
       fill={fill}
     />
   </Svg>

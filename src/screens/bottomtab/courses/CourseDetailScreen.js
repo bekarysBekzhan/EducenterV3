@@ -4,7 +4,6 @@ import {
   FlatList,
   ActivityIndicator,
   StyleSheet,
-  Image,
   TouchableOpacity,
 } from 'react-native';
 import React from 'react';
@@ -13,7 +12,7 @@ import {useFetching} from '../../../hooks/useFetching';
 import {CourseService} from '../../../services/API';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import {APP_COLORS, HEIGHT, WIDTH} from '../../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../../utils/utils';
 import RowView from '../../../components/view/RowView';
@@ -27,7 +26,7 @@ import TransactionButton from '../../../components/button/TransactionButton';
 import Person from '../../../components/Person';
 import ReviewItem from '../../../components/view/ReviewItem';
 import DetailView from '../../../components/view/DetailView';
-import { ROUTE_NAMES } from '../../../components/navigation/routes';
+import {ROUTE_NAMES} from '../../../components/navigation/routes';
 
 const CourseDetailScreen = props => {
   const courseID = props.route?.params?.courseID;
@@ -172,14 +171,15 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
             activeOpacity={0.8}
             onPress={() => {
               if (!isAuth) {
-                navigation.replace(ROUTE_NAMES.bottomTab, { screen: ROUTE_NAMES.profile })
-                return
+                navigation.replace(ROUTE_NAMES.bottomTab, {
+                  screen: ROUTE_NAMES.menuStack,
+                });
+                return;
               }
 
-              if(lesson?.is_promo) {
-                navigation.navigate(ROUTE_NAMES.lesson, { id: lesson?.id })
+              if (lesson?.is_promo) {
+                navigation.navigate(ROUTE_NAMES.lesson, {id: lesson?.id});
               } else {
-                
               }
             }}
             key={i}>
@@ -246,9 +246,12 @@ const CourseListFooter = ({data}) => {
           description={data?.author?.description}
         />
         <RowView style={{justifyContent: 'space-between'}}>
-          <Text style={{
-            ...setFontStyle(21, '700')
-          }}>{strings.Отзывы}</Text>
+          <Text
+            style={{
+              ...setFontStyle(21, '700'),
+            }}>
+            {strings.Отзывы}
+          </Text>
           <TextButton
             text={strings.Все}
             textStyle={styles.allButton}
@@ -361,8 +364,6 @@ const styles = StyleSheet.create({
   },
 });
 
-const chapter = StyleSheet.create({
-
-})
+const chapter = StyleSheet.create({});
 
 export default CourseDetailScreen;

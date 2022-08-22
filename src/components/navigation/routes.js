@@ -57,5 +57,8 @@ export const ROUTE_NAMES = {
   //Auth
   login:"Login",
   recovery:"Recovery",
-  register:"Register"
+  register:"Register",
+  //News
+  news:"News",
+  newsDetail:"NewsDetail"
 }

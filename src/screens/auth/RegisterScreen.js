@@ -7,9 +7,9 @@ import SimpleButton from '../../components/button/SimpleButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
-import {ROUTE_NAMES} from '../../components/navigation/routes';
 import {storeObject} from '../../storage/AsyncStorage';
 import {STORAGE} from '../../constans/constants';
+import RNRestart from 'react-native-restart';
 
 const RegisterScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -27,7 +27,7 @@ const RegisterScreen = ({navigation}) => {
   const [fetchRegister, isLoading, error] = useFetching(async params => {
     const response = await AuthService.fetchRegister(params);
     await storeObject(STORAGE.user, response?.data?.data);
-    navigation.reset({routes: [{name: ROUTE_NAMES.bottomTab}]});
+    RNRestart.Restart();
   });
 
   return (
