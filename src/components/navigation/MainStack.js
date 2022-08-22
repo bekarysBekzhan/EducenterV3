@@ -45,6 +45,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.testPass,
     component: CourseTestScreen
+  },
+  {
+    name: ROUTE_NAMES.courseTask,
+    component: CourseTestScreen
   }
 ];
 
@@ -56,7 +60,7 @@ const Navigation = () => {
     const userToken = await getString('userToken');
     const response = await MobileSettingsService.fetchSettings();
     API_V2.defaults.headers.Authorization = "Bearer ehpzFyZOGazrc5QK9mByfj22XIdhpjkJwXCTI9ekypYTptlrj5YUr3s8pNZn"
-    setIsAuth(false);
+    setIsAuth(true);
     // if (isAuth) {
     //   setIsAuth(true)
     // }
