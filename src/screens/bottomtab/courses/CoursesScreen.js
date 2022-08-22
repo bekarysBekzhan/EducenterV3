@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
     },
     shadowColor: "#000",
     shadowRadius: 20,
-    shadowOpacity: 0.09
+    shadowOpacity: 0.09,
+    elevation:1
   },
   row1: {
     justifyContent: "space-between",

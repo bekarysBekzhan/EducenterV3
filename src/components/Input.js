@@ -1,12 +1,9 @@
-import {StyleSheet} from 'react-native';
-import React from 'react';
-import {TextInput} from 'react-native-gesture-handler';
-import {useMemo} from 'react';
+import {StyleSheet, TextInput} from 'react-native';
+import React, {useMemo, useState} from 'react';
 import {TextInputMask} from 'react-native-masked-text';
 import RowView from './view/RowView';
 import {APP_COLORS} from '../constans/constants';
 import {setFontStyle} from '../utils/utils';
-import {useState} from 'react';
 
 const Input = ({
   placeholder = '',
@@ -27,7 +24,10 @@ const Input = ({
     () => [styles.container, focus ? styles.focus : {}, extraStyle],
     [focus],
   );
-  const memoInputStyles = useMemo(() => [styles.input, extraInputStyle], []);
+  const memoInputStyles = useMemo(
+    () => [styles.input, extraInputStyle],
+    [extraInputStyle],
+  );
 
   return (
     <RowView style={memoStyles}>
@@ -50,11 +50,13 @@ const Input = ({
           placeholder={placeholder}
           style={memoInputStyles}
           type="custom"
-          options={{mask: mask}}
+          options={{mask}}
+          onChangeText={onChangeText}
           autoFocus={focus}
           keyboardType={keyboardType}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
+          value={value}
           {...props}
         />
       )}

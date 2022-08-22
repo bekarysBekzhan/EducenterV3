@@ -44,7 +44,7 @@ const LoginScreen = ({navigation}) => {
   };
 
   const onNavigationRegister = () => {
-    navigation.navigate(ROUTE_NAMES.recovery);
+    navigation.navigate(ROUTE_NAMES.register);
   };
 
   return (

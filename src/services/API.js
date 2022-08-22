@@ -99,6 +99,13 @@ class AuthService {
     console.log('Recovery.js: ', response);
     return response;
   };
+
+  static fetchRegister = async params => {
+    console.log('AuthService Register  params: ', params);
+    const response = await API_V2.post(URLS.register, params);
+    console.log('Register.js: ', response);
+    return response;
+  };
 }
 
 export {MobileSettingsService, CourseService, AuthService};

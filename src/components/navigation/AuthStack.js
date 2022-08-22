@@ -4,6 +4,7 @@ import {ROUTE_NAMES} from './routes';
 import LoginScreen from '../../screens/auth/LoginScreen';
 import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
 import RecoveryScreen from '../../screens/auth/RecoveryScreen';
+import RegisterScreen from '../../screens/auth/RegisterScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,11 @@ const AuthStack = () => {
       id: '3',
       name: ROUTE_NAMES.recovery,
       component: RecoveryScreen,
+    },
+    {
+      id: '4',
+      name: ROUTE_NAMES.register,
+      component: RegisterScreen,
     },
   ];
 

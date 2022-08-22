@@ -30,9 +30,11 @@ export const URLS = {
   lesson: 'lesson/',
   login: 'auth/login',
   recovery: 'auth/recovery',
+  register: 'auth/register',
 };
 
 export const STORAGE = {
   token: 'token',
   language: 'language',
+  user: 'user',
 };

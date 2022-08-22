@@ -118,7 +118,7 @@ const MenuScreen = ({navigation}) => {
   };
 
   const authRegisterNavigation = () => {
-    navigation.navigate(ROUTE_NAMES.login);
+    navigation.navigate(ROUTE_NAMES.register);
   };
 
   console.log('-----', settings);

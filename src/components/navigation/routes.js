@@ -56,5 +56,6 @@ export const ROUTE_NAMES = {
   profile:"Profile",
   //Auth
   login:"Login",
-  recovery:"Recovery"
+  recovery:"Recovery",
+  register:"Register"
 }
