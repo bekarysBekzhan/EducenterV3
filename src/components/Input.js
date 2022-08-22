@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderWidth: 1,
     borderColor: APP_COLORS.input,
+    height: 48
   },
   input: {
     flex: 1,
