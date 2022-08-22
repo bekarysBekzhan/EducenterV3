@@ -9,6 +9,7 @@ import OutlineButton from '../components/button/OutlineButton';
 import { ROUTE_NAMES } from '../components/navigation/routes';
 import { useFetching } from '../hooks/useFetching';
 import { CourseService } from '../services/API';
+import LoadingScreen from '../components/LoadingScreen';
 
 const PreviewTestScreen = props => {
 
@@ -24,10 +25,8 @@ const PreviewTestScreen = props => {
     fetchTestInfo()
   }, [])
 
-  if (data === null) {
-    <UniversalView style={styles.activityContainer}>
-      <ActivityIndicator color={APP_COLORS.primary}/>
-    </UniversalView>
+  if (isLoading) {
+    return <LoadingScreen/>
   }
 
   return (

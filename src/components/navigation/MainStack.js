@@ -16,6 +16,7 @@ import {StyleSheet} from 'react-native';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
 import { API_V2 } from '../../services/axios';
+import CourseTaskScreen from '../../screens/CourseTaskScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -48,7 +49,7 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.courseTask,
-    component: CourseTestScreen
+    component: CourseTaskScreen
   }
 ];
 

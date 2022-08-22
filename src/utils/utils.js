@@ -70,16 +70,19 @@ export const getFormattedTime = time => {
 
 export const selectComponent = (value, audioComponent, mathComponent, htmlComponent) => {
 
+
   if(value === null) {
     return null
   }
 
   if (value?.includes("audio")) {
+    // console.log("audio : " , value)
     return audioComponent
   } else if(value?.includes("math-tex")) {
+    // console.log("math : " , value)
     return mathComponent
   } 
-
+  // console.log("html : " , value)
   return htmlComponent
 }
 
