@@ -25,31 +25,37 @@ const ProfileScreen = ({navigation}) => {
   const MENU = [
     {
       section: strings['Мои профиль'],
+      enabled: true,
       data: [
         {
           id: 1,
           text: strings['История оплаты'],
           iconLeft: <History />,
+          enabled: true,
         },
         {
           id: 2,
           text: 'Расписание',
           iconLeft: <CalendarIcon />,
+          enabled: true,
         },
         {
           id: 3,
           text: strings['Сменить пароль'],
           iconLeft: <Password />,
+          enabled: true,
         },
         {
           id: 4,
           text: strings.Настройки,
           iconLeft: <Settings />,
+          enabled: true,
         },
       ],
     },
     {
       section: 'Меню',
+      enabled: true,
       data: [
         {
           id: 1,
@@ -86,6 +92,7 @@ const ProfileScreen = ({navigation}) => {
     },
     {
       section: strings.Помощь,
+      enabled: settings?.phone?.length,
       data: [
         {
           id: 1,
@@ -116,21 +123,23 @@ const ProfileScreen = ({navigation}) => {
 
   return (
     <UniversalView haveScroll>
-      {MENU.map((s, sKey) => (
+      {MENU.filter(m => m?.enabled).map((s, sKey) => (
         <Fragment key={sKey.toString()}>
           <SectionView label={s.section} />
-          {s.data.map((d, dKey) => {
-            return (
-              <NavButtonRow
-                key={dKey.toString()}
-                leftIcon={d.iconLeft}
-                title={d.text}
-                style={styles.view}
-                item={d}
-                onPress={onAction}
-              />
-            );
-          })}
+          {s.data
+            .filter(fd => fd?.enabled)
+            .map((d, dKey) => {
+              return (
+                <NavButtonRow
+                  key={dKey.toString()}
+                  leftIcon={d.iconLeft}
+                  title={d.text}
+                  style={styles.view}
+                  item={d}
+                  onPress={onAction}
+                />
+              );
+            })}
         </Fragment>
       ))}
       {settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
