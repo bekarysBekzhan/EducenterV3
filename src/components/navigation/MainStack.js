@@ -14,6 +14,8 @@ import LessonScreen from '../../screens/LessonScreen';
 import Loader from '../Loader';
 import {StyleSheet} from 'react-native';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
+import CourseTestScreen from '../../screens/CourseTestScreen';
+import { API_V2 } from '../../services/axios';
 
 const MainStack = createNativeStackNavigator();
 
@@ -39,6 +41,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.testPreview,
     component: PreviewTestScreen
+  },
+  {
+    name: ROUTE_NAMES.testPass,
+    component: CourseTestScreen
   }
 ];
 
@@ -49,7 +55,8 @@ const Navigation = () => {
     const auth = await getString('isAuth');
     const userToken = await getString('userToken');
     const response = await MobileSettingsService.fetchSettings();
-    setIsAuth(false);
+    API_V2.defaults.headers.Authorization = "Bearer ehpzFyZOGazrc5QK9mByfj22XIdhpjkJwXCTI9ekypYTptlrj5YUr3s8pNZn"
+    setIsAuth(true);
     // if (isAuth) {
     //   setIsAuth(true)
     // }
@@ -86,6 +93,7 @@ const Navigation = () => {
                 route.name === ROUTE_NAMES.search
                   ? 'fade_from_bottom'
                   : 'default',
+                headerBackTitleVisible: false
             }}
           />
         ))}
@@ -97,6 +105,7 @@ const Navigation = () => {
                 key={index}
                 options={{
                   headerShown: true,
+                  headerBackTitleVisible: false,
                 }}
               />
             ))

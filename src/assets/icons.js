@@ -10,7 +10,7 @@ export const Logo = (size = 1) => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Rect width="80" height="80" rx="12" fill="#5559F4" />
-    <G clip-path="url(#clip0_2328_14553)">
+    <G clipPath="url(#clip0_2328_14553)">
       <Path
         d="M59.0576 39.9981V39.209C59.3161 39.267 59.4453 39.4088 59.4453 39.6342C59.4453 39.7436 59.4084 39.8307 59.3343 39.8956C59.2606 39.9639 59.1682 39.9981 59.0576 39.9981Z"
         fill="white"
@@ -20,8 +20,8 @@ export const Logo = (size = 1) => (
         fill="white"
       />
       <Path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M47.6188 64.7619C61.0841 64.7619 71.9997 53.8462 71.9997 40.381C71.9997 26.9157 61.0841 16 47.6188 16C35.2365 16 25.0101 25.2305 23.4453 37.186C24.7652 35.7846 26.4475 35.0839 28.4921 35.0839C30.3971 35.0839 31.765 35.4964 32.5959 36.3214H32.6567C32.6365 36.1202 32.6263 35.8888 32.6263 35.6272V29.4095H37.8853V51.3524H32.9607V49.9639L32.9911 49.0886H32.9303C31.9373 50.5978 30.4275 51.3524 28.401 51.3524C27.361 51.3524 
         26.4203 51.1747 25.5789 50.819C29.4897 59.0619 37.8886 64.7619 47.6188 64.7619ZM44.6888 35.4461H39.4298V45.5271C39.4298 47.5794 39.9263 49.0685 40.9195 49.9941C41.9325 50.8995 43.2906 51.3524 44.9926 51.3524C46.0465 51.3524 47.0193 51.111 47.911 50.628C48.8028 50.1452 49.4614 49.4912 49.8868 48.6662H49.9478L49.8868 49.632V51.3524H54.9331V35.4461H49.6741V42.3277C49.6741 43.5552 49.3904 44.5814 48.8229 45.4064C48.2554 46.2113 
         47.4347 46.6136 46.3607 46.6136C45.2462 46.6136 44.6888 45.9295 44.6888 44.5613V35.4461ZM59.6816 35.8993C59.4164 35.6363 59.0995 35.5048 58.7301 35.5048C58.3543 35.5048 58.034 35.6363 57.7689 35.8993C57.5037 36.1658 57.3712 36.5244 57.3712 36.9753C57.3712 37.1939 57.4099 37.404 57.487 37.6056C57.5641 37.8105 57.668 37.9779 57.799 38.1077L58.408 37.7849C58.2001 37.539 58.0959 37.2981 58.0959 37.0624C58.0959 36.8541 58.1599 
@@ -39,8 +39,8 @@ export const Logo = (size = 1) => (
         fill="white"
       />
       <Path
-        fill-rule="evenodd"
-        clip-rule="evenodd"
+        fillRule="evenodd"
+        clipRule="evenodd"
         d="M10.2191 37.5243C8.7397 39.0535 8 40.9852 8 43.3194C8 45.5328 8.77009 47.4443 10.3103 49.0541C11.8505 50.6638 13.9479 51.4687 16.6028 51.4687C17.8187 51.4687 19.0245 51.2675 20.2202 50.865C21.4361 50.4627 22.4595 49.9092 23.2904 49.2049L21.3449 45.5529C19.7642 46.5992 18.3253 47.1225 17.0283 47.1225C16.1367 47.1225 15.3463 46.8909 14.6572 46.4282C13.9885 45.9452 13.5629 45.2511 13.3805 44.3456H23.26C23.3411 43.6212 23.3816 43.0779 23.3816 42.7157C23.3816 40.5023 22.7331 38.7014 21.4361 37.313C20.1594 35.9045 18.3963 35.2002 16.1468 35.2002C13.6744 35.2002 11.6985 35.9749 10.2191 37.5243ZM18.1835 41.3575H13.5021C13.8466 39.8081 14.6877 39.0334 16.0252 39.0334C16.6737 39.0334 17.1905 39.2547 17.5755 39.6974C17.9808 40.1401 18.1835 40.6935 18.1835 41.3575Z"
         fill="white"
       />
@@ -172,8 +172,8 @@ export const iconNext = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M16 12C16 11.7901 15.9145 11.5889 15.7625 11.4413L9.36247 5.22697C9.04828 4.9219 8.54176 4.92472 8.23112 5.23327C7.92047 5.54182 7.92334 6.03926 8.23753 6.34433L14.0622 12L8.23753 17.6557C7.92334 17.9607 7.92047 18.4582 8.23112 18.7667C8.54176 19.0753 9.04828 19.0781 9.36247 18.773L15.7625 12.5587C15.9145 12.4111 16 12.2099 16 12Z"
       fill="#808191"
     />
@@ -330,6 +330,22 @@ export const time = (size = 20, color = '#5559F4') => (
   </Svg>
 );
 
+export const TimeIcon = ({size = 20, color = '#5559F4'}) => (
+  <Svg
+    width={size}
+    height={size}
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg">
+    <Path
+      fillRule="evenodd"
+      clipRule="evenodd"
+      d="M9.9997 2.5C14.142 2.5 17.5 5.85787 17.5 10C17.5 14.1415 14.142 17.5 9.9997 17.5C5.8574 17.5 2.5 14.1415 2.5 10C2.5 5.85787 5.8574 2.5 9.9997 2.5ZM9.9997 3.75C6.54789 3.75 3.75 6.54809 3.75 10C3.75 13.4515 6.54812 16.25 9.9997 16.25C13.4514 16.25 16.25 13.4514 16.25 10C16.25 6.54824 13.4516 3.75 9.9997 3.75ZM10.312 4.97727C9.97161 4.97727 9.69215 5.24684 9.69215 5.58368V9.719H6.96075C6.62024 9.719 6.34092 9.98819 6.34092 10.3254C6.34092 10.6626 6.62024 10.9318 6.96075 10.9318H10.9318V5.58368C10.9318 5.24684 10.6524 4.97727 10.312 4.97727Z"
+      fill={color}
+    />
+  </Svg>
+);
+
 export const lock = (size = 24, color = '#808191') => (
   <Svg
     width={size}
@@ -412,8 +428,8 @@ export const coursesON = (
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M23 25C23.5523 25 24 24.5523 24 24V7.82499C24 7.82499 24 7.82499 24 7.82499H8.99995C8.54432 7.82499 8.17495 7.45562 8.17495 6.99999C8.17495 6.54435 8.54432 6.17499 8.99995 6.17499H24C24 6.17499 24 6.17499 24 6.17499V4C24 3.44772 23.5523 3 23 3H7C5.343 3 4 4.343 4 6V22C4 23.657 5.343 25 7 25H23Z"
       fill="#5559F4"
     />
@@ -644,8 +660,8 @@ export const History = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M4.34043 4.2766C3.75337 4.2766 3.2766 4.75337 3.2766 5.34043C3.2766 5.92748 3.75337 6.40426 4.34043 6.40426H19.6596C20.9517 6.40426 22 7.45258 22 8.74468V18.9574C22 20.2495 20.9517 21.2979 19.6596 21.2979H6.04255C3.81003 21.2979 2 19.4878 2 17.2553V5.34043C2 4.04833 3.04833 3 4.34043 3H19.6596C20.0121 3 20.2979 3.28578 20.2979 3.6383C20.2979 3.99082 20.0121 4.2766 19.6596 4.2766H4.34043ZM3.2766 7.42546V17.2553C3.2766 18.7828 4.51508 20.0213 6.04255 20.0213H19.6596C20.2466 20.0213 20.7234 19.5445 20.7234 18.9574V8.74468C20.7234 8.15763 20.2466 7.68085 19.6596 7.68085H4.34043C3.95741 7.68085 3.59581 7.58873 3.2766 7.42546Z"
       fill="#808191"
     />
@@ -660,22 +676,22 @@ export const Settings = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M22.0613 7.1181L21.3489 5.8819C20.7463 4.8359 19.4107 4.47505 18.3632 5.07524V5.07524C17.8646 5.36895 17.2697 5.45229 16.7096 5.30686C16.1495 5.16143 15.6702 4.79918 15.3775 4.3C15.1892 3.98271 15.088 3.62132 15.0842 3.25238V3.25238C15.1012 2.66087 14.878 2.08767 14.4655 1.66336C14.0531 1.23905 13.4864 0.999756 12.8947 1H11.4594C10.8797 0.999993 10.3238 1.23101 9.91488 1.64193C9.50593 2.05285 9.27758 2.60979 9.28037 3.18952V3.18952C9.26319 4.38647 8.28792 5.34774 7.09084 5.34762C6.7219 5.34379 6.36051 5.2426 6.04323 5.05429V5.05429C4.99579 4.4541 3.66019 4.81495 3.05751 5.86095L2.29275 7.1181C1.6908 8.16279 2.04674 9.49755 3.08894 10.1038V10.1038C3.76639 10.4949 4.18371 11.2178 4.18371 12C4.18371 12.7822 3.76639 13.5051 3.08894 13.8962V13.8962C2.04806 14.4984 1.69174 15.8299 2.29275 16.8714V16.8714L3.01561 18.1181C3.29798 18.6276 3.77177 19.0036 4.33211 19.1629C4.89246 19.3221 5.49317 19.2515 6.00132 18.9667V18.9667C6.50086 18.6752 7.09614 18.5953 7.65484 18.7448C8.21354 18.8943 8.68937 19.2608 8.97656 19.7629C9.16487 20.0801 9.26606 20.4415 9.26989 20.8105V20.8105C9.26989 22.0197 10.2502 23 11.4594 23H12.8947C14.0998 23 15.0784 22.0261 15.0842 20.821V20.821C15.0814 20.2394 15.3112 19.6809 15.7224 19.2696C16.1336 18.8584 16.6922 18.6286 17.2737 18.6314C17.6418 18.6413 18.0017 18.7421 18.3213 18.9248V18.9248C19.366 19.5267 20.7008 19.1708 21.307 18.1286V18.1286L22.0613 16.8714C22.3533 16.3703 22.4334 15.7734 22.284 15.213C22.1345 14.6526 21.7679 14.1749 21.2651 13.8857V13.8857C20.7624 13.5965 20.3957 13.1188 20.2463 12.5584C20.0968 11.998 20.177 11.4011 20.4689 10.9C20.6588 10.5685 20.9336 10.2937 21.2651 10.1038V10.1038C22.3011 9.49788 22.6562 8.17092 22.0613 7.12857V7.12857V7.1181Z"
       stroke="#808191"
-      stroke-width="1.6"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Circle
       cx="12.1822"
       cy="11.9996"
       r="3.01714"
       stroke="#808191"
-      stroke-width="1.6"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -690,16 +706,16 @@ export const JournalIcon = () => (
     <Path
       d="M16.7272 19.3089H18.5454C19.5491 19.3089 20.3636 18.4944 20.3636 17.4907V4.76349C20.3636 3.75986 19.5491 2.94531 18.5454 2.94531H4"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M4 2.94531V19.3089L14.2972 22.8389C15.4818 23.258 16.7272 22.3871 16.7272 21.1389V8.72894C16.7272 7.96621 16.2445 7.28621 15.5209 7.02985L4 2.94531"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -714,25 +730,25 @@ export const RatingIcon = () => (
     <Path
       d="M7.24463 15.7268L10.2378 11.8367L13.652 14.5186L16.581 10.7383"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Circle
       cx="19.9954"
       cy="5.14485"
       r="1.9222"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M14.9243 4.06445H7.65655C4.64511 4.06445 2.77783 6.19718 2.77783 9.20862V17.291C2.77783 20.3024 4.6085 22.426 7.65655 22.426H16.2607C19.2721 22.426 21.1394 20.3024 21.1394 17.291V10.2521"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -747,32 +763,32 @@ export const ReferalIcon = () => (
     <Path
       d="M21.6389 14.3962H17.5906C16.1042 14.3953 14.8993 13.1914 14.8984 11.7049C14.8984 10.2185 16.1042 9.01458 17.5906 9.01367H21.6389"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M18.0485 11.6432H17.7369"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M7.74766 3H16.3911C19.2892 3 21.6388 5.34951 21.6388 8.24766V15.4247C21.6388 18.3229 19.2892 20.6724 16.3911 20.6724H7.74766C4.84951 20.6724 2.5 18.3229 2.5 15.4247V8.24766C2.5 5.34951 4.84951 3 7.74766 3Z"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M7.03564 7.53772H12.4346"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -787,32 +803,32 @@ export const NewsIcon = () => (
     <Path
       d="M15.1856 15.6219H8.99707"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M15.1856 12.0321H8.99707"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M11.3585 8.45201H8.99707"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M15.3503 4.07227C15.3503 4.07227 8.77006 4.07569 8.75977 4.07569C6.39406 4.09027 4.9292 5.64684 4.9292 8.02112V15.9034C4.9292 18.2897 6.4052 19.8523 8.79148 19.8523C8.79148 19.8523 15.3709 19.8497 15.3821 19.8497C17.7478 19.8351 19.2135 18.2777 19.2135 15.9034V8.02112C19.2135 5.63484 17.7366 4.07227 15.3503 4.07227Z"
       stroke="#808191"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -825,8 +841,8 @@ export const ReclamentIcon = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M3.39535 6.4186C3.39535 4.74904 4.74904 3.39535 6.4186 3.39535H17.5814C19.251 3.39535 20.6047 4.74904 20.6047 6.4186V17.5814C20.6047 19.251 19.251 20.6047 17.5814 20.6047H6.4186C4.74904 20.6047 3.39535 19.251 3.39535 17.5814V6.4186ZM6.4186 2C3.97841 2 2 3.97841 2 6.4186V17.5814C2 20.0216 3.97841 22 6.4186 22H17.5814C20.0216 22 22 20.0216 22 17.5814V6.4186C22 3.97841 20.0216 2 17.5814 2H6.4186ZM6.4186 11.3023C6.03329 11.3023 5.72093 11.6147 5.72093 12C5.72093 12.3853 6.03329 12.6977 6.4186 12.6977H17.5814C17.9667 12.6977 18.2791 12.3853 18.2791 12C18.2791 11.6147 17.9667 11.3023 17.5814 11.3023H6.4186ZM5.72093 7.34884C5.72093 6.96352 6.03329 6.65116 6.4186 6.65116H11.0698C11.4551 6.65116 11.7674 6.96352 11.7674 7.34884C11.7674 7.73415 11.4551 8.04651 11.0698 8.04651H6.4186C6.03329 8.04651 5.72093 7.73415 5.72093 7.34884ZM6.4186 15.9535C6.03329 15.9535 5.72093 16.2658 5.72093 16.6512C5.72093 17.0365 6.03329 17.3488 6.4186 17.3488H14.7907C15.176 17.3488 15.4884 17.0365 15.4884 16.6512C15.4884 16.2658 15.176 15.9535 14.7907 15.9535H6.4186Z"
       fill="#808191"
     />
@@ -841,38 +857,38 @@ export const CallCenterIcon = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M7 17V17C8.104 17 9 16.104 9 15V11C9 9.896 8.104 9 7 9C5.896 9 5 9.896 5 11V15C5 16.104 5.896 17 7 17Z"
       stroke="#5559F4"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M17 17V17C18.104 17 19 16.104 19 15V11C19 9.896 18.104 9 17 9C15.896 9 15 9.896 15 11V15C15 16.104 15.896 17 17 17Z"
       stroke="#5559F4"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M1 13V12C1 5.925 5.925 1 12 1C18.075 1 23 5.925 23 12V17C23 19.209 21.209 21 19 21H14"
       stroke="#5559F4"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M14 21C14 22.104 13.104 23 12 23C10.896 23 10 22.104 10 21C10 19.896 10.896 19 12 19C13.104 19 14 19.896 14 21Z"
       stroke="#5559F4"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -887,32 +903,32 @@ export const UbtIcon = ({width = '28', height = '28', stroke = '#808191'}) => (
     <Path
       d="M9.37121 12.2012V19.0613"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M14.0382 8.91992V19.0626"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M18.6285 15.8262V19.0612"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M18.6857 4H9.31429C6.04762 4 4 6.31208 4 9.58516V18.4148C4 21.6879 6.0381 24 9.31429 24H18.6857C21.9619 24 24 21.6879 24 18.4148V9.58516C24 6.31208 21.9619 4 18.6857 4Z"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -931,39 +947,39 @@ export const CalendarIcon = ({
     <Path
       d="M21.9996 7.4202V5.58206C21.9996 4.57753 21.185 3.76392 20.1814 3.76392H3.81814C2.81453 3.76392 2 4.57753 2 5.58206V20.1263C2 21.1308 2.81453 21.9453 3.81814 21.9453H7.47442"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M6.54535 1.94531V6.49067"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M17.4542 1.94531V6.49067"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M21.9996 16.0359C21.9996 19.2995 19.3542 21.9449 16.0906 21.9449C12.827 21.9449 10.1816 19.2995 10.1816 16.0359C10.1816 12.7723 12.827 10.127 16.0906 10.127C19.3542 10.127 21.9996 12.7723 21.9996 16.0359Z"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <Path
       d="M16.5451 13.7632V16.4904H13.8179"
       stroke={stroke}
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </Svg>
 );
@@ -976,8 +992,8 @@ export const Password = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M12.1277 2.40426C9.92978 2.40426 8.14898 4.18505 8.14898 6.38298V8.48939H16.1064V6.38298C16.1064 4.18505 14.3256 2.40426 12.1277 2.40426ZM6.74473 6.38298V8.48939H5.57447C4.15316 8.48939 3 9.64255 3 11.0639V20.4256C3 21.8469 4.15316 23 5.57447 23H18.6809C20.1022 23 21.2553 21.8469 21.2553 20.4256V11.0639C21.2553 9.64255 20.1022 8.48939 18.6809 8.48939H17.5107V6.38298C17.5107 3.4095 15.1012 1 12.1277 1C9.15423 1 6.74473 3.4095 6.74473 6.38298ZM5.57447 9.89364C4.92871 9.89364 4.40426 10.4181 4.40426 11.0639V20.4256C4.40426 21.0713 4.92871 21.5958 5.57447 21.5958H18.6809C19.3266 21.5958 19.8511 21.0713 19.8511 20.4256V11.0639C19.8511 10.4181 19.3266 9.89364 18.6809 9.89364H5.57447ZM10.0212 15.7447C10.0212 14.5812 10.9641 13.6383 12.1276 13.6383C13.2911 13.6383 14.234 14.5812 14.234 15.7447C14.234 16.9081 13.2911 17.8511 12.1276 17.8511C10.9641 17.8511 10.0212 16.9081 10.0212 15.7447ZM12.1276 12.234C10.1886 12.234 8.61696 13.8057 8.61696 15.7447C8.61696 17.6837 10.1886 19.2553 12.1276 19.2553C14.0666 19.2553 15.6382 17.6837 15.6382 15.7447C15.6382 13.8057 14.0666 12.234 12.1276 12.234Z"
       fill="#808191"
     />
@@ -1002,8 +1018,8 @@ export const ToastInfoIcon = ({
     fill="none"
     xmlns="http://www.w3.org/2000/svg">
     <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M12 2.40426C6.70054 2.40426 2.40426 6.70054 2.40426 12C2.40426 17.2995 6.70054 21.5957 12 21.5957C17.2995 21.5957 21.5957 17.2995 21.5957 12C21.5957 6.70054 17.2995 2.40426 12 2.40426ZM1 12C1 5.92499 5.92499 1 12 1C18.075 1 23 5.92499 23 12C23 18.075 18.075 23 12 23C5.92499 23 1 18.075 1 12ZM12 10.3617C12.3878 10.3617 12.7021 10.6761 12.7021 11.0638V17.617C12.7021 18.0048 12.3878 18.3191 12 18.3191C11.6122 18.3191 11.2979 18.0048 11.2979 17.617V11.0638C11.2979 10.6761 11.6122 10.3617 12 10.3617ZM12.7021 7.30979C12.7021 6.92201 12.3878 6.60766 12 6.60766C11.6122 6.60766 11.2979 6.92201 11.2979 7.30979V7.31915C11.2979 7.70692 11.6122 8.02128 12 8.02128C12.3878 8.02128 12.7021 7.70692 12.7021 7.31915V7.30979Z"
       fill={fill}
     />

@@ -7,6 +7,8 @@ import AudioPlayer from '../AudioPlayer';
 import MathView from './MathView';
 import HtmlView from '../HtmlView';
 import {useEffect} from 'react';
+import { useFetching } from '../../hooks/useFetching';
+import { CourseService } from '../../services/API';
 
 const dynamicContainerStyle = (state, component) => {
   switch (state) {
@@ -25,6 +27,7 @@ const dynamicContainerStyle = (state, component) => {
 
 const AnswerOption = ({
   item = {},
+  passingID,
   index,
   is_multiple = false,
   onSelect,
@@ -44,6 +47,10 @@ const AnswerOption = ({
       ? 'correct'
       : 'incorrect',
   );
+  const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
+    let params = { selected: !(state === "selected"), is_multiple: is_multiple}
+    const response = await CourseService.selectAnswer(passingID, { params: params})
+  })
 
   const memoStylesContainer = useMemo(
     () => [
@@ -64,13 +71,8 @@ const AnswerOption = ({
     ],
     [state],
   );
-  const memoStylesText = useMemo(
-    () => [setFontStyle(), {}, extraTextStyle],
-    [],
-  );
 
   useEffect(() => {
-    // console.log("useEffect ", index)
     if (selected && !is_multiple) {
       onSelect(index, setState)
     }
@@ -80,18 +82,21 @@ const AnswerOption = ({
     item.selected = state === "selected" ? true : false
   },[state])
 
+  const selectTapped = () => {
+    sendAnswer()
+    if (is_multiple) {
+      setState(prev => prev === "selected" ? "unselected" : "selected")
+    } else {
+      onSelect(index, setState);
+    }
+  }
+
   return (
     <TouchableOpacity
       style={memoStylesContainer}
-      onPress={() => {
-        if (is_multiple) {
-          setState(prev => prev === "selected" ? "unselected" : "selected")
-        } else {
-          onSelect(index, setState);
-        }
-      }}
+      onPress={selectTapped}
       activeOpacity={0.7}
-      disabled={correct !== undefined ? true : false}>
+      disabled={correct !== undefined || isLoading}>
       <View style={memoStylesCheckbox}>
         {correct === false ? x() : check()}
       </View>
