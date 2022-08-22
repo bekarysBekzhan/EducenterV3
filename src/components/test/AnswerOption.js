@@ -48,7 +48,8 @@ const AnswerOption = ({
       : 'incorrect',
   );
   const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
-    const response = await CourseService.selectAnswer(passingID)
+    let params = { selected: !(state === "selected"), is_multiple: is_multiple}
+    const response = await CourseService.selectAnswer(passingID, { params: params})
   })
 
   const memoStylesContainer = useMemo(
@@ -72,7 +73,6 @@ const AnswerOption = ({
   );
 
   useEffect(() => {
-    console.log("Passing id : " , passingID)
     if (selected && !is_multiple) {
       onSelect(index, setState)
     }
@@ -83,12 +83,12 @@ const AnswerOption = ({
   },[state])
 
   const selectTapped = () => {
+    sendAnswer()
     if (is_multiple) {
       setState(prev => prev === "selected" ? "unselected" : "selected")
     } else {
       onSelect(index, setState);
     }
-    sendAnswer()
   }
 
   return (
