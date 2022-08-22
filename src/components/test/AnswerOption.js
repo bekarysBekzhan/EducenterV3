@@ -48,7 +48,7 @@ const AnswerOption = ({
       : 'incorrect',
   );
   const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
-    const response = await CourseService.selectTest(passingID)
+    const response = await CourseService.selectAnswer(passingID)
   })
 
   const memoStylesContainer = useMemo(

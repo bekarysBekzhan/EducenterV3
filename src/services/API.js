@@ -90,7 +90,7 @@ class CourseService {
     return response
   }
 
-  static selectTest = async(id) => {
+  static selectAnswer = async(id) => {
     const response = await API_V2.get(URLS.lessonTestSelect + id)
     return response
   }
