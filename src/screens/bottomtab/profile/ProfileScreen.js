@@ -16,8 +16,9 @@ import {
   Settings,
 } from '../../../assets/icons';
 import {useSettings} from '../../../components/context/Provider';
+import {ROUTE_NAMES} from '../../../components/navigation/routes';
 
-const ProfileScreen = () => {
+const ProfileScreen = ({navigation}) => {
   const {settings} = useSettings();
 
   const MENU = [
@@ -71,6 +72,8 @@ const ProfileScreen = () => {
           text: settings?.modules_enabled_news_title,
           iconLeft: <NewsIcon />,
           enabled: settings?.modules_enabled_news,
+          action: 'navigation',
+          route: ROUTE_NAMES?.news,
         },
         {
           id: 5,
@@ -92,6 +95,23 @@ const ProfileScreen = () => {
     },
   ];
 
+  const onAction = item => {
+    const {navigate} = navigation;
+    console.log('item', item);
+    switch (item?.action) {
+      case 'navigation':
+        if (item?.route == ROUTE_NAMES.news) {
+          navigate(item?.route);
+        }
+        break;
+      case 'call':
+        if (item?.text?.length) {
+          Linking.openURL(`tel:${item?.text}`);
+        }
+        break;
+    }
+  };
+
   return (
     <UniversalView haveScroll>
       {MENU.map((s, sKey) => (
@@ -104,6 +124,8 @@ const ProfileScreen = () => {
                 leftIcon={d.iconLeft}
                 title={d.text}
                 style={styles.view}
+                item={d}
+                onPress={onAction}
               />
             );
           })}
