@@ -80,6 +80,7 @@ const CourseTestScreen = props => {
         text={strings['Завершить тест']}
         onPress={finishTest}
         style={{ marginBottom: 100}}
+        loading={isFinishLoading}
       />
     </View>
   )
