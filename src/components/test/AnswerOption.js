@@ -72,6 +72,7 @@ const AnswerOption = ({
   );
 
   useEffect(() => {
+    console.log("Passing id : " , passingID)
     if (selected && !is_multiple) {
       onSelect(index, setState)
     }

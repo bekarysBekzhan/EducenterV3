@@ -63,6 +63,7 @@ const Question = ({
       {questionItem.answers.map((option, i) => (
         <AnswerOption
           item={option}
+          passingID={passing_answers?.[option?.test_id]?.[option?.id]?.id}
           index={i}
           selected={
             option?.selected !== undefined
