@@ -10,10 +10,10 @@ import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
 import {APP_COLORS, STORAGE} from '../../constans/constants';
-import RNRestart from 'react-native-restart';
 import {storeString} from '../../storage/AsyncStorage';
+import {ROUTE_NAMES} from '../../components/navigation/routes';
 
-const LoginScreen = () => {
+const LoginScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
     email: '',
     password: '',
@@ -22,7 +22,7 @@ const LoginScreen = () => {
   const [fetchLogin, isLoading, authError] = useFetching(async params => {
     const response = await AuthService.fetchLogin(params);
     await storeString(STORAGE.token, response?.data?.data?.token);
-    RNRestart.Restart();
+    navigation.reset({routes: [{name: ROUTE_NAMES.bottomTab}]});
   });
 
   const onChangeEmailOrPhone = email => {
@@ -37,6 +37,14 @@ const LoginScreen = () => {
       ...prev,
       password,
     }));
+  };
+
+  const onNavigationRecovery = () => {
+    navigation.navigate(ROUTE_NAMES.recovery);
+  };
+
+  const onNavigationRegister = () => {
+    navigation.navigate(ROUTE_NAMES.recovery);
   };
 
   return (
@@ -70,11 +78,16 @@ const LoginScreen = () => {
         loading={isLoading}
         onPress={() => fetchLogin(dataSource)}
       />
-      <TextButton text={strings['Я забыл пароль']} disabled={isLoading} />
+      <TextButton
+        text={strings['Я забыл пароль']}
+        disabled={isLoading}
+        onPress={onNavigationRecovery}
+      />
       <TextButton
         style={styles.registerButton}
         text={strings['У меня нет аккаунта']}
         textStyle={styles.registerText}
+        onPress={onNavigationRegister}
       />
     </UniversalView>
   );
@@ -86,6 +99,7 @@ const styles = StyleSheet.create({
   view: {
     flex: 1,
     padding: 16,
+    backgroundColor: '#fff',
   },
   input: {
     marginBottom: 8,

@@ -69,13 +69,13 @@ const MenuScreen = ({navigation}) => {
           id: 5,
           text: settings?.modules_enabled_offline_courses_title,
           iconLeft: <ReclamentIcon />,
-          enabled: settings.modules_enabled_offline_courses,
+          enabled: settings?.modules_enabled_offline_courses,
         },
         {
           id: 6,
           text: strings.Календарь,
           iconLeft: <CalendarIcon />,
-          enabled: settings.modules_enabled_offline_courses,
+          enabled: settings?.modules_enabled_offline_courses,
         },
         {
           id: 6,

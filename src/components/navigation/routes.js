@@ -55,5 +55,6 @@ export const ROUTE_NAMES = {
   aboutService: "AboutService",
   profile:"Profile",
   //Auth
-  login:"Login"
+  login:"Login",
+  recovery:"Recovery"
 }
