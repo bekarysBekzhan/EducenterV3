@@ -17,6 +17,7 @@ import {
 } from '../../../assets/icons';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
+import DevView from '../../../components/view/DevView';
 
 const ProfileScreen = ({navigation}) => {
   const {settings} = useSettings();
@@ -90,7 +91,7 @@ const ProfileScreen = ({navigation}) => {
           id: 1,
           text: settings?.phone,
           iconLeft: <CallCenterIcon />,
-          action:'call'
+          action: 'call',
         },
       ],
     },
@@ -132,6 +133,7 @@ const ProfileScreen = ({navigation}) => {
           })}
         </Fragment>
       ))}
+      {settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
     </UniversalView>
   );
 };
