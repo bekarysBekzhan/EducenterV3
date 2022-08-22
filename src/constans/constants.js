@@ -29,7 +29,7 @@ export const URLS = {
   categories: 'categories',
   lesson: 'lesson/',
   lessonTestStart: 'test/start/lesson/',
-  
+  lessonTestFinish: "test/finish/",
   login: 'auth/login',
 };
 

@@ -7,6 +7,8 @@ import Question from '../components/test/Question';
 import { CourseService } from '../services/API';
 import { FlatList } from 'react-native-gesture-handler';
 import { APP_COLORS } from '../constans/constants';
+import SimpleButton from '../components/button/SimpleButton';
+import { strings } from '../localization';
 
 const CourseTestScreen = props => {
 
@@ -21,6 +23,10 @@ const CourseTestScreen = props => {
     const response = await CourseService.fetchTest(id)
     setData(response.data?.data)
   });
+  const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
+    const response = await CourseService.finishTest(id)
+    
+  })
 
   useEffect(() => {
     fetchTest()
@@ -58,6 +64,17 @@ const CourseTestScreen = props => {
       />
     );
   };
+
+  const renderFooter = () => (
+    <View>
+      <SimpleButton
+        text={strings['Завершить тест']}
+        onPress={finishTest}
+        style={{ marginBottom: 100}}
+      />
+    </View>
+  )
+
   return (
     <UniversalView style={styles.container}>
       {isLoading ? (
@@ -66,6 +83,7 @@ const CourseTestScreen = props => {
         <FlatList
           data={data?.tests}
           renderItem={renderQuestion}
+          ListFooterComponent={renderFooter}
           style={{padding: 16}}
           maxToRenderPerBatch={10}
           keyExtractor={(item, index) => index.toString()}
