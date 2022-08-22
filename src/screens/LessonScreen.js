@@ -133,12 +133,12 @@ const LessonScreen = (props) => {
                         </View>
                         <OutlineButton
                             text={strings['Пройти тест']}
-                            onPress={() => props.navigation.navigate(ROUTE_NAMES.testPreview, { time: data?.timer, count: data?.tests_count, id: data?.id })}
+                            onPress={() => props.navigation.navigate(ROUTE_NAMES.testPreview, { id: data?.id })}
                             style={styles.testButton}
                         />
                         <OutlineButton
                             text={strings['Пройти задание']}
-                            onPress={() => undefined}
+                            onPress={() => props.navigation.navigate(ROUTE_NAMES.courseTask, {id: data?.id })}
                             style={styles.taskButton}
                         />
                     </View>
