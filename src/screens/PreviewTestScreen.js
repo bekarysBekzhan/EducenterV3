@@ -11,8 +11,7 @@ import { useFetching } from '../hooks/useFetching';
 import { CourseService } from '../services/API';
 
 const PreviewTestScreen = props => {
-  const time = props.route?.params?.time;
-  const count = props?.route?.params?.count;
+
   const id = props.route?.params?.id
 
   const [data, setData] = useState(null)
@@ -45,7 +44,7 @@ const PreviewTestScreen = props => {
         <View style={styles.dot} />
         <Text style={styles.label}>
           {wordLocalization(strings['Прохождения теста занимает :num минут.'], {
-            num: time,
+            num: data?.minutes,
           })}
         </Text>
       </RowView>
@@ -53,7 +52,7 @@ const PreviewTestScreen = props => {
         <View style={styles.dot} />
         <Text style={styles.label}>
           {wordLocalization(strings['Тест состоит из :num вопросов'], {
-            num: count,
+            num: data?.tests_count,
           })}
         </Text>
       </RowView>
