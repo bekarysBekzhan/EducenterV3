@@ -106,6 +106,12 @@ class CourseService {
     console.log("Lesson test with id " + id + " ended:" , response)
     return response
   }
+
+  static fetchTask = async(id) => {
+    const response = await API_V2.get(URLS.lessonTaskSend + id)
+    console.log("Lesson task with id " + id + ":" , response)
+    return response
+  }
 }
 
 class AuthService {

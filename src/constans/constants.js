@@ -32,6 +32,8 @@ export const URLS = {
   lessonTestInfo: "test/info/lesson/",
   lessonTestSelect: "test/select/",
   lessonTestFinish: "test/finish/",
+  lessonTaskShow: "task/show/lesson/",
+  lessonTaskSend: "task/send/",
   login: 'auth/login',
   recovery: 'auth/recovery',
   register: 'auth/register',
