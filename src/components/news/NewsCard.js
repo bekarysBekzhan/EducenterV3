@@ -5,9 +5,15 @@ import {setFontStyle} from '../../utils/utils';
 import DateFormat from '../DateFormat';
 import RowView from '../view/RowView';
 
-const NewsCard = ({title, onPress, source, date, isLast}) => {
+const NewsCard = ({title, onPress, source, date, isLast, item}) => {
+  const handlerOnPress = () => {
+    if (onPress) {
+      onPress(item);
+    }
+  };
+
   return (
-    <TouchableOpacity activeOpacity={0.9} onPress={onPress}>
+    <TouchableOpacity activeOpacity={0.9} onPress={handlerOnPress}>
       <RowView style={isLast ? styles.rowLast : styles.row}>
         <FastImage
           source={{uri: source, priority: 'high'}}

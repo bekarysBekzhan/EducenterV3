@@ -84,28 +84,28 @@ class CourseService {
     return response;
   };
 
-  static fetchTest = async(id) => {
-    const response = await API_V2.get(URLS.lessonTestStart + id)
-    console.log("Lesson test with id " + id + ":", response)
-    return response
-  }
+  static fetchTest = async id => {
+    const response = await API_V2.get(URLS.lessonTestStart + id);
+    console.log('Lesson test with id ' + id + ':', response);
+    return response;
+  };
 
-  static fetchTestInfo = async(id) => {
-    const response = await API_V2.get(URLS.lessonTestInfo + id)
-    console.log("Lesson test info with id : " + id + ":", response)
-    return response
-  }
+  static fetchTestInfo = async id => {
+    const response = await API_V2.get(URLS.lessonTestInfo + id);
+    console.log('Lesson test info with id : ' + id + ':', response);
+    return response;
+  };
 
-  static selectAnswer = async(id, params) => {
-    const response = await API_V2.get(URLS.lessonTestSelect + id, params)
-    return response
-  }
+  static selectAnswer = async (id, params) => {
+    const response = await API_V2.get(URLS.lessonTestSelect + id, params);
+    return response;
+  };
 
-  static finishTest = async(id) => {
-    const response = await API_V2.get(URLS.lessonTestFinish + id + "/lesson")
-    console.log("Lesson test with id " + id + " ended:" , response)
-    return response
-  }
+  static finishTest = async id => {
+    const response = await API_V2.get(URLS.lessonTestFinish + id + '/lesson');
+    console.log('Lesson test with id ' + id + ' ended:', response);
+    return response;
+  };
 }
 
 class AuthService {
@@ -136,6 +136,13 @@ class NewsService {
     console.log('NewsService News params: ', params);
     const response = await API_V2.get(URLS.news, params);
     console.log('NewsScreen.js: ', response);
+    return response;
+  };
+
+  static fetchNewsDetail = async id => {
+    console.log('NewsService NewsDetail params: ', id);
+    const response = await API_V2.get(`${URLS.news}/${id}`, id);
+    console.log('NewsDetailScreen.js: ', response);
     return response;
   };
 }

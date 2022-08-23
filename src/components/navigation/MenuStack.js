@@ -8,6 +8,9 @@ import RegisterScreen from '../../screens/auth/RegisterScreen';
 import NewsScreen from '../../screens/news/NewsScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import {useSettings} from '../context/Provider';
+import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
+import {setFontStyle} from '../../utils/utils';
+import {strings} from '../../localization';
 
 const Stack = createNativeStackNavigator();
 
@@ -39,22 +42,40 @@ const MenuStack = () => {
       id: '5',
       name: ROUTE_NAMES.news,
       component: NewsScreen,
+      options: {
+        title: strings.Новости,
+      },
     },
     {
       id: '6',
       name: ROUTE_NAMES.profile,
       component: ProfileScreen,
     },
+    {
+      id: '7',
+      name: ROUTE_NAMES.newsDetail,
+      component: NewsDetailScreen,
+      options: {
+        title: strings.Новость,
+      },
+    },
   ];
 
   return (
     <Stack.Navigator
-      initialRouteName={isAuth ? ROUTE_NAMES.profile : ROUTE_NAMES.menu}>
+      initialRouteName={isAuth ? ROUTE_NAMES.profile : ROUTE_NAMES.menu}
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerTitleStyle: {
+          ...setFontStyle(17, '600'),
+        },
+      }}>
       {screens.map(screen => (
         <Stack.Screen
           key={screen.id}
           name={screen.name}
           component={screen.component}
+          options={screen.options}
         />
       ))}
     </Stack.Navigator>

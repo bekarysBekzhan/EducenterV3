@@ -5,6 +5,7 @@ import {useFetching} from '../../hooks/useFetching';
 import {NewsService} from '../../services/API';
 import NewsCard from '../../components/news/NewsCard';
 import Loader from '../../components/Loader';
+import {ROUTE_NAMES} from '../../components/navigation/routes';
 
 const NewsScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -45,11 +46,15 @@ const NewsScreen = ({navigation}) => {
 
   const keyExtractor = useCallback(item => item?.id?.toString(), []);
 
-  const onItem = useCallback(item => {}, []);
+  const onItem = useCallback(item => {
+    console.log(item);
+    navigation.navigate(ROUTE_NAMES.newsDetail, {newsId: item?.id});
+  }, []);
 
   const renderItem = useCallback(
     ({item}) => (
       <NewsCard
+        item={item}
         title={item?.title}
         source={item?.poster}
         date={item?.added_at}
