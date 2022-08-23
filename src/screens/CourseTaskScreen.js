@@ -7,7 +7,6 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import React, {useEffect} from 'react';
-import UniversalView from '../components/view/UniversalView';
 import {useState} from 'react';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
@@ -37,6 +36,14 @@ const CourseTaskScreen = props => {
   useEffect(() => {
     fetchTask();
   }, []);
+
+  const attachFilesTapped = () => {
+
+  }
+
+  const sendAnswerTapped = () => {
+
+  }
 
   const renderHeader = () => (
     <View>
@@ -71,7 +78,8 @@ const CourseTaskScreen = props => {
     <KeyboardAvoidingView
       behavior="padding"
       style={styles.container}
-      keyboardVerticalOffset={keyboardOffset}>
+      keyboardVerticalOffset={keyboardOffset}
+    >
       <FlatList
         style={styles.listContainer}
         data={data?.passing_answers}
@@ -79,6 +87,8 @@ const CourseTaskScreen = props => {
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
+        onRefresh={fetchTask}
+        refreshing={isLoading}
       />
       <View
         style={styles.replySection}
@@ -87,9 +97,10 @@ const CourseTaskScreen = props => {
             layout: {width, height},
           },
         }) => {
+          console.log("height: " , height)
           setKeyboardOffset(height);
         }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={attachFilesTapped}>
           <AttachIcon />
         </TouchableOpacity>
         <Input
@@ -99,7 +110,7 @@ const CourseTaskScreen = props => {
           onChangeText={value => setAnswer(value)}
           placeholder={strings['Напишите результаты задания']}
         />
-        <TouchableOpacity style={styles.sendIcon}>
+        <TouchableOpacity style={styles.sendIcon} onPress={sendAnswerTapped}>
           <SendIcon />
         </TouchableOpacity>
       </View>
