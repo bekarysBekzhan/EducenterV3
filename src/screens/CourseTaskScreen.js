@@ -5,6 +5,9 @@ import {
   FlatList,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
+  ActionSheetIOS,
+  Keyboard,
 } from 'react-native';
 import React, {useEffect} from 'react';
 import {useState} from 'react';
@@ -21,12 +24,15 @@ import Input from '../components/Input';
 import {APP_COLORS} from '../constans/constants';
 import Divider from '../components/Divider';
 import FastImage from 'react-native-fast-image';
+import DocumentPicker from "react-native-document-picker"
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const CourseTaskScreen = props => {
   const id = props.route?.params?.id;
 
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [data, setData] = useState(null);
+  const [attachedFile, setAttachedFile] = useState(null)
   const [answer, setAnswer] = useState('');
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
     const response = await CourseService.fetchTask(id);
@@ -37,8 +43,80 @@ const CourseTaskScreen = props => {
     fetchTask();
   }, []);
 
-  const attachFilesTapped = () => {
+  const selectFile = async() => {
+    Keyboard.dismiss()
+    try {
+      const res = await DocumentPicker.pick({
+        type: [
+          DocumentPicker.types.images,
+          DocumentPicker.types.doc,
+          DocumentPicker.types.docx,
+          DocumentPicker.types.pdf,
+          DocumentPicker.types.plainText,
+          DocumentPicker.types.xls,
+          DocumentPicker.types.xlsx,
+          DocumentPicker.types.ppt,
+          DocumentPicker.types.pptx
+        ],
+        copyTo: "documentDirectory"
+      })
 
+      setAttachedFile(res)
+    } catch(e) {
+      if(DocumentPicker.isCancel()) {
+        Keyboard.dismiss()
+      } else {
+        throw e
+      }
+    }
+  }
+
+  const selectPhoto = () => {
+
+    const options = {
+      quality: 0.2,
+      mediaType: "photo"
+    }
+
+    launchImageLibrary(options, (response) => {
+
+      console.log(" Image Library Response : " , response)
+
+      if(response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+          console.log('User tapped custom button: ', response.customButton);
+      } else {
+
+        const source = {
+          uri: response.assets[0].uri,
+          type: response.assets[0].type,
+          name: response.assets[0].fileName
+        }
+
+        setAttachedFile(source)
+
+      }
+    })
+  }
+
+  const attachFilesTapped = () => {
+    if (Platform.OS === "ios") {
+      ActionSheetIOS.showActionSheetWithOptions({
+        options: [ strings.Отмена , strings.Файл , strings.Фото],
+        cancelButtonIndex: 0
+      }, buttonIndex => {
+        if(buttonIndex === 1) {
+          selectFile()
+        } else if (buttonIndex === 2){
+          selectPhoto()
+        }
+      })
+    } else {
+      selectFile()
+    }
   }
 
   const sendAnswerTapped = () => {
