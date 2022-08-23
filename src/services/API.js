@@ -147,4 +147,18 @@ class NewsService {
   };
 }
 
-export {MobileSettingsService, CourseService, AuthService, NewsService};
+class ProfileService {
+  static fetchProfile = async () => {
+    const response = await API_V2.get(URLS.profile);
+    console.log('ProfileScreen.js: ', response);
+    return response;
+  };
+}
+
+export {
+  MobileSettingsService,
+  CourseService,
+  AuthService,
+  NewsService,
+  ProfileService,
+};

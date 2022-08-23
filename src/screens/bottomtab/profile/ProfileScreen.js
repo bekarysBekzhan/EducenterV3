@@ -1,5 +1,5 @@
-import {Linking, StyleSheet} from 'react-native';
-import React, {Fragment} from 'react';
+import {Linking, RefreshControl, StyleSheet, Text, View} from 'react-native';
+import React, {Fragment, useEffect, useState, useCallback} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {strings} from '../../../localization';
 import NavButtonRow from '../../../components/view/NavButtonRow';
@@ -8,6 +8,7 @@ import {
   CalendarIcon,
   CallCenterIcon,
   History,
+  iconNext,
   JournalIcon,
   NewsIcon,
   Password,
@@ -18,9 +19,19 @@ import {
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import DevView from '../../../components/view/DevView';
+import FastImage from 'react-native-fast-image';
+import RowView from '../../../components/view/RowView';
+import {useFetching} from '../../../hooks/useFetching';
+import {ProfileService} from '../../../services/API';
+import {setFontStyle} from '../../../utils/utils';
+import {APP_COLORS} from '../../../constans/constants';
 
 const ProfileScreen = ({navigation}) => {
   const {settings} = useSettings();
+  const [dataSource, setDataSource] = useState({
+    data: null,
+    refreshing: false,
+  });
 
   const MENU = [
     {
@@ -122,8 +133,66 @@ const ProfileScreen = ({navigation}) => {
     }
   };
 
+  const [fetchProfile, isLoading, error] = useFetching(async () => {
+    const response = await ProfileService.fetchProfile();
+    setDataSource(prev => ({
+      ...prev,
+      data: response?.data?.data,
+      refreshing: false,
+    }));
+  });
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
+  useEffect(() => {
+    if (dataSource?.refreshing) {
+      fetchProfile();
+    }
+  }, [dataSource?.refreshing]);
+
+  const onRefresh = useCallback(() => {
+    setDataSource(prev => ({
+      ...prev,
+      refreshing: true,
+    }));
+  }, []);
+
   return (
-    <UniversalView haveScroll>
+    <UniversalView
+      haveScroll
+      haveLoader={isLoading}
+      refreshControl={
+        <RefreshControl
+          refreshing={dataSource?.refreshing}
+          onRefresh={onRefresh}
+        />
+      }>
+      <RowView style={styles.profileView}>
+        <FastImage
+          source={{
+            uri: dataSource?.data?.avatar,
+            priority: 'high',
+          }}
+          style={styles.avatar}
+        />
+        <View style={styles.profileInfoView}>
+          <Text numberOfLines={2} style={styles.name}>
+            {dataSource?.data?.name}
+          </Text>
+          <Text numberOfLines={1} style={styles.email}>
+            {dataSource?.data?.email}
+          </Text>
+          <Text numberOfLines={1} style={styles.phone}>
+            {dataSource?.data?.phone}
+          </Text>
+          <Text style={styles.editButton}>
+            {strings['Редактировать профиль']}
+          </Text>
+        </View>
+        {iconNext}
+      </RowView>
       {MENU.filter(m => m?.enabled).map((s, sKey) => (
         <Fragment key={sKey.toString()}>
           <SectionView label={s.section} />
@@ -154,5 +223,36 @@ const styles = StyleSheet.create({
   view: {
     paddingLeft: 20,
     paddingRight: 16,
+  },
+  profileView: {
+    padding: 16,
+    paddingTop: 8,
+    paddingBottom: 12,
+  },
+  profileInfoView: {
+    flex: 1,
+    marginLeft: 12,
+    marginRight: 12,
+  },
+  avatar: {
+    alignSelf: 'flex-start',
+    width: 56,
+    height: 56,
+    borderRadius: 56,
+  },
+  name: {
+    ...setFontStyle(17, '600'),
+    marginBottom: 4,
+  },
+  email: {
+    ...setFontStyle(13, '400', APP_COLORS.placeholder),
+    marginBottom: 4,
+  },
+  phone: {
+    ...setFontStyle(13, '400', APP_COLORS.placeholder),
+    marginBottom: 8,
+  },
+  editButton: {
+    ...setFontStyle(15, '400', APP_COLORS.primary),
   },
 });
