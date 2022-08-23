@@ -39,7 +39,7 @@ const PreviewTestScreen = props => {
           ]
         }
       </Text>
-      <RowView style={styles.row}>
+      <RowView>
         <View style={styles.dot} />
         <Text style={styles.label}>
           {wordLocalization(strings['Прохождения теста занимает :num минут.'], {
@@ -86,9 +86,6 @@ const styles = StyleSheet.create({
   onlineTest: {
     ...setFontStyle(21, '700'),
     marginBottom: 7,
-  },
-  row: {
-    justifyContent: '',
   },
   tips: {
     ...setFontStyle(16),
