@@ -85,6 +85,30 @@ class CourseService {
     console.log('Lesson task with id ' + id + ':', response);
     return response;
   };
+
+  static sendTaskAnswer = async(id, answer, file, controller) => {
+
+    const formData = new FormData()
+
+    formData.append("answer", answer)
+
+    if (file) {
+      formData.append("file", {
+        uri: file.uri,
+        name: file.name,
+        type: file.type
+      })
+    }
+
+    const response = await API_V2.post(URLS.lessonTaskSend + id, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      signal: controller.signal
+    })
+    console.log("Task with id " + id + " sent:" , response)
+    return response
+  }
 }
 
 class AuthService {
