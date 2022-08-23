@@ -26,22 +26,59 @@ import Divider from '../components/Divider';
 import FastImage from 'react-native-fast-image';
 import DocumentPicker from "react-native-document-picker"
 import { launchImageLibrary } from 'react-native-image-picker';
+import { API_V2 } from '../services/axios';
+import { useRef } from 'react';
 
 const CourseTaskScreen = props => {
+
   const id = props.route?.params?.id;
 
+  const controller = useRef(new AbortController())
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [data, setData] = useState(null);
   const [attachedFile, setAttachedFile] = useState(null)
   const [answer, setAnswer] = useState('');
+  const [progress, setProgress] = useState(0)
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
     const response = await CourseService.fetchTask(id);
     setData(response.data?.data);
   });
 
+  const [sendAnswer, isSending, sendingError] = useFetching(async() => {
+    const response = await CourseService.sendTaskAnswer(data?.id, answer, attachedFile, controller.current)
+    setAnswer("")
+    setAttachedFile(null)
+    setProgress(0)
+  })
+
   useEffect(() => {
     fetchTask();
+
+    return () => {
+      if(controller.current) {
+        controller.current.abort()
+      }
+    }
   }, []);
+
+  // fetchTask error handler
+  useEffect(() => {
+    if(fetchingError) {
+      console.log(fetchingError)
+    }
+  }, [fetchingError])
+
+  // sendAnswer error handler
+  useEffect(() => {
+    if(sendingError) {
+      if(API_V2.isCancel(e)) {
+        setProgress(0)
+      } else {
+        console.log(sendingError)
+      }
+    }
+  }, [sendingError])
+
 
   const selectFile = async() => {
     Keyboard.dismiss()
@@ -120,7 +157,19 @@ const CourseTaskScreen = props => {
   }
 
   const sendAnswerTapped = () => {
+    if (answer.length > 0 
+      && 
+      answer.length !== answer.filter((char) => char === " ").length) {
+        Keyboard.dismiss()
+        sendAnswer()
+    }
+  }
 
+  const onRefresh = () => {
+    if(controller.current) {
+      controller.current.abort()
+    }
+    fetchTask()
   }
 
   const renderHeader = () => (
@@ -165,7 +214,7 @@ const CourseTaskScreen = props => {
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
-        onRefresh={fetchTask}
+        onRefresh={onRefresh}
         refreshing={isLoading}
       />
       <View
@@ -188,9 +237,15 @@ const CourseTaskScreen = props => {
           onChangeText={value => setAnswer(value)}
           placeholder={strings['Напишите результаты задания']}
         />
-        <TouchableOpacity style={styles.sendIcon} onPress={sendAnswerTapped}>
-          <SendIcon />
-        </TouchableOpacity>
+        {
+          isSending
+          ?
+          null
+          :
+          <TouchableOpacity style={styles.sendIcon} onPress={sendAnswerTapped}>
+            <SendIcon />
+          </TouchableOpacity>
+        }
       </View>
     </KeyboardAvoidingView>
   );
