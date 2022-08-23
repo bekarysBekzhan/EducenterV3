@@ -29,18 +29,21 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { API_V2 } from '../services/axios';
 import { useRef } from 'react';
 import * as Progress from 'react-native-progress';
+import FileItem from '../components/FileItem';
+import Overlay from '../components/view/Overlay';
 
 const CourseTaskScreen = props => {
 
   const id = props.route?.params?.id;
 
   const controller = useRef(new AbortController())
-  
+
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [data, setData] = useState(null);
   const [attachedFile, setAttachedFile] = useState(null)
   const [answer, setAnswer] = useState('');
   const [progress, setProgress] = useState(0)
+  const [height, setHeight] = useState(38)
 
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
     const response = await CourseService.fetchTask(id);
@@ -48,10 +51,11 @@ const CourseTaskScreen = props => {
   });
 
   const [sendAnswer, isSending, sendingError] = useFetching(async() => {
-    const response = await CourseService.sendTaskAnswer(data?.id, answer, attachedFile, controller.current)
+    const response = await CourseService.sendTaskAnswer(data?.id, answer, attachedFile, controller.current, setProgress)
     setAnswer("")
     setAttachedFile(null)
     setProgress(0)
+    fetchTask()
   })
 
   useEffect(() => {
@@ -74,11 +78,10 @@ const CourseTaskScreen = props => {
   // sendAnswer error handler
   useEffect(() => {
     if(sendingError) {
-      if(API_V2.isCancel(e)) {
-        setProgress(0)
-      } else {
-        console.log(sendingError)
-      }
+      console.log(sendingError)
+      setProgress(0)
+      setAttachedFile(null)
+      setAnswer("")
     }
   }, [sendingError])
 
@@ -181,7 +184,7 @@ const CourseTaskScreen = props => {
     return <TaskResult item={item} index={index} />;
   };
 
-  if (isLoading) {
+  if (data === null) {
     return <LoadingScreen />;
   }
   return (
@@ -217,27 +220,12 @@ const CourseTaskScreen = props => {
           <AttachIcon />
         </TouchableOpacity>
         <Input
-          extraStyle={styles.input}
+          extraStyle={[styles.input, { height: height}]}
           multiline
           value={answer}
           onChangeText={value => setAnswer(value)}
           placeholder={strings['Напишите результаты задания']}
         />
-        {
-          isSending
-          ?
-          <Progress.Circle
-            style={{ justifyContent: "center", alignItems: "center" }}
-            size={32}
-            progress={progress}
-            borderColor={APP_COLORS.primary}
-            color={APP_COLORS.primary}
-          >
-            <TouchableOpacity onPress={controller.current.abort}>
-              <CancelIcon/>
-            </TouchableOpacity>
-          </Progress.Circle>
-          :
           <TouchableOpacity 
             style={styles.sendIcon} 
             onPress={sendAnswerTapped} 
@@ -246,8 +234,8 @@ const CourseTaskScreen = props => {
           >
             <SendIcon />
           </TouchableOpacity>
-        }
       </View>
+      <Overlay visible={isSending}/>
     </KeyboardAvoidingView>
   );
 };
@@ -280,12 +268,17 @@ const TaskResult = ({item, index}) => {
   return (
     <RowView style={taskResult.container}>
       <FastImage source={{uri: item?.user?.avatar}} style={taskResult.image} />
-      <View>
+      <View style={taskResult.info}>
         <Text style={taskResult.user}>
           {item?.user?.name} {item?.user?.surname}
         </Text>
         <Text style={taskResult.answer}>{item?.answer}</Text>
-        {item?.file ? <View /> : null}
+        {item?.file ? 
+          <FileItem
+            urlFile={item?.file}
+            fileName={item?.file_name}
+          />
+        : null}
       </View>
     </RowView>
   );
@@ -323,7 +316,6 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     marginHorizontal: 16,
-    height: 38,
     borderRadius: 14,
     borderWidth: 0.25,
     borderColor: APP_COLORS.border,
@@ -341,10 +333,19 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginTop: 24,
   },
+  cancelIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 100,
+    backgroundColor: "red",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 });
 
 const taskResult = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: 'flex-start',
     borderBottomWidth: 0.5,
     paddingTop: 16,
@@ -355,6 +356,9 @@ const taskResult = StyleSheet.create({
     height: 42,
     borderRadius: 100,
     marginRight: 12,
+  },
+  info: {
+    flex: 1,
   },
   user: {
     ...setFontStyle(16, '600'),
