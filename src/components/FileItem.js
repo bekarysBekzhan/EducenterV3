@@ -62,7 +62,7 @@ const FileItem = ({
     }, []);
 
     return (
-        <Fragment>
+        <View style={styles.container}>
             <TouchableOpacity
                 activeOpacity={0.9}
                 onPress={downloader}
@@ -84,15 +84,19 @@ const FileItem = ({
                 progress={progress}
                 onPressCancel={cancelDownloader}
             />
-        </Fragment>
+        </View>
     )
 };
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     file: {
         justifyContent: "space-between"
     },
     row: {
+        flex: 1,
         paddingBottom: 12,
         backgroundColor: "transparent",
         marginBottom: 10,
@@ -111,7 +115,8 @@ const styles = StyleSheet.create({
         ...setFontStyle(10, '300', "white")
     },
     fileName: {
-        marginHorizontal: 8,
+        flex: 1,
+        marginLeft: 8,
         ...setFontStyle()
     },
 })
