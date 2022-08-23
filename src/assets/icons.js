@@ -1037,3 +1037,10 @@ export const ToastInfoIcon = ({
     />
   </Svg>
 );
+
+export const CancelIcon = ({ width = 41, height = 42, color="#5559F4"}) => (
+  <Svg width={width} height={height} viewBox="0 0 41 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Line x1="10.7743" y1="30.0066" x2="29.0161" y2="11.7649" stroke={color} strokeWidth="2.5" strokeLinecap="round"/>
+    <Line x1="29.0161" y1="30.2352" x2="10.7743" y2="11.9934" stroke={color} strokeWidth="2.5" strokeLinecap="round"/>
+  </Svg>
+)

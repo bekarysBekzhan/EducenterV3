@@ -28,7 +28,7 @@ const Downloader = ({
                         style={styles.cancelButton}
                         onPress={onPressCancel}
                     >
-                        {/* <CancelIcon/> */}
+                        <CancelIcon/>
                     </TouchableOpacity>
                 </Progress.Circle>
             </View>
