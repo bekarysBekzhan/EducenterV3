@@ -11,6 +11,7 @@ import {useSettings} from '../context/Provider';
 import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
 import {setFontStyle} from '../../utils/utils';
 import {strings} from '../../localization';
+import HistoryScreen from '../../screens/HistoryScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -57,6 +58,14 @@ const MenuStack = () => {
       component: NewsDetailScreen,
       options: {
         title: strings.Новость,
+      },
+    },
+    {
+      id: '8',
+      name: ROUTE_NAMES.history,
+      component: HistoryScreen,
+      options: {
+        title: strings['История оплаты'],
       },
     },
   ];

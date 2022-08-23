@@ -36,7 +36,8 @@ export const URLS = {
   recovery: 'auth/recovery',
   register: 'auth/register',
   news:'news',
-  profile:'user/profile'
+  profile:'user/profile',
+  history:'user/history'
 };
 
 export const STORAGE = {

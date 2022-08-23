@@ -43,6 +43,8 @@ const ProfileScreen = ({navigation}) => {
           text: strings['История оплаты'],
           iconLeft: <History />,
           enabled: true,
+          action: 'navigation',
+          route: ROUTE_NAMES.history,
         },
         {
           id: 2,
@@ -121,9 +123,7 @@ const ProfileScreen = ({navigation}) => {
     console.log('item', item);
     switch (item?.action) {
       case 'navigation':
-        if (item?.route == ROUTE_NAMES.news) {
-          navigate(item?.route);
-        }
+        navigate(item?.route);
         break;
       case 'call':
         if (item?.text?.length) {
