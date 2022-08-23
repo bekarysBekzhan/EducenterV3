@@ -15,11 +15,11 @@ import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
 import {strings} from '../localization';
-import {setFontStyle} from '../utils/utils';
+import {isValidText, setFontStyle} from '../utils/utils';
 import HtmlView from '../components/HtmlView';
 import Person from '../components/Person';
 import RowView from '../components/view/RowView';
-import {AttachIcon, SendIcon} from '../assets/icons';
+import {AttachIcon, CancelIcon, SendIcon} from '../assets/icons';
 import Input from '../components/Input';
 import {APP_COLORS} from '../constans/constants';
 import Divider from '../components/Divider';
@@ -28,17 +28,20 @@ import DocumentPicker from "react-native-document-picker"
 import { launchImageLibrary } from 'react-native-image-picker';
 import { API_V2 } from '../services/axios';
 import { useRef } from 'react';
+import * as Progress from 'react-native-progress';
 
 const CourseTaskScreen = props => {
 
   const id = props.route?.params?.id;
 
   const controller = useRef(new AbortController())
+  
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [data, setData] = useState(null);
   const [attachedFile, setAttachedFile] = useState(null)
   const [answer, setAnswer] = useState('');
   const [progress, setProgress] = useState(0)
+
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
     const response = await CourseService.fetchTask(id);
     setData(response.data?.data);
@@ -157,9 +160,7 @@ const CourseTaskScreen = props => {
   }
 
   const sendAnswerTapped = () => {
-    if (answer.length > 0 
-      && 
-      answer.length !== answer.filter((char) => char === " ").length) {
+    if (isValidText(answer)) {
         Keyboard.dismiss()
         sendAnswer()
     }
@@ -173,25 +174,7 @@ const CourseTaskScreen = props => {
   }
 
   const renderHeader = () => (
-    <View>
-      <Text style={styles.onlineTask}>{strings['Онлайн задание']}</Text>
-      <Text style={styles.tips}>
-        {
-          strings[
-            'Выполните онлайн задание, чтобы закрепить материалы курса и получить сертификат.'
-          ]
-        }
-      </Text>
-      <HtmlView html={data?.task?.question} />
-      <Divider isAbsolute={false} style={{marginBottom: 24}} />
-      <Person
-        status={strings.Преподаватель}
-        image={data?.author?.avatar}
-        name={data?.author?.name + ' ' + data?.author?.surname}
-        description={data?.author?.description}
-      />
-      <Text style={styles.taskResult}>{strings['Результаты задания']}</Text>
-    </View>
+    <ListHeader data={data}/>
   );
 
   const renderItem = ({item, index}) => {
@@ -227,7 +210,10 @@ const CourseTaskScreen = props => {
           console.log("height: " , height)
           setKeyboardOffset(height);
         }}>
-        <TouchableOpacity onPress={attachFilesTapped}>
+        <TouchableOpacity 
+          onPress={attachFilesTapped}
+          activeOpacity={0.9}
+        >
           <AttachIcon />
         </TouchableOpacity>
         <Input
@@ -240,9 +226,24 @@ const CourseTaskScreen = props => {
         {
           isSending
           ?
-          null
+          <Progress.Circle
+            style={{ justifyContent: "center", alignItems: "center" }}
+            size={32}
+            progress={progress}
+            borderColor={APP_COLORS.primary}
+            color={APP_COLORS.primary}
+          >
+            <TouchableOpacity onPress={controller.current.abort}>
+              <CancelIcon/>
+            </TouchableOpacity>
+          </Progress.Circle>
           :
-          <TouchableOpacity style={styles.sendIcon} onPress={sendAnswerTapped}>
+          <TouchableOpacity 
+            style={styles.sendIcon} 
+            onPress={sendAnswerTapped} 
+            disabled={!isValidText(answer)}
+            activeOpacity={0.9}
+          >
             <SendIcon />
           </TouchableOpacity>
         }
@@ -250,6 +251,30 @@ const CourseTaskScreen = props => {
     </KeyboardAvoidingView>
   );
 };
+
+const ListHeader = ({ data }) => {
+  return(
+    <View>
+      <Text style={styles.onlineTask}>{strings['Онлайн задание']}</Text>
+      <Text style={styles.tips}>
+        {
+          strings[
+            'Выполните онлайн задание, чтобы закрепить материалы курса и получить сертификат.'
+          ]
+        }
+      </Text>
+      <HtmlView html={data?.task?.question} />
+      <Divider isAbsolute={false} style={{marginBottom: 24}} />
+      <Person
+        status={strings.Преподаватель}
+        image={data?.author?.avatar}
+        name={data?.author?.name + ' ' + data?.author?.surname}
+        description={data?.author?.description}
+      />
+      <Text style={styles.taskResult}>{strings['Результаты задания']}</Text>
+    </View>
+  )
+}
 
 const TaskResult = ({item, index}) => {
   return (

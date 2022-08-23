@@ -70,7 +70,6 @@ export const getFormattedTime = time => {
 
 export const selectComponent = (value, audioComponent, mathComponent, htmlComponent) => {
 
-
   if(value === null) {
     return null
   }
@@ -160,3 +159,10 @@ export const fileDownloader = async (url, fileName, onDone, onProgress,) => {
   }
 
 };
+
+export const isValidText = (text = "") => {
+  if(text.length > 0 && text.length !== text.filter((char) => char === " ").length) {
+    return true
+  }
+  return false
+}
