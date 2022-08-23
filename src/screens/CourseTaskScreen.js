@@ -13,6 +13,8 @@ import RowView from '../components/view/RowView'
 import { AttachIcon, SendIcon } from '../assets/icons'
 import Input from '../components/Input'
 import { APP_COLORS } from '../constans/constants'
+import Divider from '../components/Divider'
+import FastImage from 'react-native-fast-image'
 
 const CourseTaskScreen = (props) => {
 
@@ -37,18 +39,23 @@ const CourseTaskScreen = (props) => {
         }
       </Text>
       <HtmlView html={data?.task?.question}/>
+      <Divider
+        isAbsolute={false}
+        style={{ marginBottom: 24 }}
+      />
       <Person
         status={strings.Преподаватель}
         image={data?.author?.avatar}
         name={data?.author?.name + " " + data?.author?.surname}
         description={data?.author?.description}
       />
+      <Text style={styles.taskResult}>{strings['Результаты задания']}</Text>
     </View>
   )
 
   const renderItem = ({ item, index }) => {
     return(
-      <View></View>
+      <TaskResult item={item} index={index}/>
     )
   }
 
@@ -78,6 +85,26 @@ const CourseTaskScreen = (props) => {
         </TouchableOpacity>
       </RowView>
     </UniversalView>
+  )
+}
+
+const TaskResult = ({ item, index }) => {
+
+  return(
+    <RowView style={taskResult.container}>
+      <FastImage source={{ uri: item?.user?.avatar }} style={taskResult.image}/>
+      <View>
+        <Text style={taskResult.user}>{item?.user?.name} {item?.user?.surname}</Text>
+        <Text style={taskResult.answer}>{item?.answer}</Text>
+        {
+          item?.file
+          ?
+          <View/>
+          :
+          null
+        }
+      </View>
+    </RowView>
   )
 }
 
@@ -119,6 +146,34 @@ const styles = StyleSheet.create({
     backgroundColor: APP_COLORS.primary,
     justifyContent: "center",
     alignItems: "center"
+  },
+  taskResult: {
+    ...setFontStyle(21, "700"),
+    marginBottom: 8,
+    marginTop: 24
+  }
+})
+
+const taskResult = StyleSheet.create({
+  container: {
+    alignItems: "flex-start",
+    borderBottomWidth: 0.5,
+    paddingTop: 16,
+    borderColor: APP_COLORS.border
+  },
+  image: {
+    width: 42,
+    height: 42,
+    borderRadius: 100,
+    marginRight: 12
+  },
+  user: {
+    ...setFontStyle(16, "600"),
+    marginBottom: 6
+  },
+  answer: {
+    ...setFontStyle(14, "400"),
+    marginBottom: 12
   }
 })
 
