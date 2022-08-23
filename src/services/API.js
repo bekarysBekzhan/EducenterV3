@@ -86,7 +86,11 @@ class CourseService {
     return response;
   };
 
-  static sendTaskAnswer = async(id, answer, file, controller) => {
+  static sendTaskAnswer = async(id, answer, file, controller, setProgress) => {
+
+    let params = {id, answer, file, controller, setProgress}
+
+    console.log("task answer params : " , params)
 
     const formData = new FormData()
 
@@ -104,7 +108,8 @@ class CourseService {
       headers: {
         'Content-Type': 'multipart/form-data'
       },
-      signal: controller.signal
+      signal: controller.signal,
+      onUploadProgress: e => setProgress(e.loaded / e.total)
     })
     console.log("Task with id " + id + " sent:" , response)
     return response
