@@ -6,15 +6,27 @@ import { APP_COLORS, WIDTH } from '../../constans/constants'
 import { ROUTE_NAMES } from '../navigation/routes'
 import { strings } from '../../localization'
 
-const SearchButton = (props) => {
+const SearchButton = ({ navigation, type = "course" }) => {
+
+  let route = ROUTE_NAMES.courseSearch
+  let placeholder = strings['Поиск курсов']
+
+  if (type === "test") {
+    route = ROUTE_NAMES.testSearch
+    placeholder = strings['Поиск тестов']
+  } else if (type === "task") {
+    route = ROUTE_NAMES.taskSearch
+    placeholder = strings['Поиск заданий']
+  }
+
   return (
     <TouchableOpacity
         style={styles.container}
         activeOpacity={0.8}
-        onPress={() => props.navigation.navigate(ROUTE_NAMES.search)}
+        onPress={() => navigation.navigate(route)}
     >
         {search()}
-        <Text style={styles.text}>{strings['Поиск курсов и тестов']}</Text>
+        <Text style={styles.text}>{placeholder}</Text>
     </TouchableOpacity>
   )
 }
