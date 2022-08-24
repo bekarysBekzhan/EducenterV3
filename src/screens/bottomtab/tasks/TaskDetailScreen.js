@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react'
 import UniversalView from '../../../components/view/UniversalView'
 import DetailView from '../../../components/view/DetailView'
 import { useFetching } from '../../../hooks/useFetching'
-import { TestService } from '../../../services/API'
+import { TaskService } from '../../../services/API'
 import LoadingScreen from '../../../components/LoadingScreen'
 import Person from '../../../components/Person'
 import { strings } from '../../../localization'
 import TransactionButton from '../../../components/button/TransactionButton'
 
-const TaskDetailScreen = () => {
+const TaskDetailScreen = (props) => {
     const id = props.route?.params?.id
 
     const [data, setData] = useState(null)
-    const [fetchTest, isFetching, fetchingError] = useFetching(async() => {
-      const response = await TestService.fetchTestByID(id)
+    const [fetchTask, isFetching, fetchingError] = useFetching(async() => {
+      const response = await TaskService.fetchTaskByID(id)
       setData(response.data?.data)
     })
   
     useEffect(() => {
-      fetchTest()
+      fetchTask()
     }, [])
   
     useEffect(() => {
@@ -44,7 +44,7 @@ const TaskDetailScreen = () => {
           <Person
             name={data?.author?.name + " " + data?.author?.surname}
             image={data?.author?.avatar}
-            status={strings['Автор теста']}
+            status={strings['Автор задания']}
             description={data?.author?.description}
             extraStyles={{
               margin: 16,
@@ -53,7 +53,7 @@ const TaskDetailScreen = () => {
           />
         </UniversalView>
         <TransactionButton
-          text={data?.price ? strings.Бесплатно : strings['Купить тест']}
+          text={data?.price ? strings.Бесплатно : strings['Купить задание']}
           onPress={() => undefined}
           oldPrice={data?.old_price}
           price={data?.price}

@@ -44,6 +44,7 @@ export const URLS = {
   history: 'user/history',
   changePassword: 'user/update_password',
   moduleTests: "modules/tests",
+  moduleTasks: "modules/tasks",
   profileUpdate: 'user/update',
 };
 

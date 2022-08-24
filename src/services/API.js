@@ -144,6 +144,33 @@ class TestService {
 
 }
 
+class TaskService {
+  static fetchTasks = async(query = '', page = 1, price = undefined, categoryID = undefined) => {
+    let params = {
+      filters: true,
+      page: page
+    }
+    if(query.length > 0) {
+      params.query = query
+    }
+    if (price) {
+      params.price = price;
+    }
+    if (categoryID) {
+      params.category_id = categoryID;
+    }
+    const response = await API_V2.get(URLS.moduleTasks, {params: params})
+    console.log("Tasks : " , response)
+    return response
+  }
+
+  static fetchTaskByID = async(id) => {
+    const response = await API_V2.get(URLS.moduleTasks + "/" + id)
+    console.log("Task with id " + id + ":" , response)
+    return response
+  }
+}
+
 class AuthService {
   static fetchLogin = async params => {
     console.log('AuthService LoginScreen params: ', params);
@@ -223,5 +250,6 @@ export {
   NewsService,
   ProfileService,
   HistoryService,
-  TestService
+  TestService,
+  TaskService
 };
