@@ -2,10 +2,10 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { strings } from '../../localization'
 import { ROUTE_NAMES } from './routes'
-import TestsScreen from '../../screens/bottomtab/tests/TestsScreen'
-import TestDetailScreen from '../../screens/bottomtab/tests/TestDetailScreen'
 import { useSettings } from '../context/Provider'
 import { navHeaderOptions } from './navHeaderOptions'
+import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen'
+import TaskDetailScreen from '../../screens/bottomtab/tasks/TaskDetailScreen'
 
 const TasksStack = createNativeStackNavigator()
 
@@ -16,11 +16,11 @@ const Tasks = () => {
     const screens = [
         {
             name: ROUTE_NAMES.tasks,
-            component: TestsScreen
+            component: TasksScreen
         },
         {
             name: ROUTE_NAMES.taskDetail,
-            component: TestDetailScreen
+            component: TaskDetailScreen
         },
     ]
 
