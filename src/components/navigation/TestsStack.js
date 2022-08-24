@@ -5,6 +5,7 @@ import { ROUTE_NAMES } from './routes'
 import TestsScreen from '../../screens/bottomtab/tests/TestsScreen'
 import TestDetailScreen from '../../screens/bottomtab/tests/TestDetailScreen'
 import { useSettings } from '../context/Provider'
+import { navHeaderOptions } from './navHeaderOptions'
 
 const TestsStack = createNativeStackNavigator()
 
