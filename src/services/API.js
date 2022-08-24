@@ -137,6 +137,12 @@ class TestService {
     return response
   }
 
+  static fetchTestByID = async(id) => {
+    const response = await API_V2.get(URLS.moduleTests + "/" + id)
+    console.log("Test with id " + id + ":" , response)
+    return response
+  }
+
 }
 
 class AuthService {
