@@ -40,7 +40,7 @@ const CourseTestScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      headerRight: () => <TestTimer initialTime={120} finishTest={finishTest}/>,
+      headerRight: () => <TestTimer initialTime={data?.entity?.timer ? data?.entity?.timer : 120} finishTest={finishTest}/>,
       title: lessonTitle ? lessonTitle : strings.тест
     })
   }, [data])
