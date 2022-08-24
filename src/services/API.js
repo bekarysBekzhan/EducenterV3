@@ -1,28 +1,16 @@
 import {URLS} from '../constans/constants';
 import {API_V2} from './axios';
 
-const requesToFailed = url => 'Request to ' + url + ' failed!';
-
 class MobileSettingsService {
   static fetchSettings = async () => {
-    try {
-      const response = await API_V2.get(URLS.settings);
-      console.log('settings : ', response);
-      return response;
-    } catch (e) {
-      console.log(e);
-      console.log(requesToFailed(URLS.settings));
-    }
+    const response = await API_V2.get(URLS.settings);
+    console.log('settings : ', response);
+    return response;
   };
 
   static fetchLanguages = async () => {
-    try {
-      const response = await API_V2.get(URLS.languages);
-      return response;
-    } catch (e) {
-      console.log(e);
-      console.log(requesToFailed(URLS.languages));
-    }
+    const response = await API_V2.get(URLS.languages);
+    return response;
   };
 }
 
@@ -33,49 +21,34 @@ class CourseService {
     price = undefined,
     categoryID = undefined,
   ) => {
-    try {
-      let params = {
-        filter: true,
-        page: page,
-      };
-      if (query.length > 0) {
-        params.query = query;
-      }
-      if (price) {
-        params.price = price;
-      }
-      if (categoryID) {
-        params.category_id = categoryID;
-      }
-      const response = await API_V2.get(URLS.courses, {params: params});
-      console.log('Courses : ', response);
-      return response;
-    } catch (e) {
-      console.log(e);
-      console.log(requesToFailed(URLS.courses));
+    let params = {
+      filter: true,
+      page: page,
+    };
+    if (query.length > 0) {
+      params.query = query;
     }
+    if (price) {
+      params.price = price;
+    }
+    if (categoryID) {
+      params.category_id = categoryID;
+    }
+    const response = await API_V2.get(URLS.courses, {params: params});
+    console.log('Courses : ', response);
+    return response;
   };
 
   static fetchCourseByID = async id => {
-    try {
-      const response = await API_V2.get(URLS.courseByID + id);
-      console.log('Course with id ' + id + ':', response);
-      return response;
-    } catch (e) {
-      console.log(e);
-      console.log(requesToFailed(URLS.courseByID + id));
-    }
+    const response = await API_V2.get(URLS.courseByID + id);
+    console.log('Course with id ' + id + ':', response);
+    return response;
   };
 
   static fetchCategories = async () => {
-    try {
-      const response = await API_V2.get(URLS.categories);
-      console.log('CATEGORIES: ', response);
-      return response;
-    } catch (e) {
-      console.log(e);
-      console.log(requesToFailed(URLS.categories));
-    }
+    const response = await API_V2.get(URLS.categories);
+    console.log('CATEGORIES: ', response);
+    return response;
   };
 
   static fetchLesson = async id => {
@@ -106,6 +79,41 @@ class CourseService {
     console.log('Lesson test with id ' + id + ' ended:', response);
     return response;
   };
+
+  static fetchTask = async id => {
+    const response = await API_V2.get(URLS.lessonTaskShow + id);
+    console.log('Lesson task with id ' + id + ':', response);
+    return response;
+  };
+
+  static sendTaskAnswer = async(id, answer, file, controller, setProgress) => {
+
+    let params = {id, answer, file, controller, setProgress}
+
+    console.log("task answer params : " , params)
+
+    const formData = new FormData()
+
+    formData.append("answer", answer)
+
+    if (file) {
+      formData.append("file", {
+        uri: file.uri,
+        name: file.name,
+        type: file.type
+      })
+    }
+
+    const response = await API_V2.post(URLS.lessonTaskSend + id, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      signal: controller.signal,
+      onUploadProgress: e => setProgress(e.loaded / e.total)
+    })
+    console.log("Task with id " + id + " sent:" , response)
+    return response
+  }
 }
 
 class AuthService {

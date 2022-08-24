@@ -16,6 +16,7 @@ import {StyleSheet} from 'react-native';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
 import {API_V2} from '../../services/axios';
+import CourseTaskScreen from '../../screens/CourseTaskScreen';
 import {REQUEST_HEADERS} from '../../constans/constants';
 
 const MainStack = createNativeStackNavigator();
@@ -45,8 +46,12 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.testPass,
-    component: CourseTestScreen,
+    component: CourseTestScreen
   },
+  {
+    name: ROUTE_NAMES.courseTask,
+    component: CourseTaskScreen
+  }
 ];
 
 const Navigation = () => {

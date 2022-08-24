@@ -331,6 +331,8 @@ PODS:
     - glog
   - react-native-blob-util (0.16.0):
     - React-Core
+  - react-native-document-picker (8.1.1):
+    - React-Core
   - react-native-image-picker (4.8.4):
     - React-Core
   - react-native-is-screen-captured-ios (0.1.0):
@@ -567,6 +569,7 @@ DEPENDENCIES:
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-blob-util (from `../node_modules/react-native-blob-util`)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-is-screen-captured-ios (from `../node_modules/react-native-is-screen-captured-ios`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
@@ -706,6 +709,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/logger"
   react-native-blob-util:
     :path: "../node_modules/react-native-blob-util"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
   react-native-image-picker:
     :path: "../node_modules/react-native-image-picker"
   react-native-is-screen-captured-ios:
@@ -836,6 +841,7 @@ SPEC CHECKSUMS:
   React-jsinspector: c5989c77cb89ae6a69561095a61cce56a44ae8e8
   React-logger: a0833912d93b36b791b7a521672d8ee89107aff1
   react-native-blob-util: 2d49d135d6fe1410c019fb5bff241dac7f12d73d
+  react-native-document-picker: f68191637788994baed5f57d12994aa32cf8bf88
   react-native-image-picker: cffb727cf2f59bd5c0408e30b3dbe0b935f88835
   react-native-is-screen-captured-ios: 3f893eae620b42cec2af39e326247604f2860033
   react-native-netinfo: 5b664b2945a8f02102b296f0f812bddd6827ed9c

@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import TrackPlayer, { State, useProgress, useTrackPlayerEvents, Event } from 'react-native-track-player';
+import TrackPlayer, { State, useProgress} from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
 import RowView from './view/RowView';
 import { APP_COLORS } from '../constans/constants';
 import { setFontStyle } from '../utils/utils';
-import { PauseIcon, PlayIcon } from '../assets/icons';
+import {PauseIcon, PlayIcon } from '../assets/icons';
 import { getFormattedTime } from '../utils/utils';
 
-const events = [Event.PlaybackState, Event.PlaybackProgressUpdated]
-
-const AudioPlayer = ({
+const AnswerAudio = ({
     _index,
     url,
     onTrackChange,
@@ -30,15 +28,6 @@ const AudioPlayer = ({
     const memoPositionStyle = useMemo(() => [styles.position, positionStyle], [positionStyle]);
     const memoDurationStyle = useMemo(() => [styles.duration, durationStyle], [durationStyle]);
     const memoSliderStyle = useMemo(() => [styles.slider, sliderStyle], [sliderStyle])
-
-    useTrackPlayerEvents(events, (event) => {
-        console.log(event)
-        if(event.type === Event.PlaybackState) {
-            setPlaying(event.state === State.Playing)
-            setDuration(progress.duration)
-            setPosition(progress.position)
-        }
-    })
 
     const [playing, setPlaying] = useState(false)
     const [index, setIndex] = useState(null)
@@ -229,4 +218,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AudioPlayer;
+export default AnswerAudio;

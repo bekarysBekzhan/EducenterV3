@@ -233,7 +233,6 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 1,
-    marginHorizontal: 10,
     borderWidth: 0,
     padding: 14,
     paddingVertical: 12,

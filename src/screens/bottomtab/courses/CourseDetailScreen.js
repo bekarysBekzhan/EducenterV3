@@ -174,12 +174,8 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
                 navigation.replace(ROUTE_NAMES.bottomTab, {
                   screen: ROUTE_NAMES.menuStack,
                 });
-                return;
-              }
-
-              if (lesson?.is_promo) {
-                navigation.navigate(ROUTE_NAMES.lesson, {id: lesson?.id});
               } else {
+                navigation.navigate(ROUTE_NAMES.lesson, {id: lesson?.id, title: lesson?.chapter?.title });
               }
             }}
             key={i}>

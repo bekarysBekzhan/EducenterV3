@@ -14,7 +14,7 @@ const Person = ({
     description
 }) => {
   return (
-    <UniversalView style={styles.container}>
+    <UniversalView>
         <Text style={styles.status}>{status}</Text>
         <RowView style={styles.row}>
             <FastImage source={{ uri: image }} style={styles.image}/>
@@ -39,9 +39,6 @@ const Person = ({
 }
 
 const styles = StyleSheet.create({
-    container: {
-
-    },
     status: {
         ...setFontStyle(21, "700"),
         marginBottom: 14

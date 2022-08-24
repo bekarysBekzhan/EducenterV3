@@ -2,13 +2,13 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import {APP_COLORS} from '../../constans/constants';
 import {check, x} from '../../assets/icons';
-import {getAudioUrl, selectComponent, setFontStyle} from '../../utils/utils';
-import AudioPlayer from '../AudioPlayer';
+import {getAudioUrl, selectComponent} from '../../utils/utils';
 import MathView from './MathView';
 import HtmlView from '../HtmlView';
 import {useEffect} from 'react';
 import { useFetching } from '../../hooks/useFetching';
 import { CourseService } from '../../services/API';
+import AnswerAudio from '../AnswerAudio';
 
 const dynamicContainerStyle = (state, component) => {
   switch (state) {
@@ -102,7 +102,7 @@ const AnswerOption = ({
       </View>
       {selectComponent(
         item.answer,
-        <AudioPlayer
+        <AnswerAudio
           url={getAudioUrl(item.answer)}
           _index={100}
           onTrackChange={onTrackChange}
