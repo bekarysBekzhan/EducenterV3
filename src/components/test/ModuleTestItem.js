@@ -22,7 +22,6 @@ const ModuleTestItem = ({
   onPress = () => undefined
 }) => {
   return (
-    <Animatable.View animation="fadeInLeft">
       <TouchableOpacity
         style={styles.container}
         onPress={() => onPress(id)}
@@ -59,7 +58,6 @@ const ModuleTestItem = ({
             />
           </RowView>
       </TouchableOpacity>
-    </Animatable.View>
   )
 }
 

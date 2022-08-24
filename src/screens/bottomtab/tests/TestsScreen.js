@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import UniversalView from '../../../components/view/UniversalView'
 import { useFetching } from '../../../hooks/useFetching'
@@ -6,6 +6,7 @@ import LoadingScreen from '../../../components/LoadingScreen'
 import SearchButton from '../../../components/button/SearchButton'
 import ModuleTestItem from '../../../components/test/ModuleTestItem'
 import { TestService } from '../../../services/API'
+import { APP_COLORS, WIDTH } from '../../../constans/constants'
 
 const TestsScreen = (props) => {
 
@@ -14,8 +15,12 @@ const TestsScreen = (props) => {
   const [lastPage, setLastPage] = useState(1)
   const [fetchTests, isFetching, fetchingError] = useFetching(async() => {
     const response = await TestService.fetchTests()
-    setData(response.data)
+    setData(response.data?.data)
     setLastPage(response.data?.last_page)
+  })
+  const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(async() => {
+    const response = await TestService.fetchTests("", page)
+    setData(prev => prev.concat(response.data?.data))
   })
 
   // fetchTest error handler
@@ -25,9 +30,21 @@ const TestsScreen = (props) => {
     }
   }, [fetchingError])
 
+  // fetchNext error handler
   useEffect(() => {
-    fetchTests()
-  }, [])
+    if(fetchingNextError) {
+      console.log(fetchingNextError)
+    }
+  })
+
+  useEffect(() => {
+    if(page === 1) {
+      fetchTests()
+    } else {
+      fetchNext()
+    }
+  }, [page])
+
 
   const testItemTapped = (testID) => {
     console.log("test : " , testID)
@@ -49,8 +66,24 @@ const TestsScreen = (props) => {
     )
   }
 
-  const onEndReached = () => {
+  const renderFooter = () => (
+    <View
+      style={styles.footer}
+    >
+      {
+        isFetchingNext
+        ?
+        <ActivityIndicator color={APP_COLORS.primary}/>
+        :
+        null
+      }
+    </View>
+  )
 
+  const onEndReached = () => {
+    if (page < lastPage) {
+      setPage(prev => prev + 1)
+    }
   }
 
   if (isFetching) {
@@ -61,19 +94,30 @@ const TestsScreen = (props) => {
     <UniversalView>
       <SearchButton {...props}/>
       <FlatList
-        data={data?.data}
+        data={data}
+        contentContainerStyle={styles.container}
         renderItem={renderTest}
+        ListFooterComponent={renderFooter}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
         refreshing={isFetching}
+        onRefresh={() => setPage(1)}
       />
     </UniversalView>
   )
 }
 
 const styles = StyleSheet.create({
-
+  container: {
+    padding: 16
+  },
+  footer: {
+    width: WIDTH - 32,
+    height: 30,
+    justifyContent: "center",
+    alignItems: 'center'
+  }
 })
 
 export default TestsScreen
