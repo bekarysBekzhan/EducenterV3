@@ -42,7 +42,7 @@ const CoursesScreen = (props) => {
   }
 
   const onEndReached = () => {
-    if(page < lastPage) {
+    if(page < lastPage && !loadingNext) {
       setLoadingNext(true)
       setPage(prev => prev + 1)
     }

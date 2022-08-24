@@ -83,7 +83,7 @@ const TestsScreen = (props) => {
   )
 
   const onEndReached = () => {
-    if (page < lastPage) {
+    if (page < lastPage && !isFetchingNext) {
       setPage(prev => prev + 1)
     }
   }
