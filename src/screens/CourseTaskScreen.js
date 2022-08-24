@@ -9,7 +9,7 @@ import {
   ActionSheetIOS,
   Keyboard,
 } from 'react-native';
-import React, {useEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {useState} from 'react';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
@@ -19,7 +19,7 @@ import {isValidText, setFontStyle} from '../utils/utils';
 import HtmlView from '../components/HtmlView';
 import Person from '../components/Person';
 import RowView from '../components/view/RowView';
-import {AttachIcon, CancelIcon, SendIcon} from '../assets/icons';
+import {AttachIcon, SendIcon} from '../assets/icons';
 import Input from '../components/Input';
 import {APP_COLORS} from '../constans/constants';
 import Divider from '../components/Divider';
@@ -34,6 +34,7 @@ import Overlay from '../components/view/Overlay';
 
 const CourseTaskScreen = props => {
 
+  const lessonTitle = props.route?.params?.title
   const id = props.route?.params?.id;
 
   const controller = useRef(new AbortController())
@@ -57,6 +58,12 @@ const CourseTaskScreen = props => {
     setProgress(0)
     fetchTask()
   })
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      title: lessonTitle ? lessonTitle : strings.Задания
+    })
+  }, [])
 
   useEffect(() => {
     fetchTask();

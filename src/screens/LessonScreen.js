@@ -137,12 +137,12 @@ const LessonScreen = (props) => {
                         </View>
                         <OutlineButton
                             text={strings['Пройти тест']}
-                            onPress={() => props.navigation.navigate(ROUTE_NAMES.testPreview, { id: data?.id })}
+                            onPress={() => props.navigation.navigate(ROUTE_NAMES.testPreview, { id: data?.id, title: data?.title })}
                             style={styles.testButton}
                         />
                         <OutlineButton
                             text={strings['Пройти задание']}
-                            onPress={() => props.navigation.navigate(ROUTE_NAMES.courseTask, {id: data?.id })}
+                            onPress={() => props.navigation.navigate(ROUTE_NAMES.courseTask, {id: data?.id, title: data?.title })}
                             style={styles.taskButton}
                         />
                     </View>

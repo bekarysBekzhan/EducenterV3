@@ -14,6 +14,7 @@ import LoadingScreen from '../components/LoadingScreen';
 const PreviewTestScreen = props => {
 
   const id = props.route?.params?.id
+  const lessonTitle = props.route?.params?.title
 
   const [data, setData] = useState(null)
   const [fetchTestInfo, isLoading, fetchingError] = useFetching(async() => {
@@ -22,6 +23,9 @@ const PreviewTestScreen = props => {
   })
 
   useLayoutEffect(() => {
+    props.navigation.setOptions({
+      title: lessonTitle ? lessonTitle : strings['Онлайн тест']
+    })
     fetchTestInfo()
   }, [])
 
@@ -67,7 +71,7 @@ const PreviewTestScreen = props => {
       </RowView>
       <OutlineButton
         text={strings['Начать тестирование']}
-        onPress={() => props.navigation.navigate(ROUTE_NAMES.testPass, {id: id})}
+        onPress={() => props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle})}
         style={{marginTop: 30}}
       />
     </UniversalView>

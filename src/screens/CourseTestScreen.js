@@ -16,6 +16,7 @@ import Timer from '../components/test/Timer';
 const CourseTestScreen = props => {
 
   const id = props.route?.params?.id
+  const lessonTitle = props.route?.params?.title
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -39,7 +40,8 @@ const CourseTestScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      headerRight: () => <TestTimer initialTime={120} finishTest={finishTest}/>
+      headerRight: () => <TestTimer initialTime={120} finishTest={finishTest}/>,
+      title: lessonTitle ? lessonTitle : strings.тест
     })
   }, [data])
 
