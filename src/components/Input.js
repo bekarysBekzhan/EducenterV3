@@ -12,7 +12,10 @@ const Input = ({
   keyboardType = 'phone-pad',
   right,
   value = '',
-  onChangeText,
+  onLayout = () => undefined,
+  onChangeText = () => undefined,
+  onChange = () => undefined,
+  onContentSizeChange = () => undefined,
   left,
   extraStyle,
   extraInputStyle,
@@ -22,7 +25,7 @@ const Input = ({
 
   const memoStyles = useMemo(
     () => [styles.container, focus ? styles.focus : {}, extraStyle],
-    [focus],
+    [focus, extraStyle],
   );
   const memoInputStyles = useMemo(
     () => [styles.input, extraInputStyle],
@@ -38,7 +41,10 @@ const Input = ({
           placeholder={placeholder}
           style={memoInputStyles}
           value={value}
+          onLayout={onLayout}
+          onChange={onChange}
           onChangeText={onChangeText}
+          onContentSizeChange={onContentSizeChange}
           autoFocus={focus}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
@@ -51,7 +57,10 @@ const Input = ({
           style={memoInputStyles}
           type="custom"
           options={{mask}}
+          onLayout={onLayout}
+          onChange={onChange}
           onChangeText={onChangeText}
+          onContentSizeChange={onContentSizeChange}
           autoFocus={focus}
           keyboardType={keyboardType}
           onFocus={() => setFocus(true)}
