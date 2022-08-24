@@ -37,6 +37,7 @@ export const URLS = {
   register: 'auth/register',
   news:'news',
   profile:'user/profile',
+  history:'user/history',
   changePassword:'user/update_password'
 };
 

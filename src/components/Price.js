@@ -18,7 +18,9 @@ const Price = ({price = 0, priceStyle, oldPrice = 0, oldPriceStyle, style}) => {
   return (
     <RowView style={style}>
       <Text style={memoPriceStyle}>{price}₸</Text>
-      <Text style={memoOldPriceStyle}>{oldPrice}₸</Text>
+      {oldPrice != 0 && oldPrice != null ? (
+        <Text style={memoOldPriceStyle}>{oldPrice}₸</Text>
+      ) : null}
     </RowView>
   );
 };
