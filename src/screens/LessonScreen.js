@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useLayoutEffect } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { useEffect } from 'react'
 import { useFetching } from '../hooks/useFetching'
@@ -22,6 +22,8 @@ import FileItem from '../components/FileItem'
 const LessonScreen = (props) => {
 
     const id = props.route?.params?.id
+    const chapterTitle = props.route?.params?.title
+
     const [data, setData] = useState(null)
     const [isModal, setIsModal] = useState(false)
     const isCaptured = useIsCaptured()
@@ -29,6 +31,12 @@ const LessonScreen = (props) => {
         const response = await CourseService.fetchLesson(id)
         setData(response.data?.data)
     })
+
+    useLayoutEffect(() => {
+        props.navigation.setOptions({
+            title: chapterTitle ? chapterTitle : strings.урок
+        })
+    }, [])
 
     useEffect(() => {
         if(lessonError) {
