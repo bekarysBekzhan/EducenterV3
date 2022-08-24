@@ -7,6 +7,7 @@ import SearchButton from '../../../components/button/SearchButton'
 import ModuleTestItem from '../../../components/test/ModuleTestItem'
 import { TestService } from '../../../services/API'
 import { APP_COLORS, WIDTH } from '../../../constans/constants'
+import { ROUTE_NAMES } from '../../../components/navigation/routes'
 
 const TestsScreen = (props) => {
 
@@ -48,6 +49,7 @@ const TestsScreen = (props) => {
 
   const testItemTapped = (testID) => {
     console.log("test : " , testID)
+    props.navigation.navigate(ROUTE_NAMES.testDetail, {id: testID})
   }
 
   const renderTest = ({ item, index }) => {
