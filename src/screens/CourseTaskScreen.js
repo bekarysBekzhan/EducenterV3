@@ -85,7 +85,6 @@ const CourseTaskScreen = props => {
     }
   }, [sendingError])
 
-
   const selectFile = async() => {
     Keyboard.dismiss()
     try {
@@ -216,6 +215,7 @@ const CourseTaskScreen = props => {
         <TouchableOpacity 
           onPress={attachFilesTapped}
           activeOpacity={0.9}
+          disabled={attachedFile}
         >
           <AttachIcon />
         </TouchableOpacity>
@@ -279,6 +279,7 @@ const TaskResult = ({item, index}) => {
             fileName={item?.file_name}
           />
         : null}
+        <Text style={taskResult.date}>{item?.created_time?.date} {item?.created_time?.time}</Text>
       </View>
     </RowView>
   );
@@ -368,6 +369,9 @@ const taskResult = StyleSheet.create({
     ...setFontStyle(13, '400'),
     marginBottom: 12,
   },
+  date: {
+    marginBottom: 10
+  }
 });
 
 export default CourseTaskScreen;
