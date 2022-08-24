@@ -19,16 +19,14 @@ import {isValidText, setFontStyle} from '../utils/utils';
 import HtmlView from '../components/HtmlView';
 import Person from '../components/Person';
 import RowView from '../components/view/RowView';
-import {AttachIcon, SendIcon} from '../assets/icons';
+import {AttachIcon, SendIcon, x} from '../assets/icons';
 import Input from '../components/Input';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS, WIDTH} from '../constans/constants';
 import Divider from '../components/Divider';
 import FastImage from 'react-native-fast-image';
 import DocumentPicker from "react-native-document-picker"
 import { launchImageLibrary } from 'react-native-image-picker';
-import { API_V2 } from '../services/axios';
 import { useRef } from 'react';
-import * as Progress from 'react-native-progress';
 import FileItem from '../components/FileItem';
 import Overlay from '../components/view/Overlay';
 
@@ -45,6 +43,7 @@ const CourseTaskScreen = props => {
   const [answer, setAnswer] = useState('');
   const [progress, setProgress] = useState(0)
   const [height, setHeight] = useState(38)
+  const [inputHeight, setInputHeight] = useState(0)
 
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
     const response = await CourseService.fetchTask(id);
@@ -67,7 +66,6 @@ const CourseTaskScreen = props => {
 
   useEffect(() => {
     fetchTask();
-
     return () => {
       if(controller.current) {
         controller.current.abort()
@@ -109,7 +107,6 @@ const CourseTaskScreen = props => {
         ],
         copyTo: "documentDirectory"
       })
-
       setAttachedFile(res)
     } catch(e) {
       if(DocumentPicker.isCancel()) {
@@ -182,6 +179,26 @@ const CourseTaskScreen = props => {
     fetchTask()
   }
 
+  const onContentSizeChange = ({ nativeEvent: { contentSize } }) => {
+    if (inputHeight === 0) {
+      console.log("initial set " , contentSize.height)
+      setInputHeight(contentSize.height)
+    } 
+    else if (inputHeight !== contentSize.height) {
+      console.log("next line : " , inputHeight, contentSize.height)
+      setHeight(prev => prev + contentSize.height - inputHeight)
+      setInputHeight(contentSize.height)
+    }
+  }
+
+  const onChange = ({ nativeEvent }) => {
+    console.log("onChange : " , nativeEvent)
+  }
+
+  const onLayout = ({ nativeEvent }) => {
+    console.log("onLayout : " , nativeEvent)
+  }
+
   const renderHeader = () => (
     <ListHeader data={data}/>
   );
@@ -209,6 +226,18 @@ const CourseTaskScreen = props => {
         onRefresh={onRefresh}
         refreshing={isLoading}
       />
+      {
+        attachedFile
+        ?
+        <RowView style={styles.attachedFile}>
+          <Text style={styles.attachedFileName} numberOfLines={1}>{attachedFile?.name}</Text>
+          <TouchableOpacity onPress={() => setAttachedFile(null)}>
+            {x(11, APP_COLORS.primary)}
+          </TouchableOpacity>
+        </RowView>
+        :
+        null
+      }
       <View
         style={styles.replySection}
         onLayout={({
@@ -230,6 +259,9 @@ const CourseTaskScreen = props => {
           extraStyle={[styles.input, { height: height}]}
           multiline
           value={answer}
+          // onLayout={onLayout}
+          onContentSizeChange={onContentSizeChange}
+          // onChange={onChange}
           onChangeText={value => setAnswer(value)}
           placeholder={strings['Напишите результаты задания']}
         />
@@ -327,6 +359,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 0.25,
     borderColor: APP_COLORS.border,
+    maxHeight: 120
   },
   sendIcon: {
     width: 32,
@@ -348,6 +381,18 @@ const styles = StyleSheet.create({
     backgroundColor: "red",
     justifyContent: "center",
     alignItems: "center"
+  },
+  attachedFile: {
+    padding: 10,
+    justifyContent: "center",
+    alignItems: 'center',
+    borderTopWidth: 1.2,
+    borderColor: APP_COLORS.border
+  },
+  attachedFileName: {
+    ...setFontStyle(12, "300"),
+    marginRight: 8,
+    width: WIDTH / 3
   }
 });
 
