@@ -25,10 +25,16 @@ const DetailView = ({
 
   return (
     <UniversalView>
-      <FastImage
-        source={{uri: poster, priority: 'high'}}
-        style={styles.poster}
-      />
+      {
+        poster 
+        ?
+        <FastImage
+          source={{uri: poster, priority: 'high'}}
+          style={styles.poster}
+        />
+        :
+        null
+      }
       <UniversalView
         style={{
           padding: 16,
@@ -38,12 +44,18 @@ const DetailView = ({
         <RowView>
           {time()}
           <Text style={styles.time}>{duration + ' ' + strings.мин}.</Text>
-          <ItemRating
-            rating={rating}
-            reviewCount={reviewCount}
-            starSize={16}
-            word={true}
-          />
+          {
+            rating !== undefined || reviewCount !== undefined
+            ?
+            <ItemRating
+              rating={rating}
+              reviewCount={reviewCount}
+              starSize={16}
+              word={true}
+            />
+            :
+            null
+          }
         </RowView>
         <UniversalView
           style={
