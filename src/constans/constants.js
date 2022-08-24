@@ -40,7 +40,8 @@ export const URLS = {
   news:'news',
   profile:'user/profile',
   history:'user/history',
-  changePassword:'user/update_password'
+  changePassword:'user/update_password',
+  moduleTests: "modules/tests"
 };
 
 export const STORAGE = {

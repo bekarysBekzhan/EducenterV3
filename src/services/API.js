@@ -116,6 +116,16 @@ class CourseService {
   }
 }
 
+class TestService {
+
+  static fetchTests = async() => {
+    const response = await API_V2.get(URLS.moduleTests)
+    console.log("Tests : " , response)
+    return response
+  }
+
+}
+
 class AuthService {
   static fetchLogin = async params => {
     console.log('AuthService LoginScreen params: ', params);
@@ -185,4 +195,5 @@ export {
   NewsService,
   ProfileService,
   HistoryService,
+  TestService
 };
