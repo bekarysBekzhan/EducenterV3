@@ -22,7 +22,7 @@ class CourseService {
     categoryID = undefined,
   ) => {
     let params = {
-      filter: true,
+      filters: true,
       page: page,
     };
     if (query.length > 0) {
@@ -115,6 +115,35 @@ class CourseService {
   };
 }
 
+class TestService {
+
+  static fetchTests = async(query = '', page = 1, price = undefined, categoryID = undefined) => {
+    let params = {
+      filters: true,
+      page: page
+    }
+    if(query.length > 0) {
+      params.query = query
+    }
+    if (price) {
+      params.price = price;
+    }
+    if (categoryID) {
+      params.category_id = categoryID;
+    }
+    const response = await API_V2.get(URLS.moduleTests, {params: params})
+    console.log("Tests : " , response)
+    return response
+  }
+
+  static fetchTestByID = async(id) => {
+    const response = await API_V2.get(URLS.moduleTests + "/" + id)
+    console.log("Test with id " + id + ":" , response)
+    return response
+  }
+
+}
+
 class AuthService {
   static fetchLogin = async params => {
     console.log('AuthService LoginScreen params: ', params);
@@ -181,7 +210,7 @@ class ProfileService {
 class HistoryService {
   static fetchHistory = async params => {
     console.log('params HistoryScreen.js', params);
-    const response = await API_V2.get(URLS.history, params);
+    const response = await API_V2.get(URLS.history, {params: params });
     console.log('HistoryScreen.js: ', response);
     return response;
   };
@@ -194,4 +223,5 @@ export {
   NewsService,
   ProfileService,
   HistoryService,
+  TestService
 };

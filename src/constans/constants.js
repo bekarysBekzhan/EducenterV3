@@ -43,6 +43,7 @@ export const URLS = {
   profile: 'user/profile',
   history: 'user/history',
   changePassword: 'user/update_password',
+  moduleTests: "modules/tests",
   profileUpdate: 'user/update',
 };
 

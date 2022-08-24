@@ -22,6 +22,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {APP_COLORS} from '../../constans/constants';
 import Courses from './CoursesStack';
 import MenuStack from './MenuStack';
+import Tests from './TestsStack';
 
 const BottomTabStack = createBottomTabNavigator();
 
@@ -40,7 +41,7 @@ const BottomTab = props => {
     },
     {
       name: ROUTE_NAMES.testsStack,
-      component: TestsScreen,
+      component: Tests,
       icon: {
         active: testsON,
         inactive: testsOFF,

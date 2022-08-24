@@ -15,7 +15,7 @@ const CourseRow = ({
     old_price, 
     rating, 
     reviewCount, 
-    onPress
+    onPress = () => undefined
 }) => {
   return (
     <TouchableOpacity

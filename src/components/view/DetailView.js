@@ -24,12 +24,18 @@ const DetailView = ({
   const [isDescriptionMore, setDescriptionMore] = useState(false);
 
   return (
-    <UniversalView>
-      <FastImage
-        source={{uri: poster, priority: 'high'}}
-        style={styles.poster}
-      />
-      <UniversalView
+    <View style={styles.container}>
+      {
+        poster 
+        ?
+        <FastImage
+          source={{uri: poster, priority: 'high'}}
+          style={styles.poster}
+        />
+        :
+        null
+      }
+      <View
         style={{
           padding: 16,
         }}>
@@ -37,22 +43,28 @@ const DetailView = ({
         <Text style={styles.title}>{title}</Text>
         <RowView>
           {time()}
-          <Text style={styles.time}>{duration + ' ' + strings.мин}.</Text>
-          <ItemRating
-            rating={rating}
-            reviewCount={reviewCount}
-            starSize={16}
-            word={true}
-          />
+          <Text style={styles.time}>{duration ? duration : 30} {strings.мин}.</Text>
+          {
+            rating !== undefined || reviewCount !== undefined
+            ?
+            <ItemRating
+              rating={rating}
+              reviewCount={reviewCount}
+              starSize={16}
+              word={true}
+            />
+            :
+            null
+          }
         </RowView>
-        <UniversalView
+        <View
           style={
             isDescriptionMore
               ? styles.descriptionViewShow
               : styles.descriptionViewHidden
           }>
           {description ? <HtmlView html={description} /> : null}
-        </UniversalView>
+        </View>
         {description && !isDescriptionMore ? (
           <TextButton
             text={strings.Подробнее}
@@ -61,13 +73,16 @@ const DetailView = ({
             onPress={() => setDescriptionMore(true)}
           />
         ) : null}
-      </UniversalView>
-    </UniversalView>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    borderBottomWidth: 0.2,
+    borderColor: APP_COLORS.border
+  },
   category: {
     textTransform: 'uppercase',
     ...setFontStyle(14, '700', APP_COLORS.placeholder),
