@@ -1,4 +1,4 @@
-import {StyleSheet, TextInput} from 'react-native';
+import {StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import {TextInputMask} from 'react-native-masked-text';
 import RowView from './view/RowView';
@@ -16,6 +16,7 @@ const Input = ({
   left,
   extraStyle,
   extraInputStyle,
+  onPressRightIcon,
   ...props
 }) => {
   const [focus, setFocus] = useState(_focus);
@@ -60,7 +61,9 @@ const Input = ({
           {...props}
         />
       )}
-      {right}
+      {right ? (
+        <TouchableOpacity onPress={onPressRightIcon}>{right}</TouchableOpacity>
+      ) : null}
     </RowView>
   );
 };
@@ -73,7 +76,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     borderWidth: 1,
     borderColor: APP_COLORS.input,
-    height: 48
+    height: 48,
   },
   input: {
     flex: 1,
