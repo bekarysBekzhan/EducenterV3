@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import UniversalView from '../../../components/view/UniversalView'
 import DetailView from '../../../components/view/DetailView'
@@ -7,7 +6,6 @@ import { TestService } from '../../../services/API'
 import LoadingScreen from '../../../components/LoadingScreen'
 import Person from '../../../components/Person'
 import { strings } from '../../../localization'
-import Divider from '../../../components/Divider'
 import TransactionButton from '../../../components/button/TransactionButton'
 
 const TestDetailScreen = (props) => {
