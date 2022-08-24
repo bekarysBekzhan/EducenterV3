@@ -7,7 +7,6 @@ import {useSettings} from '../context/Provider';
 import {ROUTE_NAMES} from './routes';
 import UniversalView from '../view/UniversalView';
 import {getString} from '../../storage/AsyncStorage';
-import SearchScreen from '../../screens/SearchScreen';
 import Splash from './SplashStack';
 import BottomTab from './BottomTabStack';
 import LessonScreen from '../../screens/LessonScreen';
@@ -18,6 +17,9 @@ import CourseTestScreen from '../../screens/CourseTestScreen';
 import {API_V2} from '../../services/axios';
 import CourseTaskScreen from '../../screens/CourseTaskScreen';
 import {REQUEST_HEADERS} from '../../constans/constants';
+import CourseSearchScreen from '../../screens/CourseSearchScreen';
+import TestSearchScreen from '../../screens/TestSearchScreen';
+import TaskSearchScreen from '../../screens/TaskSearchScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -31,8 +33,16 @@ const GENERAL = [
     component: BottomTab,
   },
   {
-    name: ROUTE_NAMES.search,
-    component: SearchScreen,
+    name: ROUTE_NAMES.courseSearch,
+    component: CourseSearchScreen,
+  },
+  {
+    name: ROUTE_NAMES.testSearch,
+    component: TestSearchScreen
+  },
+  {
+    name: ROUTE_NAMES.taskSearch,
+    component: TaskSearchScreen
   },
 ];
 const PRIVATE = [
@@ -99,7 +109,9 @@ const Navigation = () => {
             key={index}
             options={{
               animation:
-                route.name === ROUTE_NAMES.search
+                route.name === ROUTE_NAMES.courseSearch || 
+                route.name === ROUTE_NAMES.testSearch || 
+                route.name === ROUTE_NAMES.taskSearch
                   ? 'fade_from_bottom'
                   : 'default',
               headerBackTitleVisible: false,
