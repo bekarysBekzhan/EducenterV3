@@ -1,29 +1,30 @@
-import {FlatList, StyleSheet} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
-import UniversalView from '../components/view/UniversalView';
-import {useFetching} from '../hooks/useFetching';
-import HistoryItem from '../components/HistoryItem';
-import {HistoryService} from '../services/API';
-import Loader from '../components/Loader';
+import {FlatList, StyleSheet} from 'react-native';
+import Empty from '../../components/Empty';
+import ScheduleLessonItem from '../../components/item/ScheduleLessonItem';
+import Loader from '../../components/Loader';
+import UniversalView from '../../components/view/UniversalView';
+import {useFetching} from '../../hooks/useFetching';
+import {ScheduleService} from '../../services/API';
 
-const HistoryScreen = () => {
+const ScheduleLessons = () => {
   const [dataSource, setDataSource] = useState({
-    data: [],
-    page: 1,
-    lastPage: null,
     refreshing: false,
     loadMore: false,
+    list: [],
+    page: 1,
+    lastPage: null,
   });
 
-  const [fectHistory, isLoading, error] = useFetching(async () => {
+  const [fetchScheduleLessons, isLoading, error] = useFetching(async () => {
     let params = {
       page: dataSource?.page,
     };
-    const response = await HistoryService.fetchHistory(params);
+    const response = await ScheduleService.fetchScheduleLessons(params);
     setDataSource(prev => ({
       ...prev,
-      data: response?.data?.data?.orders?.data,
-      lastPage: response?.data?.data?.orders?.last_page,
+      list: response?.data?.data?.data,
+      lastPage: response?.data?.data?.last_page,
       refreshing: false,
       loadMore: false,
     }));
@@ -33,10 +34,10 @@ const HistoryScreen = () => {
     let params = {
       page: dataSource?.page,
     };
-    const response = await HistoryService.fetchHistory(params);
+    const response = await ScheduleService.fetchScheduleLessons(params);
     setDataSource(prev => ({
       ...prev,
-      data: prev?.data?.concat(response?.data?.data?.orders?.data),
+      list: prev?.list?.concat(response?.data?.data?.data),
       refreshing: false,
       loadMore: false,
     }));
@@ -44,27 +45,13 @@ const HistoryScreen = () => {
 
   useEffect(() => {
     if (dataSource?.page == 1) {
-      fectHistory();
+      fetchScheduleLessons();
     } else {
       fetchNextPage();
     }
   }, [dataSource?.page]);
 
-  const keyExtractor = useCallback(item => item?.id?.toString(), []);
-
-  const renderItem = useCallback(
-    ({item}) => (
-      <HistoryItem
-        title={item?.entity?.title}
-        date={item?.added_at}
-        price={item?.cost}
-        iconType={item?.type}
-      />
-    ),
-    [],
-  );
-
-  const onRefresh = useCallback(() => {
+  const onRefresh = () => {
     setDataSource(prev => ({
       ...prev,
       refreshing: true,
@@ -72,14 +59,12 @@ const HistoryScreen = () => {
       page: 1,
       lastPage: null,
     }));
-
     if (dataSource?.page == 1) {
-      fectHistory();
+      fetchScheduleLessons();
     }
-  });
+  };
 
   const onEndReached = () => {
-    console.log('lastPage', dataSource?.lastPage);
     if (!dataSource?.loadMore) {
       if (dataSource?.page < dataSource?.lastPage) {
         setDataSource(prev => ({
@@ -92,6 +77,27 @@ const HistoryScreen = () => {
     }
   };
 
+  const keyExtractor = useCallback(item => item?.id?.toString(), []);
+
+  const renderItem = useCallback(
+    ({item, index}) => (
+      <ScheduleLessonItem
+        avatar={item?.teacher?.avatar}
+        name={
+          item?.teacher
+            ? item?.teacher?.name + ' ' + item?.teacher?.surname
+            : null
+        }
+        category={item?.name}
+        item={item}
+        link={item?.link}
+      />
+    ),
+    [],
+  );
+
+  const renderEmpty = <Empty />;
+
   const renderFooter = () => {
     if (dataSource?.loadMore) {
       return <Loader style={styles.loader} />;
@@ -102,24 +108,27 @@ const HistoryScreen = () => {
   return (
     <UniversalView haveLoader={isLoading}>
       <FlatList
-        data={dataSource?.data}
+        data={dataSource?.list}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        ListEmptyComponent={renderEmpty}
+        ListFooterComponent={renderFooter}
         refreshing={dataSource?.refreshing}
         onRefresh={onRefresh}
         onEndReached={onEndReached}
-        onEndReachedThreshold={0.01}
-        initialNumToRender={20}
-        ListFooterComponent={renderFooter}
+        onEndReachedThreshold={0.1}
       />
     </UniversalView>
   );
 };
 
-export default HistoryScreen;
-
 const styles = StyleSheet.create({
+  button: {
+    marginTop: 16,
+  },
   loader: {
     marginVertical: 16,
   },
 });
+
+export default ScheduleLessons;

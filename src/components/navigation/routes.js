@@ -62,5 +62,8 @@ export const ROUTE_NAMES = {
   newsDetail: 'NewsDetail',
   history: 'History',
   changePassword:'ChangePassword',
-  profileEdit:'ProfileEdit'
+  profileEdit:'ProfileEdit',
+  //Schedule
+  scheduleNavigator:'ScheduleNavigator',
+  scheduleLessons:'ScheduleLessons'
 };

@@ -59,6 +59,8 @@ const ProfileScreen = ({navigation, route}) => {
           text: 'Расписание',
           iconLeft: <CalendarIcon />,
           enabled: true,
+          route: ROUTE_NAMES.scheduleNavigator,
+          action: 'navigation',
         },
         {
           id: 3,
