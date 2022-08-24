@@ -26,7 +26,7 @@ import {useCallback} from 'react';
 import { useFetching } from '../hooks/useFetching';
 import { useEffect } from 'react';
 
-const SearchScreen = props => {
+const TaskSearchScreen = props => {
 
   const [value, setValue] = useState('');
   const [data, setData] = useState([]);
@@ -245,4 +245,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchScreen;
+export default TaskSearchScreen;
