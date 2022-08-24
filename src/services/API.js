@@ -86,34 +86,33 @@ class CourseService {
     return response;
   };
 
-  static sendTaskAnswer = async(id, answer, file, controller, setProgress) => {
+  static sendTaskAnswer = async (id, answer, file, controller, setProgress) => {
+    let params = {id, answer, file, controller, setProgress};
 
-    let params = {id, answer, file, controller, setProgress}
+    console.log('task answer params : ', params);
 
-    console.log("task answer params : " , params)
+    const formData = new FormData();
 
-    const formData = new FormData()
-
-    formData.append("answer", answer)
+    formData.append('answer', answer);
 
     if (file) {
-      formData.append("file", {
+      formData.append('file', {
         uri: file.uri,
         name: file.name,
-        type: file.type
-      })
+        type: file.type,
+      });
     }
 
     const response = await API_V2.post(URLS.lessonTaskSend + id, formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
       },
       signal: controller.signal,
-      onUploadProgress: e => setProgress(e.loaded / e.total)
-    })
-    console.log("Task with id " + id + " sent:" , response)
-    return response
-  }
+      onUploadProgress: e => setProgress(e.loaded / e.total),
+    });
+    console.log('Task with id ' + id + ' sent:', response);
+    return response;
+  };
 }
 
 class AuthService {
@@ -159,6 +158,16 @@ class ProfileService {
   static fetchProfile = async () => {
     const response = await API_V2.get(URLS.profile);
     console.log('ProfileScreen.js: ', response);
+    return response;
+  };
+
+  static fetchProfileUpdate = async params => {
+    const response = await API_V2.post(URLS.profileUpdate, params, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log('ProfileEdit.js: ', response);
     return response;
   };
 

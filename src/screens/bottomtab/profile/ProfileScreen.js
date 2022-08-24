@@ -1,4 +1,11 @@
-import {Linking, RefreshControl, StyleSheet, Text, View} from 'react-native';
+import {
+  Linking,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {Fragment, useEffect, useState, useCallback} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {strings} from '../../../localization';
@@ -26,7 +33,8 @@ import {ProfileService} from '../../../services/API';
 import {setFontStyle} from '../../../utils/utils';
 import {APP_COLORS} from '../../../constans/constants';
 
-const ProfileScreen = ({navigation}) => {
+const ProfileScreen = ({navigation, route}) => {
+  const {profile} = route.params;
   const {settings} = useSettings();
   const [dataSource, setDataSource] = useState({
     data: null,
@@ -149,6 +157,12 @@ const ProfileScreen = ({navigation}) => {
   }, []);
 
   useEffect(() => {
+    if (profile) {
+      fetchProfile();
+    }
+  }, [profile]);
+
+  useEffect(() => {
     if (dataSource?.refreshing) {
       fetchProfile();
     }
@@ -171,30 +185,39 @@ const ProfileScreen = ({navigation}) => {
           onRefresh={onRefresh}
         />
       }>
-      <RowView style={styles.profileView}>
-        <FastImage
-          source={{
-            uri: dataSource?.data?.avatar,
-            priority: 'high',
-          }}
-          style={styles.avatar}
-        />
-        <View style={styles.profileInfoView}>
-          <Text numberOfLines={2} style={styles.name}>
-            {dataSource?.data?.name}
-          </Text>
-          <Text numberOfLines={1} style={styles.email}>
-            {dataSource?.data?.email}
-          </Text>
-          <Text numberOfLines={1} style={styles.phone}>
-            {dataSource?.data?.phone}
-          </Text>
-          <Text style={styles.editButton}>
-            {strings['Редактировать профиль']}
-          </Text>
-        </View>
-        {iconNext}
-      </RowView>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.setParams({profile: false});
+          navigation.navigate(ROUTE_NAMES.profileEdit, {
+            profileEdit: dataSource?.data,
+          });
+        }}
+        activeOpacity={0.9}>
+        <RowView style={styles.profileView}>
+          <FastImage
+            source={{
+              uri: dataSource?.data?.avatar,
+              priority: 'high',
+            }}
+            style={styles.avatar}
+          />
+          <View style={styles.profileInfoView}>
+            <Text numberOfLines={2} style={styles.name}>
+              {dataSource?.data?.name}
+            </Text>
+            <Text numberOfLines={1} style={styles.email}>
+              {dataSource?.data?.email}
+            </Text>
+            <Text numberOfLines={1} style={styles.phone}>
+              {dataSource?.data?.phone}
+            </Text>
+            <Text style={styles.editButton}>
+              {strings['Редактировать профиль']}
+            </Text>
+          </View>
+          {iconNext}
+        </RowView>
+      </TouchableOpacity>
       {MENU.filter(m => m?.enabled).map((s, sKey) => (
         <Fragment key={sKey.toString()}>
           <SectionView label={s.section} />

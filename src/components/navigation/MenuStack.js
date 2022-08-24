@@ -13,6 +13,7 @@ import {setFontStyle} from '../../utils/utils';
 import {strings} from '../../localization';
 import HistoryScreen from '../../screens/HistoryScreen';
 import ChangePassword from '../../screens/ChangePasswordScreen';
+import ProfieEditScreen from '../../screens/ProfileEditScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,7 @@ const MenuStack = () => {
       id: '6',
       name: ROUTE_NAMES.profile,
       component: ProfileScreen,
+      initialParams: {profile: false},
     },
     {
       id: '7',
@@ -77,6 +79,14 @@ const MenuStack = () => {
         title: strings['Сменить пароль'],
       },
     },
+    {
+      id: '10',
+      name: ROUTE_NAMES.profileEdit,
+      component: ProfieEditScreen,
+      options: {
+        title: strings['Редактировать профиль'],
+      },
+    },
   ];
 
   return (
@@ -94,6 +104,7 @@ const MenuStack = () => {
           name={screen.name}
           component={screen.component}
           options={screen.options}
+          initialParams={screen?.initialParams}
         />
       ))}
     </Stack.Navigator>

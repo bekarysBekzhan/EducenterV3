@@ -61,5 +61,6 @@ export const ROUTE_NAMES = {
   news: 'News',
   newsDetail: 'NewsDetail',
   history: 'History',
-  changePassword:'ChangePassword'
+  changePassword:'ChangePassword',
+  profileEdit:'ProfileEdit'
 };

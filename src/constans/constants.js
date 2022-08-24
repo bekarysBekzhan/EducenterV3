@@ -19,6 +19,8 @@ export const REQUEST_HEADERS = {
   Accept: 'application/json',
   Authorization: 'Authorization',
   lang: 'lang',
+  contentType: 'Content-Type',
+  multipartFormData: 'multipart/form-data',
 };
 
 export const URLS = {
@@ -29,18 +31,19 @@ export const URLS = {
   categories: 'categories',
   lesson: 'lesson/',
   lessonTestStart: 'test/start/lesson/',
-  lessonTestInfo: "test/info/lesson/",
-  lessonTestSelect: "test/select/",
-  lessonTestFinish: "test/finish/",
-  lessonTaskShow: "task/show/lesson/",
-  lessonTaskSend: "task/send/",
+  lessonTestInfo: 'test/info/lesson/',
+  lessonTestSelect: 'test/select/',
+  lessonTestFinish: 'test/finish/',
+  lessonTaskShow: 'task/show/lesson/',
+  lessonTaskSend: 'task/send/',
   login: 'auth/login',
   recovery: 'auth/recovery',
   register: 'auth/register',
-  news:'news',
-  profile:'user/profile',
-  history:'user/history',
-  changePassword:'user/update_password'
+  news: 'news',
+  profile: 'user/profile',
+  history: 'user/history',
+  changePassword: 'user/update_password',
+  profileUpdate: 'user/update',
 };
 
 export const STORAGE = {
