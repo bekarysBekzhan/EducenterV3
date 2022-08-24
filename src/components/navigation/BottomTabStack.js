@@ -23,6 +23,7 @@ import {APP_COLORS} from '../../constans/constants';
 import Courses from './CoursesStack';
 import MenuStack from './MenuStack';
 import Tests from './TestsStack';
+import Tasks from './TasksStack';
 
 const BottomTabStack = createBottomTabNavigator();
 
@@ -59,7 +60,7 @@ const BottomTab = props => {
     },
     {
       name: ROUTE_NAMES.tasksStack,
-      component: TasksScreen,
+      component: Tasks,
       icon: {
         active: tasksON,
         inactive: tasksOFF,
