@@ -70,7 +70,7 @@ const CoursesScreen = (props) => {
 
   return (
     <UniversalView>
-      <SearchButton {...props}/>
+      <SearchButton navigation={props.navigation} type={"course"}/>
       {
         isLoading
         ?

@@ -94,7 +94,7 @@ const TestsScreen = (props) => {
 
   return (
     <UniversalView>
-      <SearchButton {...props}/>
+      <SearchButton navigation={props.navigation} type="test"/>
       <FlatList
         data={data}
         contentContainerStyle={styles.container}

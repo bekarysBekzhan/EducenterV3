@@ -93,7 +93,7 @@ const TasksScreen = (props) => {
 
   return (
     <UniversalView>
-      <SearchButton {...props}/>
+      <SearchButton navigation={props.navigation} type="task"/>
       <FlatList
         data={data}
         contentContainerStyle={styles.container}
