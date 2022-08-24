@@ -1,11 +1,11 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 import { useState, useCallback, useRef } from 'react';
-import { Fragment } from 'react';
 import RowView from './view/RowView';
 import Downloader from './Downloader';
 import { APP_COLORS } from '../constans/constants';
 import { fileDownloader, setFontStyle } from '../utils/utils';
+import RNFS from 'react-native-fs';
 
 const FileItem = ({
     style,
