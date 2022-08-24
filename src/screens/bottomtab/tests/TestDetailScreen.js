@@ -43,7 +43,7 @@ const TestDetailScreen = (props) => {
           description={data?.description}
         />
         <Person
-          name={data?.author?.name + " " + data?.author?.surname}
+          name={(data?.author?.name ? data?.author?.name : "") + " " + (data?.author?.surname ? data?.author?.surname : "")}
           image={data?.author?.avatar}
           status={strings['Автор теста']}
           description={data?.author?.description}
