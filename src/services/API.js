@@ -161,6 +161,12 @@ class ProfileService {
     console.log('ProfileScreen.js: ', response);
     return response;
   };
+
+  static fetchChangePassword = async params => {
+    const response = await API_V2.post(URLS.changePassword, params);
+    console.log('ChangePassword.js: ', response);
+    return response;
+  };
 }
 
 class HistoryService {

@@ -12,6 +12,7 @@ import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
 import {setFontStyle} from '../../utils/utils';
 import {strings} from '../../localization';
 import HistoryScreen from '../../screens/HistoryScreen';
+import ChangePassword from '../../screens/ChangePasswordScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,14 @@ const MenuStack = () => {
       component: HistoryScreen,
       options: {
         title: strings['История оплаты'],
+      },
+    },
+    {
+      id: '9',
+      name: ROUTE_NAMES.changePassword,
+      component: ChangePassword,
+      options: {
+        title: strings['Сменить пароль'],
       },
     },
   ];

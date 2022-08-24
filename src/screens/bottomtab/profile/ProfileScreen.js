@@ -57,6 +57,8 @@ const ProfileScreen = ({navigation}) => {
           text: strings['Сменить пароль'],
           iconLeft: <Password />,
           enabled: true,
+          action: 'navigation',
+          route: ROUTE_NAMES.changePassword,
         },
         {
           id: 4,
