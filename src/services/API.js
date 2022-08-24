@@ -201,7 +201,7 @@ class ProfileService {
 class HistoryService {
   static fetchHistory = async params => {
     console.log('params HistoryScreen.js', params);
-    const response = await API_V2.get(URLS.history, params);
+    const response = await API_V2.get(URLS.history, {params: params });
     console.log('HistoryScreen.js: ', response);
     return response;
   };
