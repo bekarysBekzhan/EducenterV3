@@ -66,7 +66,6 @@ const ModuleTestItem = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     paddingVertical: 12,
     borderBottomWidth: 0.45,
     borderColor: APP_COLORS.border
