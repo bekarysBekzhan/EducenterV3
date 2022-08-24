@@ -103,7 +103,12 @@ const TasksScreen = (props) => {
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
         refreshing={isFetching}
-        onRefresh={() => setPage(1)}
+        onRefresh={() => {
+          if(page === 1) {
+            fetchTasks()
+          }
+          setPage(1)
+        }}
       />
     </UniversalView>
   )

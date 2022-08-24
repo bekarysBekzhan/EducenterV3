@@ -85,7 +85,12 @@ const CoursesScreen = (props) => {
           contentContainerStyle={styles.contentContainer}
           onEndReached={onEndReached}
           refreshing={isLoading}
-          onRefresh={() => setPage(1)}
+          onRefresh={() => {
+            if(page === 1) {
+              fetchCourses()
+            }
+            setPage(1)
+          }}
         />
       }
     </UniversalView>

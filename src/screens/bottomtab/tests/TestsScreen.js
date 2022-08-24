@@ -104,7 +104,12 @@ const TestsScreen = (props) => {
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
         refreshing={isFetching}
-        onRefresh={() => setPage(1)}
+        onRefresh={() => {
+          if(page === 1) {
+            fetchTests()
+          }
+          setPage(1)
+        }}
       />
     </UniversalView>
   )
