@@ -166,3 +166,15 @@ export const isValidText = (text = "") => {
   }
   return false
 }
+
+export const convertToIterable = (object) => {
+  let array = []
+  for (const key in object) {
+    array.push({
+      key: key,
+      value: object[key]
+    })
+  }
+  console.log("convertToIterable result : " , array)
+  return array
+}
