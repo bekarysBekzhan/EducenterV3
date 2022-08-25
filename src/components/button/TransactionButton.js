@@ -38,13 +38,18 @@ const TransactionButton = ({
         <Text numberOfLines={2} style={memoTextStyle}>
           {text}
         </Text>
-        <Price
-          style={memoPriceViewStyle}
-          price={price}
-          oldPrice={oldPrice}
-          priceStyle={memoPriceStyle}
-          oldPriceStyle={memoOldPriceStyle}
-        />
+        {
+          price ?
+          <Price
+            style={memoPriceViewStyle}
+            price={price}
+            oldPrice={oldPrice}
+            priceStyle={memoPriceStyle}
+            oldPriceStyle={memoOldPriceStyle}
+          />
+          :
+          null
+        }
       </RowView>
     </TouchableOpacity>
   );
