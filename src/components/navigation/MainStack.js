@@ -74,7 +74,7 @@ const Navigation = () => {
     API_V2.defaults.headers.Authorization = "Bearer ehpzFyZOGazrc5QK9mByfj22XIdhpjkJwXCTI9ekypYTptlrj5YUr3s8pNZn"
 
     if (API_V2.defaults.headers[REQUEST_HEADERS.Authorization]?.length) {
-      // setIsAuth(true);
+      setIsAuth(true);
     } else {
       setIsAuth(false);
     }
