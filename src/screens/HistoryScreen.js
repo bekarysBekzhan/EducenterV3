@@ -79,7 +79,6 @@ const HistoryScreen = () => {
   });
 
   const onEndReached = () => {
-    console.log('lastPage', dataSource?.lastPage);
     if (!dataSource?.loadMore) {
       if (dataSource?.page < dataSource?.lastPage) {
         setDataSource(prev => ({

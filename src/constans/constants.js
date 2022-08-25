@@ -49,6 +49,7 @@ export const URLS = {
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',
   scheduleVisits: 'modules/schedule_conference/attendances',
+  languages:'languages'
 };
 
 export const STORAGE = {

@@ -1,5 +1,5 @@
 import {FlatList, StyleSheet} from 'react-native';
-import React, {useCallback, useEffect, useState, Fragment} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
 import {NewsService} from '../../services/API';
@@ -23,31 +23,37 @@ const NewsScreen = ({navigation}) => {
     const response = await NewsService.fetchNews(params);
     setDataSource(prev => ({
       ...prev,
-      data:
-        dataSource?.page == 1
-          ? response?.data?.data?.data
-          : prev?.data?.concat(response?.data?.data?.data),
-      page: response?.data?.data?.current_page,
+      data: response?.data?.data?.data,
       lastPage: response?.data?.data?.last_page,
       refreshing: false,
       loadMore: false,
     }));
   });
 
-  useEffect(() => {
-    fetchNews();
-  }, []);
+  const fetchNextPage = async () => {
+    let params = {
+      page: dataSource?.page,
+    };
+    const response = await NewsService.fetchNews(params);
+    setDataSource(prev => ({
+      ...prev,
+      data: prev?.data?.concat(response?.data?.data?.data),
+      refreshing: false,
+      loadMore: false,
+    }));
+  };
 
   useEffect(() => {
-    if (dataSource?.refreshing || dataSource?.loadMore) {
+    if (dataSource?.page == 1) {
       fetchNews();
+    } else {
+      fetchNextPage();
     }
-  }, [dataSource?.loadMore, dataSource?.refreshing]);
+  }, [dataSource?.page]);
 
   const keyExtractor = useCallback(item => item?.id?.toString(), []);
 
   const onItem = useCallback(item => {
-    console.log(item);
     navigation.navigate(ROUTE_NAMES.newsDetail, {newsId: item?.id});
   }, []);
 
@@ -64,7 +70,7 @@ const NewsScreen = ({navigation}) => {
     [],
   );
 
-  const onRefresh = useCallback(() => {
+  const onRefresh = () => {
     setDataSource(prev => ({
       ...prev,
       page: 1,
@@ -72,23 +78,30 @@ const NewsScreen = ({navigation}) => {
       loadMore: false,
       refreshing: true,
     }));
-  }, []);
-
-  const onEndReached = useCallback(() => {
-    if (dataSource?.page < dataSource?.lastPage) {
-      setDataSource(prev => ({
-        ...prev,
-        page: prev?.page + 1,
-        refreshing: false,
-        loadMore: true,
-      }));
+    if (dataSource?.page == 1) {
+      fetchNews();
     }
-  }, [isLoading]);
+  };
 
-  const renderFooter = useCallback(
-    () => <Fragment>{dataSource?.loadMore ? <Loader /> : null}</Fragment>,
-    [dataSource?.loadMore],
-  );
+  const onEndReached = () => {
+    if (!dataSource?.loadMore) {
+      if (dataSource?.page < dataSource?.lastPage) {
+        setDataSource(prev => ({
+          ...prev,
+          loadMore: true,
+          refreshing: false,
+          page: prev?.page + 1,
+        }));
+      }
+    }
+  };
+
+  const renderFooter = () => {
+    if (dataSource?.loadMore) {
+      return <Loader />;
+    }
+    return null;
+  };
 
   return (
     <UniversalView haveLoader={isLoading}>
@@ -99,7 +112,7 @@ const NewsScreen = ({navigation}) => {
         contentContainerStyle={styles.list}
         refreshing={dataSource?.refreshing}
         onRefresh={onRefresh}
-        onEndReachedThreshold={0.01}
+        onEndReachedThreshold={0.1}
         onEndReached={onEndReached}
         ListFooterComponent={renderFooter}
       />

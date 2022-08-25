@@ -15,6 +15,7 @@ import HistoryScreen from '../../screens/HistoryScreen';
 import ChangePassword from '../../screens/ChangePasswordScreen';
 import ProfieEditScreen from '../../screens/ProfileEditScreen';
 import ScheduleNavigator from './ScheduleNavigator';
+import SettingsScreen from '../../screens/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -94,6 +95,14 @@ const MenuStack = () => {
       component: ScheduleNavigator,
       options: {
         title: strings['Редактировать профиль'],
+      },
+    },
+    {
+      id: '12',
+      name: ROUTE_NAMES.settings,
+      component: SettingsScreen,
+      options: {
+        title: strings.Настройки,
       },
     },
   ];

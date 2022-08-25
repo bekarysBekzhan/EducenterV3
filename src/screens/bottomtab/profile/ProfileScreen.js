@@ -6,7 +6,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {Fragment, useEffect, useState, useCallback} from 'react';
+import React, {
+  Fragment,
+  useEffect,
+  useState,
+  useCallback,
+  useLayoutEffect,
+} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {strings} from '../../../localization';
 import NavButtonRow from '../../../components/view/NavButtonRow';
@@ -32,6 +38,7 @@ import {useFetching} from '../../../hooks/useFetching';
 import {ProfileService} from '../../../services/API';
 import {setFontStyle} from '../../../utils/utils';
 import {APP_COLORS} from '../../../constans/constants';
+import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
 
 const ProfileScreen = ({navigation, route}) => {
   const {profile} = route.params;
@@ -40,6 +47,10 @@ const ProfileScreen = ({navigation, route}) => {
     data: null,
     refreshing: false,
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions(navHeaderOptions(settings?.logo, strings.Меню));
+  }, []);
 
   const MENU = [
     {
@@ -75,6 +86,8 @@ const ProfileScreen = ({navigation, route}) => {
           text: strings.Настройки,
           iconLeft: <Settings />,
           enabled: true,
+          action: 'navigation',
+          route: ROUTE_NAMES.settings,
         },
       ],
     },
