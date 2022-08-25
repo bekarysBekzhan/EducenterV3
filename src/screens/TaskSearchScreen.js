@@ -255,7 +255,6 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     borderWidth: 0,
-    padding: 14,
     paddingVertical: 12,
     borderRadius: 16,
     marginHorizontal: 16,
