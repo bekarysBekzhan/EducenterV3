@@ -14,6 +14,8 @@ const MyCourses = () => {
     const TITLE = strings['Мои курсы']
     const { settings, isAuth } = useSettings()
 
+    console.log("isAuth " , isAuth)
+
     const screens = [
         {
             name: ROUTE_NAMES.myCourses,

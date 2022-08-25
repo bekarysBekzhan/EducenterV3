@@ -5,6 +5,7 @@ import FastImage from 'react-native-fast-image'
 import { WIDTH } from '../../../constans/constants'
 import { strings } from '../../../localization'
 import OutlineButton from '../../../components/button/OutlineButton'
+import { setFontStyle } from '../../../utils/utils'
 
 const UnauthorizedScreen = (props) => {
 
@@ -17,15 +18,16 @@ const UnauthorizedScreen = (props) => {
     }
 
     return (
-        <UniversalView haveScroll style={styles.container}>
+        <UniversalView haveScroll style={styles.container} contentContainerStyle={{ alignItems: "center" }}>
             <FastImage
-                source={require("../../../assets/images/MyCoursePlaceHolder.png")}
+                source={require("../../../assets/images/MyCoursesPlaceHolder.png")}
                 style={styles.placeholder}
             />
             <Text style={styles.title}>{strings['Ваши курсы']}</Text>
             <Text style={styles.tips}>{strings['Здесь будут ваши курсы, тесты и задания. Войдите или создайте аккаунт чтобы увидеть']}</Text>
             <OutlineButton
                 text={strings.Войти}
+                style={styles.signin}
                 onPress={loginTapped}
             />
             <OutlineButton
@@ -39,22 +41,29 @@ const UnauthorizedScreen = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: "center",
-        alignItems: "center"
+        padding: 16,
     },
     placeholder: {
         width: WIDTH,
         height: 250,
-        marginBottom: 32
+        marginVertical: 32
     },
     title: {
-
+        ...setFontStyle(23, "700"),
+        marginBottom: 24
     },
     tips: {
-
+        ...setFontStyle(14, "400"),
+        textAlign: "center",
+        marginBottom: 24
+    },
+    signin: {
+        width: "100%",
+        marginBottom: 10
     },
     signup: {
-        
+        width: "100%",
+        borderWidth: 0
     }
 })
 
