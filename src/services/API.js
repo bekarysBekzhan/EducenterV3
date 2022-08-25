@@ -116,14 +116,18 @@ class CourseService {
 }
 
 class TestService {
-
-  static fetchTests = async(query = '', page = 1, price = undefined, categoryID = undefined) => {
+  static fetchTests = async (
+    query = '',
+    page = 1,
+    price = undefined,
+    categoryID = undefined,
+  ) => {
     let params = {
       filters: true,
-      page: page
-    }
-    if(query.length > 0) {
-      params.query = query
+      page: page,
+    };
+    if (query.length > 0) {
+      params.query = query;
     }
     if (price) {
       params.price = price;
@@ -131,27 +135,31 @@ class TestService {
     if (categoryID) {
       params.category_id = categoryID;
     }
-    const response = await API_V2.get(URLS.moduleTests, {params: params})
-    console.log("Tests : " , response)
-    return response
-  }
+    const response = await API_V2.get(URLS.moduleTests, {params: params});
+    console.log('Tests : ', response);
+    return response;
+  };
 
-  static fetchTestByID = async(id) => {
-    const response = await API_V2.get(URLS.moduleTests + "/" + id)
-    console.log("Test with id " + id + ":" , response)
-    return response
-  }
-
+  static fetchTestByID = async id => {
+    const response = await API_V2.get(URLS.moduleTests + '/' + id);
+    console.log('Test with id ' + id + ':', response);
+    return response;
+  };
 }
 
 class TaskService {
-  static fetchTasks = async(query = '', page = 1, price = undefined, categoryID = undefined) => {
+  static fetchTasks = async (
+    query = '',
+    page = 1,
+    price = undefined,
+    categoryID = undefined,
+  ) => {
     let params = {
       filters: true,
-      page: page
-    }
-    if(query.length > 0) {
-      params.query = query
+      page: page,
+    };
+    if (query.length > 0) {
+      params.query = query;
     }
     if (price) {
       params.price = price;
@@ -159,16 +167,16 @@ class TaskService {
     if (categoryID) {
       params.category_id = categoryID;
     }
-    const response = await API_V2.get(URLS.moduleTasks, {params: params})
-    console.log("Tasks : " , response)
-    return response
-  }
+    const response = await API_V2.get(URLS.moduleTasks, {params: params});
+    console.log('Tasks : ', response);
+    return response;
+  };
 
-  static fetchTaskByID = async(id) => {
-    const response = await API_V2.get(URLS.moduleTasks + "/" + id)
-    console.log("Task with id " + id + ":" , response)
-    return response
-  }
+  static fetchTaskByID = async id => {
+    const response = await API_V2.get(URLS.moduleTasks + '/' + id);
+    console.log('Task with id ' + id + ':', response);
+    return response;
+  };
 }
 
 class AuthService {
@@ -258,6 +266,14 @@ class ScheduleService {
   };
 }
 
+class SettingsService {
+  static fetchLanguage = async () => {
+    const response = await API_V2.get(URLS.languages);
+    console.log('Langugage: ', response);
+    return response;
+  };
+}
+
 export {
   MobileSettingsService,
   CourseService,
@@ -267,5 +283,6 @@ export {
   HistoryService,
   ScheduleService,
   TestService,
-  TaskService
+  TaskService,
+  SettingsService,
 };

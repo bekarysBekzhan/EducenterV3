@@ -1,7 +1,7 @@
 export const ROUTE_NAMES = {
   // MAIN STACK SCREENS
-  courseSearch: "CourseSearch",
-  testSearch: "TestSearch",
+  courseSearch: 'CourseSearch',
+  testSearch: 'TestSearch',
   taskSearch: 'TaskSearch',
   filter: 'Filter',
   selectCategory: 'SelectCategory',
@@ -69,4 +69,5 @@ export const ROUTE_NAMES = {
   scheduleNavigator: 'ScheduleNavigator',
   scheduleLessons: 'ScheduleLessons',
   scheduleVisitis: 'ScheduleVisits',
+  settings: 'Settings',
 };
