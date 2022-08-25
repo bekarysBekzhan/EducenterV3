@@ -13,16 +13,19 @@ import Price from '../../../components/Price'
 import ItemRating from '../../../components/ItemRating'
 import { setFontStyle } from '../../../utils/utils'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
+import LoadingScreen from '../../../components/LoadingScreen'
 
 const CoursesScreen = (props) => {
 
   const [page, setPage] = useState(1)
+  const [filters, setFilters] = useState(null) 
   const [lastPage, setLastPage] = useState(1)
   const [data, setData] = useState([])
   const [loadingNext, setLoadingNext] = useState(false)
   const [fetchCourses, isLoading, coursesError] = useFetching(async() => {
     const response = await CourseService.fetchCourses()
     setData(response.data?.data)
+    setFilters(response.data?.filters)
     setLastPage(response.data?.last_page)
   })
   
@@ -68,14 +71,13 @@ const CoursesScreen = (props) => {
     </View>
   )
 
+  if (isLoading) {
+    return <LoadingScreen/>
+  }
+
   return (
     <UniversalView>
-      <SearchButton navigation={props.navigation} type={"course"}/>
-      {
-        isLoading
-        ?
-        <ActivityIndicator color={APP_COLORS.primary} style={{ marginTop: 120}}/>
-        :
+      <SearchButton navigation={props.navigation} type={"course"} filters={filters}/>
         <FlatList
           data={data}
           renderItem={renderCourse}
@@ -92,7 +94,6 @@ const CoursesScreen = (props) => {
             setPage(1)
           }}
         />
-      }
     </UniversalView>
   )
 }

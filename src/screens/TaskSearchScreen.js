@@ -16,7 +16,6 @@ import {APP_COLORS, WIDTH} from '../constans/constants';
 import {setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
 import {useState} from 'react';
-import CourseRow from '../components/CourseRow';
 import {CourseService, TaskService} from '../services/API';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import BottomSheetStack from '../components/navigation/BottomSheetStack';
@@ -25,8 +24,11 @@ import {useMemo} from 'react';
 import {useCallback} from 'react';
 import { useFetching } from '../hooks/useFetching';
 import { useEffect } from 'react';
+import ModuleTestItem from '../components/test/ModuleTestItem';
 
 const TaskSearchScreen = props => {
+
+  const filters = props.route?.params?.filters
 
   const [value, setValue] = useState('');
   const [data, setData] = useState([]);
@@ -35,17 +37,21 @@ const TaskSearchScreen = props => {
   const [isFilter, setIsFilter] = useState(false);
   const [sort, setSort] = useState(null);
   const [category, setCategory] = useState(null);
-  const [categories, setCategories] = useState(null)
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['25%', '40%', '50%', "60%"], []);
 
-  const [fetchCategories, isLoading, categoriesError] = useFetching(async() => {
-    const response = await CourseService.fetchCategories()
-    setCategories(response.data?.data)
+  const [fetchInitial, isFetchingInitial, fetchingInitialError] = useFetching(async() => {
+    const response = await TaskService.fetchTasks(value, 1, sort, category?.id);
+    setData(response.data?.data)
+    setLastPage(response.data?.last_page)
+  })
+  const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(async() => {
+    const response = await TaskService.fetchTasks(value, page, sort, category?.id);
+    setData(prev => prev.concat(response.data?.data))
   })
 
   useEffect(() => {
-    fetchCategories()
+    console.log("filters : " , filters)
   }, [] )
 
   useEffect(() => {
@@ -53,36 +59,29 @@ const TaskSearchScreen = props => {
     if (value === '' && sort === null && category === null) {
       setData([]);
     } else {
-      fetchInitialPage()
+      fetchInitial()
     }
   }, [value, sort, category])
 
   useEffect(() => {
     if(page !== 1) {
-      fetchNextPage()
+      fetchNext()
     }
   }, [page])
 
-  const filterConfigs = {
-    filters: [
-      {
-        title: strings.Категория,
-        data: categories
-      }
-    ],
-    sort: {
-      options: [
-        {
-          key: "desc",
-          label: strings['По убыванию цены']
-        },
-        {
-          key: "asc",
-          label: strings['По повышению цены']
-        }
-      ]
+  // fetchInitial error handler
+  useEffect(() => {
+    if (fetchingInitialError) {
+      console.log(fetchingInitialError)
     }
-  }
+  }, [fetchingInitialError])
+  
+  // fetchNext error handler
+  useEffect(() => {
+    if(fetchingNextError) {
+      console.log(fetchingNextError)
+    }
+  }, [fetchingNextError])
 
   const moduleItemTapped = (id) => {
     console.log("task " , id)
@@ -115,8 +114,21 @@ const TaskSearchScreen = props => {
     [],
   );
 
+  const renderFooter = () => (
+    <View
+      style={styles.footer}
+    >
+      {
+        isFetchingNext
+        ?
+        <ActivityIndicator color={APP_COLORS.primary}/>
+        :
+        null
+      }
+    </View>
+  )
+
   const onChangeText = async text => {
-    console.log("onChangeText")
     setValue(text);
   };
 
@@ -128,24 +140,13 @@ const TaskSearchScreen = props => {
     bottomSheetRef.current.close()
   }
 
-  const fetchInitialPage = async() => {
-    const response = await TaskService.fetchTasks(value, 1, sort, category?.id);
-    setData(response.data?.data)
-    setLastPage(response.data?.last_page)
-  }
-  const fetchNextPage = async() => {
-    const response = await TaskService.fetchTasks(value, page, sort, category?.id);
-    setData(data.concat(response.data?.data))
-  }
-
   const onEndReached = () => {
-    if (page < lastPage) {
+    if (page < lastPage && !isFetchingNext) {
       setPage(prev => prev + 1)
     }
   }
 
   const handleSheetChanges = useCallback(index => {
-    console.log('handleSheetChanges : ', index);
     if (index === -1) {
       setIsFilter(false);
     }
@@ -188,7 +189,7 @@ const TaskSearchScreen = props => {
           </TouchableOpacity>
         </RowView>
         <SectionView
-          label={value.length === 0 ? strings['История поиска'] : strings.Задания}
+          label={value.length > 0 || sort || category ? strings.Задания : strings['История поиска']}
         />
         {data.length === 0 ? (
           null
@@ -197,9 +198,17 @@ const TaskSearchScreen = props => {
             data={data}
             contentContainerStyle={styles.contentContainer}
             renderItem={renderItem}
+            ListFooterComponent={renderFooter}
             keyExtractor={(_, index) => index.toString()}
-            onEndReached={() => onEndReached()}
+            onEndReached={onEndReached}
             refreshing={isLoading}
+            showsVerticalScrollIndicator={false}
+            onRefresh={() => {
+              if (page === 1) {
+                fetchInitial()
+              } 
+              setPage(1)
+            }}
           />
         )}
         {isFilter ? (
@@ -216,8 +225,8 @@ const TaskSearchScreen = props => {
               category={category}
               setSort={setSort} 
               setCategory={setCategory} 
-              filterConfigs={filterConfigs}
-              fetchCourses={fetchInitialPage}
+              filters={filters}
+              fetchCourses={fetchInitial}
               close={handleClosePress}
             />
           </BottomSheet>

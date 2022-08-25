@@ -12,11 +12,13 @@ import { ROUTE_NAMES } from '../../../components/navigation/routes'
 const TestsScreen = (props) => {
 
   const [data, setData] = useState(null)
+  const [filters, setFilters] = useState(null) 
   const [page, setPage] = useState(1)
   const [lastPage, setLastPage] = useState(1)
   const [fetchTests, isFetching, fetchingError] = useFetching(async() => {
     const response = await TestService.fetchTests()
     setData(response.data?.data)
+    setFilters(response.data?.filters)
     setLastPage(response.data?.last_page)
   })
   const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(async() => {
@@ -94,7 +96,7 @@ const TestsScreen = (props) => {
 
   return (
     <UniversalView>
-      <SearchButton navigation={props.navigation} type="test"/>
+      <SearchButton navigation={props.navigation} type="test" filters={filters}/>
       <FlatList
         data={data}
         contentContainerStyle={styles.container}
