@@ -46,6 +46,7 @@ export const URLS = {
   changePassword: 'user/update_password',
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',
+  scheduleVisits: 'modules/schedule_conference/attendances',
 };
 
 export const STORAGE = {

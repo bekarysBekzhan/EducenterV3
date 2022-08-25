@@ -1,55 +1,35 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import Empty from '../../components/Empty';
-import ScheduleLessonItem from '../../components/item/ScheduleLessonItem';
+import ScheduleVisitItem from '../../components/item/ScheduleVisitItem';
 import Loader from '../../components/Loader';
 import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
 import {ScheduleService} from '../../services/API';
+import {setFontStyle} from '../../utils/utils';
 
-const ScheduleLessons = () => {
+const ScheduleVisits = () => {
   const [dataSource, setDataSource] = useState({
+    page: 1,
     refreshing: false,
+    lastPage: null,
     loadMore: false,
     list: [],
-    page: 1,
-    lastPage: null,
   });
 
-  const [fetchScheduleLessons, isLoading, error] = useFetching(async () => {
+  const [fetchScheduleVisitis, isLoading, error] = useFetching(async () => {
     let params = {
       page: dataSource?.page,
     };
-    const response = await ScheduleService.fetchScheduleLessons(params);
+    const response = await ScheduleService.fetchScheduleVisitis(params);
     setDataSource(prev => ({
       ...prev,
       list: response?.data?.data?.data,
-      lastPage: response?.data?.data?.last_page,
+      lastPage: response?.data?.data,
       refreshing: false,
       loadMore: false,
     }));
   });
-
-  const fetchNextPage = async () => {
-    let params = {
-      page: dataSource?.page,
-    };
-    const response = await ScheduleService.fetchScheduleLessons(params);
-    setDataSource(prev => ({
-      ...prev,
-      list: prev?.list?.concat(response?.data?.data?.data),
-      refreshing: false,
-      loadMore: false,
-    }));
-  };
-
-  useEffect(() => {
-    if (dataSource?.page == 1) {
-      fetchScheduleLessons();
-    } else {
-      fetchNextPage();
-    }
-  }, [dataSource?.page]);
 
   const onRefresh = () => {
     setDataSource(prev => ({
@@ -57,12 +37,32 @@ const ScheduleLessons = () => {
       refreshing: true,
       loadMore: false,
       page: 1,
-      lastPage: null,
     }));
     if (dataSource?.page == 1) {
-      fetchScheduleLessons();
+      fetchScheduleVisitis();
     }
   };
+
+  const fetchNextPage = async () => {
+    let params = {
+      page: dataSource?.page,
+    };
+    const response = await ScheduleService.fetchScheduleVisitis(params);
+    setDataSource(prev => ({
+      ...prev,
+      data: prev?.data?.concat(response?.data?.data?.orders?.data),
+      refreshing: false,
+      loadMore: false,
+    }));
+  };
+
+  useEffect(() => {
+    if (dataSource?.page == 1) {
+      fetchScheduleVisitis();
+    } else {
+      fetchNextPage();
+    }
+  }, [dataSource?.page]);
 
   const onEndReached = () => {
     if (!dataSource?.loadMore) {
@@ -81,22 +81,15 @@ const ScheduleLessons = () => {
 
   const renderItem = useCallback(
     ({item, index}) => (
-      <ScheduleLessonItem
-        avatar={item?.teacher?.avatar}
-        name={
-          item?.teacher
-            ? item?.teacher?.name + ' ' + item?.teacher?.surname
-            : null
-        }
-        category={item?.name}
-        item={item}
-        link={item?.link}
-      />
+      <View>
+        <Text style={styles.title}>{item?.name}</Text>
+        <ScheduleVisitItem data={item?.attendances} />
+      </View>
     ),
     [],
   );
 
-  const renderEmpty = <Empty />;
+  const renderEmpty = <Empty style={styles.empty} />;
 
   const renderFooter = () => {
     if (dataSource?.loadMore) {
@@ -115,6 +108,7 @@ const ScheduleLessons = () => {
         ListFooterComponent={renderFooter}
         refreshing={dataSource?.refreshing}
         onRefresh={onRefresh}
+        contentContainerStyle={styles.list}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.1}
         showsVerticalScrollIndicator={false}
@@ -124,12 +118,20 @@ const ScheduleLessons = () => {
 };
 
 const styles = StyleSheet.create({
-  button: {
-    marginTop: 16,
+  list: {
+    paddingTop: 16,
+  },
+  title: {
+    ...setFontStyle(17, '600'),
+    marginHorizontal: 16,
+    marginBottom: 8,
+  },
+  empty: {
+    marginTop: 0,
   },
   loader: {
     marginVertical: 16,
   },
 });
 
-export default ScheduleLessons;
+export default ScheduleVisits;

@@ -1,11 +1,11 @@
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-// import ScheduleVisits from '../../../screens/tabs/top/schedule/ScheduleVisits';
 import {StyleSheet} from 'react-native';
 import {APP_COLORS} from '../../constans/constants';
 import {strings} from '../../localization';
 import {ROUTE_NAMES} from './routes';
 import ScheduleLessons from '../../screens/schedule/ScheduleLesson';
+import ScheduleVisits from '../../screens/schedule/ScheduleVisits';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -26,11 +26,11 @@ const ScheduleNavigator = () => (
       component={ScheduleLessons}
       options={{title: strings.Уроки}}
     />
-    {/* <Tab.Screen
-      name={TAB_TOP_SCHEDULE_VISITS_SCREEN}
+    <Tab.Screen
+      name={ROUTE_NAMES.scheduleVisitis}
       component={ScheduleVisits}
       options={{title: strings.Посещения}}
-    /> */}
+    />
   </Tab.Navigator>
 );
 
@@ -57,11 +57,11 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     margin: 2,
     paddingHorizontal: 4,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 0},
-    shadowOpacity: 0.04,
-    shadowRadius: 2,
-    elevation: 1,
+    // shadowColor: '#000',
+    // shadowOffset: {width: 0, height: 0},
+    // shadowOpacity: 0.04,
+    // shadowRadius: 2,
+    // elevation: 1,
   },
   tabBarIndicatorStyle: {
     height: '100%',

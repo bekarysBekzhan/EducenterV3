@@ -194,6 +194,12 @@ class ScheduleService {
     console.log('ScheduleLessons.js: ', response);
     return response;
   };
+  static fetchScheduleVisitis = async params => {
+    console.log('params ScheduleVisits.js', params);
+    const response = await API_V2.get(URLS.scheduleVisits, {params: params});
+    console.log('ScheduleVisits.js: ', response);
+    return response;
+  };
 }
 
 export {
