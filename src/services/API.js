@@ -171,6 +171,32 @@ class TaskService {
   }
 }
 
+class MyCourseService {
+  static fetchMyCourses = async(
+    query = '',
+    page = 1,
+    price = undefined,
+    categoryID = undefined,
+  ) => {
+    let params = {
+      filters: true,
+      page: page,
+    };
+    if (query.length > 0) {
+      params.query = query;
+    }
+    if (price) {
+      params.price = price;
+    }
+    if (categoryID) {
+      params.category_id = categoryID;
+    }
+    const response = await API_V2.get(URLS.myCourses, { params: params })
+    console.log("My courses : " , response)
+    return response
+  }
+}
+
 class AuthService {
   static fetchLogin = async params => {
     console.log('AuthService LoginScreen params: ', params);
@@ -267,5 +293,6 @@ export {
   HistoryService,
   ScheduleService,
   TestService,
-  TaskService
+  TaskService,
+  MyCourseService
 };

@@ -28,6 +28,7 @@ export const URLS = {
   settings: 'settings/mobile',
   languages: 'languages',
   courses: 'courses',
+  myCourses: "my_courses",
   courseByID: 'course/',
   categories: 'categories',
   lesson: 'lesson/',
