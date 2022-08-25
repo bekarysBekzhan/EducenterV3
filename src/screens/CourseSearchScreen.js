@@ -27,6 +27,7 @@ import {useMemo} from 'react';
 import {useCallback} from 'react';
 import { useFetching } from '../hooks/useFetching';
 import { useEffect } from 'react';
+import { ROUTE_NAMES } from '../components/navigation/routes';
 
 const CourseSearchScreen = props => {
 
@@ -86,10 +87,16 @@ const CourseSearchScreen = props => {
       }
     }, [fetchingNextError])
 
+  
+  const courseItemTapped = (id) => {
+    props.navigation.navigate(ROUTE_NAMES.courseDetail, { courseID : id })
+  }
+
   const renderItem = ({item, index}) => {
     return (
       <View style={styles.item}>
         <CourseRow
+          id={item?.id}
           title={item?.title}
           poster={item?.poster}
           reviewCount={item?.reviews_count}
@@ -97,6 +104,7 @@ const CourseSearchScreen = props => {
           category_name={item?.category_name}
           price={item?.price}
           old_price={item?.old_price}
+          onPress={courseItemTapped}
         />
       </View>
     );

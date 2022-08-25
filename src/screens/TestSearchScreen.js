@@ -27,6 +27,7 @@ import {useCallback} from 'react';
 import { useFetching } from '../hooks/useFetching';
 import { useEffect } from 'react';
 import ModuleTestItem from '../components/test/ModuleTestItem';
+import { ROUTE_NAMES } from '../components/navigation/routes';
 
 const TestSearchScreen = props => {
 
@@ -86,7 +87,7 @@ const TestSearchScreen = props => {
   }, [fetchingNextError])
 
   const moduleItemTapped = (id) => {
-    console.log("test " , id)
+    props.navigation.navigate(ROUTE_NAMES.testDetail, {id})
   }
 
   const renderItem = ({item, index}) => {
