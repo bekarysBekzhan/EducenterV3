@@ -84,19 +84,23 @@ const TaskSearchScreen = props => {
     }
   }
 
+  const moduleItemTapped = (id) => {
+    console.log("task " , id)
+  }
+
   const renderItem = ({item, index}) => {
     return (
-      <View style={styles.item}>
-        <CourseRow
+        <ModuleTestItem
+          index={index}
           title={item?.title}
-          poster={item?.poster}
-          reviewCount={item?.reviews_count}
-          rating={item?.rating}
-          category_name={item?.category_name}
+          id={item?.id}
+          categoryName={item?.category?.name}
+          time={item?.timer}
+          attempts={item?.attempts}
           price={item?.price}
-          old_price={item?.old_price}
+          oldPrice={item?.old_price}
+          onPress={moduleItemTapped}
         />
-      </View>
     );
   };
 
