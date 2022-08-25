@@ -50,7 +50,7 @@ const ScheduleVisits = () => {
     const response = await ScheduleService.fetchScheduleVisitis(params);
     setDataSource(prev => ({
       ...prev,
-      data: prev?.data?.concat(response?.data?.data?.orders?.data),
+      data: prev?.data?.concat(response?.data?.data?.data),
       refreshing: false,
       loadMore: false,
     }));
