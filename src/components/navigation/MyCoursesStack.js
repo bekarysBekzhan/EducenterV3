@@ -1,12 +1,11 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { ROUTE_NAMES } from './routes'
-import MyCoursesScreen from '../../screens/bottomtab/MyCourses/MyCoursesScreen'
-import CourseDetailScreen from '../../screens/bottomtab/MyCourses/CourseDetailScreen'
 import { useSettings } from '../context/Provider'
 import { strings } from '../../localization'
 import { navHeaderOptions } from './navHeaderOptions'
 import UnauthorizedScreen from '../../screens/bottomtab/myCourses/UnauthorizedScreen'
+import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen'
 
 const MyCoursesStack = createNativeStackNavigator()
 
