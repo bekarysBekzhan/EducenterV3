@@ -12,6 +12,7 @@ export const APP_COLORS = {
   gray: '#F5F5F5',
   gray2: '#FCFCFD',
   toast: 'rgba(17, 22, 33, 0.88)',
+  tabBg: '#F5F5F5',
 };
 
 export const DOMAIN = 'https://demo.educenter.kz';
@@ -46,6 +47,8 @@ export const URLS = {
   moduleTests: "modules/tests",
   moduleTasks: "modules/tasks",
   profileUpdate: 'user/update',
+  scheduleLesson: 'modules/schedule_conference',
+  scheduleVisits: 'modules/schedule_conference/attendances',
 };
 
 export const STORAGE = {

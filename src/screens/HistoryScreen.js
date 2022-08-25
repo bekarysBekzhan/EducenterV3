@@ -1,4 +1,4 @@
-import {FlatList, LogBox, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet} from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {useFetching} from '../hooks/useFetching';
@@ -72,6 +72,10 @@ const HistoryScreen = () => {
       page: 1,
       lastPage: null,
     }));
+
+    if (dataSource?.page == 1) {
+      fectHistory();
+    }
   });
 
   const onEndReached = () => {

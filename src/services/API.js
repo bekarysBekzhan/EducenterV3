@@ -196,7 +196,7 @@ class AuthService {
 
 class NewsService {
   static fetchNews = async params => {
-    console.log('NewsService News params: ', params);
+    console.log('NewsService News params: ', {params: params});
     const response = await API_V2.get(URLS.news, params);
     console.log('NewsScreen.js: ', response);
     return response;
@@ -237,8 +237,23 @@ class ProfileService {
 class HistoryService {
   static fetchHistory = async params => {
     console.log('params HistoryScreen.js', params);
-    const response = await API_V2.get(URLS.history, {params: params });
+    const response = await API_V2.get(URLS.history, {params: params});
     console.log('HistoryScreen.js: ', response);
+    return response;
+  };
+}
+
+class ScheduleService {
+  static fetchScheduleLessons = async params => {
+    console.log('params ScheduleLessons.js', params);
+    const response = await API_V2.get(URLS.scheduleLesson, {params: params});
+    console.log('ScheduleLessons.js: ', response);
+    return response;
+  };
+  static fetchScheduleVisitis = async params => {
+    console.log('params ScheduleVisits.js', params);
+    const response = await API_V2.get(URLS.scheduleVisits, {params: params});
+    console.log('ScheduleVisits.js: ', response);
     return response;
   };
 }
@@ -250,6 +265,7 @@ export {
   NewsService,
   ProfileService,
   HistoryService,
+  ScheduleService,
   TestService,
   TaskService
 };
