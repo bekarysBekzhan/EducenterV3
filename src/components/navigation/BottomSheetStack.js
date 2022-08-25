@@ -47,7 +47,8 @@ const BottomSheetStack = ({
                             close: close
                         }} 
                         options={{ 
-                            headerTitle: route.title 
+                            headerTitle: route.title,
+                            headerBackTitleVisible: false
                         }}
                     />
                 ))
