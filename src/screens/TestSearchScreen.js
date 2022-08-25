@@ -14,8 +14,8 @@ import RowView from '../components/view/RowView';
 import {clear, filter, filterON, search, x} from '../assets/icons';
 import Input from '../components/Input';
 import {strings} from '../localization';
-import {APP_COLORS, WIDTH} from '../constans/constants';
-import {setFontStyle} from '../utils/utils';
+import {APP_COLORS, STORAGE, WIDTH} from '../constans/constants';
+import {isValidText, setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
 import {useState} from 'react';
 import {TestService} from '../services/API';
@@ -28,6 +28,9 @@ import { useFetching } from '../hooks/useFetching';
 import { useEffect } from 'react';
 import ModuleTestItem from '../components/test/ModuleTestItem';
 import { ROUTE_NAMES } from '../components/navigation/routes';
+import { getObject, storeObject } from '../storage/AsyncStorage';
+
+const MAX_HISTORY_SIZE = 7
 
 const TestSearchScreen = props => {
 
@@ -41,6 +44,7 @@ const TestSearchScreen = props => {
   const [isFilter, setIsFilter] = useState(false);
   const [sort, setSort] = useState(null);
   const [category, setCategory] = useState(null);
+  const [history, setHistory] = useState([])
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['25%', '40%', '50%', "60%"], []);
 
@@ -53,9 +57,20 @@ const TestSearchScreen = props => {
     const response = await TestService.fetchTests(value, page, sort, category?.id);
     setData(prev => prev.concat(response.data?.data))
   })
+  const [fetchHistory, isFetchingHistory, fetchingHistoryError] = useFetching(async() => {
+    const result = await getObject(STORAGE.testSearchHistory)
+    console.log("fetch history : " , result)
+    if (result !== null) {
+      setHistory(result)
+    } else {
+      setHistory([])
+    }
+  })
+
 
   useEffect(() => {
     console.log("filters : " , filters)
+    fetchHistory()
   }, [] )
 
   useEffect(() => {
@@ -86,7 +101,25 @@ const TestSearchScreen = props => {
     }
   }, [fetchingNextError])
 
-  const moduleItemTapped = (id) => {
+    // fetchHistory error handler
+    useEffect(() => {
+      if (fetchingHistoryError) {
+        console.log(fetchingHistoryError)
+      }
+    }, [fetchingHistoryError])
+  
+  const moduleItemTapped = async(id) => {
+
+    let historyList = history
+
+    if (historyList.filter((search, _) => search === value).length === 0 && isValidText(value)) {
+      historyList.splice(0, 0, value)
+      if (historyList.length > MAX_HISTORY_SIZE) {
+        historyList.pop()
+      }
+      await storeObject(STORAGE.testSearchHistory, historyList)
+    }
+
     props.navigation.navigate(ROUTE_NAMES.testDetail, {id})
   }
 
@@ -138,6 +171,11 @@ const TestSearchScreen = props => {
   const clearTapped = () => {
     setValue('');
   };
+
+  const historyItemTapped = (search) => {
+    setValue(search)
+  }
+
 
   const handleClosePress = () => {
     bottomSheetRef.current.close()
@@ -195,9 +233,9 @@ const TestSearchScreen = props => {
         <SectionView
           label={value.length > 0 || sort || category ? strings.Тесты : strings['История поиска']}
         />
-        {data.length === 0 ? (
-          null
-        ) : (
+        {
+        data.length > 0 ? 
+        (
           <FlatList
             data={data}
             contentContainerStyle={styles.contentContainer}
@@ -214,7 +252,24 @@ const TestSearchScreen = props => {
               setPage(1)
             }}
           />
-        )}
+        ) 
+        :
+        isFetchingHistory 
+        ?
+        <ActivityIndicator color={APP_COLORS.primary} style={{ marginTop: 100}}/>
+        :
+          history.map((item, index) => (
+            <TouchableOpacity 
+              style={styles.historyItem} 
+              activeOpacity={0.65}
+              onPress={() => historyItemTapped(item)}
+              key={index}
+            >
+              <Text style={styles.historyItemText}>{item}</Text>
+            </TouchableOpacity>
+          ))
+        }
+
         {isFilter ? (
           <BottomSheet
             ref={bottomSheetRef}
@@ -269,6 +324,15 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: "center",
     alignItems: 'center'
+  },
+  historyItem: {
+    padding: 16,
+    justifyContent: "center",
+    borderBottomWidth: 0.7,
+    borderColor: APP_COLORS.border
+  },
+  historyItemText: {
+    ...setFontStyle(17, "400", APP_COLORS.primary)
   }
 });
 
