@@ -204,7 +204,7 @@ const TaskSearchScreen = props => {
             ListFooterComponent={renderFooter}
             keyExtractor={(_, index) => index.toString()}
             onEndReached={onEndReached}
-            refreshing={isLoading}
+            refreshing={isFetchingInitial}
             showsVerticalScrollIndicator={false}
             onRefresh={() => {
               if (page === 1) {
