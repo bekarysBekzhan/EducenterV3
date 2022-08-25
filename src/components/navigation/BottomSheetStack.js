@@ -13,8 +13,7 @@ const BottomSheetStack = ({
     category, 
     setSort, 
     setCategory, 
-    filterConfigs,
-    fetchCourses, 
+    filters,
     close
 }) => {
 
@@ -44,11 +43,12 @@ const BottomSheetStack = ({
                             category: category,
                             setSort: setSort,
                             setCategory: setCategory, 
-                            filterConfigs: filterConfigs,
+                            filters: filters,
                             close: close
                         }} 
                         options={{ 
-                            headerTitle: route.title 
+                            headerTitle: route.title,
+                            headerBackTitleVisible: false
                         }}
                     />
                 ))

@@ -8,6 +8,7 @@ import Price from './Price'
 import ItemRating from './ItemRating'
 
 const CourseRow = ({
+    id,
     poster, 
     title, 
     category_name, 
@@ -20,7 +21,8 @@ const CourseRow = ({
   return (
     <TouchableOpacity
         style={styles.container}
-        onPress={() => onPress()}
+        onPress={() => onPress(id)}
+        activeOpacity={0.8}
     >
         <FastImage
             source={{uri: poster}}

@@ -8,12 +8,14 @@ import SelectOption from '../components/SelectOption'
 import NavButtonRow from '../components/view/NavButtonRow'
 import SectionView from '../components/view/SectionView'
 import { strings } from '../localization'
+import { convertToIterable } from '../utils/utils'
 
 const FilterScreen = ({ navigation, route }) => {
 
-  const sort = route.params.sort
-  const setSort = route.params.setSort
-  const setCategory = route.params.setCategory
+  const sort = route.params?.sort
+  const setSort = route.params?.setSort
+  const setCategory = route.params?.setCategory
+  const filters = route?.params?.filters
   const [selectedCategory, setSelectedCategory] = useState(route.params?.category?.name)
 
   const renderFilter = ({ item, index }) => {
@@ -32,10 +34,15 @@ const FilterScreen = ({ navigation, route }) => {
       style={styles.container}
     >
       <FlatList
-        data={route.params.filterConfigs.filters}
+        data={[
+          {
+            title: strings.Категория,
+            data: filters?.categories
+          }
+        ]}
         renderItem={renderFilter}
         ListFooterComponent={<Footer 
-          options={route.params.filterConfigs.sort.options} 
+          filters={filters}
           sort={sort}
           selectCategory={selectedCategory}
           setSort={setSort}
@@ -50,7 +57,7 @@ const FilterScreen = ({ navigation, route }) => {
 }
 
 const Footer = ({ 
-  options, 
+  filters, 
   sort, 
   selectedCategory, 
   setSort, 
@@ -82,11 +89,11 @@ const Footer = ({
     <View>
       <SectionView label={strings.Сортировка}/>
       {
-        options.map((o, index) => (
+        convertToIterable(filters.sorts).map((sort, index) => (
           <SelectOption
-            value={o.key}
-            _key={o.key}
-            label={o.label}
+            value={sort.key}
+            _key={sort.key}
+            label={sort.value}
             key={index}
             currentKey={currentKey}
             selectKeyPressed={selectKeyPressed}

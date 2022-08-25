@@ -10,12 +10,15 @@ import { APP_COLORS, WIDTH } from '../../../constans/constants'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
 
 const TasksScreen = (props) => {
+
   const [data, setData] = useState(null)
+  const [filters, setFilters] = useState(null)
   const [page, setPage] = useState(1)
   const [lastPage, setLastPage] = useState(1)
   const [fetchTasks, isFetching, fetchingError] = useFetching(async() => {
     const response = await TaskService.fetchTasks()
     setData(response.data?.data)
+    setFilters(response.data?.filters)
     setLastPage(response.data?.last_page)
   })
   const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(async() => {
@@ -93,7 +96,7 @@ const TasksScreen = (props) => {
 
   return (
     <UniversalView>
-      <SearchButton {...props}/>
+      <SearchButton navigation={props.navigation} type="task" filters={filters}/>
       <FlatList
         data={data}
         contentContainerStyle={styles.container}

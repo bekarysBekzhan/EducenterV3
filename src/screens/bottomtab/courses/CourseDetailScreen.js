@@ -29,6 +29,7 @@ import DetailView from '../../../components/view/DetailView';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 
 const CourseDetailScreen = props => {
+  
   const courseID = props.route?.params?.courseID;
 
   const [data, setData] = useState(null);
