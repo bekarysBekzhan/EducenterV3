@@ -24,6 +24,7 @@ import Courses from './CoursesStack';
 import MenuStack from './MenuStack';
 import Tests from './TestsStack';
 import Tasks from './TasksStack';
+import MyCourses from './MyCoursesStack';
 
 const BottomTabStack = createBottomTabNavigator();
 
@@ -51,7 +52,7 @@ const BottomTab = props => {
     },
     {
       name: ROUTE_NAMES.myCoursesStack,
-      component: MyCoursesScreen,
+      component: MyCourses,
       icon: {
         active: myCoursesON,
         inactive: myCoursesOFF,
