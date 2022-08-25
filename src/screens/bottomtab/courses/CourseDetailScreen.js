@@ -78,7 +78,15 @@ const CourseDetailScreen = props => {
           showsVerticalScrollIndicator={false}
         />
       )}
-      {isLoading ? null : (
+      {isLoading ? null : data?.has_subscribed ? 
+      (
+        <TransactionButton
+          text={strings['Продолжить урок']}
+          onPress={() => props.navigation.navigate(ROUTE_NAMES.lesson, { id: data?.progress?.next_lesson?.id, title: data?.progress?.next_lesson?.chapter?.title })}
+        />
+      ) 
+      : 
+      (
         <TransactionButton
           text={strings['Купить полный курс']}
           price={data?.price}
