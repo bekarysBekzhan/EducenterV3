@@ -195,9 +195,11 @@ const TaskSearchScreen = props => {
         ) : (
           <FlatList
             data={data}
+            contentContainerStyle={styles.contentContainer}
             renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
             onEndReached={() => onEndReached()}
+            refreshing={isLoading}
           />
         )}
         {isFilter ? (
@@ -229,6 +231,9 @@ const styles = StyleSheet.create({
   item: {
     padding: 16,
   },
+  contentContainer: {
+    padding: 16
+  },  
   searchBar: {
     width: WIDTH,
     justifyContent: 'space-between',

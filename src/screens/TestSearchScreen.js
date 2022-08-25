@@ -196,9 +196,12 @@ const TestSearchScreen = props => {
         ) : (
           <FlatList
             data={data}
+            contentContainerStyle={styles.contentContainer}
             renderItem={renderItem}
             keyExtractor={(_, index) => index.toString()}
             onEndReached={() => onEndReached()}
+            showsVerticalScrollIndicator={false}
+            refreshing={isLoading}
           />
         )}
         {isFilter ? (
@@ -229,6 +232,9 @@ const TestSearchScreen = props => {
 const styles = StyleSheet.create({
   item: {
     padding: 16,
+  },
+  contentContainer: {
+    padding: 16
   },
   searchBar: {
     width: WIDTH,
