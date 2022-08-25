@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import UniversalView from '../components/view/UniversalView';
@@ -15,9 +16,8 @@ import {APP_COLORS, WIDTH} from '../constans/constants';
 import {setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
 import {useState} from 'react';
-import {FlatList} from 'react-native-gesture-handler';
 import CourseRow from '../components/CourseRow';
-import {CourseService} from '../services/API';
+import {CourseService, TestService} from '../services/API';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import BottomSheetStack from '../components/navigation/BottomSheetStack';
 import {useRef} from 'react';
@@ -25,6 +25,7 @@ import {useMemo} from 'react';
 import {useCallback} from 'react';
 import { useFetching } from '../hooks/useFetching';
 import { useEffect } from 'react';
+import ModuleTestItem from '../components/test/ModuleTestItem';
 
 const TestSearchScreen = props => {
 
@@ -87,7 +88,7 @@ const TestSearchScreen = props => {
   const renderItem = ({item, index}) => {
     return (
       <View style={styles.item}>
-        <CourseRow
+        {/* <CourseRow
           title={item?.title}
           poster={item?.poster}
           reviewCount={item?.reviews_count}
@@ -95,7 +96,8 @@ const TestSearchScreen = props => {
           category_name={item?.category_name}
           price={item?.price}
           old_price={item?.old_price}
-        />
+        /> */}
+        <ModuleTestItem/>
       </View>
     );
   };
@@ -125,12 +127,12 @@ const TestSearchScreen = props => {
   }
 
   const fetchInitialPage = async() => {
-    const response = await CourseService.fetchCourses(value, 1, sort, category?.id);
+    const response = await TestService.fetchTests(value, 1, sort, category?.id);
     setData(response.data?.data)
     setLastPage(response.data?.last_page)
   }
   const fetchNextPage = async() => {
-    const response = await CourseService.fetchCourses(value, page, sort, category?.id);
+    const response = await TestService.fetchTests(value, page, sort, category?.id);
     setData(data.concat(response.data?.data))
   }
 
@@ -156,7 +158,7 @@ const TestSearchScreen = props => {
           </TouchableOpacity>
           <Input
             _focus={true}
-            placeholder={strings['Поиск курсов и тестов']}
+            placeholder={strings['Поиск тестов']}
             left={<View style={styles.searchIcon}>{search('#000')}</View>}
             right={
               <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
@@ -184,7 +186,7 @@ const TestSearchScreen = props => {
           </TouchableOpacity>
         </RowView>
         <SectionView
-          label={value.length === 0 ? strings['История поиска'] : strings.Курсы}
+          label={value.length === 0 ? strings['История поиска'] : strings.Тесты}
         />
         {data.length === 0 ? (
           null

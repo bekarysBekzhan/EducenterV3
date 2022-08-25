@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import UniversalView from '../components/view/UniversalView';
@@ -15,9 +16,8 @@ import {APP_COLORS, WIDTH} from '../constans/constants';
 import {setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
 import {useState} from 'react';
-import {FlatList} from 'react-native-gesture-handler';
 import CourseRow from '../components/CourseRow';
-import {CourseService} from '../services/API';
+import {CourseService, TaskService} from '../services/API';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import BottomSheetStack from '../components/navigation/BottomSheetStack';
 import {useRef} from 'react';
@@ -125,12 +125,12 @@ const TaskSearchScreen = props => {
   }
 
   const fetchInitialPage = async() => {
-    const response = await CourseService.fetchCourses(value, 1, sort, category?.id);
+    const response = await TaskService.fetchTasks(value, 1, sort, category?.id);
     setData(response.data?.data)
     setLastPage(response.data?.last_page)
   }
   const fetchNextPage = async() => {
-    const response = await CourseService.fetchCourses(value, page, sort, category?.id);
+    const response = await TaskService.fetchTasks(value, page, sort, category?.id);
     setData(data.concat(response.data?.data))
   }
 
@@ -156,7 +156,7 @@ const TaskSearchScreen = props => {
           </TouchableOpacity>
           <Input
             _focus={true}
-            placeholder={strings['Поиск курсов и тестов']}
+            placeholder={strings['Поиск заданий']}
             left={<View style={styles.searchIcon}>{search('#000')}</View>}
             right={
               <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
@@ -184,7 +184,7 @@ const TaskSearchScreen = props => {
           </TouchableOpacity>
         </RowView>
         <SectionView
-          label={value.length === 0 ? strings['История поиска'] : strings.Курсы}
+          label={value.length === 0 ? strings['История поиска'] : strings.Задания}
         />
         {data.length === 0 ? (
           null
