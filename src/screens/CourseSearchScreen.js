@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import React from 'react';
 import UniversalView from '../components/view/UniversalView';
@@ -31,6 +32,7 @@ const CourseSearchScreen = props => {
 
   const filters = props.route?.params?.filters
 
+  const [focus, setFocus] = useState(true)
   const [value, setValue] = useState('');
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
@@ -157,7 +159,7 @@ const CourseSearchScreen = props => {
             {x(16, APP_COLORS.placeholder)}
           </TouchableOpacity>
           <Input
-            _focus={true}
+            _focus={focus}
             placeholder={strings['Поиск курсов']}
             left={<View style={styles.searchIcon}>{search('#000')}</View>}
             right={
@@ -174,6 +176,7 @@ const CourseSearchScreen = props => {
             activeOpacity={0.8}
             onPress={() => {
               setIsFilter(true);
+              Keyboard.dismiss()
             }}>
             {
               category || sort
