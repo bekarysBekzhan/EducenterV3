@@ -108,7 +108,7 @@ const HistoryScreen = () => {
         refreshing={dataSource?.refreshing}
         onRefresh={onRefresh}
         onEndReached={onEndReached}
-        onEndReachedThreshold={0.01}
+        onEndReachedThreshold={0.2}
         initialNumToRender={20}
         ListFooterComponent={renderFooter}
       />
