@@ -52,4 +52,7 @@ export const STORAGE = {
   token: 'token',
   language: 'language',
   user: 'user',
+  courseSearchHistory: "courseSearchHistory",
+  testSearchHistory: "testSearchHistory",
+  taskSearchHistory: "taskSearchHistory"
 };
