@@ -4,6 +4,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import React from 'react';
 import UniversalView from '../components/view/UniversalView';
@@ -15,7 +16,6 @@ import {APP_COLORS, WIDTH} from '../constans/constants';
 import {setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
 import {useState} from 'react';
-import {FlatList} from 'react-native-gesture-handler';
 import CourseRow from '../components/CourseRow';
 import {CourseService} from '../services/API';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
