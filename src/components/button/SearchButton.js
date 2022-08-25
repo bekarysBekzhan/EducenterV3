@@ -6,7 +6,9 @@ import { APP_COLORS, WIDTH } from '../../constans/constants'
 import { ROUTE_NAMES } from '../navigation/routes'
 import { strings } from '../../localization'
 
-const SearchButton = ({ navigation, type = "course" }) => {
+const SearchButton = ({ 
+  navigation, type = "course", filters = {}
+}) => {
 
   let route = ROUTE_NAMES.courseSearch
   let placeholder = strings['Поиск курсов']
@@ -23,7 +25,7 @@ const SearchButton = ({ navigation, type = "course" }) => {
     <TouchableOpacity
         style={styles.container}
         activeOpacity={0.8}
-        onPress={() => navigation.navigate(route)}
+        onPress={() => navigation.navigate(route, { filters })}
     >
         {search()}
         <Text style={styles.text}>{placeholder}</Text>
