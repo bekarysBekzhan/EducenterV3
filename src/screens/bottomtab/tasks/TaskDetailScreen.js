@@ -7,10 +7,14 @@ import LoadingScreen from '../../../components/LoadingScreen'
 import Person from '../../../components/Person'
 import { strings } from '../../../localization'
 import TransactionButton from '../../../components/button/TransactionButton'
+import { useSettings } from '../../../components/context/Provider'
+import { ROUTE_NAMES } from '../../../components/navigation/routes'
+import { TYPE_SUBCRIBES } from '../../../constans/constants'
 
 const TaskDetailScreen = (props) => {
     const id = props.route?.params?.id
 
+    const { isAuth } = useSettings()
     const [data, setData] = useState(null)
     const [fetchTask, isFetching, fetchingError] = useFetching(async() => {
       const response = await TaskService.fetchTaskByID(id)
@@ -26,6 +30,18 @@ const TaskDetailScreen = (props) => {
         console.log(fetchingError)
       }
     }, [fetchingError])
+
+    const onNavigation = () => {
+      if (isAuth) {
+        if (data?.has_subscribed) {
+          props.navigation.navigate(ROUTE_NAMES.courseTask, { id: data?.id, title: data?.title })
+        } else {
+          props.navigation.navigate(ROUTE_NAMES.payment, { operation: data, type: TYPE_SUBCRIBES.TASK_SUBSCRIBE })
+        }
+      } else {
+        props.navigation.navigate(ROUTE_NAMES.login)
+      }
+    }
   
     if (isFetching) {
       return <LoadingScreen/>
@@ -54,7 +70,7 @@ const TaskDetailScreen = (props) => {
         </UniversalView>
         <TransactionButton
           text={data?.has_subscribed ? strings['Пройти задание']  : data?.price ? strings['Купить задание'] : strings.Бесплатно }
-          onPress={() => undefined}
+          onPress={onNavigation}
           oldPrice={data?.has_subscribed ? 0 : data?.old_price}
           price={data?.has_subscribed ? 0 : data?.price}
         />

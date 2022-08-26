@@ -7,11 +7,15 @@ import LoadingScreen from '../../../components/LoadingScreen'
 import Person from '../../../components/Person'
 import { strings } from '../../../localization'
 import TransactionButton from '../../../components/button/TransactionButton'
+import { useSettings } from '../../../components/context/Provider'
+import { ROUTE_NAMES } from '../../../components/navigation/routes'
+import { TYPE_SUBCRIBES } from '../../../constans/constants'
 
 const TestDetailScreen = (props) => {
 
   const id = props.route?.params?.id
 
+  const { isAuth } = useSettings()
   const [data, setData] = useState(null)
   const [fetchTest, isFetching, fetchingError] = useFetching(async() => {
     const response = await TestService.fetchTestByID(id)
@@ -27,6 +31,18 @@ const TestDetailScreen = (props) => {
       console.log(fetchingError)
     }
   }, [fetchingError])
+
+  const onNavigation = () => {
+    if (isAuth) {
+      if (data?.has_subscribed) {
+        props.navigation.navigate(ROUTE_NAMES.testPreview, { id: data?.id, title: data?.title, type: "module" })
+      } else {
+        props.navigation.navigate(ROUTE_NAMES.payment, { operation: data, type: TYPE_SUBCRIBES.TEST_SUBCRIBE })
+      }
+    } else {
+      props.navigation.navigate(ROUTE_NAMES.login)
+    }
+  }
 
   if (isFetching) {
     return <LoadingScreen/>
@@ -55,7 +71,7 @@ const TestDetailScreen = (props) => {
       </UniversalView>
       <TransactionButton
         text={data?.has_subscribed ? strings['Пройти тест'] : data?.price ? strings['Купить тест'] : strings.Бесплатно}
-        onPress={() => undefined}
+        onPress={onNavigation}
         oldPrice={data?.has_subscribed ? 0 : data?.old_price}
         price={data?.has_subscribed ? 0 : data?.price}
       />
