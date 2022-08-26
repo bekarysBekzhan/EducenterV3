@@ -25,9 +25,7 @@ const MyCoursesScreen = (props) => {
   ]
 
   return (
-    <UniversalView>
-      <TopTab screens={screens} swipeEnabled={true}/>
-    </UniversalView>
+    <TopTab screens={screens} swipeEnabled={true}/>
   )
 }
 

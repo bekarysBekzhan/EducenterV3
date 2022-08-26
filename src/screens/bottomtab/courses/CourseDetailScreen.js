@@ -117,8 +117,19 @@ const CourseListHeader = ({data}) => {
 };
 
 const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
+
   const [isCollapsed, setIsCollapsed] = useState(true);
   const {settings, isAuth} = useSettings();
+
+  const onLesson = (id, title) => {
+      if (!isAuth) {
+          navigation.replace(ROUTE_NAMES.bottomTab, {
+            screen: ROUTE_NAMES.menuStack,
+          });
+        } else {
+          navigation.navigate(ROUTE_NAMES.lesson, {id, title });
+        }
+  }
 
   return (
     <View>
@@ -128,9 +139,10 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
           styles.chapter,
           {backgroundColor: isCollapsed ? APP_COLORS.gray2 : 'white'},
         ]}
-        activeOpacity={0.8}>
+        activeOpacity={0.8}
+      >
         <View style={styles.chapterInfo}>
-          <Text style={styles.chapterTitle}>{item?.title}</Text>
+          <Text style={styles.chapterTitle} numberOfLines={2}>{item?.title}</Text>
           <Text style={styles.counts}>
             {item?.lessons?.length} {strings.лекции}・{item?.files_count}{' '}
             {strings.файла}・{item?.tests_count} {strings.тест}
@@ -178,20 +190,12 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
         {item?.lessons.map((lesson, i) => (
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => {
-              if (!isAuth) {
-                navigation.replace(ROUTE_NAMES.bottomTab, {
-                  screen: ROUTE_NAMES.menuStack,
-                });
-              } else {
-                navigation.navigate(ROUTE_NAMES.lesson, {id: lesson?.id, title: lesson?.chapter?.title });
-              }
-            }}
+            onPress={() => onLesson(lesson?.id , lesson?.chapter?.title)}
             key={i}>
             <RowView style={styles.lesson}>
               <RowView style={styles.lessonRow1}>
                 <View style={styles.lessonIcon}>
-                  {lesson?.is_promo ? (
+                  {lesson?.is_promo || hasSubscribed ? (
                     <View style={styles.lessonPlay}>{iconPlay(0.85)}</View>
                   ) : (
                     lock()
@@ -199,7 +203,7 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
                 </View>
                 <Text
                   style={
-                    lesson?.is_promo
+                    lesson?.is_promo || hasSubscribed
                       ? styles.lessonTitle
                       : styles.lessonLockedTitle
                   }
@@ -295,7 +299,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  chapterInfo: {},
+  chapterInfo: {
+      flex: 1
+  },
   chapterPoster: {
     width: 62,
     height: 62,
@@ -368,7 +374,5 @@ const styles = StyleSheet.create({
     height: 200,
   },
 });
-
-const chapter = StyleSheet.create({});
-
+  
 export default CourseDetailScreen;
