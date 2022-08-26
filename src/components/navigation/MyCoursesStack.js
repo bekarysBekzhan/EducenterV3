@@ -6,6 +6,7 @@ import { strings } from '../../localization'
 import { navHeaderOptions } from './navHeaderOptions'
 import UnauthorizedScreen from '../../screens/bottomtab/myCourses/UnauthorizedScreen'
 import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen'
+import MyCourseDetailScreen from '../../screens/bottomtab/myCourses/MyCourseDetailScreen'
 
 const MyCoursesStack = createNativeStackNavigator()
 
@@ -21,6 +22,10 @@ const MyCourses = () => {
             name: ROUTE_NAMES.myCourses,
             component: isAuth ? MyCoursesScreen : UnauthorizedScreen
         },
+        {
+            name: ROUTE_NAMES.myCourseDetail,
+            component: MyCourseDetailScreen
+        }
     ]
 
     return (
