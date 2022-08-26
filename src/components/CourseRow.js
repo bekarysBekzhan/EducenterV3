@@ -94,6 +94,7 @@ const CourseRow = ({
                     settings?.modules_enabled_certificates && certificate
                     ?
                     <TextButton
+                        style={styles.button}
                         textStyle={styles.buttonText}
                         text={strings.Скачать}
                         onPress={downloader}
@@ -143,6 +144,9 @@ const styles = StyleSheet.create({
         height: "100%",
         justifyContent: "space-between",
         alignItems: "flex-end"
+    },
+    button: {
+        // backgroundColor: "red"
     },
     buttonText: {
         ...setFontStyle(13, "600", APP_COLORS.primary),
