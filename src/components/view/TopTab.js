@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         margin: 2,
         paddingHorizontal: 4,
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.09,
-        shadowRadius: 2,
-        elevation: 1
+        // shadowColor: '#000000',
+        // shadowOffset: { width: 0, height: 0 },
+        // shadowOpacity: 0.09,
+        // shadowRadius: 2,
+        // elevation: 1
     },
     tabBarIndicatorStyle: {
         height: '100%',
