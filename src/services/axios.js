@@ -6,7 +6,9 @@ import {removeStorage} from '../storage/AsyncStorage';
 
 export const API_V2 = axios.create({
   baseURL: DOMAIN + '/api/v2/',
-  headers: REQUEST_HEADERS,
+  headers: {
+    Accept: REQUEST_HEADERS.Accept,
+  },
 });
 
 API_V2.interceptors.response.use(

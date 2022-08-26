@@ -25,104 +25,120 @@ import BottomSheetStack from '../components/navigation/BottomSheetStack';
 import {useRef} from 'react';
 import {useMemo} from 'react';
 import {useCallback} from 'react';
-import { useFetching } from '../hooks/useFetching';
-import { useEffect } from 'react';
-import { ROUTE_NAMES } from '../components/navigation/routes';
-import { getObject, storeObject } from '../storage/AsyncStorage';
+import {useFetching} from '../hooks/useFetching';
+import {useEffect} from 'react';
+import {ROUTE_NAMES} from '../components/navigation/routes';
+import {getObject, storeObject} from '../storage/AsyncStorage';
 
-const MAX_HISTORY_SIZE = 7
+const MAX_HISTORY_SIZE = 7;
 
 const CourseSearchScreen = props => {
+  const filters = props.route?.params?.filters;
 
-  const filters = props.route?.params?.filters
-
-  const [focus, setFocus] = useState(true)
+  const [focus, setFocus] = useState(true);
   const [value, setValue] = useState('');
   const [data, setData] = useState([]);
   const [page, setPage] = useState(1);
-  const [lastPage, setLastPage] = useState(null)
+  const [lastPage, setLastPage] = useState(null);
   const [isFilter, setIsFilter] = useState(false);
   const [sort, setSort] = useState(null);
   const [category, setCategory] = useState(null);
-  const [history, setHistory] = useState([])
+  const [history, setHistory] = useState([]);
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['25%', '40%', '50%', "60%"], []);
+  const snapPoints = useMemo(() => ['25%', '40%', '50%', '60%'], []);
 
-  const [fetchInitial, isFetchingInitial, fetchingInitialError] = useFetching(async() => {
-    const response = await CourseService.fetchCourses(value, 1, sort, category?.id);
-    setData(response.data?.data)
-    setLastPage(response.data?.last_page)
-  })
-  const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(async() => {
-    const response = await CourseService.fetchCourses(value, page, sort, category?.id);
-    setData(prev => prev.concat(response.data?.data))
-  })
-  const [fetchHistory, isFetchingHistory, fetchingHistoryError] = useFetching(async() => {
-    const result = await getObject(STORAGE.courseSearchHistory)
-    console.log("fetch history : " , result)
-    if (result !== null) {
-      setHistory(result)
-    } else {
-      setHistory([])
-    }
-  })
+  const [fetchInitial, isFetchingInitial, fetchingInitialError] = useFetching(
+    async () => {
+      const response = await CourseService.fetchCourses(
+        value,
+        1,
+        sort,
+        category?.id,
+      );
+      setData(response.data?.data);
+      setLastPage(response.data?.last_page);
+    },
+  );
+  const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(
+    async () => {
+      const response = await CourseService.fetchCourses(
+        value,
+        page,
+        sort,
+        category?.id,
+      );
+      setData(prev => prev.concat(response.data?.data));
+    },
+  );
+  const [fetchHistory, isFetchingHistory, fetchingHistoryError] = useFetching(
+    async () => {
+      const result = await getObject(STORAGE.courseSearchHistory);
+      console.log('fetch history : ', result);
+      if (result !== null) {
+        setHistory(result);
+      } else {
+        setHistory([]);
+      }
+    },
+  );
 
   useEffect(() => {
-    console.log("filters : " , filters)
-    fetchHistory()
-  }, [] )
+    console.log('filters : ', filters);
+    fetchHistory();
+  }, []);
 
   useEffect(() => {
-    console.log('useEffect')
+    console.log('useEffect');
     if (value === '' && sort === null && category === null) {
       setData([]);
     } else {
-      fetchInitial()
+      fetchInitial();
     }
-  }, [value, sort, category])
+  }, [value, sort, category]);
 
   useEffect(() => {
-    if(page !== 1) {
-      fetchNext()
+    if (page !== 1) {
+      fetchNext();
     }
-  }, [page])
+  }, [page]);
 
-    // fetchInitial error handler
-    useEffect(() => {
-      if (fetchingInitialError) {
-        console.log(fetchingInitialError)
-      }
-    }, [fetchingInitialError])
-  
-    // fetchNext error handler
-    useEffect(() => {
-      if(fetchingNextError) {
-        console.log(fetchingNextError)
-      }
-    }, [fetchingNextError])
+  // fetchInitial error handler
+  useEffect(() => {
+    if (fetchingInitialError) {
+      console.log(fetchingInitialError);
+    }
+  }, [fetchingInitialError]);
 
-    // fetchHistory error handler
-    useEffect(() => {
-      if (fetchingHistoryError) {
-        console.log(fetchingHistoryError)
-      }
-    }, [fetchingHistoryError])
-  
-  const courseItemTapped = async(id) => {
+  // fetchNext error handler
+  useEffect(() => {
+    if (fetchingNextError) {
+      console.log(fetchingNextError);
+    }
+  }, [fetchingNextError]);
 
-    let historyList = history
+  // fetchHistory error handler
+  useEffect(() => {
+    if (fetchingHistoryError) {
+      console.log(fetchingHistoryError);
+    }
+  }, [fetchingHistoryError]);
 
-    if (historyList.filter((search, _) => search === value).length === 0 && isValidText(value)) {
-      historyList.splice(0, 0, value)
+  const courseItemTapped = async id => {
+    let historyList = history;
+
+    if (
+      historyList.filter((search, _) => search === value).length === 0 &&
+      isValidText(value)
+    ) {
+      historyList.splice(0, 0, value);
       if (historyList.length > MAX_HISTORY_SIZE) {
-        historyList.pop()
+        historyList.pop();
       }
-      await storeObject(STORAGE.courseSearchHistory, historyList)
+      await storeObject(STORAGE.courseSearchHistory, historyList);
     }
 
-    props.navigation.navigate(ROUTE_NAMES.courseDetail, { courseID : id })
-
-  }
+    props.navigation.navigate(ROUTE_NAMES.courseDetail, {courseID: id});
+  };
 
   const renderItem = ({item, index}) => {
     return (
@@ -154,18 +170,10 @@ const CourseSearchScreen = props => {
   );
 
   const renderFooter = () => (
-    <View
-      style={styles.footer}
-    >
-      {
-        isFetchingNext
-        ?
-        <ActivityIndicator color={APP_COLORS.primary}/>
-        :
-        null
-      }
+    <View style={styles.footer}>
+      {isFetchingNext ? <ActivityIndicator color={APP_COLORS.primary} /> : null}
     </View>
-  )
+  );
 
   const onChangeText = async text => {
     setValue(text);
@@ -175,19 +183,19 @@ const CourseSearchScreen = props => {
     setValue('');
   };
 
-  const historyItemTapped = (search) => {
-    setValue(search)
-  }
+  const historyItemTapped = search => {
+    setValue(search);
+  };
 
   const handleClosePress = () => {
-    bottomSheetRef.current.close()
-  }
+    bottomSheetRef.current.close();
+  };
 
   const onEndReached = () => {
     if (page < lastPage && !isFetchingNext) {
-      setPage(prev => prev + 1)
+      setPage(prev => prev + 1);
     }
-  }
+  };
 
   const handleSheetChanges = useCallback(index => {
     if (index === -1) {
@@ -199,7 +207,9 @@ const CourseSearchScreen = props => {
     <UniversalView>
       <SafeAreaView style={{flex: 1}}>
         <RowView style={styles.searchBar}>
-          <TouchableOpacity onPress={() => props.navigation.goBack()} activeOpacity={0.8}>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            activeOpacity={0.8}>
             {x(16, APP_COLORS.placeholder)}
           </TouchableOpacity>
           <Input
@@ -220,24 +230,19 @@ const CourseSearchScreen = props => {
             activeOpacity={0.8}
             onPress={() => {
               setIsFilter(true);
-              Keyboard.dismiss()
+              Keyboard.dismiss();
             }}>
-            {
-              category || sort
-              ?
-              filterON
-              :
-              filter
-              
-            }
+            {category || sort ? filterON : filter}
           </TouchableOpacity>
         </RowView>
         <SectionView
-          label={value.length > 0 || sort || category ? strings.Курсы : strings['История поиска']}
+          label={
+            value.length > 0 || sort || category
+              ? strings.Курсы
+              : strings['История поиска']
+          }
         />
-        {
-        data.length > 0 ? 
-        (
+        {data.length > 0 ? (
           <FlatList
             data={data}
             renderItem={renderItem}
@@ -248,28 +253,27 @@ const CourseSearchScreen = props => {
             refreshing={isFetchingInitial}
             onRefresh={() => {
               if (page === 1) {
-                fetchInitial()
-              } 
-              setPage(1)
+                fetchInitial();
+              }
+              setPage(1);
             }}
           />
-        ) 
-        :
-        isFetchingHistory 
-        ?
-        <ActivityIndicator color={APP_COLORS.primary} style={{ marginTop: 100}}/>
-        :
+        ) : isFetchingHistory ? (
+          <ActivityIndicator
+            color={APP_COLORS.primary}
+            style={{marginTop: 100}}
+          />
+        ) : (
           history.map((item, index) => (
-            <TouchableOpacity 
-              style={styles.historyItem} 
+            <TouchableOpacity
+              style={styles.historyItem}
               activeOpacity={0.65}
               onPress={() => historyItemTapped(item)}
-              key={index}
-            >
+              key={index}>
               <Text style={styles.historyItemText}>{item}</Text>
             </TouchableOpacity>
           ))
-        }
+        )}
         {isFilter ? (
           <BottomSheet
             ref={bottomSheetRef}
@@ -277,13 +281,12 @@ const CourseSearchScreen = props => {
             index={0}
             onChange={handleSheetChanges}
             enablePanDownToClose
-            backdropComponent={renderBackdrop}
-          >
+            backdropComponent={renderBackdrop}>
             <BottomSheetStack
               sort={sort}
               category={category}
-              setSort={setSort} 
-              setCategory={setCategory} 
+              setSort={setSort}
+              setCategory={setCategory}
               filters={filters}
               fetchCourses={fetchInitial}
               close={handleClosePress}
@@ -308,29 +311,29 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
     borderWidth: 0,
-    paddingVertical: 12,
+    // paddingVertical: 12,
     borderRadius: 16,
     marginHorizontal: 16,
   },
-  input: [setFontStyle(15, '400'), {}],
+  input: {...setFontStyle(15, '400')},
   searchIcon: {
     marginRight: 10,
   },
   footer: {
     width: WIDTH - 32,
     height: 30,
-    justifyContent: "center",
-    alignItems: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   historyItem: {
     padding: 16,
-    justifyContent: "center",
+    justifyContent: 'center',
     borderBottomWidth: 0.7,
-    borderColor: APP_COLORS.border
+    borderColor: APP_COLORS.border,
   },
   historyItemText: {
-    ...setFontStyle(17, "400", APP_COLORS.primary)
-  }
+    ...setFontStyle(17, '400', APP_COLORS.primary),
+  },
 });
 
 export default CourseSearchScreen;

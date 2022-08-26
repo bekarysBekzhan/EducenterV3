@@ -1,9 +1,9 @@
 import {StyleSheet} from 'react-native';
-import { APP_COLORS } from '../constans/constants';
-import { strings } from '../localization';
+import {APP_COLORS} from '../constans/constants';
+import {strings} from '../localization';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 
 export const getAudioUrl = html => {
   let pattern1 = new RegExp('src=');
@@ -68,113 +68,118 @@ export const getFormattedTime = time => {
   return minutes + ':' + seconds;
 };
 
-export const selectComponent = (value, audioComponent, mathComponent, htmlComponent) => {
-
-  if(value === null) {
-    return null
+export const selectComponent = (
+  value,
+  audioComponent,
+  mathComponent,
+  htmlComponent,
+) => {
+  if (value === null) {
+    return null;
   }
 
-  if (value?.includes("audio")) {
+  if (value?.includes('audio')) {
     // console.log("audio : " , value)
-    return audioComponent
-  } else if(value?.includes("math-tex")) {
+    return audioComponent;
+  } else if (value?.includes('math-tex')) {
     // console.log("math : " , value)
-    return mathComponent
-  } 
+    return mathComponent;
+  }
   // console.log("html : " , value)
-  return htmlComponent
-}
+  return htmlComponent;
+};
 
 export const getCurrentTimeString = time => {
   const whole = Math.floor(time);
   let seconds = whole % 60;
   let minutes = (whole - seconds) / 60;
   let secondString = seconds < 10 ? '0' + seconds : seconds;
-  let minuteString = minutes < 10 ? '0' + minutes : minutes
+  let minuteString = minutes < 10 ? '0' + minutes : minutes;
   return minuteString + ':' + secondString;
 };
 
 export const wordLocalization = (word, args = {}, type = false) => {
-
-  if (typeof strings[word] !== "undefined") {
-      if (!type) {
-          word = strings[word];
-      }
+  if (typeof strings[word] !== 'undefined') {
+    if (!type) {
+      word = strings[word];
+    }
   }
 
   for (let [arg, value] of Object.entries(args)) {
-      let reg = new RegExp(`:${arg}`, "gi");
-      word = word.replace(reg, value);
+    let reg = new RegExp(`:${arg}`, 'gi');
+    word = word?.replace(reg, value);
   }
   return word;
-}
+};
 
-export const fileDownloader = async (url, fileName, onDone, onProgress,) => {
-
+export const fileDownloader = async (url, fileName, onDone, onProgress) => {
   console.log('url: ', url);
   console.log('fileName: ', fileName);
 
   if (url) {
+    try {
+      let localFile = `${RNFS.DocumentDirectoryPath}/${fileName}`;
 
-      try {
+      let options = {
+        fromUrl: encodeURI(url),
+        toFile: localFile,
+        background: false,
+        discretionary: true,
+        cacheable: true,
+        progressInterval: 200,
+        progressDivider: 20,
+        begin: () => {},
+        progress: onProgress,
+      };
 
-          let localFile = `${RNFS.DocumentDirectoryPath}/${fileName}`
+      let res = await RNFS.downloadFile(options).promise;
 
-          let options = {
-              fromUrl: encodeURI(url),
-              toFile: localFile,
-              background: false,
-              discretionary: true,
-              cacheable: true,
-              progressInterval: 200,
-              progressDivider: 20,
-              begin: () => { },
-              progress: onProgress
-          };
+      console.log('res file downloader: ', res);
 
-          let res = await RNFS.downloadFile(options).promise;
-
-          console.log('res file downloader: ', res);
-
-          if (res.statusCode == 200) {
-              if (onDone) {
-                  onDone();
-                  onProgress(0);
-              }
-              let optionsFileView = { showAppsSuggestions: true, showOpenWithDialog: true };
-              setTimeout(async () => await FileViewer.open(localFile, optionsFileView), 400);
-          } else {
-              onDone();
-              Alert.alert(strings['Внимание !!!'], strings['Ошибка !!!']);
-          }
-
-
-      } catch (e) {
-          console.log('catch file downloader: ', e);
-          if (onDone) {
-              onDone();
-          }
+      if (res.statusCode == 200) {
+        if (onDone) {
+          onDone();
+          onProgress(0);
+        }
+        let optionsFileView = {
+          showAppsSuggestions: true,
+          showOpenWithDialog: true,
+        };
+        setTimeout(
+          async () => await FileViewer.open(localFile, optionsFileView),
+          400,
+        );
+      } else {
+        onDone();
+        Alert.alert(strings['Внимание !!!'], strings['Ошибка !!!']);
       }
-
+    } catch (e) {
+      console.log('catch file downloader: ', e);
+      if (onDone) {
+        onDone();
+      }
+    }
   }
-
 };
 
-export const isValidText = (text = "") => {
-  if(text.length > 0 && text.length !== text.split("").filter((char) => char === " ").length) {
-    return true
+export const isValidText = (text = '') => {
+  if (
+    text.length > 0 &&
+    text.length !== text.split('').filter(char => char === ' ').length
+  ) {
+    return true;
   }
-  return false
-}
+  return false;
+};
 
-export const convertToIterable = (object) => {
-  let array = []
+export const convertToIterable = object => {
+  let array = [];
   for (const key in object) {
     array.push({
       key: key,
-      value: object[key]
-    })
+      value: object[key],
+    });
   }
-  console.log("convertToIterable result : " , array)
-  return array
-}
+  console.log('convertToIterable result : ', array);
+  return array;
+};

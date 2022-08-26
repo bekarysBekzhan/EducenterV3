@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
 import {strings} from '../../localization';
@@ -28,6 +28,13 @@ const RegisterScreen = ({navigation}) => {
     const response = await AuthService.fetchRegister(params);
     await storeObject(STORAGE.user, response?.data?.data);
     RNRestart.Restart();
+  });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: strings['Создать аккаунт'],
+      headerTitleAlign: 'center',
+    });
   });
 
   return (

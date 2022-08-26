@@ -20,6 +20,12 @@ import {REQUEST_HEADERS} from '../../constans/constants';
 import CourseSearchScreen from '../../screens/CourseSearchScreen';
 import TestSearchScreen from '../../screens/TestSearchScreen';
 import TaskSearchScreen from '../../screens/TaskSearchScreen';
+import KaspiBankScreen from '../../screens/operation/KaspiBankScreen';
+import LoginScreen from '../../screens/auth/LoginScreen';
+import Operation from '../../screens/operation/Operation';
+import WebViewer from '../../screens/operation/WebViewer';
+import RegisterScreen from '../../screens/auth/RegisterScreen';
+import RecoveryScreen from '../../screens/auth/RecoveryScreen';
 import LoadingScreen from '../LoadingScreen';
 
 const MainStack = createNativeStackNavigator();
@@ -39,11 +45,23 @@ const GENERAL = [
   },
   {
     name: ROUTE_NAMES.testSearch,
-    component: TestSearchScreen
+    component: TestSearchScreen,
   },
   {
     name: ROUTE_NAMES.taskSearch,
-    component: TaskSearchScreen
+    component: TaskSearchScreen,
+  },
+  {
+    name: ROUTE_NAMES.login,
+    component: LoginScreen,
+  },
+  {
+    name: ROUTE_NAMES.register,
+    component: RegisterScreen,
+  },
+  {
+    name: ROUTE_NAMES.recovery,
+    component: RecoveryScreen,
   },
 ];
 const PRIVATE = [
@@ -57,12 +75,33 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.testPass,
-    component: CourseTestScreen
+    component: CourseTestScreen,
   },
   {
     name: ROUTE_NAMES.courseTask,
-    component: CourseTaskScreen
-  }
+    component: CourseTaskScreen,
+  },
+  {
+    name: ROUTE_NAMES.kaspiBank,
+    component: KaspiBankScreen,
+  },
+  {
+    name: ROUTE_NAMES.operation,
+    component: Operation,
+    initialParams: {
+      type: null,
+      operation: null,
+    },
+  },
+  {
+    name: ROUTE_NAMES.webViewer,
+    component: WebViewer,
+    initialParams: {
+      webViewer: null,
+      type: null,
+      mode: null,
+    },
+  },
 ];
 
 const Navigation = () => {
@@ -70,10 +109,8 @@ const Navigation = () => {
   const {setSettings, setUserToken, setIsAuth, isAuth} = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
-    const auth = await getString('isAuth');
     const userToken = await getString('userToken');
     const response = await MobileSettingsService.fetchSettings();
-    API_V2.defaults.headers.Authorization = "Bearer ehpzFyZOGazrc5QK9mByfj22XIdhpjkJwXCTI9ekypYTptlrj5YUr3s8pNZn"
 
     if (API_V2.defaults.headers[REQUEST_HEADERS.Authorization]?.length) {
       setIsAuth(true);
@@ -109,13 +146,20 @@ const Navigation = () => {
             key={index}
             options={{
               animation:
-                route.name === ROUTE_NAMES.courseSearch || 
-                route.name === ROUTE_NAMES.testSearch || 
+                route.name === ROUTE_NAMES.courseSearch ||
+                route.name === ROUTE_NAMES.testSearch ||
                 route.name === ROUTE_NAMES.taskSearch
                   ? 'fade_from_bottom'
                   : 'default',
               headerBackTitleVisible: false,
+              headerShown:
+                route.name == ROUTE_NAMES.login ||
+                route.name == ROUTE_NAMES.register ||
+                route.name == ROUTE_NAMES.recovery
+                  ? true
+                  : false,
             }}
+            initialParams={route?.initialParams}
           />
         ))}
         {isAuth
@@ -128,6 +172,7 @@ const Navigation = () => {
                   headerShown: true,
                   headerBackTitleVisible: false,
                 }}
+                initialParams={route?.initialParams}
               />
             ))
           : null}

@@ -29,21 +29,6 @@ const MenuStack = () => {
       component: MenuScreen,
     },
     {
-      id: '2',
-      name: ROUTE_NAMES.login,
-      component: LoginScreen,
-    },
-    {
-      id: '3',
-      name: ROUTE_NAMES.recovery,
-      component: RecoveryScreen,
-    },
-    {
-      id: '4',
-      name: ROUTE_NAMES.register,
-      component: RegisterScreen,
-    },
-    {
       id: '5',
       name: ROUTE_NAMES.news,
       component: NewsScreen,

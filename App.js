@@ -27,19 +27,19 @@ const App = () => {
   };
 
   const deinitPlayer = async () => {
-    // await TrackPlayer.destroy()
+    await TrackPlayer.destroy();
   };
 
   useTrackPlayerEvents(events, () => {
     console.log();
   });
 
-  useEffect(() => {
-    initPlayer();
-    return () => {
-      deinitPlayer();
-    };
-  }, []);
+  // useEffect(() => {
+  //   initPlayer();
+  //   return () => {
+  //     deinitPlayer();
+  //   };
+  // }, []);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
