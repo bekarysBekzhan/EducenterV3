@@ -8,17 +8,23 @@ import {APP_COLORS} from '../constans/constants';
 import OutlineButton from '../components/button/OutlineButton';
 import { ROUTE_NAMES } from '../components/navigation/routes';
 import { useFetching } from '../hooks/useFetching';
-import { CourseService } from '../services/API';
+import { CourseService, TestService } from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
 
 const PreviewTestScreen = props => {
 
   const id = props.route?.params?.id
   const lessonTitle = props.route?.params?.title
+  const type = props.route?.params?.type
 
   const [data, setData] = useState(null)
   const [fetchTestInfo, isLoading, fetchingError] = useFetching(async() => {
-    const response = await CourseService.fetchTestInfo(id)
+    let response
+    if (type === "module") {
+      response = await TestService.fetchTestInfo(id)
+    } else {
+      response = await CourseService.fetchTestInfo(id)
+    }
     setData(response.data?.data)
   })
 
@@ -30,7 +36,11 @@ const PreviewTestScreen = props => {
   }, [])
 
   const onStartTest = () => {
-    props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle, seconds: data?.minutes * 60})
+    if (type === "module") {
+      props.navigation.navigate(ROUTE_NAMES.myTestPass, {id: id, title: lessonTitle, seconds: data?.minutes * 60})
+    } else {
+      props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle, seconds: data?.minutes * 60})
+    }
   }
 
   if (isLoading) {

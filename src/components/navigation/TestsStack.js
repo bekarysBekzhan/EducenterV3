@@ -6,6 +6,8 @@ import TestsScreen from '../../screens/bottomtab/tests/TestsScreen'
 import TestDetailScreen from '../../screens/bottomtab/tests/TestDetailScreen'
 import { useSettings } from '../context/Provider'
 import { navHeaderOptions } from './navHeaderOptions'
+import ModuleTestItem from '../test/ModuleTestItem'
+import ModuleTestScreen from '../../screens/bottomtab/tests/ModuleTestScreen'
 
 const TestsStack = createNativeStackNavigator()
 

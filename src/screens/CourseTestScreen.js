@@ -12,6 +12,7 @@ import { strings } from '../localization';
 import RowView from '../components/view/RowView';
 import { TimeIcon } from '../assets/icons';
 import Timer from '../components/test/Timer';
+import Overlay from '../components/view/Overlay';
 
 const CourseTestScreen = props => {
 
@@ -111,6 +112,7 @@ const CourseTestScreen = props => {
           windowSize={10}
         />
       )}
+      <Overlay visible={isFinishLoading}/>
     </UniversalView>
   );
 };

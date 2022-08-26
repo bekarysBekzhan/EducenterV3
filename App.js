@@ -34,12 +34,12 @@ const App = () => {
     console.log();
   });
 
-  // useEffect(() => {
-  //   initPlayer();
-  //   return () => {
-  //     deinitPlayer();
-  //   };
-  // }, []);
+  useEffect(() => {
+    initPlayer();
+    return () => {
+      deinitPlayer();
+    };
+  }, []);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>

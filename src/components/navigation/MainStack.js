@@ -27,6 +27,7 @@ import WebViewer from '../../screens/operation/WebViewer';
 import RegisterScreen from '../../screens/auth/RegisterScreen';
 import RecoveryScreen from '../../screens/auth/RecoveryScreen';
 import LoadingScreen from '../LoadingScreen';
+import ModuleTestScreen from '../../screens/bottomtab/tests/ModuleTestScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -101,6 +102,10 @@ const PRIVATE = [
       type: null,
       mode: null,
     },
+  },
+  {
+    name: ROUTE_NAMES.myTestPass,
+    component: ModuleTestScreen
   },
 ];
 
