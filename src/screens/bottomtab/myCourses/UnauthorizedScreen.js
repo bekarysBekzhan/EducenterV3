@@ -6,15 +6,16 @@ import { WIDTH } from '../../../constans/constants'
 import { strings } from '../../../localization'
 import OutlineButton from '../../../components/button/OutlineButton'
 import { setFontStyle } from '../../../utils/utils'
+import { ROUTE_NAMES } from '../../../components/navigation/routes'
 
 const UnauthorizedScreen = (props) => {
 
     const loginTapped = () => {
-
+        props.navigation.navigate(ROUTE_NAMES.login)
     }
 
     const signupTapped = () => {
-
+        props.navigation.navigate(ROUTE_NAMES.register)
     }
 
     return (
