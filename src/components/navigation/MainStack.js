@@ -48,6 +48,10 @@ const GENERAL = [
     name: ROUTE_NAMES.taskSearch,
     component: TaskSearchScreen,
   },
+  {
+    name: ROUTE_NAMES.login,
+    component: LoginScreen,
+  },
 ];
 const PRIVATE = [
   {
@@ -69,10 +73,6 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.kaspiBank,
     component: KaspiBankScreen,
-  },
-  {
-    name: ROUTE_NAMES.login,
-    component: LoginScreen,
   },
   {
     name: ROUTE_NAMES.operation,
@@ -142,6 +142,7 @@ const Navigation = () => {
                   ? 'fade_from_bottom'
                   : 'default',
               headerBackTitleVisible: false,
+              headerShown: route.name == ROUTE_NAMES.login ? true : false,
             }}
             initialParams={route?.initialParams}
           />
