@@ -8,7 +8,7 @@ import Person from '../../../components/Person'
 import { strings } from '../../../localization'
 import TransactionButton from '../../../components/button/TransactionButton'
 
-const TestDetailScreen = (props) => {
+const MyTestDetailScreen = (props) => {
 
   const id = props.route?.params?.id
 
@@ -54,13 +54,11 @@ const TestDetailScreen = (props) => {
         />
       </UniversalView>
       <TransactionButton
-        text={data?.has_subscribed ? strings['Пройти тест'] : data?.price ? strings['Купить тест'] : strings.Бесплатно}
+        text={strings['Пройти тест']}
         onPress={() => undefined}
-        oldPrice={data?.has_subscribed ? 0 : data?.old_price}
-        price={data?.has_subscribed ? 0 : data?.price}
       />
     </UniversalView>
   )
 }
 
-export default TestDetailScreen
+export default MyTestDetailScreen

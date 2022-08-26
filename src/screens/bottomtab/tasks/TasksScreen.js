@@ -66,6 +66,7 @@ const TasksScreen = (props) => {
         price={item?.price}
         oldPrice={item?.old_price}
         onPress={taskItemTapped}
+        hasSubscribed={item?.has_subscribed}
       />
     )
   }

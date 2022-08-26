@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useFetching} from '../../hooks/useFetching';
@@ -20,6 +20,7 @@ import {REQUEST_HEADERS} from '../../constans/constants';
 import CourseSearchScreen from '../../screens/CourseSearchScreen';
 import TestSearchScreen from '../../screens/TestSearchScreen';
 import TaskSearchScreen from '../../screens/TaskSearchScreen';
+import LoadingScreen from '../LoadingScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -65,6 +66,7 @@ const PRIVATE = [
 ];
 
 const Navigation = () => {
+
   const {setSettings, setUserToken, setIsAuth, isAuth} = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
@@ -85,15 +87,13 @@ const Navigation = () => {
     setSettings(response.data?.data);
   });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchSettings();
   }, []);
 
   if (isLoading) {
     return (
-      <UniversalView style={styles.view}>
-        <Loader />
-      </UniversalView>
+      <LoadingScreen/>
     );
   }
   return (

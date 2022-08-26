@@ -14,16 +14,13 @@ import {
   testsON,
 } from '../../assets/icons';
 import {strings} from '../../localization';
-import TestsScreen from '../../screens/bottomtab/tests/TestsScreen';
-import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen';
-import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen';
-import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {APP_COLORS} from '../../constans/constants';
 import Courses from './CoursesStack';
 import MenuStack from './MenuStack';
 import Tests from './TestsStack';
 import Tasks from './TasksStack';
+import MyCourses from './MyCoursesStack';
 
 const BottomTabStack = createBottomTabNavigator();
 
@@ -51,7 +48,7 @@ const BottomTab = props => {
     },
     {
       name: ROUTE_NAMES.myCoursesStack,
-      component: MyCoursesScreen,
+      component: MyCourses,
       icon: {
         active: myCoursesON,
         inactive: myCoursesOFF,
