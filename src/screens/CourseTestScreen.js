@@ -17,6 +17,7 @@ const CourseTestScreen = props => {
 
   const id = props.route?.params?.id
   const lessonTitle = props.route?.params?.title
+  const seconds = props.route?.params?.seconds
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -40,7 +41,7 @@ const CourseTestScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      headerRight: () => <TestTimer initialTime={data?.entity?.timer ? data?.entity?.timer : 120} finishTest={finishTest}/>,
+      headerRight: () => <TestTimer initialTime={seconds ? seconds : 120} finishTest={finishTest}/>,
       title: lessonTitle ? lessonTitle : strings.тест
     })
   }, [data])

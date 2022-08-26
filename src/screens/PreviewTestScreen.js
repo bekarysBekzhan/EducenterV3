@@ -29,6 +29,10 @@ const PreviewTestScreen = props => {
     fetchTestInfo()
   }, [])
 
+  const onStartTest = () => {
+    props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle, seconds: data?.minutes * 60})
+  }
+
   if (isLoading) {
     return <LoadingScreen/>
   }
@@ -71,7 +75,7 @@ const PreviewTestScreen = props => {
       </RowView>
       <OutlineButton
         text={strings['Начать тестирование']}
-        onPress={() => props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle})}
+        onPress={onStartTest}
         style={{marginTop: 30}}
       />
     </UniversalView>
