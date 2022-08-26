@@ -2,6 +2,7 @@ import React, {useEffect, useLayoutEffect, useState} from 'react';
 // import {Linking} from 'react-native';
 import WebView from 'react-native-webview';
 import UniversalView from '../../components/view/UniversalView';
+import {DOMAIN} from '../../constans/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {OperationService} from '../../services/API';
 
@@ -44,14 +45,17 @@ const WebViewer = ({navigation, route}) => {
       params,
     );
 
-    // if (type?.type == 'cloudpayments') {
-    //   Linking.openURL(res?.request?.responseURL);
-    // }
-
-    setDataSource(prev => ({
-      ...prev,
-      data: res?.data,
-    }));
+    if (type?.type == 'kaspi_ur') {
+      setDataSource(prev => ({
+        ...prev,
+        data: res?.data?.link,
+      }));
+    } else {
+      setDataSource(prev => ({
+        ...prev,
+        data: res?.data,
+      }));
+    }
   });
 
   useEffect(() => {

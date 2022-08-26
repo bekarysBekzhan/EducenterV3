@@ -62,7 +62,7 @@ const KaspiBankScreen = ({route}) => {
     );
     setDataSource(prev => ({
       ...prev,
-      data: response?.data?.data,
+      data: response?.data,
     }));
   });
 
