@@ -7,6 +7,7 @@ import { navHeaderOptions } from './navHeaderOptions'
 import UnauthorizedScreen from '../../screens/bottomtab/myCourses/UnauthorizedScreen'
 import MyCoursesScreen from '../../screens/bottomtab/myCourses/MyCoursesScreen'
 import MyCourseDetailScreen from '../../screens/bottomtab/myCourses/MyCourseDetailScreen'
+import MyTestDetailScreen from '../../screens/bottomtab/myCourses/MyTestDetailScreen'
 
 const MyCoursesStack = createNativeStackNavigator()
 
@@ -25,6 +26,10 @@ const MyCourses = () => {
         {
             name: ROUTE_NAMES.myCourseDetail,
             component: MyCourseDetailScreen
+        },
+        {
+            name: ROUTE_NAMES.myTestDetail,
+            component: MyTestDetailScreen
         }
     ]
 
