@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import React from 'react';
+import React, {useLayoutEffect} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
 import {useState} from 'react';
@@ -24,6 +24,13 @@ const LoginScreen = ({navigation}) => {
     const response = await AuthService.fetchLogin(params);
     await storeString(STORAGE.token, response?.data?.data?.token);
     RNRestart.Restart();
+  });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: strings['Войти в аккаунт'],
+      headerTitleAlign: 'center',
+    });
   });
 
   const onChangeEmailOrPhone = email => {

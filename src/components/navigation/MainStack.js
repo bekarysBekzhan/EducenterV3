@@ -24,6 +24,8 @@ import KaspiBankScreen from '../../screens/operation/KaspiBankScreen';
 import LoginScreen from '../../screens/auth/LoginScreen';
 import Operation from '../../screens/operation/Operation';
 import WebViewer from '../../screens/operation/WebViewer';
+import RegisterScreen from '../../screens/auth/RegisterScreen';
+import RecoveryScreen from '../../screens/auth/RecoveryScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -51,6 +53,14 @@ const GENERAL = [
   {
     name: ROUTE_NAMES.login,
     component: LoginScreen,
+  },
+  {
+    name: ROUTE_NAMES.register,
+    component: RegisterScreen,
+  },
+  {
+    name: ROUTE_NAMES.recovery,
+    component: RecoveryScreen,
   },
 ];
 const PRIVATE = [
@@ -142,7 +152,12 @@ const Navigation = () => {
                   ? 'fade_from_bottom'
                   : 'default',
               headerBackTitleVisible: false,
-              headerShown: route.name == ROUTE_NAMES.login ? true : false,
+              headerShown:
+                route.name == ROUTE_NAMES.login ||
+                route.name == ROUTE_NAMES.register ||
+                route.name == ROUTE_NAMES.recovery
+                  ? true
+                  : false,
             }}
             initialParams={route?.initialParams}
           />

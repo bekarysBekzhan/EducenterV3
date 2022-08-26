@@ -1,5 +1,5 @@
 import {Alert, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import AuthDetailView from '../../components/view/AuthDetailView';
 import {strings} from '../../localization';
@@ -12,6 +12,13 @@ import {AuthService} from '../../services/API';
 const RecoveryScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
     email: '',
+  });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: strings['Восстановить пароль'],
+      headerTitleAlign: 'center',
+    });
   });
 
   const [fetchingRecovery, isLoading, error] = useFetching(async param => {
