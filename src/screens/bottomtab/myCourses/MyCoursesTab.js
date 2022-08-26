@@ -159,7 +159,7 @@ const MyCourseCard = ({ item, index, navigation }) => {
 
 const styles = StyleSheet.create({
   contentContainer: {
-    padding: 16
+    padding: 16,
   },
   card: {
     paddingVertical: 16,

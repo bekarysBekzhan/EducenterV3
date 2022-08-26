@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-
-
-import { NavigationContainer } from '@react-navigation/native';
+import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { setFontStyle } from '../../utils/setFontStyle';
 import { StyleSheet } from 'react-native';
 
 const Tab = createMaterialTopTabNavigator();
@@ -15,6 +11,7 @@ function TopTab({
 
 
     return (
+        
             <Tab.Navigator
                 screenOptions={{
                     
