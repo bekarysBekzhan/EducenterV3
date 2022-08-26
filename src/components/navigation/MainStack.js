@@ -97,7 +97,6 @@ const Navigation = () => {
   const {setSettings, setUserToken, setIsAuth, isAuth} = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
-    const auth = await getString('isAuth');
     const userToken = await getString('userToken');
     const response = await MobileSettingsService.fetchSettings();
 
