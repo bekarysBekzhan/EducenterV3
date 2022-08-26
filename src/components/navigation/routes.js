@@ -70,6 +70,7 @@ export const ROUTE_NAMES = {
   scheduleLessons: 'ScheduleLessons',
   scheduleVisitis: 'ScheduleVisits',
   settings: 'Settings',
-  operation:'Operation',
-  kaspiBank:'KaspiBank'
+  operation: 'Operation',
+  kaspiBank: 'KaspiBank',
+  webViewer: 'WebViewer',
 };

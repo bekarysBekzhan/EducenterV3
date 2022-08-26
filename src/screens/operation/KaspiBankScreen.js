@@ -13,7 +13,10 @@ import {OperationService} from '../../services/API';
 import {strings} from '../../localization';
 import UploadCheck from '../../components/UploadCheck';
 import {API_V2} from '../../services/axios';
-import { shadowStyle } from '../../utils/shadowStyle';
+import {shadowStyle} from '../../utils/shadowStyle';
+import {checkPrice} from '../../utils/checkPrice';
+import CardDetail from '../../components/view/CardDetail';
+import {ClipCheckIcon} from '../../assets/icons';
 
 const KaspiBankScreen = ({route}) => {
   const {kaspiBank, type, mode} = route?.params;
@@ -214,7 +217,10 @@ const KaspiBankScreen = ({route}) => {
   };
 
   return (
-    <UniversalView haveScroll haveLoader={isLoading}>
+    <UniversalView
+      haveScroll
+      haveLoader={isLoading}
+      contentContainerStyle={styles.list}>
       <Fragment>
         <Text style={styles.info}>
           {wordLocalization(
@@ -279,7 +285,7 @@ const KaspiBankScreen = ({route}) => {
       <Modal visible={dataSource?.visible} transparent animationType="fade">
         <View style={styles.modal}>
           <RowView style={styles.clip}>
-            <SvgCheck />
+            <ClipCheckIcon />
             <Text style={styles.text}>
               {dataSource?.text} {strings.скопировано}
             </Text>
@@ -291,6 +297,9 @@ const KaspiBankScreen = ({route}) => {
 };
 
 const styles = StyleSheet.create({
+  list: {
+    padding: 16,
+  },
   info: {
     ...setFontStyle(17),
   },

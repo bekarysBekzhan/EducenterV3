@@ -23,6 +23,7 @@ import TaskSearchScreen from '../../screens/TaskSearchScreen';
 import KaspiBankScreen from '../../screens/operation/KaspiBankScreen';
 import LoginScreen from '../../screens/auth/LoginScreen';
 import Operation from '../../screens/operation/Operation';
+import WebViewer from '../../screens/operation/WebViewer';
 
 const MainStack = createNativeStackNavigator();
 
@@ -79,6 +80,15 @@ const PRIVATE = [
     initialParams: {
       type: null,
       operation: null,
+    },
+  },
+  {
+    name: ROUTE_NAMES.webViewer,
+    component: WebViewer,
+    initialParams: {
+      webViewer: null,
+      type: null,
+      mode: null,
     },
   },
 ];

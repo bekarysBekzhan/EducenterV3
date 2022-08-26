@@ -57,6 +57,7 @@ export const URLS = {
   selected_type: 'selected_type',
   subscribes: 'subscribes',
   subscribe: 'subscribe',
+  promocodes:'promocodes'
 };
 
 export const STORAGE = {

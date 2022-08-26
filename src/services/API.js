@@ -283,6 +283,21 @@ class OperationService {
     return response;
   };
 
+  static fetchPromoCode = async params => {
+    const response = await API_V2.get(URLS.promocodes, {params});
+    console.log('Promocode: ', response);
+    return response;
+  };
+
+  static fetchData = async (id, type, params) => {
+    const response = await API_V2.get(
+      `${URLS.payments}/${id}/${URLS.selected_type}/${type}`,
+      {params},
+    );
+    console.log('fetchData: ', response);
+    return response;
+  };
+
   static fetchKaspiBank = async (id, type, params) => {
     const response = await API_V2.get(
       `${URLS.payments}/${id}/${URLS.selected_type}/${type}`,

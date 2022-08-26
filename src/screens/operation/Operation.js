@@ -23,12 +23,12 @@ import MenuItem from '../../components/item/MenuItem';
 import PacketItem from '../../components/item/PacketItem';
 import SearchItem from '../../components/item/SearchItem';
 import {strings} from '../../localization';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
 
 const {width} = Dimensions.get('screen');
 
 const Operation = ({navigation, route}) => {
   const {settings} = useSettings();
-  console.log('settings: ', settings);
 
   const {operation, type} = route.params;
   console.log('params operation: ', operation);
@@ -107,21 +107,13 @@ const Operation = ({navigation, route}) => {
     }
   });
 
-  const getPromocode = async promocode => {
-    console.log('prev', dataSource);
-
-    setDataSource(prev => ({...prev, promocodeLoad: true}));
-    console.log('id', dataSource?.data);
-
-    let params = {
-      id: dataSource?.data?.id,
-      promocode,
-    };
-
-    try {
-      const res = await axios.get(PROMOCODES_URL, {params});
-      console.log('res getPromocode: ', res);
-
+  const [fetchPromoCode, promocodeLoad, errorPrormo] = useFetching(
+    async promocode => {
+      let params = {
+        id: dataSource?.data?.id,
+        promocode,
+      };
+      const res = await OperationService.fetchPromoCode(params);
       const findItem = arr => {
         return arr?.find(e => {
           if (e?.id == refitemPacketOrPeriod.current?.id) {
@@ -188,16 +180,15 @@ const Operation = ({navigation, route}) => {
           promocodeLoad: false,
         }));
       }
-    } catch (e) {
-      console.log('catch getPromocode: ', e, e?.response);
-      setDataSource(prev => ({
-        ...prev,
-        promocodeLoad: false,
-        showPromoCode: false,
-      }));
-      handlerErrorRequest(e);
-    }
-  };
+
+      if (errorPrormo) {
+        setDataSource(prev => ({
+          ...prev,
+          showPromoCode: false,
+        }));
+      }
+    },
+  );
 
   useEffect(() => {
     fetchOperation();
@@ -277,7 +268,7 @@ const Operation = ({navigation, route}) => {
   const open = useCallback(
     item => {
       if (item.type == 'kaspi') {
-        navigation.navigate(KASPI_BANK_SCREEN, {
+        navigation.navigate(ROUTE_NAMES.kaspiBank, {
           kaspiBank: dataSource?.data,
           type: item?.type,
           mode: {
@@ -288,7 +279,7 @@ const Operation = ({navigation, route}) => {
           },
         });
       } else {
-        navigation.navigate(WEB_VIEWER_SCREEN, {
+        navigation.navigate(ROUTE_NAMES.webViewer, {
           webViewer: dataSource?.data,
           type: item,
           mode: {
@@ -307,7 +298,7 @@ const Operation = ({navigation, route}) => {
     ({nativeEvent}) => {
       if (nativeEvent.text) {
         refPromocode.current = nativeEvent.text;
-        getPromocode(nativeEvent.text);
+        fetchPromoCode(nativeEvent.text);
       }
     },
     [dataSource?.data],
@@ -356,7 +347,9 @@ const Operation = ({navigation, route}) => {
     }
   };
 
-  useEffect(operationBonuses, [refUsedBonuses.current]);
+  useEffect(() => {
+    operationBonuses();
+  }, [refUsedBonuses.current]);
 
   // Layout
   const renderItem = ({item, index}) => (
@@ -419,9 +412,9 @@ const Operation = ({navigation, route}) => {
 
   const renderFooter = (
     <View style={styles.footer}>
-      {settings?.payload?.modules_enabled_promocodes ? (
+      {settings?.modules_enabled_promocodes ? (
         <Input
-          style={styles.input}
+          extraStyle={styles.input}
           placeholder={strings['Введите промокод']}
           returnKeyType="send"
           onSubmitEditing={onSubmitEditing}
@@ -436,7 +429,7 @@ const Operation = ({navigation, route}) => {
 
       <PromoRow
         text={wordLocalization(strings['Доступно (:percent% от стоимости)'], {
-          percent: settings?.payload?.modules_bonus_percent,
+          percent: settings?.modules_bonus_percent,
         })}
         price={dataSource?.bonuses}
         showZero
@@ -459,7 +452,7 @@ const Operation = ({navigation, route}) => {
 
       <PromoRow text={strings.Стоимость} price={dataSource?.cost} />
 
-      {dataSource?.promocodeLoad ? (
+      {promocodeLoad ? (
         <Loader />
       ) : (
         dataSource?.showPromoCode && (
