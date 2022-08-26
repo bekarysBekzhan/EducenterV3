@@ -66,6 +66,7 @@ const TestsScreen = (props) => {
         price={item?.price}
         oldPrice={item?.old_price}
         onPress={testItemTapped}
+        hasSubscribed={item?.has_subscribed}
       />
     )
   }

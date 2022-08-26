@@ -19,6 +19,7 @@ const ModuleTestItem = ({
   attempts,
   price,
   oldPrice,
+  hasSubscribed = false,
   onPress = () => undefined
 }) => {
   return (
@@ -51,7 +52,7 @@ const ModuleTestItem = ({
               />
             }
             <TextButton
-              text={ price ? strings['Купить тест'] : strings.Бесплатно }
+              text={hasSubscribed ?  strings.Пройти  :  price ? strings['Купить тест'] : strings.Бесплатно }
               onPress={() => onPress(id)}
               style={styles.button}
               textStyle={styles.buttonText}
