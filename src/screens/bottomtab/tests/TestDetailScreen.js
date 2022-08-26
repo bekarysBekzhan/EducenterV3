@@ -54,10 +54,10 @@ const TestDetailScreen = (props) => {
         />
       </UniversalView>
       <TransactionButton
-        text={data?.price ? strings['Купить тест'] : strings.Бесплатно}
+        text={data?.has_subscribed ? strings['Пройти тест'] : data?.price ? strings['Купить тест'] : strings.Бесплатно}
         onPress={() => undefined}
-        oldPrice={data?.old_price}
-        price={data?.price}
+        oldPrice={data?.has_subscribed ? 0 : data?.old_price}
+        price={data?.has_subscribed ? 0 : data?.price}
       />
     </UniversalView>
   )

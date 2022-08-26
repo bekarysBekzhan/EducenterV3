@@ -53,10 +53,10 @@ const TaskDetailScreen = (props) => {
           />
         </UniversalView>
         <TransactionButton
-          text={data?.price ? strings['Купить задание'] : strings.Бесплатно }
+          text={data?.has_subscribed ? strings['Пройти задание']  : data?.price ? strings['Купить задание'] : strings.Бесплатно }
           onPress={() => undefined}
-          oldPrice={data?.old_price}
-          price={data?.price}
+          oldPrice={data?.has_subscribed ? 0 : data?.old_price}
+          price={data?.has_subscribed ? 0 : data?.price}
         />
       </UniversalView>
     )
