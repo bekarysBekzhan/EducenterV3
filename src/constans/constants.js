@@ -46,6 +46,7 @@ export const URLS = {
   history: 'user/history',
   changePassword: 'user/update_password',
   moduleTests: "modules/tests",
+  moduleMyTests: "modules/tests/my/tests",
   moduleTasks: "modules/tasks",
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',

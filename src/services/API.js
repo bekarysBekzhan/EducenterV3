@@ -195,6 +195,24 @@ class MyCourseService {
     console.log("My courses : " , response)
     return response
   }
+  static fetchMyTests = async(query = '', page = 1, price = undefined, categoryID = undefined) => {
+    let params = {
+      filters: true,
+      page: page
+    }
+    if(query.length > 0) {
+      params.query = query
+    }
+    if (price) {
+      params.price = price;
+    }
+    if (categoryID) {
+      params.category_id = categoryID;
+    }
+    const response = await API_V2.get(URLS.moduleMyTests, {params: params})
+    console.log("My tests : " , response)
+    return response
+  }
 }
 
 class AuthService {
