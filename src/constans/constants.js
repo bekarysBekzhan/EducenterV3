@@ -13,6 +13,9 @@ export const APP_COLORS = {
   gray2: '#FCFCFD',
   toast: 'rgba(17, 22, 33, 0.88)',
   tabBg: '#F5F5F5',
+  white: '#fff',
+  transparent: 'transparent',
+  label: '#808191',
 };
 
 export const DOMAIN = 'https://demo.educenter.kz';
@@ -44,19 +47,28 @@ export const URLS = {
   profile: 'user/profile',
   history: 'user/history',
   changePassword: 'user/update_password',
-  moduleTests: "modules/tests",
-  moduleTasks: "modules/tasks",
+  moduleTests: 'modules/tests',
+  moduleTasks: 'modules/tasks',
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',
   scheduleVisits: 'modules/schedule_conference/attendances',
-  languages:'languages'
+  languages: 'languages',
+  payments: 'payments',
+  selected_type: 'selected_type',
+  subscribes: 'subscribes',
+  subscribe: 'subscribe',
 };
 
 export const STORAGE = {
   token: 'token',
   language: 'language',
   user: 'user',
-  courseSearchHistory: "courseSearchHistory",
-  testSearchHistory: "testSearchHistory",
-  taskSearchHistory: "taskSearchHistory"
+  courseSearchHistory: 'courseSearchHistory',
+  testSearchHistory: 'testSearchHistory',
+  taskSearchHistory: 'taskSearchHistory',
+};
+
+export const TYPE_SUBCRIBES = {
+  COURSE_SUBCRIBE: 'course',
+  TEST_SUBCRIBE: 'test',
 };

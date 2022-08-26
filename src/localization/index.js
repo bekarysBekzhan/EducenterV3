@@ -204,6 +204,7 @@ export const strings = new LocalizedStrings({
         "Поиск курсов" : "Курсты іздеу",
         "Поиск тестов" : "Тестті іздеу",
         "Поиск заданий" : "Тапсырманы іздеу",
+        "Ошибка!":"Қате!"
     },
     ru: {
         "Курсы": "Курсы",
@@ -408,6 +409,7 @@ export const strings = new LocalizedStrings({
         "Поиск курсов" : "Поиск курсов",
         "Поиск тестов" : "Поиск тестов",
         "Поиск заданий" : "Поиск заданий",
+        "Ошибка!":"Ошибка!"
     },
     en: {
         "Курсы": "Courses",
@@ -613,5 +615,6 @@ export const strings = new LocalizedStrings({
         "Поиск курсов" : "Search for courses",
         "Поиск тестов" : "Search for tests",
         "Поиск заданий" : "Search for tasks",
+        "Ошибка!":"Error!"
     }
 })

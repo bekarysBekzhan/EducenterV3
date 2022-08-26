@@ -12,7 +12,7 @@ import {useFetching} from '../../../hooks/useFetching';
 import {CourseService} from '../../../services/API';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import {APP_COLORS, WIDTH} from '../../../constans/constants';
+import {APP_COLORS, TYPE_SUBCRIBES, WIDTH} from '../../../constans/constants';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../../utils/utils';
 import RowView from '../../../components/view/RowView';
@@ -29,7 +29,8 @@ import DetailView from '../../../components/view/DetailView';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 
 const CourseDetailScreen = props => {
-  
+  const {isAuth} = useSettings();
+
   const courseID = props.route?.params?.courseID;
 
   const [data, setData] = useState(null);
@@ -41,6 +42,20 @@ const CourseDetailScreen = props => {
   useEffect(() => {
     fetchCourse();
   }, []);
+
+  const onTransaction = () => {
+    if (isAuth) {
+      if (data?.has_subscribed) {
+      } else {
+        props.navigation.navigate(ROUTE_NAMES.operation, {
+          operation: data,
+          type: TYPE_SUBCRIBES.COURSE_SUBCRIBE,
+        });
+      }
+    } else {
+      props.navigation.navigate(ROUTE_NAMES.login);
+    }
+  };
 
   const renderHeader = () => {
     return <CourseListHeader data={data} />;
@@ -83,7 +98,7 @@ const CourseDetailScreen = props => {
           text={strings['Купить полный курс']}
           price={data?.price}
           oldPrice={data?.old_price}
-          onPress={() => undefined}
+          onPress={onTransaction}
         />
       )}
     </UniversalView>
@@ -176,7 +191,10 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
                   screen: ROUTE_NAMES.menuStack,
                 });
               } else {
-                navigation.navigate(ROUTE_NAMES.lesson, {id: lesson?.id, title: lesson?.chapter?.title });
+                navigation.navigate(ROUTE_NAMES.lesson, {
+                  id: lesson?.id,
+                  title: lesson?.chapter?.title,
+                });
               }
             }}
             key={i}>
