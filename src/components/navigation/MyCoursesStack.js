@@ -43,7 +43,7 @@ const MyCourses = () => {
                             :
                             {
                                 headerTitle: "Мой курс",
-                                headerBackTitleVisible: false
+                                headerBackTitleVisible: false,
                             }
                         }
                     />

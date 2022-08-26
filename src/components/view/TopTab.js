@@ -17,6 +17,7 @@ function TopTab({
     return (
             <Tab.Navigator
                 screenOptions={{
+                    
                     tabBarStyle: styles.tabBarStyle,
                     tabBarItemStyle: styles.tabBarItemStyle,
                     tabBarLabelStyle: styles.tabBarLabelStyle,
