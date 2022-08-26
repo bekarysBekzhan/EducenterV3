@@ -49,6 +49,9 @@ export const URLS = {
   history: 'user/history',
   changePassword: 'user/update_password',
   moduleTests: 'modules/tests',
+  moduleTestStart : "test/start/module_test/",
+  moduleTestInfo: "test/info/module_test/",
+  moduleTestFinish : "test/finish/module_test/",
   moduleMyTests: "modules/tests/my/tests",
   moduleTasks: 'modules/tasks',
   profileUpdate: 'user/update',
@@ -74,4 +77,5 @@ export const STORAGE = {
 export const TYPE_SUBCRIBES = {
   COURSE_SUBCRIBE: 'course',
   TEST_SUBCRIBE: 'test',
+  TASK_SUBSCRIBE: "task"
 };

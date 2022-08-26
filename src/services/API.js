@@ -145,6 +145,23 @@ class TestService {
     console.log('Test with id ' + id + ':', response);
     return response;
   };
+
+  static fetchTestInfo = async (id) => {
+    const response = await API_V2.get(URLS.moduleTestInfo + id)
+    console.log("Module test info", response)
+    return response
+  }
+
+  static startTest = async id => {
+    const response = await API_V2.get(URLS.moduleTestStart + id)
+    console.log("Module test start", response)
+    return response
+  }
+
+  static finishTest = async id => {
+    const response = await API_V2.get(URLS.moduleTestFinish + id)
+    return response
+  }
 }
 
 class TaskService {
