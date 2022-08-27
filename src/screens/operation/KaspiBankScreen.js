@@ -225,9 +225,9 @@ const KaspiBankScreen = ({route}) => {
         <Text style={styles.info}>
           {wordLocalization(
             strings[
-              'Переведите  :cost по реквизитам указанным ниже и прикрепите чек.'
+              'Переведите :sum по реквизитам указанный ниже и прикрепите чек.'
             ],
-            {cost: checkPrice(dataSource?.data?.price)},
+            {sum: checkPrice(dataSource?.data?.price)},
           )}
         </Text>
         <FastImage

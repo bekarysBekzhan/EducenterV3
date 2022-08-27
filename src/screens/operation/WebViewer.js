@@ -45,31 +45,28 @@ const WebViewer = ({navigation, route}) => {
       params,
     );
 
-    if (type?.type == 'kaspi_ur') {
-      setDataSource(prev => ({
-        ...prev,
-        data: res?.data?.link,
-      }));
-    } else {
-      setDataSource(prev => ({
-        ...prev,
-        data: res?.data,
-      }));
-    }
+    setDataSource(prev => ({
+      ...prev,
+      data:
+        type?.type == 'kaspi_ur' ? {uri: res?.data?.link} : {html: res?.data},
+    }));
   });
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        navigation?.goBack();
+      }, 1600);
+    }
+  }, [error]);
+
   return (
     <UniversalView haveLoader={loading}>
-      <WebView
-        startInLoadingState
-        source={{
-          html: dataSource?.data,
-        }}
-      />
+      <WebView startInLoadingState source={dataSource?.data} />
     </UniversalView>
   );
 };
