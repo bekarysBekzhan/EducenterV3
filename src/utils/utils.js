@@ -90,12 +90,26 @@ export const selectComponent = (
 };
 
 export const getCurrentTimeString = time => {
-  const whole = Math.floor(time);
-  let seconds = whole % 60;
-  let minutes = (whole - seconds) / 60;
-  let secondString = seconds < 10 ? '0' + seconds : seconds;
-  let minuteString = minutes < 10 ? '0' + minutes : minutes;
-  return minuteString + ':' + secondString;
+  
+  let string = ""
+
+  const hours = Math.floor(time / SECONDS_IN_HOUR)
+  if (hours) {
+    string += hours + ":"
+    time -= hours * SECONDS_IN_HOUR
+  }
+
+  const minutes = Math.floor(time / SECONDS_IN_MINUTE)
+  if (minutes) {
+    string += (minutes < 10 ? "0" + minutes : minutes) + ":"
+    time -= minutes * SECONDS_IN_MINUTE
+  }
+
+  if (time) {
+    string += time < 10 ? "0" + time : time
+  }
+
+  return string
 };
 
 export const getTimeString = seconds => {
