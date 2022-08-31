@@ -19,6 +19,7 @@ import { setFontStyle } from '../../../utils/utils';
 import { strings } from '../../../localization';
 
 const MyTestsTab = props => {
+
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -73,6 +74,13 @@ const MyTestsTab = props => {
     }
   };
 
+  const onRefresh = () => {
+    if (page === 1) {
+      fetchTests();
+    }
+    setPage(1);
+  }
+
   if (isFetching) {
     return <LoadingScreen />;
   }
@@ -88,12 +96,7 @@ const MyTestsTab = props => {
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
         refreshing={isFetching}
-        onRefresh={() => {
-          if (page === 1) {
-            fetchTests();
-          }
-          setPage(1);
-        }}
+        onRefresh={onRefresh}
       />
     </UniversalView>
   );
