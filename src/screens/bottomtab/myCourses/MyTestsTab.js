@@ -13,21 +13,27 @@ import LoadingScreen from '../../../components/LoadingScreen';
 import {MyCourseService} from '../../../services/API';
 import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
-import { TimeIcon } from '../../../assets/icons';
+import {down, PlayIcon, TimeIcon, up} from '../../../assets/icons';
 import RowView from '../../../components/view/RowView';
-import { setFontStyle } from '../../../utils/utils';
-import { strings } from '../../../localization';
+import {getCurrentTimeString, getTimeString, setFontStyle, wordLocalization} from '../../../utils/utils';
+import {strings} from '../../../localization';
+import TextButton from '../../../components/button/TextButton';
+import Divider from '../../../components/Divider';
+import Collapsible from 'react-native-collapsible';
+import { useSettings } from '../../../components/context/Provider';
 
 const MyTestsTab = props => {
 
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+
   const [fetchTests, isFetching, fetchingError] = useFetching(async () => {
     const response = await MyCourseService.fetchMyTests();
     setData(response.data?.data);
     setLastPage(response.data?.last_page);
   });
+
   const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(
     async () => {
       const response = await MyCourseService.fetchMyTests('', page);
@@ -57,9 +63,22 @@ const MyTestsTab = props => {
     }
   }, [page]);
 
-  const renderTest = ({item, index}) => {
-    return <View/>;
+  const testItemTapped = id => {
+    props.navigation.navigate(ROUTE_NAMES.myTestDetail, {id});
+  };
 
+  const renderTest = ({item, index}) => {
+    return (
+      <ModuleMyTestItem
+        id={item?.id}
+        index={index}
+        title={item?.title}
+        attempts={item?.attempts}
+        attemptHistory={item?.all_passings}
+        certificate={item?.certificate}
+        onPress={testItemTapped}
+      />
+    );
   };
 
   const renderFooter = () => (
@@ -79,7 +98,7 @@ const MyTestsTab = props => {
       fetchTests();
     }
     setPage(1);
-  }
+  };
 
   if (isFetching) {
     return <LoadingScreen />;
@@ -104,39 +123,101 @@ const MyTestsTab = props => {
 
 const ModuleMyTestItem = ({
   id,
-  index,
-  categoryName,
-  time,
   title,
   attempts,
+  certificate,
+  attemptHistory,
   onPress = () => undefined,
 }) => {
-  const testItemTapped = () => {
-    console.log('test : ', id);
-    props.navigation.navigate(ROUTE_NAMES.myTestDetail, {id});
+
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const { settings } = useSettings()
+
+  useEffect(() => {
+    console.log("all_passings : " , attemptHistory)
+  }, [])
+
+  const usedAttempts = () => {
+    return attemptHistory?.filter(item => item?.finished).length;
   };
 
-  return (
-    <TouchableOpacity
-      activeOpacity={0.9}
-      onPress={testItemTapped}
-      style={item.container}>
-      <RowView style={styles.row1}>
-        <Text style={styles.title}>{title}</Text>
-        <RowView>
-          <TimeIcon color={APP_COLORS.placeholder} size={16} />
-          <Text style={styles.time}>
-            {time ? time : 30} {strings.мин}
-          </Text>
+  const onDownload = () => {};
+
+  const renderItem = ({ item, index }) => {
+    return (
+      <TouchableOpacity
+        style={[testItem.attempt, {
+          borderTopWidth: index ? 0.35 : 0,
+        }]}
+        onPress={() => undefined}
+        activeOpacity={0.88}
+      >
+        <RowView style={{
+          justifyContent: "space-between",
+          marginBottom: 10
+        }}>
+          <RowView>
+            <View style={[ testItem.icon, { backgroundColor: APP_COLORS.input } ]}>
+              <PlayIcon size={0.6} color={APP_COLORS.primary}/>
+            </View>
+            <Text style={testItem.attemptText}>{ item?.finished ? strings.Попытка + " " + item?.attempts : strings.Пройти + ". " + strings.Попытка + " " + item?.attempts}</Text>
+          </RowView>
+          <RowView>
+            <TimeIcon color={APP_COLORS.placeholder}/>
+            <Text style={testItem.time}>{getTimeString(item?.time_score)}</Text>
+          </RowView>
         </RowView>
+        <Text style={testItem.time}>{strings.БАЛЛ} {item?.percent}%・{wordLocalization(strings[':num из :count'], { num: item?.score, count: item?.tests_count })}</Text>
+      </TouchableOpacity>
+    )
+  }
+
+  return (
+    <View style={testItem.container}>
+      <Text style={testItem.title}>{title}</Text>
+      <Text style={testItem.attempts}>
+        {wordLocalization(strings['Пройдено: :num1 из :num2 тестов'], {
+          num1: usedAttempts(),
+          num2: attempts,
+        })}
+      </Text>
+      {certificate && settings?.modules_enabled_certificates ?  (
+        <TextButton
+          onPress={onDownload}
+          style={testItem.button}
+          textStyle={testItem.buttonText}
+          text={strings['Скачать сертификат']}
+        />
+      ) : null}
+      <Divider isAbsolute={false} style={testItem.divider}/>
+      <RowView style={testItem.row}>
+        <RowView style={testItem.row1}>
+          <View style={testItem.icon}>
+            <PlayIcon size={0.6} />
+          </View>
+          <TextButton
+            onPress={() => onPress(id)}
+            style={testItem.button}
+            textStyle={testItem.buttonText}
+            text={strings['Пройти тест']}
+          />
+        </RowView>
+        <TouchableOpacity onPress={() => setIsCollapsed(prev => !prev)} activeOpacity={0.7}>
+          <RowView style={testItem.row2}>
+            <Text style={testItem.attemptsLeft}>{wordLocalization(strings['Осталось :attempts попытки'], {attempts: attempts - usedAttempts()})}</Text>
+            <View>{isCollapsed ? down : up}</View>
+          </RowView>
+        </TouchableOpacity>
       </RowView>
-      <Text></Text>
-      {
-        
-      }
-
-
-    </TouchableOpacity>
+      <Collapsible collapsed={isCollapsed}>
+        <FlatList
+          data={attemptHistory}
+          renderItem={renderItem}
+          keyExtractor={(_, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      </Collapsible>
+    </View>
   );
 };
 
@@ -152,15 +233,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const item = StyleSheet.create({
+const testItem = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: 8,
     borderBottomWidth: 0.45,
     borderColor: APP_COLORS.border,
   },
+  row: {
+    justifyContent: "space-between"
+  },
   row1: {
-    justifyContent: 'space-between',
+    alignItems: "center",
   },
   category: {
     ...setFontStyle(11, '600', APP_COLORS.placeholder),
@@ -178,15 +262,39 @@ const item = StyleSheet.create({
     ...setFontStyle(12, '500', APP_COLORS.placeholder),
   },
   row2: {
-    justifyContent: 'space-between',
+    alignItems: "center"
   },
   button: {
-    marginTop: 5,
+    marginTop: 0
   },
   buttonText: {
     ...setFontStyle(14, '600', APP_COLORS.primary),
     textTransform: 'uppercase',
   },
+  icon: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 6,
+    paddingHorizontal: 7,
+    borderRadius: 100,
+    backgroundColor: APP_COLORS.primary,
+    marginRight: 6
+  },
+  divider: {
+    marginVertical: 8
+  },
+  attemptsLeft: {
+    ...setFontStyle(13, "500", APP_COLORS.primary),
+    marginRight: 6
+  },
+  attempt: {
+    flex: 1,
+    paddingVertical: 12,
+    borderColor: APP_COLORS.border
+  },
+  attemptText: {
+    ...setFontStyle(13, "500"),
+  }
 });
 
 export default MyTestsTab;
