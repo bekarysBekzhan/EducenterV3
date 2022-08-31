@@ -79,3 +79,6 @@ export const TYPE_SUBCRIBES = {
   TEST_SUBCRIBE: 'test',
   TASK_SUBSCRIBE: "task"
 };
+
+export const SECONDS_IN_MINUTE = 60
+export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
