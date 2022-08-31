@@ -217,7 +217,8 @@ export const strings = new LocalizedStrings({
         "Курс": "Курс",
         "Тест": "Тест",
         "Задание": "Тапсырма",
-        "Скачать": "Жүктеу"
+        "Скачать": "Жүктеу",
+        "Пройдено: num1 из num2 тестов": "Өтті: num2 тесттің num1"
     },
     ru: {
         "Курсы": "Курсы",
@@ -435,8 +436,8 @@ export const strings = new LocalizedStrings({
         "Курс": "Курс",
         "Тест": "Тест",
         "Задание": "Задание",
-        "Скачать": "Скачать"
-
+        "Скачать": "Скачать",
+        "Пройдено: num1 из num2 тестов": "Пройдено: num1 из num2 тестов"
     },
     en: {
         "Курсы": "Courses",
@@ -655,6 +656,7 @@ export const strings = new LocalizedStrings({
         "Курс": "Course",
         "Тест": "Test",
         "Задание": "Task",
-        "Скачать": "Download"
+        "Скачать": "Download",
+        "Пройдено: num1 из num2 тестов": "Passed num1 of num2 tests"
     }
 })
