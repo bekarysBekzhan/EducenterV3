@@ -13,7 +13,7 @@ import LoadingScreen from '../../../components/LoadingScreen';
 import {MyCourseService} from '../../../services/API';
 import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
-import {down, PlayIcon, TimeIcon, up} from '../../../assets/icons';
+import {check, down, PlayIcon, TimeIcon, up} from '../../../assets/icons';
 import RowView from '../../../components/view/RowView';
 import {getCurrentTimeString, getTimeString, setFontStyle, wordLocalization} from '../../../utils/utils';
 import {strings} from '../../../localization';
@@ -75,8 +75,9 @@ const MyTestsTab = props => {
         title={item?.title}
         attempts={item?.attempts}
         attemptHistory={item?.all_passings}
-        certificate={item?.certificate}
+        certificate={item?.user_certificate}
         onPress={testItemTapped}
+        finished={item?.passing_user?.finished}
       />
     );
   };
@@ -125,6 +126,7 @@ const ModuleMyTestItem = ({
   id,
   title,
   attempts,
+  finished = false,
   certificate,
   attemptHistory,
   onPress = () => undefined,
@@ -134,7 +136,7 @@ const ModuleMyTestItem = ({
   const { settings } = useSettings()
 
   useEffect(() => {
-    console.log("all_passings : " , attemptHistory)
+    console.log("certificate : " , certificate)
   }, [])
 
   const usedAttempts = () => {
@@ -160,7 +162,7 @@ const ModuleMyTestItem = ({
             <View style={[ testItem.icon, { backgroundColor: APP_COLORS.input } ]}>
               <PlayIcon size={0.6} color={APP_COLORS.primary}/>
             </View>
-            <Text style={testItem.attemptText}>{ item?.finished ? strings.Попытка + " " + item?.attempts : strings.Пройти + ". " + strings.Попытка + " " + item?.attempts}</Text>
+            <Text style={testItem.attemptText}>{ item?.finished ? strings.Попытка + " " + (index + 1) : strings.Пройти + ". " + strings.Попытка + " " + (index + 1)}</Text>
           </RowView>
           <RowView>
             <TimeIcon color={APP_COLORS.placeholder}/>
@@ -192,15 +194,30 @@ const ModuleMyTestItem = ({
       <Divider isAbsolute={false} style={testItem.divider}/>
       <RowView style={testItem.row}>
         <RowView style={testItem.row1}>
-          <View style={testItem.icon}>
-            <PlayIcon size={0.6} />
-          </View>
-          <TextButton
-            onPress={() => onPress(id)}
-            style={testItem.button}
-            textStyle={testItem.buttonText}
-            text={strings['Пройти тест']}
-          />
+          {
+            finished ?
+            <View style={[testItem.icon, { backgroundColor: "green", paddingHorizontal: 5 }]}>
+              {check()}
+            </View> :
+            <View style={testItem.icon}>
+              <PlayIcon size={0.6} />
+            </View>
+          }
+          {
+            finished ? 
+            <TextButton
+              onPress={() => undefined}
+              style={testItem.button}
+              text={strings['Тест пройден']}
+              textStyle={[testItem.buttonText, { color: "green" }]}
+            /> :
+            <TextButton
+              onPress={() => onPress(id)}
+              style={testItem.button}
+              textStyle={[testItem.buttonText]}
+              text={strings['Пройти тест']}
+            />
+          }
         </RowView>
         <TouchableOpacity onPress={() => setIsCollapsed(prev => !prev)} activeOpacity={0.7}>
           <RowView style={testItem.row2}>
