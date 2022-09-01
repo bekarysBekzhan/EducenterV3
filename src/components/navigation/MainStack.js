@@ -1,16 +1,14 @@
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useLayoutEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useFetching} from '../../hooks/useFetching';
 import {MobileSettingsService} from '../../services/API';
 import {useSettings} from '../context/Provider';
 import {ROUTE_NAMES} from './routes';
-import UniversalView from '../view/UniversalView';
 import {getString} from '../../storage/AsyncStorage';
 import Splash from './SplashStack';
 import BottomTab from './BottomTabStack';
 import LessonScreen from '../../screens/LessonScreen';
-import Loader from '../Loader';
 import {StyleSheet} from 'react-native';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
@@ -22,13 +20,13 @@ import TestSearchScreen from '../../screens/TestSearchScreen';
 import TaskSearchScreen from '../../screens/TaskSearchScreen';
 import KaspiBankScreen from '../../screens/operation/KaspiBankScreen';
 import LoginScreen from '../../screens/auth/LoginScreen';
-import Operation from '../../screens/operation/Operation';
-import WebViewer from '../../screens/operation/WebViewer';
 import RegisterScreen from '../../screens/auth/RegisterScreen';
 import RecoveryScreen from '../../screens/auth/RecoveryScreen';
 import LoadingScreen from '../LoadingScreen';
 import ModuleTestScreen from '../../screens/bottomtab/tests/ModuleTestScreen';
-import ReadJournal from '../../screens/journal/ReadJournal';
+import ReadJournalScreen from '../../screens/journal/ReadJournalScreen';
+import OperationScreen from '../../screens/operation/OperationScreen';
+import WebViewerScreen from '../../screens/operation/WebViewerScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -89,7 +87,7 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.operation,
-    component: Operation,
+    component: OperationScreen,
     initialParams: {
       type: null,
       operation: null,
@@ -97,7 +95,7 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.webViewer,
-    component: WebViewer,
+    component: WebViewerScreen,
     initialParams: {
       webViewer: null,
       type: null,
@@ -110,7 +108,7 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.readJournal,
-    component: ReadJournal,
+    component: ReadJournalScreen,
     initialParams: {
       readJournal: null,
     },

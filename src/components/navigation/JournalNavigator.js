@@ -4,9 +4,9 @@ import {StyleSheet} from 'react-native';
 import {useSettings} from '../context/Provider';
 import {strings} from '../../localization';
 import {APP_COLORS} from '../../constans/constants';
-import Journals from '../../screens/journal/Journals';
-import MyJournal from '../../screens/journal/MyJournal';
 import {ROUTE_NAMES} from './routes';
+import JournalsScreen from '../../screens/journal/JournalsScreen';
+import MyJournalScreen from '../../screens/journal/MyJournalScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -28,14 +28,14 @@ const JournalNavigator = () => {
       }}>
       <Tab.Screen
         name={ROUTE_NAMES.journals}
-        component={Journals}
+        component={JournalsScreen}
         options={{
           title: strings['Все журналы'],
         }}
       />
       <Tab.Screen
         name={ROUTE_NAMES.myJournlas}
-        component={MyJournal}
+        component={MyJournalScreen}
         options={{
           title: strings['Купленные журналы'],
         }}

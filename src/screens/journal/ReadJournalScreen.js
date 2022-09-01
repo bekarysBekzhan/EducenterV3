@@ -8,7 +8,7 @@ import {setFontStyle} from '../../utils/utils';
 
 const {width, height} = Dimensions.get('screen');
 
-const ReadJournal = ({navigation, route}) => {
+const ReadJournalScreen = ({navigation, route}) => {
   const {readJournal} = route.params;
 
   console.log('readJournal', readJournal);
@@ -75,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ReadJournal;
+export default ReadJournalScreen;

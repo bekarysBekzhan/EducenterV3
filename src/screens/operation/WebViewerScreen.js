@@ -1,12 +1,10 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-// import {Linking} from 'react-native';
 import WebView from 'react-native-webview';
 import UniversalView from '../../components/view/UniversalView';
-import {DOMAIN} from '../../constans/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {OperationService} from '../../services/API';
 
-const WebViewer = ({navigation, route}) => {
+const WebViewerScreen = ({navigation, route}) => {
   const {webViewer, type, mode} = route?.params;
 
   console.log('----> params: ', webViewer, type);
@@ -72,4 +70,4 @@ const WebViewer = ({navigation, route}) => {
   );
 };
 
-export default WebViewer;
+export default WebViewerScreen;

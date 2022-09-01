@@ -34,7 +34,7 @@ import {ROUTE_NAMES} from '../../components/navigation/routes';
 
 const {width} = Dimensions.get('screen');
 
-const Operation = ({navigation, route}) => {
+const OperationScreen = ({navigation, route}) => {
   const {settings} = useSettings();
 
   const {operation, type} = route.params;
@@ -552,4 +552,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Operation;
+export default OperationScreen;

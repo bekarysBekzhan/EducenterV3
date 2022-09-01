@@ -6,11 +6,10 @@ import JournalItem from '../../components/item/JournalItem';
 import Loader from '../../components/Loader';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import UniversalView from '../../components/view/UniversalView';
-import {TYPE_SUBCRIBES} from '../../constans/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {JournalService} from '../../services/API';
 
-const Journals = ({navigation}) => {
+const MyJournalScreen = ({navigation}) => {
   const {isAuth} = useSettings();
 
   const [dataSource, setDataSource] = useState({
@@ -21,16 +20,14 @@ const Journals = ({navigation}) => {
     list: [],
   });
 
-  const [fetchJornals, loading, error] = useFetching(async () => {
-    let params = {
-      page: dataSource?.page,
-    };
-    const response = await JournalService.fetchJournals(params);
+  const [fetchMyJournal, loading, error] = useFetching(async () => {
+    const response = await JournalService.fetchMyJournals();
     setDataSource(prev => ({
       ...prev,
       list: response?.data?.data?.data,
-      lastPage: response?.data?.data?.last_page,
       refreshing: false,
+      loadMore: false,
+      lastPage: response?.data?.data?.last_page,
     }));
   });
 
@@ -38,7 +35,7 @@ const Journals = ({navigation}) => {
     let params = {
       page: dataSource?.page,
     };
-    const response = await JournalService.fetchJournals(params);
+    const response = await JournalService.fetchMyJournals(params);
     setDataSource(prev => ({
       ...prev,
       list: prev?.data?.concat(response?.data?.data?.data),
@@ -46,6 +43,22 @@ const Journals = ({navigation}) => {
       loadMore: false,
     }));
   };
+
+  useEffect(() => {
+    const unsubcribeFocus = navigation.addListener('tabPress', e => {
+      if (!isAuth) {
+        e.preventDefault();
+      } else {
+        if (dataSource?.page == 1) {
+          fetchMyJournal();
+        } else {
+          fetchNextPage();
+        }
+      }
+    });
+
+    return () => unsubcribeFocus;
+  }, [dataSource?.page]);
 
   const onRefresh = () => {
     setDataSource(prev => ({
@@ -56,7 +69,7 @@ const Journals = ({navigation}) => {
       refreshing: true,
     }));
     if (dataSource?.page == 1) {
-      fetchJornals();
+      fetchMyJournal();
     }
   };
 
@@ -73,14 +86,6 @@ const Journals = ({navigation}) => {
     }
   };
 
-  useEffect(() => {
-    if (dataSource?.page == 1) {
-      fetchJornals();
-    } else {
-      fetchNextPage();
-    }
-  }, [dataSource?.page]);
-
   const renderFooter = () => {
     if (dataSource?.loadMore) {
       return <Loader />;
@@ -88,30 +93,28 @@ const Journals = ({navigation}) => {
     return null;
   };
 
-  const onNav = item => {
-    if (isAuth) {
-      navigation.navigate(ROUTE_NAMES.operation, {
-        operation: item,
-        type: TYPE_SUBCRIBES.JOURNAL_SUBCRIBE,
-      });
-    } else {
-      navigation.navigate(ROUTE_NAMES.login);
+  const onNav = useCallback(item => {
+    console.log('onNav', item);
+    if (item?.file) {
+      navigation.navigate(ROUTE_NAMES.readJournal, {readJournal: item});
     }
-  };
+  }, []);
 
-  const keyExtractor = useCallback(item => item?.id?.toString(), []);
+  const keyExtractor = item => item?.id?.toString();
 
-  const renderItem = ({item, index}) => (
-    <JournalItem
-      item={item}
-      source={item?.poster}
-      title={item?.title}
-      year={item?.year}
-      price={item?.price}
-      old_price={item?.old_price}
-      has_subscribed={item?.has_subscribed}
-      onPress={onNav}
-    />
+  const renderItem = useCallback(
+    ({item, index}) => (
+      <JournalItem
+        item={item}
+        source={item?.journal?.poster}
+        title={item?.title}
+        number={item?.number}
+        showPrice={false}
+        hasFile={item?.file}
+        onPress={onNav}
+      />
+    ),
+    [],
   );
 
   const renderEmpty = <Empty />;
@@ -122,14 +125,13 @@ const Journals = ({navigation}) => {
         data={dataSource?.list}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
-        contentContainerStyle={styles.list}
         ListEmptyComponent={renderEmpty}
         ListFooterComponent={renderFooter}
         onRefresh={onRefresh}
-        onEndReachedThreshold={0.1}
-        onEndReached={onEndReached}
         refreshing={dataSource?.refreshing}
-        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.list}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.1}
       />
     </UniversalView>
   );
@@ -141,4 +143,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Journals;
+export default MyJournalScreen;
