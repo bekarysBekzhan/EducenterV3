@@ -27,7 +27,7 @@ const App = () => {
   };
 
   const deinitPlayer = async () => {
-    await TrackPlayer.destroy();
+    // await TrackPlayer.destroy();
   };
 
   useTrackPlayerEvents(events, () => {

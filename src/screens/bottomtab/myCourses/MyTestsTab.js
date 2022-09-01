@@ -136,16 +136,26 @@ const ModuleMyTestItem = ({
   const { settings } = useSettings()
 
   useEffect(() => {
-    console.log("certificate : " , certificate)
+    console.log("attempts : " , attempts)
+    console.log("used attempts : " , usedAttempts())
   }, [])
 
   const usedAttempts = () => {
-    return attemptHistory?.filter(item => item?.finished).length;
+    return attemptHistory?.filter(item => item?.finished).length - 1;
   };
 
   const onDownload = () => {};
 
   const renderItem = ({ item, index }) => {
+
+    if (!item) {
+      return(
+        <RowView style={testItem.attemptRow}>
+
+        </RowView>
+      )
+    }
+
     return (
       <TouchableOpacity
         style={[testItem.attempt, {
@@ -154,15 +164,12 @@ const ModuleMyTestItem = ({
         onPress={() => undefined}
         activeOpacity={0.88}
       >
-        <RowView style={{
-          justifyContent: "space-between",
-          marginBottom: 10
-        }}>
+        <RowView style={[ testItem.attemptRow, { marginBottom: 10 } ]}>
           <RowView>
             <View style={[ testItem.icon, { backgroundColor: APP_COLORS.input } ]}>
               <PlayIcon size={0.6} color={APP_COLORS.primary}/>
             </View>
-            <Text style={testItem.attemptText}>{ item?.finished ? strings.Попытка + " " + (index + 1) : strings.Пройти + ". " + strings.Попытка + " " + (index + 1)}</Text>
+            <Text style={testItem.attemptText}>{ item?.finished ? strings.Попытка + " " + item?.attempts : strings.Пройти + ". " + strings.Попытка + " " + item?.attempts}</Text>
           </RowView>
           <RowView>
             <TimeIcon color={APP_COLORS.placeholder}/>
@@ -228,7 +235,7 @@ const ModuleMyTestItem = ({
       </RowView>
       <Collapsible collapsed={isCollapsed}>
         <FlatList
-          data={attemptHistory}
+          data={attemptHistory.concat(Array(attempts - usedAttempts()).fill(false))}
           renderItem={renderItem}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -311,6 +318,10 @@ const testItem = StyleSheet.create({
   },
   attemptText: {
     ...setFontStyle(13, "500"),
+  },
+  attemptRow: {
+    justifyContent: "space-between",
+
   }
 });
 
