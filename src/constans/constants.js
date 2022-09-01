@@ -53,6 +53,7 @@ export const URLS = {
   moduleTestInfo: 'test/info/module_test/',
   moduleTestFinish: 'test/finish/module_test/',
   moduleMyTests: 'modules/tests/my/tests',
+  moduleMyTasks: 'modules/tasks/my/tasks',
   moduleTasks: 'modules/tasks',
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',

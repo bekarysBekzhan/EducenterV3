@@ -244,6 +244,29 @@ class MyCourseService {
     console.log('My tests : ', response);
     return response;
   };
+  static fetchMyTasks = async (
+    query = '',
+    page = 1,
+    price = undefined,
+    categoryID = undefined,
+  ) => {
+    let params = {
+      filters: true,
+      page: page,
+    };
+    if (query.length > 0) {
+      params.query = query;
+    }
+    if (price) {
+      params.price = price;
+    }
+    if (categoryID) {
+      params.category_id = categoryID;
+    }
+    const response = await API_V2.get(URLS.moduleMyTasks, {params: params});
+    console.log('My tasks : ', response);
+    return response;
+  }
 }
 
 class AuthService {
