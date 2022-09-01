@@ -13,6 +13,7 @@ import { strings } from '../../../localization';
 import CourseRow from '../../../components/CourseRow';
 import { setFontStyle } from '../../../utils/utils';
 import { ROUTE_NAMES } from '../../../components/navigation/routes';
+import Empty from '../../../components/Empty';
 
 const MyCoursesTab = (props) => {
 
@@ -67,6 +68,7 @@ const MyCoursesTab = (props) => {
         data={data}
         renderItem={renderCourse}
         ListFooterComponent={renderFooter}
+        ListEmptyComponent={() => <Empty/>}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}

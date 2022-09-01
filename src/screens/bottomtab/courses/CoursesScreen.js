@@ -14,6 +14,7 @@ import ItemRating from '../../../components/ItemRating'
 import { setFontStyle } from '../../../utils/utils'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
 import LoadingScreen from '../../../components/LoadingScreen'
+import Empty from '../../../components/Empty'
 
 const CoursesScreen = (props) => {
 
@@ -82,6 +83,7 @@ const CoursesScreen = (props) => {
           data={data}
           renderItem={renderCourse}
           ListFooterComponent={renderFooter}
+          ListEmptyComponent={() => <Empty/>}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}

@@ -12,6 +12,7 @@ import Divider from '../../../components/Divider'
 import RowView from '../../../components/view/RowView'
 import { check, PlayIcon } from '../../../assets/icons'
 import TextButton from '../../../components/button/TextButton'
+import Empty from '../../../components/Empty'
 
 const MyTasksTab = (props) => {
 
@@ -103,6 +104,7 @@ const MyTasksTab = (props) => {
       <FlatList
         data={data}
         contentContainerStyle={styles.container}
+        ListEmptyComponent={() => <Empty/>}
         renderItem={renderTask}
         ListFooterComponent={renderFooter}
         keyExtractor={(_, index) => index.toString()}
