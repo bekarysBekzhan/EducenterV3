@@ -39,6 +39,7 @@ import {ProfileService} from '../../../services/API';
 import {setFontStyle} from '../../../utils/utils';
 import {APP_COLORS} from '../../../constans/constants';
 import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 const ProfileScreen = ({navigation, route}) => {
   const {profile} = route.params;
@@ -100,6 +101,8 @@ const ProfileScreen = ({navigation, route}) => {
           text: settings?.modules_enabled_journals_title,
           iconLeft: <JournalIcon />,
           enabled: settings?.modules_enabled_journals,
+          action: 'navigation',
+          route: ROUTE_NAMES.journalNavigator,
         },
         {
           id: 2,
@@ -190,10 +193,13 @@ const ProfileScreen = ({navigation, route}) => {
     }));
   }, []);
 
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return (
     <UniversalView
       haveScroll
-      haveLoader={isLoading}
       refreshControl={
         <RefreshControl
           refreshing={dataSource?.refreshing}

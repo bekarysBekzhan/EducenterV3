@@ -28,6 +28,7 @@ import RegisterScreen from '../../screens/auth/RegisterScreen';
 import RecoveryScreen from '../../screens/auth/RecoveryScreen';
 import LoadingScreen from '../LoadingScreen';
 import ModuleTestScreen from '../../screens/bottomtab/tests/ModuleTestScreen';
+import ReadJournal from '../../screens/journal/ReadJournal';
 
 const MainStack = createNativeStackNavigator();
 
@@ -105,12 +106,18 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.myTestPass,
-    component: ModuleTestScreen
+    component: ModuleTestScreen,
+  },
+  {
+    name: ROUTE_NAMES.readJournal,
+    component: ReadJournal,
+    initialParams: {
+      readJournal: null,
+    },
   },
 ];
 
 const Navigation = () => {
-
   const {setSettings, setUserToken, setIsAuth, isAuth} = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
@@ -134,9 +141,7 @@ const Navigation = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <LoadingScreen/>
-    );
+    return <LoadingScreen />;
   }
   return (
     <NavigationContainer>

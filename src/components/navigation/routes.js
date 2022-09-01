@@ -49,7 +49,6 @@ export const ROUTE_NAMES = {
   taskDetail: 'TaskDetail',
   // Menu
   menu: 'Menu',
-  journal: 'Journal',
   rating: 'Rating',
   refProgram: 'RefProgram',
   privacyPolicy: 'PrivacyPolicy',
@@ -73,4 +72,9 @@ export const ROUTE_NAMES = {
   operation: 'Operation',
   kaspiBank: 'KaspiBank',
   webViewer: 'WebViewer',
+  //Journal
+  journalNavigator: 'JournalNavigator',
+  journals: 'Journals',
+  myJournlas: 'MyJournals',
+  readJournal:'ReadJournal'
 };

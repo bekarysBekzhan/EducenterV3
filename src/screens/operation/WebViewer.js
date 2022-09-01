@@ -19,6 +19,7 @@ const WebViewer = ({navigation, route}) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: type?.title,
+      headerTitleAlign: 'center',
     });
   }, []);
 
