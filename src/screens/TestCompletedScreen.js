@@ -4,7 +4,7 @@ import UniversalView from '../components/view/UniversalView'
 import { useFetching } from '../hooks/useFetching'
 import LoadingScreen from '../components/LoadingScreen'
 
-const TestRelatedScreen = () => {
+const TestCompletedScreen = () => {
 
 
     const [fetchCompltedTest, isFetching, fetchingError] = useFetching(async () => {
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default TestRelatedScreen
+export default TestCompletedScreen
