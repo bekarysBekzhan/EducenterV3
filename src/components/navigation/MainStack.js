@@ -27,6 +27,7 @@ import ModuleTestScreen from '../../screens/bottomtab/tests/ModuleTestScreen';
 import ReadJournalScreen from '../../screens/journal/ReadJournalScreen';
 import OperationScreen from '../../screens/operation/OperationScreen';
 import WebViewerScreen from '../../screens/operation/WebViewerScreen';
+import TestCompletedScreen from '../../screens/TestCompletedScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -113,6 +114,10 @@ const PRIVATE = [
       readJournal: null,
     },
   },
+  {
+    name: ROUTE_NAMES.testCompleted,
+    component: TestCompletedScreen
+  }
 ];
 
 const Navigation = () => {

@@ -17,7 +17,7 @@ export const ROUTE_NAMES = {
   myTestPass: 'MyTestPass',
   testResult: 'TestResult',
   myTestResult: 'MyTestResult',
-  testFinish: 'TestFinish',
+  testCompleted: 'TestCompleted',
   courseTask: 'CourseTask',
   bottomTab: 'BottomTab',
   // SPLASH STACK SCREENS
