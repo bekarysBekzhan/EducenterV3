@@ -13,6 +13,7 @@ import RowView from '../components/view/RowView';
 import { TimeIcon } from '../assets/icons';
 import Timer from '../components/test/Timer';
 import Overlay from '../components/view/Overlay';
+import { ROUTE_NAMES } from '../components/navigation/routes';
 
 const CourseTestScreen = props => {
 
@@ -32,6 +33,7 @@ const CourseTestScreen = props => {
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
     console.log("Test id : " , data?.id)
     const response = await CourseService.finishTest(data?.id)
+    props.navigation.navigate(ROUTE_NAMES.testCompleted, {})
   })
 
   useEffect(() => {
@@ -41,10 +43,12 @@ const CourseTestScreen = props => {
   }, [testError])
 
   useLayoutEffect(() => {
-    props.navigation.setOptions({
-      headerRight: () => <TestTimer initialTime={seconds ? seconds : 120} finishTest={finishTest}/>,
-      title: lessonTitle ? lessonTitle : strings.тест
-    })
+    if (data) {
+      props.navigation.setOptions({
+        headerRight: () => <TestTimer initialTime={getInitialSeconds(data?.finishing_time)} finishTest={finishTest}/>,
+        title: lessonTitle ? lessonTitle : strings.тест
+      })
+    }
   }, [data])
 
   useEffect(() => {
@@ -57,6 +61,26 @@ const CourseTestScreen = props => {
   const resetAudio = async () => {
     await TrackPlayer.reset();
   };
+
+  const getInitialSeconds = (finishingTime) => {
+
+    if (finishingTime === undefined || finishingTime === null) {
+      return 0
+    }
+
+    const currentSeconds = new Date().getTime() / 1000
+    const finishingSeconds = new Date(finishingTime).getTime() / 1000
+
+    const diffSeconds = finishingSeconds - currentSeconds
+
+    console.log("difference : " , diffSeconds)
+
+    if (diffSeconds < 0) {
+      return 0
+    }
+
+    return diffSeconds
+  }
 
   const onTrackChange = (duration, setDuration, setPosition, setPlaying) => {
     if (currentSetDuration.current) {
