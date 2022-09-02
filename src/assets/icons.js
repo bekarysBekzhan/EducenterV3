@@ -8,7 +8,7 @@ import Svg, {
   Circle,
   Line,
 } from 'react-native-svg';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS, WIDTH} from '../constans/constants';
 
 export const Logo = (size = 1) => (
   <Svg
@@ -1223,3 +1223,30 @@ export const ClipCheckIcon = ({width = '28', height = '30', fill = '#007AFF'}) =
     />
   </Svg>
 );
+
+
+export const PassedTestPoster = ({ height = 186 }) => (
+  <Svg width={WIDTH} height={height} viewBox="0 0 375 186" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Mask id="mask0_2328_1575" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width={WIDTH} height={height}>
+    <Rect width={WIDTH} height={height} fill="black"/>
+    </Mask>
+    <G mask="url(#mask0_2328_1575)">
+    <Rect y="-15" width={WIDTH} height="201" fill="#F5F5F5"/>
+    <Path d="M442.325 78.6182L395.782 61.678L373.586 122.659C368.154 137.585 351.616 145.301 336.625 139.844C295.961 125.044 250.987 145.952 236.195 186.593L214 247.574L260.543 264.514L282.738 203.533C288.17 188.607 304.708 180.891 319.699 186.347C360.363 201.148 405.337 180.24 420.129 139.599L442.325 78.6182Z" fill="#5559F4"/>
+    <Path d="M147.297 -60.4666L97.024 -71.3771L82.7289 -5.50898C79.23 10.613 63.2917 20.8717 47.0993 17.3576C3.17644 7.82517 -40.1777 35.6457 -49.7046 79.5434L-63.9997 145.412L-13.7266 156.322L0.568485 90.454C4.06737 74.332 20.0058 64.0733 36.1981 67.5874C80.121 77.1198 123.475 49.2993 133.002 5.40159L147.297 -60.4666Z" fill="#5559F4"/>
+    </G>
+  </Svg>
+)
+
+export const FailtedTestPoster = ({ height = 186 }) => (
+  <Svg width={WIDTH} height={height} viewBox="0 0 375 186" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Mask id="mask0_2328_1658" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width={WIDTH} height={height}>
+    <Rect width={WIDTH} height={height} fill="black"/>
+    </Mask>
+    <G mask="url(#mask0_2328_1658)">
+    <Rect y="-15" width={WIDTH} height="201" fill="#F5F5F5"/>
+    <Path d="M420.325 103.618L373.782 86.678L351.586 147.659C346.154 162.585 329.616 170.301 314.625 164.844C273.961 150.044 228.987 170.952 214.195 211.593L192 272.574L238.543 289.514L260.738 228.533C266.17 213.607 282.708 205.891 297.699 211.347C338.363 226.148 383.337 205.24 398.129 164.599L420.325 103.618Z" fill="#FF3B30"/>
+    <Path d="M147.297 -60.4666L97.024 -71.3771L82.7289 -5.50897C79.23 10.613 63.2916 20.8717 47.0993 17.3576C3.17644 7.82517 -40.1777 35.6457 -49.7046 79.5434L-63.9997 145.412L-13.7266 156.322L0.568485 90.454C4.06737 74.332 20.0058 64.0733 36.1981 67.5874C80.121 77.1198 123.475 49.2993 133.002 5.40159L147.297 -60.4666Z" fill="#FF3B30"/>
+    </G>
+  </Svg>
+)
