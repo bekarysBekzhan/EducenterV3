@@ -129,7 +129,11 @@ const MyTask = ({
   return(
     <View style={task.container}>
       <Text style={task.title}>{title}</Text>
-      <Text style={task.score}>{wordLocalization(strings['Вы набрали :score баллов'], { score: score })}</Text>
+      {
+        finished ? 
+        <Text style={task.score}>{wordLocalization(strings['Вы набрали :score баллов'], { score: score })}</Text>
+        : null
+      }
       <Divider isAbsolute={false} style={task.divider}/>
       <RowView>
         {
