@@ -57,6 +57,10 @@ const LessonScreen = (props) => {
 
     const nextLessonTapped = async() => {
 
+        if(data?.isLast) {
+            return
+        }
+
         setIsModal(true)
 
         try {
