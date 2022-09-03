@@ -18,7 +18,6 @@ const ModuleTestScreen = props => {
 
   const id = props.route?.params?.id
   const lessonTitle = props.route?.params?.title
-  const seconds = props.route?.params?.seconds
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -49,10 +48,12 @@ const ModuleTestScreen = props => {
   }, [testError])
 
   useLayoutEffect(() => {
+    props.navigation.setOptions({
+      title: lessonTitle ? lessonTitle : strings.тест
+    })
     if (data) {
       props.navigation.setOptions({
         headerRight: () => <TestTimer initialTime={getInitialSeconds(data?.finishing_time)} finishTest={finishTest}/>,
-        title: lessonTitle ? lessonTitle : strings.тест
       })
     }
   }, [data])

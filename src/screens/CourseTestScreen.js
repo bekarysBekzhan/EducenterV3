@@ -19,7 +19,6 @@ const CourseTestScreen = props => {
 
   const id = props.route?.params?.id
   const lessonTitle = props.route?.params?.title
-  const seconds = props.route?.params?.seconds
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -31,9 +30,9 @@ const CourseTestScreen = props => {
     setData(response.data?.data)
   });
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
-    console.log("Test id : " , data?.id)
     const response = await CourseService.finishTest(data?.id)
-    props.navigation.navigate(ROUTE_NAMES.testCompleted, {})
+    const finishedTestData = response.data?.data
+    props.navigation.replace(ROUTE_NAMES.testCompleted, { passed: finishedTestData?.passed, correct: finishedTestData?.score, total: finishedTestData?.tests_count })
   })
 
   useEffect(() => {
@@ -43,10 +42,12 @@ const CourseTestScreen = props => {
   }, [testError])
 
   useLayoutEffect(() => {
+    props.navigation.setOptions({
+      title: lessonTitle ? lessonTitle : strings.тест
+    })
     if (data) {
       props.navigation.setOptions({
         headerRight: () => <TestTimer initialTime={getInitialSeconds(data?.finishing_time)} finishTest={finishTest}/>,
-        title: lessonTitle ? lessonTitle : strings.тест
       })
     }
   }, [data])
