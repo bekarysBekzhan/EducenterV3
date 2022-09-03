@@ -28,6 +28,7 @@ import ReadJournalScreen from '../../screens/journal/ReadJournalScreen';
 import OperationScreen from '../../screens/operation/OperationScreen';
 import WebViewerScreen from '../../screens/operation/WebViewerScreen';
 import TestCompletedScreen from '../../screens/TestCompletedScreen';
+import CourseCompletedScreen from '../../screens/CourseCompletedScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -117,6 +118,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.testCompleted,
     component: TestCompletedScreen
+  },
+  {
+    name: ROUTE_NAMES.courseFinish,
+    component: CourseCompletedScreen
   }
 ];
 
