@@ -46,6 +46,12 @@ class CourseService {
     return response;
   };
 
+  static finishCourse = async id => {
+    const response = await API_V2.get(URLS.courseByID + id + URLS.finishCourse)
+    console.log("Finish course with id : " + id , response)
+    return response
+  }
+
   static fetchCategories = async () => {
     const response = await API_V2.get(URLS.categories);
     console.log('CATEGORIES: ', response);

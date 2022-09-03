@@ -33,6 +33,7 @@ export const URLS = {
   courses: 'courses',
   myCourses: 'my_courses',
   courseByID: 'course/',
+  finishCourse: "/finish",
   categories: 'categories',
   lesson: 'lesson/',
   lessonTestStart: 'test/start/lesson/',
