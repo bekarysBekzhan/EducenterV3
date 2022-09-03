@@ -226,6 +226,7 @@ export const strings = new LocalizedStrings({
         "Подписаться": "Жазылу",
         "Вы набрали :score баллов": "Сіз :score балл жинадыңыз",
         "Задание завершено" : "Тапсырма аяқталды",
+        "Результаты" : "Нәтижелер",
     },
     ru: {
         "Курсы": "Курсы",
@@ -452,6 +453,8 @@ export const strings = new LocalizedStrings({
         "Подписаться": "Подписаться",
         "Вы набрали :score баллов": "Вы набрали :score баллов",
         "Задание завершено" : "Задание завершено",
+        "Результаты" : "Результаты",
+
     },
     en: {
         "Курсы": "Courses",
@@ -679,5 +682,6 @@ export const strings = new LocalizedStrings({
         "Подписаться": "Subscribe",
         "Вы набрали :score баллов": "You have scored :score points",
         "Задание завершено" : "Task completed",
+        "Результаты" : "Результаты",
     }
 })
