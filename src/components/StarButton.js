@@ -5,9 +5,6 @@ import {
 import { emptyStar, halfStar, starIcon } from '../assets/icons';
 
 
-
-
-
 const StarButton = ({
   disabled,
   halfStarEnabled,
