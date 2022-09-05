@@ -1,6 +1,6 @@
 
 import { View, Text, StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { useFetching } from '../hooks/useFetching'
 import { CourseService } from '../services/API'
@@ -9,7 +9,7 @@ import { strings } from '../localization'
 import { setFontStyle, wordLocalization } from '../utils/utils'
 import CourseRow from '../components/CourseRow'
 import SimpleButton from '../components/button/SimpleButton'
-import { APP_COLORS } from '../constans/constants'
+import { APP_COLORS, WIDTH } from '../constans/constants'
 
 const CourseCompletedScreen = (props) => {
 
@@ -20,6 +20,12 @@ const CourseCompletedScreen = (props) => {
       const response = await CourseService.finishCourse(id)
       setData(response.data?.data)
     })
+
+    useLayoutEffect(() => {
+      props.navigation.setOptions({
+        title: strings['Завершение курса']
+      })
+    }, [])
 
     useEffect(() => {
       fetchFinishedCourse()
@@ -52,9 +58,17 @@ const CourseCompletedScreen = (props) => {
           count: 10,
         })}</Text>
         <CourseRow
-          
+          poster={data?.poster}
+          title={data?.title}
+          category_name={data?.category?.name}
+          reviewCount={data?.reviews_count}
+          rating={data?.rating}
+          disabled={true}
         />
-        <Text style={styles.text}>{strings['Твой сертификат доступен в твоем личном кабинете']}</Text>
+        {/* <View style={styles.view}> */}
+
+        {/* </View> */}
+        <Text style={[styles.text, {textAlign: "center"}]}>{strings['Твой сертификат доступен в твоем личном кабинете']}</Text>
         <SimpleButton
           text={strings['Скачать сертификат']}
           style={styles.downloadButton}
@@ -80,7 +94,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...setFontStyle(16),
-    marginVertical: 20
+    marginVertical: 16
   },
   downloadButton: {
     backgroundColor: "transparent",
@@ -92,10 +106,15 @@ const styles = StyleSheet.create({
     color: APP_COLORS.primary
   },
   reviewButton: {
-    
+
   },
   reviewText: {
 
+  },
+  view: {
+    width: WIDTH,
+    height: 200,
+    backgroundColor: "yellow"
   }
 })
 

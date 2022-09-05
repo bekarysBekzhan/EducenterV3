@@ -58,6 +58,7 @@ const LessonScreen = (props) => {
     const nextLessonTapped = async() => {
 
         if(data?.isLast) {
+            props.navigation.navigate(ROUTE_NAMES.courseFinish, {id: data?.course?.id})
             return
         }
 
