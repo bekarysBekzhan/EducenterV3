@@ -4,7 +4,9 @@ export const ROUTE_NAMES = {
   testSearch: 'TestSearch',
   taskSearch: 'TaskSearch',
   filter: 'Filter',
+  filterRating: 'FilterRating',
   selectCategory: 'SelectCategory',
+  selectCategoryRating: 'SelectCategoryRating',
   courseReview: 'CourseReview',
   courseLeaveReview: 'CourseLeaveReview',
   courseFinish: 'CourseFinish',
@@ -76,5 +78,7 @@ export const ROUTE_NAMES = {
   journalNavigator: 'JournalNavigator',
   journals: 'Journals',
   myJournlas: 'MyJournals',
-  readJournal:'ReadJournal'
+  readJournal: 'ReadJournal',
+  //Rating
+  rating: 'Rating',
 };

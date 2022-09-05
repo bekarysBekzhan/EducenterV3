@@ -65,6 +65,7 @@ export const URLS = {
   promocodes: 'promocodes',
   journal: 'modules/journal',
   journal_subscribed: 'modules/journal/my/subscribed',
+  rating:'modules/tests/my/rating'
 };
 
 export const STORAGE = {

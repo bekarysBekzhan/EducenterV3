@@ -1,11 +1,11 @@
 import React from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {StyleSheet} from 'react-native';
-import {APP_COLORS} from '../../constans/constants';
-import {strings} from '../../localization';
-import {ROUTE_NAMES} from './routes';
-import ScheduleLessons from '../../screens/schedule/ScheduleLesson';
-import ScheduleVisits from '../../screens/schedule/ScheduleVisits';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { StyleSheet } from 'react-native';
+import { APP_COLORS } from '../../constans/constants';
+import { strings } from '../../localization';
+import { ROUTE_NAMES } from './routes';
+import ScheduleLessonsScreen from '../../screens/schedule/ScheduleLessonScreen';
+import ScheduleVisitsScreen from '../../screens/schedule/ScheduleVisitsScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -23,13 +23,13 @@ const ScheduleNavigator = () => (
     }}>
     <Tab.Screen
       name={ROUTE_NAMES.scheduleLessons}
-      component={ScheduleLessons}
-      options={{title: strings.Уроки}}
+      component={ScheduleLessonsScreen}
+      options={{ title: strings.Уроки }}
     />
     <Tab.Screen
       name={ROUTE_NAMES.scheduleVisitis}
-      component={ScheduleVisits}
-      options={{title: strings.Посещения}}
+      component={ScheduleVisitsScreen}
+      options={{ title: strings.Посещения }}
     />
   </Tab.Navigator>
 );

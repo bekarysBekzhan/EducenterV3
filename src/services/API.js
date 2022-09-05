@@ -389,6 +389,14 @@ class JournalService {
   };
 }
 
+class RatingService {
+  static fetchRating = async params => {
+    const response = await API_V2.get(URLS.rating, {params});
+    console.log('fetchRating: ', response);
+    return response;
+  };
+}
+
 export {
   MobileSettingsService,
   CourseService,
@@ -403,4 +411,5 @@ export {
   SettingsService,
   OperationService,
   JournalService,
+  RatingService,
 };

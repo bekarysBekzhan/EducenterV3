@@ -109,6 +109,8 @@ const ProfileScreen = ({navigation, route}) => {
           text: settings?.modules_enabled_rating_title,
           iconLeft: <RatingIcon />,
           enabled: settings?.modules_enabled_rating,
+          action: 'navigation',
+          route: ROUTE_NAMES.rating,
         },
         // {
         //   id: 3,

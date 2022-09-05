@@ -1,56 +1,43 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, StyleSheet } from 'react-native';
 import Empty from '../../components/Empty';
-import ScheduleVisitItem from '../../components/item/ScheduleVisitItem';
+import ScheduleLessonItem from '../../components/item/ScheduleLessonItem';
 import Loader from '../../components/Loader';
 import UniversalView from '../../components/view/UniversalView';
-import {useFetching} from '../../hooks/useFetching';
-import {ScheduleService} from '../../services/API';
-import {setFontStyle} from '../../utils/utils';
+import { useFetching } from '../../hooks/useFetching';
+import { ScheduleService } from '../../services/API';
 
-const ScheduleVisits = () => {
+const ScheduleLessonsScreen = () => {
   const [dataSource, setDataSource] = useState({
-    page: 1,
     refreshing: false,
-    lastPage: null,
     loadMore: false,
     list: [],
+    page: 1,
+    lastPage: null,
   });
 
-  const [fetchScheduleVisitis, isLoading, error] = useFetching(async () => {
+  const [fetchScheduleLessons, isLoading, error] = useFetching(async () => {
     let params = {
       page: dataSource?.page,
     };
-    const response = await ScheduleService.fetchScheduleVisitis(params);
+    const response = await ScheduleService.fetchScheduleLessons(params);
     setDataSource(prev => ({
       ...prev,
       list: response?.data?.data?.data,
-      lastPage: response?.data?.data,
+      lastPage: response?.data?.data?.last_page,
       refreshing: false,
       loadMore: false,
     }));
   });
 
-  const onRefresh = () => {
-    setDataSource(prev => ({
-      ...prev,
-      refreshing: true,
-      loadMore: false,
-      page: 1,
-    }));
-    if (dataSource?.page == 1) {
-      fetchScheduleVisitis();
-    }
-  };
-
   const fetchNextPage = async () => {
     let params = {
       page: dataSource?.page,
     };
-    const response = await ScheduleService.fetchScheduleVisitis(params);
+    const response = await ScheduleService.fetchScheduleLessons(params);
     setDataSource(prev => ({
       ...prev,
-      data: prev?.data?.concat(response?.data?.data?.data),
+      list: prev?.list?.concat(response?.data?.data?.data),
       refreshing: false,
       loadMore: false,
     }));
@@ -58,11 +45,24 @@ const ScheduleVisits = () => {
 
   useEffect(() => {
     if (dataSource?.page == 1) {
-      fetchScheduleVisitis();
+      fetchScheduleLessons();
     } else {
       fetchNextPage();
     }
   }, [dataSource?.page]);
+
+  const onRefresh = () => {
+    setDataSource(prev => ({
+      ...prev,
+      refreshing: true,
+      loadMore: false,
+      page: 1,
+      lastPage: null,
+    }));
+    if (dataSource?.page == 1) {
+      fetchScheduleLessons();
+    }
+  };
 
   const onEndReached = () => {
     if (!dataSource?.loadMore) {
@@ -80,16 +80,23 @@ const ScheduleVisits = () => {
   const keyExtractor = useCallback(item => item?.id?.toString(), []);
 
   const renderItem = useCallback(
-    ({item, index}) => (
-      <View>
-        <Text style={styles.title}>{item?.name}</Text>
-        <ScheduleVisitItem data={item?.attendances} />
-      </View>
+    ({ item, index }) => (
+      <ScheduleLessonItem
+        avatar={item?.teacher?.avatar}
+        name={
+          item?.teacher
+            ? item?.teacher?.name + ' ' + item?.teacher?.surname
+            : null
+        }
+        category={item?.name}
+        item={item}
+        link={item?.link}
+      />
     ),
     [],
   );
 
-  const renderEmpty = <Empty style={styles.empty} />;
+  const renderEmpty = <Empty />;
 
   const renderFooter = () => {
     if (dataSource?.loadMore) {
@@ -108,7 +115,6 @@ const ScheduleVisits = () => {
         ListFooterComponent={renderFooter}
         refreshing={dataSource?.refreshing}
         onRefresh={onRefresh}
-        contentContainerStyle={styles.list}
         onEndReached={onEndReached}
         onEndReachedThreshold={0.1}
         showsVerticalScrollIndicator={false}
@@ -118,20 +124,12 @@ const ScheduleVisits = () => {
 };
 
 const styles = StyleSheet.create({
-  list: {
-    paddingTop: 16,
-  },
-  title: {
-    ...setFontStyle(17, '600'),
-    marginHorizontal: 16,
-    marginBottom: 8,
-  },
-  empty: {
-    marginTop: 0,
+  button: {
+    marginTop: 16,
   },
   loader: {
     marginVertical: 16,
   },
 });
 
-export default ScheduleVisits;
+export default ScheduleLessonsScreen;

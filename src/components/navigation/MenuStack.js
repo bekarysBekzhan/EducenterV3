@@ -14,6 +14,7 @@ import ProfieEditScreen from '../../screens/ProfileEditScreen';
 import ScheduleNavigator from './ScheduleNavigator';
 import SettingsScreen from '../../screens/SettingsScreen';
 import JournalNavigator from './JournalNavigator';
+import RatingScreen from '../../screens/RatingScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -84,6 +85,13 @@ const MenuStack = () => {
       component: JournalNavigator,
       options: {
         title: strings['Все журналы'],
+      },
+    },
+    {
+      name: ROUTE_NAMES.rating,
+      component: RatingScreen,
+      options: {
+        title: strings.Рейтинг,
       },
     },
   ];

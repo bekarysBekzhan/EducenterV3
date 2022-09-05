@@ -2,15 +2,16 @@
  * @format
  */
 import 'react-native-gesture-handler';
-import {AppRegistry} from 'react-native';
+import { AppRegistry } from 'react-native';
 import App from './App';
-import {name as appName} from './app.json';
+import { name as appName } from './app.json';
 import TrackPlayer from 'react-native-track-player';
-import {init} from './src/services/init';
+import { init } from './src/services/init';
+import { PlaybackService } from './src/services/trackPlayerService';
 
 init();
 
 AppRegistry.registerComponent(appName, () => App);
 TrackPlayer.registerPlaybackService(() =>
-  require('./src/services/trackPlayerService'),
+  PlaybackService
 );
