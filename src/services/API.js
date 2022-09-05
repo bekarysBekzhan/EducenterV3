@@ -52,8 +52,19 @@ class CourseService {
     return response
   }
 
-  static rateCourse = async id => {
-    const response = await API_V2.get(URLS.courseByID + id + URLS.courseRate)
+  static rateCourse = async (id, text = "", stars) => {
+
+    let params = {}
+
+    if (text.length > 0) {
+      params.text = text
+    }
+
+    if (stars !== undefined) {
+      params.stars = stars
+    }
+
+    const response = await API_V2.get(URLS.courseByID + id + URLS.courseRate, { params: params })
     console.log("Course with id : " + id + " rated : " , response)
     return response
   }
