@@ -10,6 +10,7 @@ import { setFontStyle, wordLocalization } from '../utils/utils'
 import CourseRow from '../components/CourseRow'
 import SimpleButton from '../components/button/SimpleButton'
 import { APP_COLORS, WIDTH } from '../constans/constants'
+import { ROUTE_NAMES } from '../components/navigation/routes'
 
 const CourseCompletedScreen = (props) => {
 
@@ -42,7 +43,7 @@ const CourseCompletedScreen = (props) => {
     }
 
     const onReview = () => {
-
+      props.navigation.navigate(ROUTE_NAMES.courseLeaveReview, { id })
     }
 
     if (isFetching) {
