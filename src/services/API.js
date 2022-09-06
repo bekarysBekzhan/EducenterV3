@@ -104,6 +104,12 @@ class CourseService {
     return response;
   };
 
+  static fetchTestResult = async id => {
+    const response = await API_V2.get(URLS.testResult + id)
+    console.log("TEST RESULT WITH ID " + id + " :", response)
+    return response
+  }
+
   static fetchTask = async id => {
     const response = await API_V2.get(URLS.lessonTaskShow + id);
     console.log('Lesson task with id ' + id + ':', response);
