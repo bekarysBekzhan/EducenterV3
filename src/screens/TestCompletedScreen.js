@@ -7,6 +7,7 @@ import FastImage from 'react-native-fast-image';
 import {APP_COLORS, HEIGHT, WIDTH} from '../constans/constants';
 import SimpleButton from '../components/button/SimpleButton';
 import RowView from '../components/view/RowView';
+import { ROUTE_NAMES } from '../components/navigation/routes';
 
 const TestCompletedScreen = props => {
 
@@ -42,7 +43,7 @@ const TestCompletedScreen = props => {
   };
 
   const onResults = () => {
-
+    props.navigation.navigate(ROUTE_NAMES.testResult, { id })
   }
 
   const onAgain = () => {
