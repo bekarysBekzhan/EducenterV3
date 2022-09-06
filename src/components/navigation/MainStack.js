@@ -30,6 +30,7 @@ import WebViewerScreen from '../../screens/operation/WebViewerScreen';
 import TestCompletedScreen from '../../screens/TestCompletedScreen';
 import CourseCompletedScreen from '../../screens/CourseCompletedScreen';
 import WriteReviewScreen from '../../screens/WriteReviewScreen';
+import TestResultScreen from '../../screens/TestResultScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -127,6 +128,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.courseLeaveReview,
     component: WriteReviewScreen
+  },
+  {
+    name: ROUTE_NAMES.testResult,
+    component: TestResultScreen
   }
 ];
 
