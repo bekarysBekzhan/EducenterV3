@@ -77,8 +77,6 @@ const RatingStar = ({
             starIconName = fullStar
           }
 
-          console.log("starIconName - " , starIconName)
-
           return (
             <AnimatableView
               key={i}

@@ -7,11 +7,13 @@ import { strings } from '../localization'
 import SimpleButton from '../components/button/SimpleButton'
 import { setFontStyle } from '../utils/utils'
 import RatingStar from '../components/RatingStar'
+import { APP_COLORS } from '../constans/constants'
 
 const WriteReviewScreen = (props) => {
 
   const id = props.route?.params?.id
 
+  const [buttonHeight, setButtonHeight] = useState(0)
   const [rateCourse, isSending, requestError] = useFetching(async() => {
     const response = await CourseService.rateCourse(id, text, rating)
     alertSuccessful()
@@ -44,6 +46,11 @@ const WriteReviewScreen = (props) => {
 
   }
 
+  const onButtonLayout = ({ nativeEvent: { layout: {width, height} } }) => {
+    console.log("button height : " , height)
+    setButtonHeight(2 * height)
+  }
+
   const alertSuccessful = () => {
     Alert.alert(
       strings['Спасибо!'],
@@ -58,7 +65,11 @@ const WriteReviewScreen = (props) => {
   } 
 
   return (
-    <KeyboardAvoidingView style={styles.container}>
+    <KeyboardAvoidingView 
+      style={styles.container} 
+      behavior="padding"
+      keyboardVerticalOffset={buttonHeight}
+    >
         <ScrollView contentContainerStyle={styles.scrollView}>
             <RatingStar
               halfStarEnabled={false}
@@ -68,8 +79,10 @@ const WriteReviewScreen = (props) => {
             />
             <TextInput
               value={text}
-              autoFocus
+              placeholder={strings['Ваш отзыв']}
+              placeholderTextColor={APP_COLORS.placeholder}
               onChangeText={onChangeText}
+              blurOnSubmit={false}
               style={styles.input}
               multiline
             />
@@ -77,6 +90,7 @@ const WriteReviewScreen = (props) => {
             <SimpleButton
               text={strings['Оставить отзыв']}
               onPress={rateCourse}
+              onLayout={onButtonLayout}
             />
         </ScrollView>
         <Overlay visible={isSending}/>

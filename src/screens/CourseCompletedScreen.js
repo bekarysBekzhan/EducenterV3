@@ -67,7 +67,7 @@ const CourseCompletedScreen = (props) => {
           disabled={true}
         />
         {/* <View style={styles.view}> */}
-
+        
         {/* </View> */}
         <Text style={[styles.text, {textAlign: "center"}]}>{strings['Твой сертификат доступен в твоем личном кабинете']}</Text>
         <SimpleButton
