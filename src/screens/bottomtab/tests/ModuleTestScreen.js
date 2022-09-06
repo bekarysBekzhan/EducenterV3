@@ -103,6 +103,7 @@ const ModuleTestScreen = props => {
     return (
       <Question
         questionItem={item}
+        items={item?.answers}
         passing_answers={data?.passing_answers}
         index={index}
         is_multiple={item?.is_multiple}
