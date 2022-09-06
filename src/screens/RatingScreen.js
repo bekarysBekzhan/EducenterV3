@@ -245,7 +245,7 @@ const RatingScreen = ({ }) => {
           snapPoints={snapPoints}
           index={3}
           onChange={handleSheetChanges}
-          enablePanDownToClose
+          // enablePanDownToClose
           backdropComponent={renderBackdrop}>
           <BottomSheetRatingStack
             sort={sort}

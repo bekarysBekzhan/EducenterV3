@@ -8,8 +8,6 @@ install! 'cocoapods', :deterministic_uuids => false
 target 'Educenter' do
   config = use_native_modules!
 
-  # pod 'react-native-video/VideoCaching', :path => '../node_modules/react-native-video/react-native-video.podspec'
-
   # # Permission handlers
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"

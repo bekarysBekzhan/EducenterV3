@@ -1,7 +1,7 @@
-import { BottomSheetView } from '@gorhom/bottom-sheet'
+import { BottomSheetFlatList, BottomSheetView } from '@gorhom/bottom-sheet'
 import React from 'react'
 import { useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import SimpleButton from '../components/button/SimpleButton'
 import { ROUTE_NAMES } from '../components/navigation/routes'
 import SelectOption from '../components/SelectOption'
@@ -23,7 +23,7 @@ const FilterRatingScreen = ({ navigation, route }) => {
       <NavButtonRow
         title={item.title}
         selectedCategory={selectedCategory}
-        onPress={() => navigation.navigate(ROUTE_NAMES.selectCategoryRating, { data: item.data, setSelectedCategory: setSelectedCategory,title:item?.title })}
+        onPress={() => navigation.navigate(ROUTE_NAMES.selectCategoryRating, { data: item.data, setSelectedCategory: setSelectedCategory, title: item?.title })}
         style={styles.navButton}
       />
     )
@@ -33,7 +33,7 @@ const FilterRatingScreen = ({ navigation, route }) => {
     <BottomSheetView
       style={styles.container}
     >
-      <FlatList
+      <BottomSheetFlatList
         data={[
           {
             title: strings['Выберите направление'],
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   navButton: {
     marginVertical: 16,
     marginRight: 16,
-    marginBottom:0
+    marginBottom: 0
   }
 })
 
