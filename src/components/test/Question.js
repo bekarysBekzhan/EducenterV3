@@ -11,13 +11,16 @@ import {useRef} from 'react';
 
 const Question = ({
   questionItem,
+  items = [],
   index,
   passing_answers,
-  onTrackChange,
+  onTrackChange = () => undefined,
   is_multiple = false,
   extraStyle,
   extraTextStyle,
+  resultType = "default",
 }) => {
+
   const memoStylesContainer = useMemo(() => [styles.container, extraStyle], []);
   const memoStylesText = useMemo(
     () => [setFontStyle(18, '500', APP_COLORS.primary), {}, extraTextStyle],
@@ -43,38 +46,40 @@ const Question = ({
     }
   };
 
+  const getSelected = (answer, index) => {
+
+    if (answer?.selected !== undefined) {
+      return answer?.selected
+    }
+      
+    if (selectedIndex === null) {
+      return passing_answers?.[questionItem?.id]?.[answer?.id]?.selected
+    } 
+
+    return selectedIndex === index
+  }
+
+  const views = {
+    audio: <AudioPlayer url={getAudioUrl(questionItem?.question)} _index={index} onTrackChange={onTrackChange}/>,
+    html: <HtmlView html={questionItem?.question} baseStyle={styles.baseStyle} tagsStyles={tagsStyles}/>,
+    formula: <MathView text={questionItem?.question} mathStyle={{padding: 14}} />
+  }
+
   return (
     <View style={memoStylesContainer}>
       <Text style={memoStylesText}>{index + 1} - вопрос</Text>
-      {selectComponent(
-        questionItem?.question,
-        <AudioPlayer
-          url={getAudioUrl(questionItem?.question)}
-          _index={index}
-          onTrackChange={onTrackChange}
-        />,
-        <MathView text={questionItem?.question} mathStyle={{padding: 14}} />,
-        <HtmlView
-          html={questionItem?.question}
-          baseStyle={styles.baseStyle}
-          tagsStyles={tagsStyles}
-        />,
-      )}
-      {questionItem.answers.map((option, i) => (
+      {selectComponent(questionItem?.question, views.audio, views.formula, views.html)}
+      {items.map((item, i) => (
         <AnswerOption
-          item={option}
-          passingID={passing_answers?.[option?.test_id]?.[option?.id]?.id}
+          item={item}
+          resultType={resultType}
+          passingID={passing_answers?.[item?.test_id]?.[item?.id]?.id}
           index={i}
-          selected={
-            option?.selected !== undefined
-              ? option?.selected
-              : selectedIndex === null
-              ? passing_answers?.[questionItem?.id]?.[option?.id]?.selected
-              : selectedIndex === i
-          }
+          selected={getSelected(item, i)}
           onSelect={onSelect}
           is_multiple={is_multiple}
           onTrackChange={onTrackChange}
+          correct={item?.is_correct}
           key={i}
         />
       ))}
