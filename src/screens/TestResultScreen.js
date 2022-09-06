@@ -1,17 +1,22 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { useFetching } from '../hooks/useFetching'
 import { CourseService } from '../services/API'
 import LoadingScreen from '../components/LoadingScreen'
+import Question from '../components/test/Question'
 
 const TestResultScreen = (props) => {
 
     const id = props.route?.params?.id
 
     const [data, setData] = useState(null)
+
     const [fetchResult, isFetching, fetchingError] = useFetching(async() => {
-        // const response = await CourseService.
+        const response = await CourseService.fetchTestResult(id)
+        const questions = Object.values(response.data?.data?.questions)
+        console.log('questions : ' , questions)
+        setData(questions)
     }, [])
 
     useLayoutEffect(() => {
@@ -24,13 +29,32 @@ const TestResultScreen = (props) => {
         }
     }, [fetchingError])
 
+    const renderQuestion = ({ item, index }) => {
+        return (
+            <Question
+                questionItem={item?.question}
+                items={Object.values(item?.items)}
+                index={index}
+                is_multiple={item?.question?.is_multiple}
+            />
+        )
+    }
+
     if (isFetching) {
         return <LoadingScreen/>
     }
-
     return (
         <UniversalView style={styles.container}>
-
+            <FlatList
+                data={data}
+                style={{ padding: 16 }}
+                renderItem={renderQuestion}
+                keyExtractor={(_, index) => index.toString()}
+                maxToRenderPerBatch={10}
+                initialNumToRender={12}
+                windowSize={10}
+                showsVerticalScrollIndicator={false}
+            />
         </UniversalView>
     )
 }
