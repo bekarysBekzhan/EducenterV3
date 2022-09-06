@@ -31,7 +31,8 @@ const ModuleTestScreen = props => {
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
     console.log("Test id : " , data?.id)
     const response = await TestService.finishTest(data?.id)
-    props.navigation.navigate(ROUTE_NAMES.testCompleted, {})
+    const finishedTestData = response.data?.data
+    props.navigation.navigate(ROUTE_NAMES.testCompleted, { passed: finishedTestData?.passed, correct: finishedTestData?.score, total: finishedTestData?.tests_count, id: data?.id })
   })
 
   useEffect(() => {
@@ -41,11 +42,6 @@ const ModuleTestScreen = props => {
     }
   }, [testError])
 
-  useEffect(() => {
-    if(testError) {
-      console.log("test error : " , testError)
-    }
-  }, [testError])
 
   useLayoutEffect(() => {
     props.navigation.setOptions({

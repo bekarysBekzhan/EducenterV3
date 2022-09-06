@@ -7,6 +7,8 @@ import LoadingScreen from '../components/LoadingScreen'
 
 const TestResultScreen = (props) => {
 
+    const id = props.route?.params?.id
+
     const [data, setData] = useState(null)
     const [fetchResult, isFetching, fetchingError] = useFetching(async() => {
         // const response = await CourseService.

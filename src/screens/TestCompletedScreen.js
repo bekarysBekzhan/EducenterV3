@@ -11,6 +11,7 @@ import { ROUTE_NAMES } from '../components/navigation/routes';
 
 const TestCompletedScreen = props => {
 
+  const id = props.route?.params?.id
   const passed = props.route?.params?.passed;
   const correct = props.route?.params?.correct;
   const total = props.route?.params?.total;
