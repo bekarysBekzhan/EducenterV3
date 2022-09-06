@@ -25,28 +25,40 @@ const dynamicContainerStyle = (state, component) => {
   }
 };
 
+// result_types = "with_wrongs" | "default" | "none"
+
 const AnswerOption = ({
   item = {},
   passingID,
   index,
   is_multiple = false,
-  onSelect,
+  onSelect = () => undefined,
   selected = false,
-  onTrackChange,
+  onTrackChange = () => undefined,
   correct,
   extraStyle,
   extraTextStyle,
+  resultType,
 }) => {
 
-  const [state, setState] = useState(
-    correct === undefined
-      ? selected
-        ? 'selected'
-        : 'unselected'
-      : correct
-      ? 'correct'
-      : 'incorrect',
-  );
+  const initialState = () => {
+
+    if (correct === undefined) {
+      if (selected) {
+        return "selected"
+      }
+      return "unselected"
+    }
+
+    if (correct) {
+      return "correct"
+    }
+
+    return "incorrect"
+  }
+
+  const [state, setState] = useState(initialState());
+
   const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
     let params = { selected: !(state === "selected"), is_multiple: is_multiple}
     const response = await CourseService.selectAnswer(passingID, { params: params})
