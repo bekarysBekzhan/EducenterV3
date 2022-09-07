@@ -39,11 +39,11 @@ const AnswerOption = ({
   resultType,
 }) => {
 
+  console.log("AnswerOption rendered!");
+
   const initialState = () => {
 
     if (resultType === RESULT_TYPES.DEFAULT) {
-
-      console.log("result type :" , RESULT_TYPES.DEFAULT)
 
       if (correct) {
         return ANSWER_STATES.CORRECT
@@ -89,6 +89,10 @@ const AnswerOption = ({
     }
   }, [sendingError])
 
+  useEffect(() => {
+    setState(initialState())
+  }, [selected])
+
   const memoStylesContainer = useMemo(
     () => [
       styles.container,
@@ -107,20 +111,16 @@ const AnswerOption = ({
   );
 
   useEffect(() => {
-    if (selected && !is_multiple && resultType === undefined) {
-      onSelect(index, setState)
-    }
-  }, []);
 
-  useEffect(() => {
-    item.selected = state === ANSWER_STATES.SELECTED ? true : false
-  },[state])
+    item.selected = state === ANSWER_STATES.SELECTED
+
+  }, [state])
 
   const selectTapped = () => {
     if (is_multiple) {
       setState(prev => prev === ANSWER_STATES.SELECTED ? ANSWER_STATES.UNSELECTED : ANSWER_STATES.SELECTED)
     } else {
-      onSelect(index, setState);
+      onSelect(index);
     }
     sendAnswer()
   }

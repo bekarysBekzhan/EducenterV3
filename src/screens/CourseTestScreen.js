@@ -74,8 +74,6 @@ const CourseTestScreen = props => {
 
     const diffSeconds = finishingSeconds - currentSeconds
 
-    console.log("difference : " , diffSeconds)
-
     if (diffSeconds < 0) {
       return 0
     }

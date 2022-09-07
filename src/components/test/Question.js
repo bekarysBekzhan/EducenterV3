@@ -27,28 +27,23 @@ const Question = ({
     [],
   );
 
-  const currentSetState = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const onSelect = (newIndex, setState) => {
+  const onSelect = (newIndex) => {
     if (selectedIndex !== newIndex) {
       setSelectedIndex(newIndex);
-
-      if (currentSetState.current) {
-        currentSetState.current('unselected');
-      }
-
-      setState('selected');
-
-      currentSetState.current = setState;
     } else {
-      setState(prev => (prev === 'selected' ? 'unselected' : 'selected'));
+      setSelectedIndex(null)
     }
   };
 
-  const getSelected = (answer, index) => {
+  const getSelected = (answer, i) => {
 
-    if (answer?.selected !== undefined || answer?.selected !== null) {
+    if (selectedIndex !== null) {
+      return selectedIndex === i
+    }
+
+    if (answer?.selected !== undefined && answer?.selected !== null) {
       return answer?.selected
     }
       
@@ -56,33 +51,35 @@ const Question = ({
       return passing_answers?.[questionItem?.id]?.[answer?.id]?.selected
     } 
 
-    return selectedIndex === index
   }
 
   const views = {
     audio: <AudioPlayer url={getAudioUrl(questionItem?.question)} _index={index} onTrackChange={onTrackChange}/>,
     html: <HtmlView html={questionItem?.question} baseStyle={styles.baseStyle} tagsStyles={tagsStyles}/>,
-    formula: <MathView text={questionItem?.question} mathStyle={{padding: 14}} />
+    formula: <MathView text={questionItem?.question} mathStyle={{padding: 14}}/>
   }
 
   return (
     <View style={memoStylesContainer}>
       <Text style={memoStylesText}>{index + 1} - вопрос</Text>
       {selectComponent(questionItem?.question, views.audio, views.formula, views.html)}
-      {items.map((item, i) => (
-        <AnswerOption
-          item={item}
-          resultType={resultType}
-          passingID={passing_answers?.[item?.test_id]?.[item?.id]?.id}
-          index={i}
-          selected={getSelected(item, i)}
-          onSelect={onSelect}
-          is_multiple={is_multiple}
-          onTrackChange={onTrackChange}
-          correct={item?.is_correct}
-          key={i}
-        />
-      ))}
+      {items.map((item, i) => {
+        // console.log("map")
+        return (
+          <AnswerOption
+            item={item}
+            resultType={resultType}
+            passingID={passing_answers?.[item?.test_id]?.[item?.id]?.id}
+            index={i}
+            selected={getSelected(item, i)}
+            onSelect={onSelect}
+            is_multiple={is_multiple}
+            onTrackChange={onTrackChange}
+            correct={item?.is_correct}
+            key={i}
+          />
+        )
+      })}
     </View>
   );
 };
