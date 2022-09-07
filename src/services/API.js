@@ -75,6 +75,12 @@ class CourseService {
     return response;
   };
 
+  static fetchReviews = async (id, page = 1) => {
+    const response = await API_V2.get(URLS.reviews + id, { params: { page: page } })
+    console.log("Reviews : " , response)
+    return response
+  }
+
   static fetchLesson = async id => {
     const response = await API_V2.get(URLS.lesson + id);
     console.log('Lesson with id ' + id + ':', response);
