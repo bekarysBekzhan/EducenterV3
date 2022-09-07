@@ -74,7 +74,7 @@ export const selectComponent = (
   mathComponent,
   htmlComponent,
 ) => {
-  if (value === null) {
+  if (value === null || value === undefined) {
     return null;
   }
 

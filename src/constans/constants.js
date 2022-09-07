@@ -86,3 +86,16 @@ export const TYPE_SUBCRIBES = {
   TASK_SUBSCRIBE: 'task',
   JOURNAL_SUBCRIBE:'journal'
 };
+
+export const RESULT_TYPES = {
+  WITH_WRONGS: "with_wrongs",
+  DEFAULT: "default",
+  NONE: "none"
+}
+
+export const ANSWER_STATES = {
+  SELECTED: "selected",
+  UNSELECTED: "unselected",
+  CORRECT: "correct",
+  INCORRECT: "incorrect"
+}

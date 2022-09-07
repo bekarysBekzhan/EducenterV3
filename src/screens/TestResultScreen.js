@@ -5,6 +5,7 @@ import { useFetching } from '../hooks/useFetching'
 import { CourseService } from '../services/API'
 import LoadingScreen from '../components/LoadingScreen'
 import Question from '../components/test/Question'
+import { RESULT_TYPES } from '../constans/constants'
 
 const TestResultScreen = (props) => {
 
@@ -15,7 +16,6 @@ const TestResultScreen = (props) => {
     const [fetchResult, isFetching, fetchingError] = useFetching(async() => {
         const response = await CourseService.fetchTestResult(id)
         const questions = Object.values(response.data?.data?.questions)
-        console.log('questions : ' , questions)
         setData(questions)
     }, [])
 
@@ -36,6 +36,7 @@ const TestResultScreen = (props) => {
                 items={Object.values(item?.items)}
                 index={index}
                 is_multiple={item?.question?.is_multiple}
+                resultType={RESULT_TYPES.DEFAULT}
             />
         )
     }
