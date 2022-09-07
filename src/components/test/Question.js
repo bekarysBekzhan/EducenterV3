@@ -18,7 +18,7 @@ const Question = ({
   is_multiple = false,
   extraStyle,
   extraTextStyle,
-  resultType = "default",
+  resultType,
 }) => {
 
   const memoStylesContainer = useMemo(() => [styles.container, extraStyle], []);
@@ -48,7 +48,7 @@ const Question = ({
 
   const getSelected = (answer, index) => {
 
-    if (answer?.selected !== undefined) {
+    if (answer?.selected !== undefined || answer?.selected !== null) {
       return answer?.selected
     }
       
