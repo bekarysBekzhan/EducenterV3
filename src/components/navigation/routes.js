@@ -5,7 +5,7 @@ export const ROUTE_NAMES = {
   taskSearch: 'TaskSearch',
   filter: 'Filter',
   selectCategory: 'SelectCategory',
-  courseReview: 'CourseReview',
+  reviews: 'Reviews',
   courseLeaveReview: 'CourseLeaveReview',
   courseFinish: 'CourseFinish',
   payment: 'Payment',
