@@ -6,7 +6,7 @@ import {
     StyleSheet,
     TouchableOpacity,
   } from 'react-native';
-  import React from 'react';
+  import React, { useCallback, useRef } from 'react';
   import UniversalView from '../../../components/view/UniversalView';
   import {useFetching} from '../../../hooks/useFetching';
   import {CourseService} from '../../../services/API';
@@ -14,7 +14,7 @@ import {
   import {useEffect} from 'react';
   import {APP_COLORS, WIDTH} from '../../../constans/constants';
   import FastImage from 'react-native-fast-image';
-  import {setFontStyle} from '../../../utils/utils';
+  import {fileDownloader, setFontStyle} from '../../../utils/utils';
   import RowView from '../../../components/view/RowView';
   import {down, iconPlay, lock, time, up} from '../../../assets/icons';
   import {strings} from '../../../localization';
@@ -27,10 +27,19 @@ import {
   import ReviewItem from '../../../components/view/ReviewItem';
   import DetailView from '../../../components/view/DetailView';
   import {ROUTE_NAMES} from '../../../components/navigation/routes';
+  import RNFS from 'react-native-fs';
+  import Downloader from '../../../components/Downloader';
   
   const MyCourseDetailScreen = props => {
     
     const courseID = props.route?.params?.courseID;
+
+    const { settings } = useSettings()
+
+    const [visible, setVisible] = useState(false)
+    const [progress, setProgress] = useState(0);
+
+    const refJobId = useRef(null);
   
     const [data, setData] = useState(null);
     const [fetchCourse, isLoading, courseError] = useFetching(async () => {
@@ -41,6 +50,39 @@ import {
     useEffect(() => {
       fetchCourse();
     }, []);
+
+    const onProgress = useCallback(data => {
+
+      console.log('progress: ', data);
+
+      if (data) {
+          refJobId.current = data?.jobId;
+          let currentPercent = (data?.bytesWritten * 100) / data?.contentLength;
+          setProgress(currentPercent);
+      } else {
+          refJobId.current = null;
+          setProgress(0);
+      }
+
+  }, []);
+
+    const downloader = useCallback(() => {
+      const urlFile = data?.user_certificate?.file
+      const fileName = data?.title
+      setVisible(true);
+      fileDownloader(urlFile, fileName, () => setVisible(false), onProgress);
+
+  }, []);
+
+  const cancelDownloader = useCallback(() => {
+
+      setVisible(false);
+      if (refJobId.current) {
+          RNFS.stopDownload(refJobId.current);
+          setProgress(0);
+      }
+
+  }, []);
   
     const renderHeader = () => {
       return <CourseListHeader data={data} />;
@@ -78,7 +120,16 @@ import {
             showsVerticalScrollIndicator={false}
           />
         )}
-        {isLoading ? null : data?.has_subscribed ? 
+        { data?.progress?.finished && data?.user_certificate && settings?.modules_enabled_certificates ?
+        (
+          <TransactionButton
+            text={strings['Скачать сертификат']}
+            style={{ backgroundColor: "green" }}
+            textStyle={{ textTransform: "uppercase" }}
+            onPress={downloader}
+          />
+        ) :
+        isLoading ? null : data?.has_subscribed ? 
         (
           <TransactionButton
             text={strings['Продолжить урок']}
@@ -94,6 +145,11 @@ import {
             onPress={() => undefined}
           />
         )}
+        <Downloader
+          visible={visible}
+          progress={progress}
+          onPressCancel={cancelDownloader}
+        />
       </UniversalView>
     );
   };
