@@ -195,7 +195,7 @@ class TestService {
   };
 
   static finishTest = async id => {
-    const response = await API_V2.get(URLS.moduleTestFinish + id);
+    const response = await API_V2.get(URLS.moduleTestFinish + id + URLS.moduleTest);
     return response;
   };
 }
