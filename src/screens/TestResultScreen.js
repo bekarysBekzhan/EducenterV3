@@ -10,6 +10,7 @@ import { RESULT_TYPES } from '../constans/constants'
 const TestResultScreen = (props) => {
 
     const id = props.route?.params?.id
+    const resultType = props.route?.params?.resultType
 
     const [data, setData] = useState(null)
 
@@ -36,7 +37,7 @@ const TestResultScreen = (props) => {
                 items={Object.values(item?.items)}
                 index={index}
                 is_multiple={item?.question?.is_multiple}
-                resultType={RESULT_TYPES.DEFAULT}
+                resultType={resultType ? resultType : RESULT_TYPES.DEFAULT}
             />
         )
     }

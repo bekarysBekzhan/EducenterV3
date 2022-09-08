@@ -4,7 +4,7 @@ import UniversalView from '../components/view/UniversalView';
 import {setFontStyle, wordLocalization} from '../utils/utils';
 import {strings} from '../localization';
 import FastImage from 'react-native-fast-image';
-import {APP_COLORS, HEIGHT, WIDTH} from '../constans/constants';
+import {APP_COLORS, HEIGHT, RESULT_TYPES, WIDTH} from '../constans/constants';
 import SimpleButton from '../components/button/SimpleButton';
 import RowView from '../components/view/RowView';
 import { ROUTE_NAMES } from '../components/navigation/routes';
@@ -15,6 +15,7 @@ const TestCompletedScreen = props => {
   const passed = props.route?.params?.passed;
   const correct = props.route?.params?.correct;
   const total = props.route?.params?.total;
+  const resultType = props.route?.params?.resultType
 
   const Banner = ({children}) => {
     const passedTestBanner = require('../assets/images/PassedTestBanner.png');
@@ -44,7 +45,7 @@ const TestCompletedScreen = props => {
   };
 
   const onResults = () => {
-    props.navigation.navigate(ROUTE_NAMES.testResult, { id })
+    props.navigation.navigate(ROUTE_NAMES.testResult, { id, resultType})
   }
 
   const onAgain = () => {
@@ -66,12 +67,18 @@ const TestCompletedScreen = props => {
         </Text>
         <Text style={styles.aboutResult}>{posterText()}</Text>
       </Banner>
-      <SimpleButton
-        text={strings.Результаты}
-        textStyle={styles.resultsText}
-        style={[styles.resultsButton, { backgroundColor: passed ? APP_COLORS.primary : "red" }]}
-        onPress={onResults}
-      />
+      {
+        resultType === RESULT_TYPES.NONE || resultType === undefined || resultType === null
+        ?
+        null
+        :
+        <SimpleButton
+          text={strings.Результаты}
+          textStyle={styles.resultsText}
+          style={[styles.resultsButton, { backgroundColor: passed ? APP_COLORS.primary : "red" }]}
+          onPress={onResults}
+        />
+      }
       <SimpleButton
         text={strings['Пройти заново']}
         textStyle={[styles.againText, { color: passed ? APP_COLORS.primary : "red" }]}

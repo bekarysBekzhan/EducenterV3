@@ -32,7 +32,13 @@ const CourseTestScreen = props => {
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
     const response = await CourseService.finishTest(data?.id)
     const finishedTestData = response.data?.data
-    props.navigation.replace(ROUTE_NAMES.testCompleted, { passed: finishedTestData?.passed, correct: finishedTestData?.score, total: finishedTestData?.tests_count, id: data?.id })
+    props.navigation.replace(ROUTE_NAMES.testCompleted, { 
+      passed: finishedTestData?.passed, 
+      correct: finishedTestData?.score, 
+      total: finishedTestData?.tests_count, 
+      id: data?.id,
+      resultType: finishedTestData?.entity?.result_type
+    })
   })
 
   useEffect(() => {
