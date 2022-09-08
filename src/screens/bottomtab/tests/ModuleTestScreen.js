@@ -32,7 +32,7 @@ const ModuleTestScreen = props => {
     console.log("Test id : " , data?.id)
     const response = await TestService.finishTest(data?.id)
     const finishedTestData = response.data?.data
-    props.navigation.navigate(ROUTE_NAMES.testCompleted, { passed: finishedTestData?.passed, correct: finishedTestData?.score, total: finishedTestData?.tests_count, id: data?.id })
+    props.navigation.replace(ROUTE_NAMES.testCompleted, { passed: finishedTestData?.passed, correct: finishedTestData?.score, total: finishedTestData?.tests_count, id: data?.id })
   })
 
   useEffect(() => {
