@@ -58,7 +58,7 @@ import {
     };
   
     const renderFooter = () => {
-      return <CourseListFooter data={data} />;
+      return <CourseListFooter data={data} navigation={props.navigation}/>;
     };
   
     return (
@@ -226,7 +226,12 @@ import {
     );
   };
   
-  const CourseListFooter = ({data}) => {
+  const CourseListFooter = ({data, navigation}) => {
+
+    const onAllReviews = () => {
+      navigation.navigate(ROUTE_NAMES.reviews, { id: data?.id })
+    }
+
     const renderReview = ({item, index}) => {
       return (
         <ReviewItem
@@ -265,7 +270,7 @@ import {
             <TextButton
               text={strings.Все}
               textStyle={styles.allButton}
-              onPress={() => undefined}
+              onPress={onAllReviews}
             />
           </RowView>
         </View>

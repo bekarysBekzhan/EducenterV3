@@ -141,6 +141,7 @@ const PRIVATE = [
 ];
 
 const Navigation = () => {
+
   const {setSettings, setUserToken, setIsAuth, isAuth} = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
@@ -186,9 +187,10 @@ const Navigation = () => {
                   : 'default',
               headerBackTitleVisible: false,
               headerShown:
-                route.name == ROUTE_NAMES.login ||
-                route.name == ROUTE_NAMES.register ||
-                route.name == ROUTE_NAMES.recovery
+                route.name === ROUTE_NAMES.login ||
+                route.name === ROUTE_NAMES.register ||
+                route.name === ROUTE_NAMES.recovery ||
+                route.name === ROUTE_NAMES.reviews
                   ? true
                   : false,
             }}

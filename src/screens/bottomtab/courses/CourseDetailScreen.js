@@ -73,7 +73,7 @@ const CourseDetailScreen = props => {
   };
 
   const renderFooter = () => {
-    return <CourseListFooter data={data} />;
+    return <CourseListFooter data={data} navigation={props.navigation}/>;
   };
 
   return (
@@ -240,7 +240,12 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
   );
 };
 
-const CourseListFooter = ({data}) => {
+const CourseListFooter = ({data, navigation}) => {
+
+  const onAllReviews = () => {
+    navigation.navigate(ROUTE_NAMES.reviews, { id: data?.id })
+  }
+
   const renderReview = ({item, index}) => {
     return (
       <ReviewItem
@@ -279,7 +284,7 @@ const CourseListFooter = ({data}) => {
           <TextButton
             text={strings.Все}
             textStyle={styles.allButton}
-            onPress={() => undefined}
+            onPress={onAllReviews}
           />
         </RowView>
       </View>
