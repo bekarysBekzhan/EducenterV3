@@ -101,11 +101,21 @@ const CoursesScreen = (props) => {
 }
 
 const CourseCard = ({item, index, navigation}) => {
+
+
+  const onCourse = () => {
+    if (item?.has_subscribed) {
+      navigation.navigate(ROUTE_NAMES.myCourseDetail, { courseID: item?.id })
+    } else {
+      navigation.navigate(ROUTE_NAMES.courseDetail, { courseID: item?.id })
+    }
+  }
+
   return(
     <TouchableOpacity
       style={styles.courseCard}
       activeOpacity={0.9}
-      onPress={() => navigation.navigate(ROUTE_NAMES.courseDetail, { courseID: item?.id })}
+      onPress={onCourse}
     >
       <FastImage
         source={{ uri: item?.poster }}
