@@ -80,12 +80,14 @@ const AnswerOption = ({
 
   const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
     let params = { selected: !(state === ANSWER_STATES.SELECTED), is_multiple: is_multiple}
+    console.log("passing id : " , passingID)
     const response = await CourseService.selectAnswer(passingID, { params: params})
   })
 
   useEffect(() => {
     if (sendingError) {
       console.log(sendingError)
+      setState(ANSWER_STATES.UNSELECTED)
     }
   }, [sendingError])
 

@@ -29,6 +29,12 @@ const Question = ({
 
   const [selectedIndex, setSelectedIndex] = useState(null);
 
+
+  useEffect(() => {
+    // console.log("passing answers : " , passing_answers)
+    // console.log("question : " , questionItem)
+  }, [])
+
   const onSelect = (newIndex) => {
     if (selectedIndex !== newIndex) {
       setSelectedIndex(newIndex);
@@ -37,18 +43,18 @@ const Question = ({
     }
   };
 
-  const getSelected = (answer, i) => {
+  const getSelected = (item, i) => {
 
     if (selectedIndex !== null) {
       return selectedIndex === i
     }
 
-    if (answer?.selected !== undefined && answer?.selected !== null) {
-      return answer?.selected
+    if (item?.selected !== undefined && item?.selected !== null) {
+      return item?.selected
     }
       
     if (selectedIndex === null) {
-      return passing_answers?.[questionItem?.id]?.[answer?.id]?.selected
+      return passing_answers?.[questionItem?.id]?.[item?.id]?.selected
     } 
 
   }
@@ -69,7 +75,7 @@ const Question = ({
           <AnswerOption
             item={item}
             resultType={resultType}
-            passingID={passing_answers?.[item?.test_id]?.[item?.id]?.id}
+            passingID={passing_answers?.[questionItem?.id]?.[item?.id]?.id}
             index={i}
             selected={getSelected(item, i)}
             onSelect={onSelect}
