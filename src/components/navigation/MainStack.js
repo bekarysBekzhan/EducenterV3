@@ -68,6 +68,10 @@ const GENERAL = [
     name: ROUTE_NAMES.recovery,
     component: RecoveryScreen,
   },
+  {
+    name: ROUTE_NAMES.reviews,
+    component: ReviewsScreen
+  }
 ];
 const PRIVATE = [
   {
@@ -133,10 +137,6 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.testResult,
     component: TestResultScreen
-  },
-  {
-    name: ROUTE_NAMES.reviews,
-    component: ReviewsScreen
   }
 ];
 
