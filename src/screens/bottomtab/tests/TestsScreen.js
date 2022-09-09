@@ -8,6 +8,7 @@ import ModuleTestItem from '../../../components/test/ModuleTestItem'
 import { TestService } from '../../../services/API'
 import { APP_COLORS, WIDTH } from '../../../constans/constants'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
+import Empty from '../../../components/Empty'
 
 const TestsScreen = (props) => {
 
@@ -103,6 +104,7 @@ const TestsScreen = (props) => {
         contentContainerStyle={styles.container}
         renderItem={renderTest}
         ListFooterComponent={renderFooter}
+        ListEmptyComponent={() => <Empty/>}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}

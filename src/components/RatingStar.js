@@ -58,56 +58,54 @@ const RatingStar = ({
   starSize,
   selectedStar,
 }) => {
+
   const onStarButtonPress = rating => {
     selectedStar(rating);
   };
-
-  let starsLeft = Math.round(rating * 2) / 2;
-  const starButtons = [];
-
-  for (let i = 0; i < maxStars; i++) {
-    let starIconName = emptyStar;
-
-    if (starsLeft >= 1) {
-      starIconName = fullStar;
-    } else if (starsLeft === 0.5) {
-      starIconName = halfStar;
-    }
-
-    const starButtonElement = (
-      <AnimatableView
-        key={i}
-        ref={node => {
-          starRef.push(node);
-        }}>
-        <StarButton
-          disabled={disabled}
-          halfStarEnabled={halfStarEnabled}
-          onStarButtonPress={event => {
-            if (animation && ANIMATION_TYPES.includes(animation)) {
-              for (let s = 0; s <= i; s++) {
-                !disabled && starRef[s][animation](1000 + s * 200);
-              }
-            }
-            onStarButtonPress(event);
-          }}
-          rating={i + 1}
-          starIconName={starIconName}
-          starSize={starSize}
-        />
-      </AnimatableView>
-    );
-
-    starButtons.push(starButtonElement);
-    starsLeft -= 1;
-  }
 
   return (
     <View
       style={{ flexDirection: 'row', justifyContent: 'center', margin: 7 }}
       pointerEvents={disabled ? 'none' : 'auto'}
     >
-      {starButtons}
+      {
+        Array(maxStars).fill(0).map((_, i) => {
+
+          let starIconName = emptyStar;
+
+          if (i < rating) {
+            starIconName = fullStar
+          }
+
+          return (
+            <AnimatableView
+              key={i}
+              ref={node => {
+                starRef.push(node);
+              }}
+            >
+              <StarButton
+                key={i}
+                disabled={disabled}
+                halfStarEnabled={halfStarEnabled}
+                onStarButtonPress={event => {
+                  if (animation && ANIMATION_TYPES.includes(animation)) {
+                    for (let s = 0; s <= i; s++) {
+                      !disabled && starRef[s][animation](1000 + s * 200);
+                    }
+                  }
+                  onStarButtonPress(event)
+                }}
+                rating={i + 1}
+                starIconName={starIconName}
+                starSize={starSize}
+                // activeOpacity
+              />
+            </AnimatableView>
+          )
+        })
+
+      }
     </View>
   );
 };

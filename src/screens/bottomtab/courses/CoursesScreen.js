@@ -14,6 +14,7 @@ import ItemRating from '../../../components/ItemRating'
 import { setFontStyle } from '../../../utils/utils'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
 import LoadingScreen from '../../../components/LoadingScreen'
+import Empty from '../../../components/Empty'
 
 const CoursesScreen = (props) => {
 
@@ -82,6 +83,7 @@ const CoursesScreen = (props) => {
           data={data}
           renderItem={renderCourse}
           ListFooterComponent={renderFooter}
+          ListEmptyComponent={() => <Empty/>}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.contentContainer}
@@ -99,11 +101,21 @@ const CoursesScreen = (props) => {
 }
 
 const CourseCard = ({item, index, navigation}) => {
+
+
+  const onCourse = () => {
+    if (item?.has_subscribed) {
+      navigation.navigate(ROUTE_NAMES.myCourseDetail, { courseID: item?.id })
+    } else {
+      navigation.navigate(ROUTE_NAMES.courseDetail, { courseID: item?.id })
+    }
+  }
+
   return(
     <TouchableOpacity
       style={styles.courseCard}
       activeOpacity={0.9}
-      onPress={() => navigation.navigate(ROUTE_NAMES.courseDetail, { courseID: item?.id })}
+      onPress={onCourse}
     >
       <FastImage
         source={{ uri: item?.poster }}

@@ -247,7 +247,8 @@ const CourseTaskScreen = props => {
         }) => {
           console.log("height: " , height)
           setKeyboardOffset(height);
-        }}>
+        }}
+      >
         <TouchableOpacity 
           onPress={attachFilesTapped}
           activeOpacity={0.9}
@@ -259,9 +260,7 @@ const CourseTaskScreen = props => {
           extraStyle={[styles.input, { height: height}]}
           multiline
           value={answer}
-          // onLayout={onLayout}
           onContentSizeChange={onContentSizeChange}
-          // onChange={onChange}
           onChangeText={value => setAnswer(value)}
           placeholder={strings['Напишите результаты задания']}
         />
@@ -359,7 +358,11 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     borderWidth: 0.25,
     borderColor: APP_COLORS.border,
-    maxHeight: 120
+    backgroundColor: APP_COLORS.input,
+    maxHeight: 120,
+    height: 48,
+    justifyContent: "center",
+    paddingHorizontal: 12
   },
   sendIcon: {
     width: 32,

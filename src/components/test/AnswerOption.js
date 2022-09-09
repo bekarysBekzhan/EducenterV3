@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useMemo, useState} from 'react';
-import {APP_COLORS} from '../../constans/constants';
+import {ANSWER_STATES, APP_COLORS, RESULT_TYPES} from '../../constans/constants';
 import {check, x} from '../../assets/icons';
 import {getAudioUrl, selectComponent} from '../../utils/utils';
 import MathView from './MathView';
@@ -12,13 +12,13 @@ import AnswerAudio from '../AnswerAudio';
 
 const dynamicContainerStyle = (state, component) => {
   switch (state) {
-    case 'selected':
+    case ANSWER_STATES.SELECTED:
       return selectedStyles[component];
-    case 'unselected':
+    case ANSWER_STATES.UNSELECTED:
       return unselectedStyles[component];
-    case 'correct':
+    case ANSWER_STATES.CORRECT:
       return correctStyles[component];
-    case 'incorrect':
+    case ANSWER_STATES.INCORRECT:
       return incorrectStyles[component];
     default:
       console.log('There is no state called ' + state);
@@ -30,27 +30,70 @@ const AnswerOption = ({
   passingID,
   index,
   is_multiple = false,
-  onSelect,
+  onSelect = () => undefined,
   selected = false,
-  onTrackChange,
+  onTrackChange = () => undefined,
   correct,
   extraStyle,
   extraTextStyle,
+  resultType,
 }) => {
 
-  const [state, setState] = useState(
-    correct === undefined
-      ? selected
-        ? 'selected'
-        : 'unselected'
-      : correct
-      ? 'correct'
-      : 'incorrect',
-  );
+  console.log("AnswerOption rendered!");
+
+  const initialState = () => {
+
+    if (resultType === RESULT_TYPES.DEFAULT) {
+
+      if (correct) {
+        return ANSWER_STATES.CORRECT
+      }
+
+      if (selected) {
+        return ANSWER_STATES.INCORRECT
+      }
+
+      return ANSWER_STATES.UNSELECTED
+    } 
+    else if (resultType === RESULT_TYPES.WITH_WRONGS) {
+
+      if (selected) {
+        if (correct) {
+          return ANSWER_STATES.CORRECT
+        }
+        return ANSWER_STATES.INCORRECT
+      }
+
+      return ANSWER_STATES.UNSELECTED
+
+    }
+
+    if (selected) {
+      return ANSWER_STATES.SELECTED
+    }
+
+    return ANSWER_STATES.UNSELECTED
+
+  }
+
+  const [state, setState] = useState(initialState());
+
   const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
-    let params = { selected: !(state === "selected"), is_multiple: is_multiple}
+    let params = { selected: !(state === ANSWER_STATES.SELECTED), is_multiple: is_multiple}
+    console.log("passing id : " , passingID)
     const response = await CourseService.selectAnswer(passingID, { params: params})
   })
+
+  useEffect(() => {
+    if (sendingError) {
+      console.log(sendingError)
+      setState(ANSWER_STATES.UNSELECTED)
+    }
+  }, [sendingError])
+
+  useEffect(() => {
+    setState(initialState())
+  }, [selected])
 
   const memoStylesContainer = useMemo(
     () => [
@@ -63,32 +106,45 @@ const AnswerOption = ({
   const memoStylesCheckbox = useMemo(
     () => [
       styles.checkbox,
-      dynamicContainerStyle(state, 'checkbox'),
-      {
-        borderRadius: is_multiple ? 4 : 50,
-        padding: correct === false ? 7 : 6,
-      },
+      dynamicContainerStyle(state, 'checkbox'), 
+      { borderRadius: is_multiple ? 4 : 50 },
     ],
     [state],
   );
 
   useEffect(() => {
-    if (selected && !is_multiple) {
-      onSelect(index, setState)
-    }
-  }, []);
 
-  useEffect(() => {
-    item.selected = state === "selected" ? true : false
-  },[state])
+    item.selected = state === ANSWER_STATES.SELECTED
+
+  }, [state])
 
   const selectTapped = () => {
-    sendAnswer()
     if (is_multiple) {
-      setState(prev => prev === "selected" ? "unselected" : "selected")
+      setState(prev => prev === ANSWER_STATES.SELECTED ? ANSWER_STATES.UNSELECTED : ANSWER_STATES.SELECTED)
     } else {
-      onSelect(index, setState);
+      onSelect(index);
     }
+    sendAnswer()
+  }
+
+  const renderIcon = () => {
+    if (state === ANSWER_STATES.INCORRECT) {
+      return x()
+    } 
+    return check()
+  }
+
+  const views = {
+    audio: <AnswerAudio url={getAudioUrl(item.answer)} _index={100} onTrackChange={onTrackChange} style={styles.audioContainer} sliderStyle={styles.slider} maximumTrackTintColor={state === ANSWER_STATES.SELECTED ? '#FFFFFF' : undefined} />,
+    formula: <MathView text={item.answer} />,
+    html: <HtmlView html={item.answer} />
+  }
+
+  const isSelectDisabled = () => {
+    if (resultType || isLoading) {
+      return true
+    }
+    return false
   }
 
   return (
@@ -96,23 +152,12 @@ const AnswerOption = ({
       style={memoStylesContainer}
       onPress={selectTapped}
       activeOpacity={0.7}
-      disabled={correct !== undefined || isLoading}>
+      disabled={isSelectDisabled()}
+    >
       <View style={memoStylesCheckbox}>
-        {correct === false ? x() : check()}
+        {renderIcon()}
       </View>
-      {selectComponent(
-        item.answer,
-        <AnswerAudio
-          url={getAudioUrl(item.answer)}
-          _index={100}
-          onTrackChange={onTrackChange}
-          style={styles.audioContainer}
-          sliderStyle={styles.slider}
-          maximumTrackTintColor={state === 'selected' ? '#FFFFFF' : undefined}
-        />,
-        <MathView text={item.answer} />,
-        <HtmlView html={item.answer} />,
-      )}
+      {selectComponent(item.answer, views.audio, views.formula, views.html)}
     </TouchableOpacity>
   );
 };
@@ -134,6 +179,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     borderWidth: 5 / 4,
+    padding: 6
   },
   audioContainer: {
     backgroundColor: 'transparent',
@@ -174,6 +220,7 @@ const correctStyles = StyleSheet.create({
   checkbox: {
     backgroundColor: 'green',
     borderColor: 'green',
+    padding: 6
   },
 });
 
@@ -185,6 +232,7 @@ const incorrectStyles = StyleSheet.create({
   checkbox: {
     backgroundColor: 'red',
     borderColor: 'red',
+    padding: 7
   },
 });
 

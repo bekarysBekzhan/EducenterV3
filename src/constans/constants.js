@@ -31,8 +31,10 @@ export const URLS = {
   settings: 'settings/mobile',
   languages: 'languages',
   courses: 'courses',
-  myCourses: "my_courses",
+  myCourses: 'my_courses',
   courseByID: 'course/',
+  courseRate: "/rate",
+  finishCourse: "/finish",
   categories: 'categories',
   lesson: 'lesson/',
   lessonTestStart: 'test/start/lesson/',
@@ -49,10 +51,12 @@ export const URLS = {
   history: 'user/history',
   changePassword: 'user/update_password',
   moduleTests: 'modules/tests',
-  moduleTestStart : "test/start/module_test/",
-  moduleTestInfo: "test/info/module_test/",
-  moduleTestFinish : "test/finish/module_test/",
-  moduleMyTests: "modules/tests/my/tests",
+  moduleTestStart: 'test/start/module_test/',
+  moduleTestInfo: 'test/info/module_test/',
+  moduleTestFinish: 'test/finish/',
+  moduleTest: "/module_test",
+  moduleMyTests: 'modules/tests/my/tests',
+  moduleMyTasks: 'modules/tasks/my/tasks',
   moduleTasks: 'modules/tasks',
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',
@@ -62,7 +66,11 @@ export const URLS = {
   selected_type: 'selected_type',
   subscribes: 'subscribes',
   subscribe: 'subscribe',
-  promocodes:'promocodes'
+  promocodes: 'promocodes',
+  journal: 'modules/journal',
+  journal_subscribed: 'modules/journal/my/subscribed',
+  testResult: "test/result/",
+  reviews: "reviews/"
 };
 
 export const STORAGE = {
@@ -77,8 +85,21 @@ export const STORAGE = {
 export const TYPE_SUBCRIBES = {
   COURSE_SUBCRIBE: 'course',
   TEST_SUBCRIBE: 'test',
-  TASK_SUBSCRIBE: "task"
+  TASK_SUBSCRIBE: 'task',
+  JOURNAL_SUBCRIBE:'journal'
 };
 
+export const RESULT_TYPES = {
+  WITH_WRONGS: "with_wrongs",
+  DEFAULT: "default",
+  NONE: "none"
+}
+
+export const ANSWER_STATES = {
+  SELECTED: "selected",
+  UNSELECTED: "unselected",
+  CORRECT: "correct",
+  INCORRECT: "incorrect"
+}
 export const SECONDS_IN_MINUTE = 60
 export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60

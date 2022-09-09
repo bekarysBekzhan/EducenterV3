@@ -6,7 +6,14 @@ import React, {
   useRef,
   useLayoutEffect,
 } from 'react';
-import {Dimensions, FlatList, StyleSheet, Text, View} from 'react-native';
+import {
+  Alert,
+  Dimensions,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
 import Input from '../../components/Input';
 import CheckButton from '../../components/button/CheckButton';
@@ -23,11 +30,11 @@ import MenuItem from '../../components/item/MenuItem';
 import PacketItem from '../../components/item/PacketItem';
 import SearchItem from '../../components/item/SearchItem';
 import {strings} from '../../localization';
-import { ROUTE_NAMES } from '../../components/navigation/routes';
+import {ROUTE_NAMES} from '../../components/navigation/routes';
 
 const {width} = Dimensions.get('screen');
 
-const Operation = ({navigation, route}) => {
+const OperationScreen = ({navigation, route}) => {
   const {settings} = useSettings();
 
   const {operation, type} = route.params;
@@ -58,6 +65,17 @@ const Operation = ({navigation, route}) => {
 
   const [fetchOperation, loading, operationError] = useFetching(async () => {
     const res = await OperationService.fetchOperation(operation?.id, type);
+
+    if (res?.data?.data?.message) {
+      Alert.alert(strings['Внимание!'], res?.data?.data?.message?.warning, [
+        {
+          text: 'OK',
+          onPress: () => navigation.goBack(),
+        },
+      ]);
+      return;
+    }
+
     let convertTypes = Object.entries(res?.data?.data?.types)?.map(([k, v]) => {
       v.type = k;
       return v;
@@ -534,4 +552,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Operation;
+export default OperationScreen;

@@ -1,10 +1,7 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ROUTE_NAMES} from './routes';
-import LoginScreen from '../../screens/auth/LoginScreen';
 import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
-import RecoveryScreen from '../../screens/auth/RecoveryScreen';
-import RegisterScreen from '../../screens/auth/RegisterScreen';
 import NewsScreen from '../../screens/news/NewsScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import {useSettings} from '../context/Provider';
@@ -16,6 +13,7 @@ import ChangePassword from '../../screens/ChangePasswordScreen';
 import ProfieEditScreen from '../../screens/ProfileEditScreen';
 import ScheduleNavigator from './ScheduleNavigator';
 import SettingsScreen from '../../screens/SettingsScreen';
+import JournalNavigator from './JournalNavigator';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,12 +22,10 @@ const MenuStack = () => {
 
   const screens = [
     {
-      id: '1',
       name: ROUTE_NAMES.menu,
       component: MenuScreen,
     },
     {
-      id: '5',
       name: ROUTE_NAMES.news,
       component: NewsScreen,
       options: {
@@ -37,13 +33,11 @@ const MenuStack = () => {
       },
     },
     {
-      id: '6',
       name: ROUTE_NAMES.profile,
       component: ProfileScreen,
       initialParams: {profile: false},
     },
     {
-      id: '7',
       name: ROUTE_NAMES.newsDetail,
       component: NewsDetailScreen,
       options: {
@@ -51,7 +45,6 @@ const MenuStack = () => {
       },
     },
     {
-      id: '8',
       name: ROUTE_NAMES.history,
       component: HistoryScreen,
       options: {
@@ -59,7 +52,6 @@ const MenuStack = () => {
       },
     },
     {
-      id: '9',
       name: ROUTE_NAMES.changePassword,
       component: ChangePassword,
       options: {
@@ -67,7 +59,6 @@ const MenuStack = () => {
       },
     },
     {
-      id: '10',
       name: ROUTE_NAMES.profileEdit,
       component: ProfieEditScreen,
       options: {
@@ -75,7 +66,6 @@ const MenuStack = () => {
       },
     },
     {
-      id: '11',
       name: ROUTE_NAMES.scheduleNavigator,
       component: ScheduleNavigator,
       options: {
@@ -83,11 +73,17 @@ const MenuStack = () => {
       },
     },
     {
-      id: '12',
       name: ROUTE_NAMES.settings,
       component: SettingsScreen,
       options: {
         title: strings.Настройки,
+      },
+    },
+    {
+      name: ROUTE_NAMES.journalNavigator,
+      component: JournalNavigator,
+      options: {
+        title: strings['Все журналы'],
       },
     },
   ];
@@ -101,9 +97,9 @@ const MenuStack = () => {
           ...setFontStyle(17, '600'),
         },
       }}>
-      {screens.map(screen => (
+      {screens.map((screen, index) => (
         <Stack.Screen
-          key={screen.id}
+          key={index?.toString()}
           name={screen.name}
           component={screen.component}
           options={screen.options}

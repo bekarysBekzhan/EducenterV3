@@ -12,12 +12,12 @@ import RowView from '../../../components/view/RowView';
 import { TimeIcon } from '../../../assets/icons';
 import Timer from '../../../components/test/Timer';
 import Overlay from '../../../components/view/Overlay';
+import { ROUTE_NAMES } from '../../../components/navigation/routes';
 
 const ModuleTestScreen = props => {
 
   const id = props.route?.params?.id
   const lessonTitle = props.route?.params?.title
-  const seconds = props.route?.params?.seconds
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -31,6 +31,14 @@ const ModuleTestScreen = props => {
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
     console.log("Test id : " , data?.id)
     const response = await TestService.finishTest(data?.id)
+    const finishedTestData = response.data?.data
+    props.navigation.replace(ROUTE_NAMES.testCompleted, { 
+      passed: finishedTestData?.passed, 
+      correct: finishedTestData?.score, 
+      total: finishedTestData?.tests_count, 
+      id: data?.id,
+      resultType: finishedTestData?.entity?.result_type
+    })
   })
 
   useEffect(() => {
@@ -40,17 +48,16 @@ const ModuleTestScreen = props => {
     }
   }, [testError])
 
-  useEffect(() => {
-    if(testError) {
-      console.log("test error : " , testError)
-    }
-  }, [testError])
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      headerRight: () => <TestTimer initialTime={seconds ? seconds : 120} finishTest={finishTest}/>,
       title: lessonTitle ? lessonTitle : strings.тест
     })
+    if (data) {
+      props.navigation.setOptions({
+        headerRight: () => <TestTimer initialTime={getInitialSeconds(data?.finishing_time)} finishTest={finishTest}/>,
+      })
+    }
   }, [data])
 
   useEffect(() => {
@@ -63,6 +70,26 @@ const ModuleTestScreen = props => {
   const resetAudio = async () => {
     await TrackPlayer.reset();
   };
+
+  const getInitialSeconds = (finishingTime) => {
+
+    if (finishingTime === undefined || finishingTime === null) {
+      return 0
+    }
+
+    const currentSeconds = new Date().getTime() / 1000
+    const finishingSeconds = new Date(finishingTime).getTime() / 1000
+
+    const diffSeconds = finishingSeconds - currentSeconds
+
+    console.log("difference : " , diffSeconds)
+
+    if (diffSeconds < 0) {
+      return 0
+    }
+
+    return diffSeconds
+  }
 
   const onTrackChange = (duration, setDuration, setPosition, setPlaying) => {
     if (currentSetDuration.current) {
@@ -82,6 +109,7 @@ const ModuleTestScreen = props => {
     return (
       <Question
         questionItem={item}
+        items={item?.answers}
         passing_answers={data?.passing_answers}
         index={index}
         is_multiple={item?.is_multiple}
