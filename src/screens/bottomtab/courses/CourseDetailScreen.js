@@ -18,15 +18,13 @@ import {setFontStyle} from '../../../utils/utils';
 import RowView from '../../../components/view/RowView';
 import {down, iconPlay, lock, time, up} from '../../../assets/icons';
 import {strings} from '../../../localization';
-import TextButton from '../../../components/button/TextButton';
 import Divider from '../../../components/Divider';
 import Collapsible from 'react-native-collapsible';
 import {useSettings} from '../../../components/context/Provider';
 import TransactionButton from '../../../components/button/TransactionButton';
-import Person from '../../../components/Person';
-import ReviewItem from '../../../components/view/ReviewItem';
 import DetailView from '../../../components/view/DetailView';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
+import Footer from '../../../components/course/Footer';
 
 const CourseDetailScreen = props => {
   const {isAuth} = useSettings();
@@ -73,7 +71,7 @@ const CourseDetailScreen = props => {
   };
 
   const renderFooter = () => {
-    return <CourseListFooter data={data} navigation={props.navigation}/>;
+    return <Footer data={data} navigation={props.navigation} />;
   };
 
   return (
@@ -93,15 +91,17 @@ const CourseDetailScreen = props => {
           showsVerticalScrollIndicator={false}
         />
       )}
-      {isLoading ? null : data?.has_subscribed ? 
-      (
+      {isLoading ? null : data?.has_subscribed ? (
         <TransactionButton
           text={strings['Продолжить урок']}
-          onPress={() => props.navigation.navigate(ROUTE_NAMES.lesson, { id: data?.progress?.next_lesson?.id, title: data?.progress?.next_lesson?.chapter?.title })}
+          onPress={() =>
+            props.navigation.navigate(ROUTE_NAMES.lesson, {
+              id: data?.progress?.next_lesson?.id,
+              title: data?.progress?.next_lesson?.chapter?.title,
+            })
+          }
         />
-      ) 
-      : 
-      (
+      ) : (
         <TransactionButton
           text={strings['Купить полный курс']}
           price={data?.price}
@@ -132,19 +132,18 @@ const CourseListHeader = ({data}) => {
 };
 
 const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
-
   const [isCollapsed, setIsCollapsed] = useState(true);
   const {settings, isAuth} = useSettings();
 
   const onLesson = (id, title) => {
-      if (!isAuth) {
-          navigation.replace(ROUTE_NAMES.bottomTab, {
-            screen: ROUTE_NAMES.menuStack,
-          });
-        } else {
-          navigation.navigate(ROUTE_NAMES.lesson, {id, title });
-        }
-  }
+    if (!isAuth) {
+      navigation.replace(ROUTE_NAMES.bottomTab, {
+        screen: ROUTE_NAMES.menuStack,
+      });
+    } else {
+      navigation.navigate(ROUTE_NAMES.lesson, {id, title});
+    }
+  };
 
   return (
     <View>
@@ -154,10 +153,11 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
           styles.chapter,
           {backgroundColor: isCollapsed ? APP_COLORS.gray2 : 'white'},
         ]}
-        activeOpacity={0.8}
-      >
+        activeOpacity={0.8}>
         <View style={styles.chapterInfo}>
-          <Text style={styles.chapterTitle} numberOfLines={2}>{item?.title}</Text>
+          <Text style={styles.chapterTitle} numberOfLines={2}>
+            {item?.title}
+          </Text>
           <Text style={styles.counts}>
             {item?.lessons?.length} {strings.лекции}・{item?.files_count}{' '}
             {strings.файла}・{item?.tests_count} {strings.тест}
@@ -205,7 +205,7 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
         {item?.lessons.map((lesson, i) => (
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => onLesson(lesson?.id , lesson?.chapter?.title)}
+            onPress={() => onLesson(lesson?.id, lesson?.chapter?.title)}
             key={i}>
             <RowView style={styles.lesson}>
               <RowView style={styles.lessonRow1}>
@@ -240,65 +240,6 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
   );
 };
 
-const CourseListFooter = ({data, navigation}) => {
-
-  const onAllReviews = () => {
-    navigation.navigate(ROUTE_NAMES.reviews, { id: data?.id })
-  }
-
-  const renderReview = ({item, index}) => {
-    return (
-      <ReviewItem
-        avatar={item?.user?.avatar}
-        name={item?.user?.name}
-        date={item?.added_at}
-        rating={item?.stars}
-        startRating={item?.stars}
-        review={item?.text}
-        style={{
-          ...styles.reviewItem,
-          marginLeft: index === 0 ? 16 : 0,
-          marginRight: index === data?.reviews.length - 1 ? 16 : 10,
-        }}
-        numberOfLines={3}
-      />
-    );
-  };
-
-  return (
-    <UniversalView>
-      <View style={{padding: 16, paddingTop: 32}}>
-        <Person
-          status={strings['Автор курса']}
-          image={data?.author?.avatar}
-          name={data?.author?.name + ' ' + data?.author?.surname}
-          description={data?.author?.description}
-        />
-        <RowView style={{justifyContent: 'space-between'}}>
-          <Text
-            style={{
-              ...setFontStyle(21, '700'),
-            }}>
-            {strings.Отзывы}
-          </Text>
-          <TextButton
-            text={strings.Все}
-            textStyle={styles.allButton}
-            onPress={onAllReviews}
-          />
-        </RowView>
-      </View>
-      <FlatList
-        data={data?.reviews}
-        renderItem={renderReview}
-        keyExtractor={(_, index) => index.toString()}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-      />
-    </UniversalView>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {},
   counts: {
@@ -320,7 +261,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   chapterInfo: {
-      flex: 1
+    flex: 1,
   },
   chapterPoster: {
     width: 62,
@@ -385,14 +326,6 @@ const styles = StyleSheet.create({
   lessonTime: {
     ...setFontStyle(11, '400', APP_COLORS.placeholder),
   },
-  allButton: {
-    ...setFontStyle(15, '600', APP_COLORS.primary),
-    textTransform: 'uppercase',
-  },
-  reviewItem: {
-    width: WIDTH - 64,
-    height: 200,
-  },
 });
-  
+
 export default CourseDetailScreen;
