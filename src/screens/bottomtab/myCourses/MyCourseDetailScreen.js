@@ -14,9 +14,9 @@ import {useState} from 'react';
 import {useEffect} from 'react';
 import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import FastImage from 'react-native-fast-image';
-import {fileDownloader, setFontStyle} from '../../../utils/utils';
+import {fileDownloader, setFontStyle, wordLocalization} from '../../../utils/utils';
 import RowView from '../../../components/view/RowView';
-import {down, iconPlay, lock, time, up} from '../../../assets/icons';
+import {down, iconPlay, lock, PlayIcon, time, up} from '../../../assets/icons';
 import {strings} from '../../../localization';
 import Divider from '../../../components/Divider';
 import Collapsible from 'react-native-collapsible';
@@ -27,8 +27,10 @@ import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import RNFS from 'react-native-fs';
 import Downloader from '../../../components/Downloader';
 import Footer from '../../../components/course/Footer';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 const MyCourseDetailScreen = props => {
+
   const courseID = props.route?.params?.courseID;
 
   const {settings} = useSettings();
@@ -86,6 +88,7 @@ const MyCourseDetailScreen = props => {
         item={item}
         index={index}
         hasSubscribed={data?.has_subscribed}
+        progress={data?.progress}
         navigation={props.navigation}
       />
     );
@@ -95,14 +98,38 @@ const MyCourseDetailScreen = props => {
     return <Footer data={data} navigation={props?.navigation} />;
   };
 
+  const renderTransactionButton = () => {
+
+    if (data?.progress?.finished && data?.user_certificate && settings?.modules_enabled_certificates) {
+      return (
+        <TransactionButton
+          text={strings['Скачать сертификат']}
+          style={{backgroundColor: 'green'}}
+          textStyle={{textTransform: 'uppercase'}}
+          onPress={downloader}
+        />
+      )
+    }
+
+    return (
+      <TransactionButton
+        text={strings['Продолжить урок']}
+        onPress={() =>
+          props.navigation.navigate(ROUTE_NAMES.lesson, {
+            id: data?.progress?.next_lesson?.id,
+            title: data?.progress?.next_lesson?.chapter?.title,
+          })
+        }
+      />
+    );
+  };
+
+  if (isLoading) {
+    return <LoadingScreen/>
+  }
+
   return (
     <UniversalView style={styles.container}>
-      {isLoading ? (
-        <ActivityIndicator
-          color={APP_COLORS.primary}
-          style={{marginTop: 120}}
-        />
-      ) : (
         <FlatList
           data={data?.chapters}
           ListHeaderComponent={renderHeader}
@@ -111,34 +138,7 @@ const MyCourseDetailScreen = props => {
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
         />
-      )}
-      {data?.progress?.finished &&
-      data?.user_certificate &&
-      settings?.modules_enabled_certificates ? (
-        <TransactionButton
-          text={strings['Скачать сертификат']}
-          style={{backgroundColor: 'green'}}
-          textStyle={{textTransform: 'uppercase'}}
-          onPress={downloader}
-        />
-      ) : isLoading ? null : data?.has_subscribed ? (
-        <TransactionButton
-          text={strings['Продолжить урок']}
-          onPress={() =>
-            props.navigation.navigate(ROUTE_NAMES.lesson, {
-              id: data?.progress?.next_lesson?.id,
-              title: data?.progress?.next_lesson?.chapter?.title,
-            })
-          }
-        />
-      ) : (
-        <TransactionButton
-          text={strings['Купить полный курс']}
-          price={data?.price}
-          oldPrice={data?.old_price}
-          onPress={() => undefined}
-        />
-      )}
+      {renderTransactionButton()}
       <Downloader
         visible={visible}
         progress={progress}
@@ -166,7 +166,8 @@ const CourseListHeader = ({data}) => {
   );
 };
 
-const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
+const CourseChapter = ({item, index, hasSubscribed, navigation, progress}) => {
+
   const [isCollapsed, setIsCollapsed] = useState(true);
   const {settings, isAuth} = useSettings();
 
@@ -180,6 +181,34 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
     }
   };
 
+  const passedLessonCount = () => {
+    if (item?.position < progress?.last_chapter_position) {
+      return item?.lessons_count
+    } 
+    if (item?.position > progress?.last_chapter_position) {
+      return 0
+    }
+
+    return progress?.last_lesson_position
+  }
+
+  const getProgressPercent = () => {
+    return (passedLessonCount() / item?.lessons_count) * 100
+  }
+
+  const renderProgressBar = (percent = 10) => {
+    console.log("percent : " , percent)
+    return (
+      <View style={styles.progressBar}>
+        <View style={[styles.completedProgress, { 
+          width: percent + "%", 
+          backgroundColor: percent === 100 ? "green" : APP_COLORS.primary 
+          }]}
+        />
+      </View>
+    )
+  }
+
   return (
     <View>
       <TouchableOpacity
@@ -188,7 +217,8 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
           styles.chapter,
           {backgroundColor: isCollapsed ? APP_COLORS.gray2 : 'white'},
         ]}
-        activeOpacity={0.8}>
+        activeOpacity={0.8}
+      >
         <View style={styles.chapterInfo}>
           <Text style={styles.chapterTitle} numberOfLines={2}>
             {item?.title}
@@ -198,18 +228,11 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
             {strings.файла}・{item?.tests_count} {strings.тест}
           </Text>
           <View style={styles.courseStatus}>
-            {!hasSubscribed ? (
-              <RowView>
-                {lock()}
-                <Text style={styles.subscribeToCourseText}>
-                  {strings['Купите курс чтобы смотреть']}
-                </Text>
-              </RowView>
-            ) : item?.lessons.filter(lesson => lesson?.is_promo).length > 0 ? (
-              iconPlay()
-            ) : (
-              lock()
-            )}
+            {renderProgressBar(getProgressPercent())}
+            <RowView style={{ justifyContent: "space-between" }}>
+              <Text style={styles.counts}>{wordLocalization(strings[':num из :count'], { num: passedLessonCount(), count: item?.lessons_count})}</Text>
+              <Text style={styles.counts}>{getProgressPercent()}%</Text>
+            </RowView>
           </View>
         </View>
         <RowView>
@@ -223,7 +246,7 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
             style={styles.chapterPoster}>
             <View style={styles.chapterPosterOpacity}>
               <View style={styles.chapterPlay}>
-                {iconPlay(0.9, APP_COLORS.primary)}
+                <PlayIcon size={0.9} color={APP_COLORS.primary}/>
               </View>
             </View>
           </FastImage>
@@ -278,8 +301,7 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
 const styles = StyleSheet.create({
   container: {},
   counts: {
-    ...setFontStyle(13, '400', APP_COLORS.placeholder),
-    marginBottom: 8,
+    ...setFontStyle(13, '500', APP_COLORS.placeholder),
   },
   subscribeToCourseText: {
     ...setFontStyle(14, '400', APP_COLORS.placeholder),
@@ -297,6 +319,7 @@ const styles = StyleSheet.create({
   },
   chapterInfo: {
     flex: 1,
+    paddingRight: 12
   },
   chapterPoster: {
     width: 62,
@@ -361,6 +384,16 @@ const styles = StyleSheet.create({
   lessonTime: {
     ...setFontStyle(11, '400', APP_COLORS.placeholder),
   },
+  progressBar: {
+    height: 6.8,
+    backgroundColor: APP_COLORS.input,
+    borderRadius: 13,
+    marginVertical: 8
+  },
+  completedProgress: {
+    height: 7.0,
+    borderRadius: 13,
+  }
 });
 
 export default MyCourseDetailScreen;
