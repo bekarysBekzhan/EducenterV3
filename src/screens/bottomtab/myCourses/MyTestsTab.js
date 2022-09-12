@@ -13,7 +13,7 @@ import LoadingScreen from '../../../components/LoadingScreen';
 import {MyCourseService} from '../../../services/API';
 import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
-import {check, down, PlayIcon, TimeIcon, up} from '../../../assets/icons';
+import {check, down, lock, PlayIcon, TimeIcon, up} from '../../../assets/icons';
 import RowView from '../../../components/view/RowView';
 import {getCurrentTimeString, getTimeString, setFontStyle, wordLocalization} from '../../../utils/utils';
 import {strings} from '../../../localization';
@@ -122,6 +122,9 @@ const MyTestsTab = props => {
   );
 };
 
+const CURRENT = "current"
+const LOCKED = "locked"
+
 const ModuleMyTestItem = ({
   id,
   title,
@@ -141,19 +144,92 @@ const ModuleMyTestItem = ({
   }, [])
 
   const usedAttempts = () => {
-    return attemptHistory?.filter(item => item?.finished).length - 1;
+    return attemptHistory[attemptHistory?.length - 1].attempts;
   };
+
+  const getData = () => {
+    const data = [...attemptHistory]
+    if (usedAttempts() < attempts) {
+      const currentAttempt = {
+        status: CURRENT,
+        attempts: usedAttempts() + 1
+      }
+      data.push(currentAttempt)
+      for (let attempt = 0; attempt < attempts - currentAttempt.attempts; attempt++) {
+        data.push({
+          status: LOCKED,
+          attempts: currentAttempt.attempts + attempt + 1
+        })
+      }
+    }
+    console.log("data : " , data)
+    return data
+  }
 
   const onDownload = () => {};
 
+  const renderIcon = () => {
+    if (usedAttempts() < attempts) {
+      return (
+        <View style={testItem.icon}>
+          <PlayIcon size={0.6} />
+        </View>
+      )
+    }
+    return (
+      <View style={[testItem.icon, { backgroundColor: "green", paddingHorizontal: 5 }]}>
+        {check()}
+      </View>
+    )
+  }
+
+  const renderText = () => {
+
+    if (usedAttempts() < attempts) {
+      return (
+        <TextButton
+          onPress={() => onPress(id)}
+          style={testItem.button}
+          textStyle={[testItem.buttonText]}
+          text={strings['Пройти тест']}
+        />
+      )
+    }
+
+    return (
+      <TextButton
+        onPress={() => undefined}
+        style={testItem.button}
+        text={strings['Тест пройден']}
+        textStyle={[testItem.buttonText, { color: "green" }]}
+      />
+    )
+  }
+
   const renderItem = ({ item, index }) => {
 
-    if (!item) {
+    if (item?.status === CURRENT) {
       return(
-        <RowView style={testItem.attemptRow}>
-
-        </RowView>
+        <TouchableOpacity
+          onPress={() => onPress(id)}
+          activeOpacity={0.88}
+        >
+          <RowView style={testItem.current}>
+            <View style={[ testItem.icon, { backgroundColor: APP_COLORS.input } ]}>
+              <PlayIcon size={0.6} color={APP_COLORS.primary}/>
+            </View>
+            <Text style={testItem.attemptText}>{strings.Пройти}. {strings.Попытка} {item?.attempts}</Text>
+          </RowView>
+        </TouchableOpacity>
       )
+    } 
+    else if (item?.status === LOCKED) {
+      return(
+        <RowView style={testItem.locked}>
+          {lock()}
+          <Text style={[testItem.attemptText, { color: APP_COLORS.placeholder }]}>{strings.Попытка} {item?.attempts}. {strings['Пройдите предыдущий тест, чтобы начать.']}</Text>
+        </RowView>
+      ) 
     }
 
     return (
@@ -169,7 +245,7 @@ const ModuleMyTestItem = ({
             <View style={[ testItem.icon, { backgroundColor: APP_COLORS.input } ]}>
               <PlayIcon size={0.6} color={APP_COLORS.primary}/>
             </View>
-            <Text style={testItem.attemptText}>{ item?.finished ? strings.Попытка + " " + item?.attempts : strings.Пройти + ". " + strings.Попытка + " " + item?.attempts}</Text>
+            <Text style={testItem.attemptText}>{strings.Попытка} {item?.attempts}</Text>
           </RowView>
           <RowView>
             <TimeIcon color={APP_COLORS.placeholder}/>
@@ -201,30 +277,8 @@ const ModuleMyTestItem = ({
       <Divider isAbsolute={false} style={testItem.divider}/>
       <RowView style={testItem.row}>
         <RowView style={testItem.row1}>
-          {
-            finished ?
-            <View style={[testItem.icon, { backgroundColor: "green", paddingHorizontal: 5 }]}>
-              {check()}
-            </View> :
-            <View style={testItem.icon}>
-              <PlayIcon size={0.6} />
-            </View>
-          }
-          {
-            finished ? 
-            <TextButton
-              onPress={() => undefined}
-              style={testItem.button}
-              text={strings['Тест пройден']}
-              textStyle={[testItem.buttonText, { color: "green" }]}
-            /> :
-            <TextButton
-              onPress={() => onPress(id)}
-              style={testItem.button}
-              textStyle={[testItem.buttonText]}
-              text={strings['Пройти тест']}
-            />
-          }
+          {renderIcon()}
+          {renderText()}
         </RowView>
         <TouchableOpacity onPress={() => setIsCollapsed(prev => !prev)} activeOpacity={0.7}>
           <RowView style={testItem.row2}>
@@ -235,10 +289,11 @@ const ModuleMyTestItem = ({
       </RowView>
       <Collapsible collapsed={isCollapsed}>
         <FlatList
-          data={attemptHistory.concat(Array(attempts - usedAttempts()).fill(false))}
+          data={getData()}
           renderItem={renderItem}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          scrollEnabled={false}
         />
       </Collapsible>
     </View>
@@ -318,10 +373,20 @@ const testItem = StyleSheet.create({
   },
   attemptText: {
     ...setFontStyle(13, "500"),
+    flex: 1,
   },
   attemptRow: {
     justifyContent: "space-between",
-
+  },
+  current: {
+    paddingVertical: 16,
+    borderTopWidth: 0.35,
+    borderColor: APP_COLORS.border
+  },
+  locked: {
+    paddingVertical: 16,
+    borderTopWidth: 0.35,
+    borderColor: APP_COLORS.border
   }
 });
 
