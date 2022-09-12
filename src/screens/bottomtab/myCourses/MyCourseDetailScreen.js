@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
+  Switch,
 } from 'react-native';
 import React, {useCallback, useRef} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
@@ -36,6 +37,7 @@ const MyCourseDetailScreen = props => {
   const {settings} = useSettings();
 
   const [visible, setVisible] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const refJobId = useRef(null);
@@ -78,18 +80,63 @@ const MyCourseDetailScreen = props => {
     }
   }, []);
 
+  const passedLessonCount = (chapter) => {
+    if (chapter?.position < data?.progress?.last_chapter_position) {
+      return chapter?.lessons_count
+    } 
+    if (chapter?.position > data?.progress?.last_chapter_position) {
+      return 0
+    }
+
+    return data?.progress?.last_lesson_position
+  }
+
+  const getProgressPercent = (chapter) => {
+    return (passedLessonCount(chapter) / chapter?.lessons_count) * 100
+  }
+
   const renderHeader = () => {
-    return <CourseListHeader data={data} />;
+    return (
+      <UniversalView>
+        <DetailView
+          poster={data?.poster}
+          category={data?.category?.name}
+          title={data?.title}
+          duration={data?.time}
+          rating={data?.rating}
+          reviewCount={data?.reviews_count}
+          description={data?.description}
+        />
+        <Divider isAbsolute={false} />
+        <Text style={styles.courseProgram}>{strings['Программа курса']}</Text>
+        <RowView style={{ justifyContent: "space-between", margin: 16 }}>
+          <Text>{strings['Скрыть пройденные курсы']}</Text>
+          <Switch
+            value={isFilter}
+            onValueChange={(value) => setIsFilter(value)}
+            thumbColor={APP_COLORS.primary}
+            // trackColor={"red"}
+          />
+        </RowView>
+      </UniversalView>
+    )
   };
 
   const renderChapter = ({item, index}) => {
+
+    if (isFilter && getProgressPercent(item) === 100) {
+      return null
+    }
+
     return (
       <CourseChapter
         item={item}
         index={index}
         hasSubscribed={data?.has_subscribed}
-        progress={data?.progress}
         navigation={props.navigation}
+        passedLessonsCount={passedLessonCount(item)}
+        totalLessonsCount={item?.lessons_count}
+        percent={getProgressPercent(item)}
       />
     );
   };
@@ -148,25 +195,15 @@ const MyCourseDetailScreen = props => {
   );
 };
 
-const CourseListHeader = ({data}) => {
-  return (
-    <UniversalView>
-      <DetailView
-        poster={data?.poster}
-        category={data?.category?.name}
-        title={data?.title}
-        duration={data?.time}
-        rating={data?.rating}
-        reviewCount={data?.reviews_count}
-        description={data?.description}
-      />
-      <Divider isAbsolute={false} />
-      <Text style={styles.courseProgram}>{strings['Программа курса']}</Text>
-    </UniversalView>
-  );
-};
-
-const CourseChapter = ({item, index, hasSubscribed, navigation, progress}) => {
+const CourseChapter = ({
+  item, 
+  index, 
+  hasSubscribed, 
+  navigation,
+  totalLessonsCount,
+  passedLessonsCount,
+  percent,
+}) => {
 
   const [isCollapsed, setIsCollapsed] = useState(true);
   const {settings, isAuth} = useSettings();
@@ -180,21 +217,6 @@ const CourseChapter = ({item, index, hasSubscribed, navigation, progress}) => {
       navigation.navigate(ROUTE_NAMES.lesson, {id, title});
     }
   };
-
-  const passedLessonCount = () => {
-    if (item?.position < progress?.last_chapter_position) {
-      return item?.lessons_count
-    } 
-    if (item?.position > progress?.last_chapter_position) {
-      return 0
-    }
-
-    return progress?.last_lesson_position
-  }
-
-  const getProgressPercent = () => {
-    return (passedLessonCount() / item?.lessons_count) * 100
-  }
 
   const renderProgressBar = (percent = 10) => {
     console.log("percent : " , percent)
@@ -228,10 +250,10 @@ const CourseChapter = ({item, index, hasSubscribed, navigation, progress}) => {
             {strings.файла}・{item?.tests_count} {strings.тест}
           </Text>
           <View style={styles.courseStatus}>
-            {renderProgressBar(getProgressPercent())}
+            {renderProgressBar(percent)}
             <RowView style={{ justifyContent: "space-between" }}>
-              <Text style={styles.counts}>{wordLocalization(strings[':num из :count'], { num: passedLessonCount(), count: item?.lessons_count})}</Text>
-              <Text style={styles.counts}>{getProgressPercent()}%</Text>
+              <Text style={styles.counts}>{wordLocalization(strings[':num из :count'], { num: passedLessonsCount, count: totalLessonsCount})}</Text>
+              <Text style={styles.counts}>{percent}%</Text>
             </RowView>
           </View>
         </View>
