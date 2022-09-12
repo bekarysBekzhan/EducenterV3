@@ -159,6 +159,7 @@ const MyTestsTab = props => {
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
+        onEndReachedThreshold={0.5}
         refreshing={isFetching}
         onRefresh={onRefresh}
       />
@@ -340,6 +341,7 @@ const ModuleMyTestItem = ({
           data={getData()}
           renderItem={renderItem}
           keyExtractor={(_, index) => index.toString()}
+          bounces={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}
         />
