@@ -6,7 +6,7 @@ import {
   ActivityIndicator,
   TouchableOpacity,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {useFetching} from '../../../hooks/useFetching';
 import LoadingScreen from '../../../components/LoadingScreen';
@@ -15,18 +15,25 @@ import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {check, down, lock, PlayIcon, TimeIcon, up} from '../../../assets/icons';
 import RowView from '../../../components/view/RowView';
-import {getCurrentTimeString, getTimeString, setFontStyle, wordLocalization} from '../../../utils/utils';
+import {fileDownloader, getTimeString, setFontStyle, wordLocalization} from '../../../utils/utils';
 import {strings} from '../../../localization';
 import TextButton from '../../../components/button/TextButton';
 import Divider from '../../../components/Divider';
 import Collapsible from 'react-native-collapsible';
 import { useSettings } from '../../../components/context/Provider';
+import RNFS from 'react-native-fs';
+import Downloader from '../../../components/Downloader';
 
 const MyTestsTab = props => {
 
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+
+  const [visible, setVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const refJobId = useRef(null);
 
   const [fetchTests, isFetching, fetchingError] = useFetching(async () => {
     const response = await MyCourseService.fetchMyTests();
@@ -63,9 +70,45 @@ const MyTestsTab = props => {
     }
   }, [page]);
 
-  const testItemTapped = id => {
+  const onStartTest = id => {
     props.navigation.navigate(ROUTE_NAMES.myTestDetail, {id});
   };
+
+  const onShowResult = (id, resultType) => {
+    props.navigation.navigate(ROUTE_NAMES.testResult, {id, resultType})
+  }
+
+  const downloader = useCallback((urlFile, fileName = strings.Сертификат) => {
+
+    setVisible(true);
+    fileDownloader(urlFile, fileName, () => setVisible(false), onProgress);
+
+  }, []);
+
+  const cancelDownloader = useCallback(() => {
+
+    setVisible(false);
+    if (refJobId.current) {
+        RNFS.stopDownload(refJobId.current);
+        setProgress(0);
+    }
+
+  }, []);
+
+  const onProgress = useCallback(data => {
+
+    console.log('progress: ', data);
+
+    if (data) {
+        refJobId.current = data?.jobId;
+        let currentPercent = (data?.bytesWritten * 100) / data?.contentLength;
+        setProgress(currentPercent);
+    } else {
+        refJobId.current = null;
+        setProgress(0);
+    }
+
+  }, []);
 
   const renderTest = ({item, index}) => {
     return (
@@ -76,8 +119,9 @@ const MyTestsTab = props => {
         attempts={item?.attempts}
         attemptHistory={item?.all_passings}
         certificate={item?.user_certificate}
-        onPress={testItemTapped}
-        finished={item?.passing_user?.finished}
+        onStartTest={onStartTest}
+        onShowResult={onShowResult}
+        onDownload={downloader}
       />
     );
   };
@@ -118,6 +162,11 @@ const MyTestsTab = props => {
         refreshing={isFetching}
         onRefresh={onRefresh}
       />
+      <Downloader
+        visible={visible}
+        progress={progress}
+        onPressCancel={cancelDownloader}
+      />
     </UniversalView>
   );
 };
@@ -129,18 +178,19 @@ const ModuleMyTestItem = ({
   id,
   title,
   attempts,
-  finished = false,
   certificate,
   attemptHistory,
-  onPress = () => undefined,
+  onStartTest = () => undefined,
+  onShowResult = () => undefined,
+  onDownload = () => undefined,
 }) => {
 
   const [isCollapsed, setIsCollapsed] = useState(true);
   const { settings } = useSettings()
 
   useEffect(() => {
-    console.log("attempts : " , attempts)
-    console.log("used attempts : " , usedAttempts())
+    // console.log("attempts : " , attempts)
+    // console.log("used attempts : " , usedAttempts())
   }, [])
 
   const usedAttempts = () => {
@@ -162,11 +212,9 @@ const ModuleMyTestItem = ({
         })
       }
     }
-    console.log("data : " , data)
+    // console.log("data : " , data)
     return data
   }
-
-  const onDownload = () => {};
 
   const renderIcon = () => {
     if (usedAttempts() < attempts) {
@@ -188,7 +236,7 @@ const ModuleMyTestItem = ({
     if (usedAttempts() < attempts) {
       return (
         <TextButton
-          onPress={() => onPress(id)}
+          onPress={() => onStartTest(id)}
           style={testItem.button}
           textStyle={[testItem.buttonText]}
           text={strings['Пройти тест']}
@@ -211,7 +259,7 @@ const ModuleMyTestItem = ({
     if (item?.status === CURRENT) {
       return(
         <TouchableOpacity
-          onPress={() => onPress(id)}
+          onPress={() => onStartTest(id)}
           activeOpacity={0.88}
         >
           <RowView style={testItem.current}>
@@ -237,7 +285,7 @@ const ModuleMyTestItem = ({
         style={[testItem.attempt, {
           borderTopWidth: index ? 0.35 : 0,
         }]}
-        onPress={() => undefined}
+        onPress={() => onShowResult(item?.id)}
         activeOpacity={0.88}
       >
         <RowView style={[ testItem.attemptRow, { marginBottom: 10 } ]}>
@@ -268,7 +316,7 @@ const ModuleMyTestItem = ({
       </Text>
       {certificate && settings?.modules_enabled_certificates ?  (
         <TextButton
-          onPress={onDownload}
+          onPress={() => onDownload(certificate?.file)}
           style={testItem.button}
           textStyle={testItem.buttonText}
           text={strings['Скачать сертификат']}
