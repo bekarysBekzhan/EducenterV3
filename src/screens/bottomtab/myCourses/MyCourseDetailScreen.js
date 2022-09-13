@@ -114,8 +114,8 @@ const MyCourseDetailScreen = props => {
           <Switch
             value={isFilter}
             onValueChange={(value) => setIsFilter(value)}
-            thumbColor={APP_COLORS.primary}
-            // trackColor={"red"}
+            thumbColor={isFilter ? APP_COLORS.primary : APP_COLORS.placeholder}
+            trackColor={{ true: "#EBEBFE", false: "white"}}
           />
         </RowView>
       </UniversalView>
