@@ -16,6 +16,6 @@ export default RowView;
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: "center",
   },
 });

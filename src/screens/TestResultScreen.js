@@ -6,6 +6,7 @@ import { CourseService } from '../services/API'
 import LoadingScreen from '../components/LoadingScreen'
 import Question from '../components/test/Question'
 import { RESULT_TYPES } from '../constans/constants'
+import { strings } from '../localization'
 
 const TestResultScreen = (props) => {
 
@@ -21,6 +22,9 @@ const TestResultScreen = (props) => {
     }, [])
 
     useLayoutEffect(() => {
+        props.navigation.setOptions({
+            title: strings['Результаты теста']
+        })
         fetchResult()
     }, [])
 

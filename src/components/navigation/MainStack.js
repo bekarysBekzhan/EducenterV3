@@ -172,7 +172,8 @@ const Navigation = () => {
       <MainStack.Navigator
         screenOptions={{
           headerShown: false,
-        }}>
+        }}
+      >
         {GENERAL.map((route, index) => (
           <MainStack.Screen
             name={route.name}

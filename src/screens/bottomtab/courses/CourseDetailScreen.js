@@ -16,17 +16,16 @@ import {APP_COLORS, TYPE_SUBCRIBES, WIDTH} from '../../../constans/constants';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../../utils/utils';
 import RowView from '../../../components/view/RowView';
-import {down, iconPlay, lock, time, up} from '../../../assets/icons';
+import {down, iconPlay, lock, PlayIcon, time, up} from '../../../assets/icons';
 import {strings} from '../../../localization';
-import TextButton from '../../../components/button/TextButton';
 import Divider from '../../../components/Divider';
 import Collapsible from 'react-native-collapsible';
 import {useSettings} from '../../../components/context/Provider';
 import TransactionButton from '../../../components/button/TransactionButton';
-import Person from '../../../components/Person';
-import ReviewItem from '../../../components/view/ReviewItem';
 import DetailView from '../../../components/view/DetailView';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
+import Footer from '../../../components/course/Footer';
+import LoadingScreen from '../../../components/LoadingScreen';
 
 const CourseDetailScreen = props => {
   const {isAuth} = useSettings();
@@ -73,42 +72,36 @@ const CourseDetailScreen = props => {
   };
 
   const renderFooter = () => {
-    return <CourseListFooter data={data} navigation={props.navigation}/>;
+    return <Footer data={data} navigation={props.navigation} />;
   };
+
+  const renderTransactionButton = () => {
+    return (
+      <TransactionButton
+        text={strings['Купить полный курс']}
+        price={data?.price}
+        oldPrice={data?.old_price}
+        onPress={onTransaction}
+      />
+    );
+  };
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <UniversalView style={styles.container}>
-      {isLoading ? (
-        <ActivityIndicator
-          color={APP_COLORS.primary}
-          style={{marginTop: 120}}
-        />
-      ) : (
-        <FlatList
-          data={data?.chapters}
-          ListHeaderComponent={renderHeader}
-          renderItem={renderChapter}
-          ListFooterComponent={renderFooter}
-          keyExtractor={(_, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-        />
-      )}
-      {isLoading ? null : data?.has_subscribed ? 
-      (
-        <TransactionButton
-          text={strings['Продолжить урок']}
-          onPress={() => props.navigation.navigate(ROUTE_NAMES.lesson, { id: data?.progress?.next_lesson?.id, title: data?.progress?.next_lesson?.chapter?.title })}
-        />
-      ) 
-      : 
-      (
-        <TransactionButton
-          text={strings['Купить полный курс']}
-          price={data?.price}
-          oldPrice={data?.old_price}
-          onPress={onTransaction}
-        />
-      )}
+      <FlatList
+        data={data?.chapters}
+        ListHeaderComponent={renderHeader}
+        renderItem={renderChapter}
+        ListFooterComponent={renderFooter}
+        ItemSeparatorComponent={() => <Divider />}
+        keyExtractor={(_, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
+      />
+      {renderTransactionButton()}
     </UniversalView>
   );
 };
@@ -132,19 +125,43 @@ const CourseListHeader = ({data}) => {
 };
 
 const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
-
   const [isCollapsed, setIsCollapsed] = useState(true);
   const {settings, isAuth} = useSettings();
 
   const onLesson = (id, title) => {
-      if (!isAuth) {
-          navigation.replace(ROUTE_NAMES.bottomTab, {
-            screen: ROUTE_NAMES.menuStack,
-          });
-        } else {
-          navigation.navigate(ROUTE_NAMES.lesson, {id, title });
-        }
-  }
+    if (!isAuth) {
+      navigation.replace(ROUTE_NAMES.bottomTab, {
+        screen: ROUTE_NAMES.menuStack,
+      });
+    } else {
+      navigation.navigate(ROUTE_NAMES.lesson, {id, title});
+    }
+  };
+
+  const renderStatus = () => {
+    if (item?.lessons.filter(lesson => lesson?.is_promo).length > 0) {
+      return (
+        <RowView>
+          <View
+            style={[styles.chapterPlay, {backgroundColor: APP_COLORS.primary}]}>
+            <PlayIcon size={0.9} />
+          </View>
+          <Text style={styles.promoText}>
+            {strings['Смотреть первый урок бесплатно']}
+          </Text>
+        </RowView>
+      );
+    }
+
+    return (
+      <RowView>
+        {lock()}
+        <Text style={styles.subscribeToCourseText}>
+          {strings['Купите курс чтобы смотреть']}
+        </Text>
+      </RowView>
+    );
+  };
 
   return (
     <View>
@@ -162,20 +179,7 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
             {item?.lessons?.length} {strings.лекции}・{item?.files_count}{' '}
             {strings.файла}・{item?.tests_count} {strings.тест}
           </Text>
-          <View style={styles.courseStatus}>
-            {!hasSubscribed ? (
-              <RowView>
-                {lock()}
-                <Text style={styles.subscribeToCourseText}>
-                  {strings['Купите курс чтобы смотреть']}
-                </Text>
-              </RowView>
-            ) : item?.lessons.filter(lesson => lesson?.is_promo).length > 0 ? (
-              iconPlay()
-            ) : (
-              lock()
-            )}
-          </View>
+          <View style={styles.courseStatus}>{renderStatus()}</View>
         </View>
         <RowView>
           <FastImage
@@ -188,29 +192,24 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
             style={styles.chapterPoster}>
             <View style={styles.chapterPosterOpacity}>
               <View style={styles.chapterPlay}>
-                {iconPlay(0.9, APP_COLORS.primary)}
+                <PlayIcon size={0.9} color={APP_COLORS.primary} />
               </View>
             </View>
           </FastImage>
           <View style={{marginLeft: 8}}>{isCollapsed ? down : up}</View>
         </RowView>
       </TouchableOpacity>
-      <Divider
-        isAbsolute={false}
-        style={{
-          width: WIDTH - 32,
-        }}
-      />
+
       <Collapsible collapsed={isCollapsed} style={styles.collapsed}>
         {item?.lessons.map((lesson, i) => (
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => onLesson(lesson?.id , lesson?.chapter?.title)}
+            onPress={() => onLesson(lesson?.id, lesson?.chapter?.title)}
             key={i}>
             <RowView style={styles.lesson}>
               <RowView style={styles.lessonRow1}>
                 <View style={styles.lessonIcon}>
-                  {lesson?.is_promo || hasSubscribed ? (
+                  {lesson?.is_promo ? (
                     <View style={styles.lessonPlay}>{iconPlay(0.85)}</View>
                   ) : (
                     lock()
@@ -240,65 +239,6 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
   );
 };
 
-const CourseListFooter = ({data, navigation}) => {
-
-  const onAllReviews = () => {
-    navigation.navigate(ROUTE_NAMES.reviews, { id: data?.id })
-  }
-
-  const renderReview = ({item, index}) => {
-    return (
-      <ReviewItem
-        avatar={item?.user?.avatar}
-        name={item?.user?.name}
-        date={item?.added_at}
-        rating={item?.stars}
-        startRating={item?.stars}
-        review={item?.text}
-        style={{
-          ...styles.reviewItem,
-          marginLeft: index === 0 ? 16 : 0,
-          marginRight: index === data?.reviews.length - 1 ? 16 : 10,
-        }}
-        numberOfLines={3}
-      />
-    );
-  };
-
-  return (
-    <UniversalView>
-      <View style={{padding: 16, paddingTop: 32}}>
-        <Person
-          status={strings['Автор курса']}
-          image={data?.author?.avatar}
-          name={data?.author?.name + ' ' + data?.author?.surname}
-          description={data?.author?.description}
-        />
-        <RowView style={{justifyContent: 'space-between'}}>
-          <Text
-            style={{
-              ...setFontStyle(21, '700'),
-            }}>
-            {strings.Отзывы}
-          </Text>
-          <TextButton
-            text={strings.Все}
-            textStyle={styles.allButton}
-            onPress={onAllReviews}
-          />
-        </RowView>
-      </View>
-      <FlatList
-        data={data?.reviews}
-        renderItem={renderReview}
-        keyExtractor={(_, index) => index.toString()}
-        showsHorizontalScrollIndicator={false}
-        horizontal
-      />
-    </UniversalView>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {},
   counts: {
@@ -320,7 +260,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   chapterInfo: {
-      flex: 1
+    flex: 1,
+    paddingRight: 8,
   },
   chapterPoster: {
     width: 62,
@@ -344,6 +285,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  promoText: {
+    ...setFontStyle(13, '600', APP_COLORS.primary),
+    textTransform: 'uppercase',
+    marginLeft: 6,
   },
   courseProgram: {
     margin: 16,
@@ -385,14 +331,6 @@ const styles = StyleSheet.create({
   lessonTime: {
     ...setFontStyle(11, '400', APP_COLORS.placeholder),
   },
-  allButton: {
-    ...setFontStyle(15, '600', APP_COLORS.primary),
-    textTransform: 'uppercase',
-  },
-  reviewItem: {
-    width: WIDTH - 64,
-    height: 200,
-  },
 });
-  
+
 export default CourseDetailScreen;

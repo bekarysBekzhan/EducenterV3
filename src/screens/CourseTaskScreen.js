@@ -60,7 +60,7 @@ const CourseTaskScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: lessonTitle ? lessonTitle : strings.Задания
+      title: lessonTitle ? lessonTitle : strings.Задание
     })
   }, [])
 

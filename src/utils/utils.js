@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS, SECONDS_IN_HOUR, SECONDS_IN_MINUTE} from '../constans/constants';
 import {strings} from '../localization';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
@@ -90,13 +90,54 @@ export const selectComponent = (
 };
 
 export const getCurrentTimeString = time => {
-  const whole = Math.floor(time);
-  let seconds = whole % 60;
-  let minutes = (whole - seconds) / 60;
-  let secondString = seconds < 10 ? '0' + seconds : seconds;
-  let minuteString = minutes < 10 ? '0' + minutes : minutes;
-  return minuteString + ':' + secondString;
+  
+  let string = ""
+
+  const hours = Math.floor(time / SECONDS_IN_HOUR)
+  if (hours) {
+    string += hours + ":"
+    time -= hours * SECONDS_IN_HOUR
+  }
+
+  const minutes = Math.floor(time / SECONDS_IN_MINUTE)
+  if (minutes) {
+    string += (minutes < 10 ? "0" + minutes : minutes) + ":"
+    time -= minutes * SECONDS_IN_MINUTE
+  }
+
+  if (time) {
+    string += time < 10 ? "0" + time : time
+  }
+
+  return string
 };
+
+export const getTimeString = seconds => {
+
+  if (!(seconds > '-1')) {
+    return "0" + strings.с
+  }
+
+  let string = ""
+
+  const hours = Math.floor(seconds / SECONDS_IN_HOUR)
+  if (hours) {
+    string += hours + " " + strings.ч + "."
+    seconds -= hours * SECONDS_IN_HOUR
+  }
+
+  const minutes = Math.floor(seconds / SECONDS_IN_MINUTE)
+  if (minutes) {
+    string += minutes + " " + strings.мин + "."
+    seconds -= minutes * SECONDS_IN_MINUTE
+  }
+
+  if (seconds) {
+    string += seconds + " " + strings.с + "."
+  }
+
+  return string
+}
 
 export const wordLocalization = (word, args = {}, type = false) => {
   if (typeof strings[word] !== 'undefined') {

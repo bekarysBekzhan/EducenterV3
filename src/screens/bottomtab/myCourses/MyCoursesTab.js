@@ -20,7 +20,6 @@ const MyCoursesTab = (props) => {
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [data, setData] = useState([]);
-  const [loadingNext, setLoadingNext] = useState(false);
 
   const [fetchCourses, isFetching, fetchingError] = useFetching(async () => {
     const response = await MyCourseService.fetchMyCourses();
@@ -58,6 +57,13 @@ const MyCoursesTab = (props) => {
     </View>
   );
 
+  const onRefresh = () => {
+    if (page === 1) {
+      fetchCourses();
+    }
+    setPage(1);
+  }
+
   if (isFetching) {
     return <LoadingScreen/>
   }
@@ -74,12 +80,7 @@ const MyCoursesTab = (props) => {
         contentContainerStyle={styles.contentContainer}
         onEndReached={onEndReached}
         refreshing={isFetching}
-        onRefresh={() => {
-          if (page === 1) {
-            fetchCourses();
-          }
-          setPage(1);
-        }}
+        onRefresh={onRefresh}
       />
     </UniversalView>
   );
@@ -193,6 +194,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 6,
+    paddingHorizontal: 7,
     borderRadius: 100,
     backgroundColor: APP_COLORS.primary
   },
