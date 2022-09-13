@@ -76,5 +76,7 @@ export const ROUTE_NAMES = {
   journalNavigator: 'JournalNavigator',
   journals: 'Journals',
   myJournlas: 'MyJournals',
-  readJournal:'ReadJournal'
+  readJournal:'ReadJournal',
+  ubt: "UBT",
+  selectSubjects: "SelectSubjects",
 };

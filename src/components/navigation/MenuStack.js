@@ -14,6 +14,7 @@ import ProfieEditScreen from '../../screens/ProfileEditScreen';
 import ScheduleNavigator from './ScheduleNavigator';
 import SettingsScreen from '../../screens/SettingsScreen';
 import JournalNavigator from './JournalNavigator';
+import UBT from './UBTStack';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,6 +32,10 @@ const MenuStack = () => {
       options: {
         title: strings.Новости,
       },
+    },
+    {
+      name: ROUTE_NAMES.ubt,
+      component: UBT
     },
     {
       name: ROUTE_NAMES.profile,

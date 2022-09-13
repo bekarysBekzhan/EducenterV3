@@ -28,6 +28,7 @@ import {
   RatingIcon,
   ReclamentIcon,
   Settings,
+  UbtIcon,
 } from '../../../assets/icons';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
@@ -96,6 +97,14 @@ const ProfileScreen = ({navigation, route}) => {
       section: 'Меню',
       enabled: true,
       data: [
+        {
+          id: 0,
+          text: settings?.modules_enabled_ubt_title,
+          iconLeft: <UbtIcon/>,
+          enabled: settings?.modules_enabled_ubt,
+          action: "navigation",
+          // route: 
+        },
         {
           id: 1,
           text: settings?.modules_enabled_journals_title,
