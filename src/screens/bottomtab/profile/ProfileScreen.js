@@ -103,7 +103,7 @@ const ProfileScreen = ({navigation, route}) => {
           iconLeft: <UbtIcon/>,
           enabled: settings?.modules_enabled_ubt,
           action: "navigation",
-          // route: 
+          route: ROUTE_NAMES.ubt
         },
         {
           id: 1,

@@ -35,7 +35,10 @@ const MenuStack = () => {
     },
     {
       name: ROUTE_NAMES.ubt,
-      component: UBT
+      component: UBT,
+      options: {
+        headerShown: false
+      }
     },
     {
       name: ROUTE_NAMES.profile,

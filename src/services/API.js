@@ -447,6 +447,10 @@ class JournalService {
   };
 }
 
+class UBT {
+
+}
+
 export {
   MobileSettingsService,
   CourseService,
@@ -461,4 +465,5 @@ export {
   SettingsService,
   OperationService,
   JournalService,
+  UBT
 };
