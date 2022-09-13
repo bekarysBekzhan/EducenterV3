@@ -70,7 +70,8 @@ export const URLS = {
   journal: 'modules/journal',
   journal_subscribed: 'modules/journal/my/subscribed',
   testResult: "test/result/",
-  reviews: "reviews/"
+  reviews: "reviews/",
+  ubtCategories: "modules/ubt/categories"
 };
 
 export const STORAGE = {

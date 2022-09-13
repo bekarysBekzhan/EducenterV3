@@ -449,6 +449,12 @@ class JournalService {
 
 class UBT {
 
+  static fetchCategories = async () => {
+    const response = await API_V2.get(URLS.ubtCategories)
+    console.log("UBT categories : " , response)
+    return response
+  }
+
 }
 
 export {
