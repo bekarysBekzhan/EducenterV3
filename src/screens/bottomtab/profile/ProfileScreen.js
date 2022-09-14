@@ -157,7 +157,6 @@ const ProfileScreen = ({navigation, route}) => {
 
   const onAction = item => {
     const {navigate} = navigation;
-    console.log('item', item);
     switch (item?.action) {
       case 'navigation':
         navigate(item?.route);

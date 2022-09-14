@@ -71,7 +71,8 @@ export const URLS = {
   journal_subscribed: 'modules/journal/my/subscribed',
   testResult: "test/result/",
   reviews: "reviews/",
-  ubtCategories: "modules/ubt/categories"
+  ubtCategories: "modules/ubt/categories",
+  ubtTests: "modules/ubt/get_tests"
 };
 
 export const STORAGE = {

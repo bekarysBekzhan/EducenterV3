@@ -455,6 +455,20 @@ class UBT {
     return response
   }
 
+  static fetchTests = async(category, category2) => {
+    let params = {}
+    if (category) {
+      params.category = category
+    }
+    if (category2) {
+      params.category2 = category2
+    }
+
+    const response = await API_V2.get(URLS.ubtTests, { params: params })
+    console.log("UBT test : " , response)
+    return response
+  }
+
 }
 
 export {
