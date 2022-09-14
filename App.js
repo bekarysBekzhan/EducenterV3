@@ -8,6 +8,7 @@ import TrackPlayer, {
   Event,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
+import {SelectProvider} from "@mobile-reality/react-native-select-pro"
 
 const events = [
   Event.PlaybackError,
@@ -43,10 +44,12 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <Provider>
-        <Navigation />
-        <Toast config={toastConfig} />
-      </Provider>
+      <SelectProvider>
+        <Provider>
+          <Navigation />
+          <Toast config={toastConfig} />
+        </Provider>
+      </SelectProvider>
     </GestureHandlerRootView>
   );
 };
