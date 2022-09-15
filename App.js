@@ -44,12 +44,10 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <SelectProvider>
         <Provider>
           <Navigation />
           <Toast config={toastConfig} />
         </Provider>
-      </SelectProvider>
     </GestureHandlerRootView>
   );
 };
