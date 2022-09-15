@@ -469,6 +469,15 @@ class UBT {
     return response
   }
 
+  static startTest = async(id, again = false) => {
+    let params = {}
+    if (again) {
+      params.again = again
+    }
+    const response = await API_V2.get(URLS.ubtTestStart + id)
+    return response
+  }
+
 }
 
 export {
