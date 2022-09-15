@@ -14,13 +14,14 @@ import {
 import Empty from '../../components/Empty';
 import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS, HEIGHT, WIDTH} from '../../constans/constants';
+import {APP_COLORS, HEIGHT, TYPE_SUBCRIBES, WIDTH} from '../../constans/constants';
 import ModuleTestItem from '../../components/test/ModuleTestItem';
 import SimpleButton from '../../components/button/SimpleButton';
 import {down} from '../../assets/icons';
 import SelectOption from '../../components/SelectOption';
 import Overlay from '../../components/view/Overlay';
 import { useSettings } from '../../components/context/Provider';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
 
 const SelectSubjectsScreen = props => {
 
@@ -121,9 +122,16 @@ const SelectSubjectsScreen = props => {
 
   const testItemTapped = item => {
     if (isAuth) {
-
+        if (item?.has_subscribed) {
+            props.navigation.navigate(ROUTE_NAMES.ubtTest, { id: item?.id })
+        } else {
+            props.navigation.navigate(ROUTE_NAMES.operation, {
+                operation: item,
+                type: TYPE_SUBCRIBES.TEST_SUBCRIBE
+            })
+        }
     } else {
-
+        props.navigation.navigate(ROUTE_NAMES.login)
     }
   };
 
