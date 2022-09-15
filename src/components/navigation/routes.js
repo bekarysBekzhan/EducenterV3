@@ -79,4 +79,5 @@ export const ROUTE_NAMES = {
   readJournal:'ReadJournal',
   ubt: "UBT",
   selectSubjects: "SelectSubjects",
+  ubtTest: "UBTTest",
 };
