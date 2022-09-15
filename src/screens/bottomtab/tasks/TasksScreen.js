@@ -50,9 +50,8 @@ const TasksScreen = (props) => {
   }, [page])
 
 
-  const taskItemTapped = (testID) => {
-    console.log("test : " , testID)
-    props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: testID})
+  const taskItemTapped = (item) => {
+    props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: item?.id})
   }
 
   const renderTask = ({ item, index }) => {
@@ -66,7 +65,7 @@ const TasksScreen = (props) => {
         attempts={item?.attempts}
         price={item?.price}
         oldPrice={item?.old_price}
-        onPress={taskItemTapped}
+        onPress={() => taskItemTapped(item)}
         hasSubscribed={item?.has_subscribed}
       />
     )

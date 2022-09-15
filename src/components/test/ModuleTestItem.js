@@ -25,7 +25,7 @@ const ModuleTestItem = ({
   return (
       <TouchableOpacity
         style={styles.container}
-        onPress={() => onPress(id)}
+        onPress={onPress}
         activeOpacity={0.9}
       >
           <RowView style={styles.row1}>
@@ -53,7 +53,7 @@ const ModuleTestItem = ({
             }
             <TextButton
               text={hasSubscribed ?  strings.Пройти  :  price ? strings['Купить тест'] : strings.Бесплатно }
-              onPress={() => onPress(id)}
+              onPress={onPress}
               style={styles.button}
               textStyle={styles.buttonText}
             />

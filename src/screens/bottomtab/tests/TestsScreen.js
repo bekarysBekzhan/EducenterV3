@@ -50,9 +50,8 @@ const TestsScreen = (props) => {
   }, [page])
 
 
-  const testItemTapped = (testID) => {
-    console.log("test : " , testID)
-    props.navigation.navigate(ROUTE_NAMES.testDetail, {id: testID})
+  const testItemTapped = (item) => {
+    props.navigation.navigate(ROUTE_NAMES.testDetail, {id: item?.id})
   }
 
   const renderTest = ({ item, index }) => {
@@ -66,7 +65,7 @@ const TestsScreen = (props) => {
         attempts={item?.attempts}
         price={item?.price}
         oldPrice={item?.old_price}
-        onPress={testItemTapped}
+        onPress={() => testItemTapped(item)}
         hasSubscribed={item?.has_subscribed}
       />
     )

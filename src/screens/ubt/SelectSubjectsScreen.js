@@ -20,11 +20,14 @@ import SimpleButton from '../../components/button/SimpleButton';
 import {down} from '../../assets/icons';
 import SelectOption from '../../components/SelectOption';
 import Overlay from '../../components/view/Overlay';
+import { useSettings } from '../../components/context/Provider';
 
 const SelectSubjectsScreen = props => {
 
   const category = useRef(null)
   const category2 = useRef(null)
+
+  const { isAuth } = useSettings()
 
   const [dataSource, setDataSource] = useState({
     categories: [],
@@ -80,8 +83,6 @@ const SelectSubjectsScreen = props => {
 
   const getCategories2 = (categories) => {
 
-    console.log("dataSource.categories2 : " , categories)
-
     if (categories.length === 0) {
         console.log("[]")
         return [];
@@ -96,10 +97,6 @@ const SelectSubjectsScreen = props => {
         subjects[element?.category_id] = true;
       }
     });
-
-    let result = dataSource.categories.filter(element => subjects.hasOwnProperty(element.id)) 
-
-    console.log("categories 2 : " , result)
 
     return dataSource.categories.filter(element => subjects.hasOwnProperty(element.id)) 
   };
@@ -122,8 +119,12 @@ const SelectSubjectsScreen = props => {
     category2.current = value;
   };
 
-  const testItemTapped = id => {
-    console.log('test ', id);
+  const testItemTapped = item => {
+    if (isAuth) {
+
+    } else {
+
+    }
   };
 
   const renderHeader = () => {
@@ -167,7 +168,7 @@ const SelectSubjectsScreen = props => {
         attempts={item?.attempts}
         price={item?.price}
         oldPrice={item?.old_price}
-        onPress={testItemTapped}
+        onPress={() => testItemTapped(item)}
         hasSubscribed={item?.has_subscribed}
       />
     );
