@@ -8,7 +8,7 @@ import {APP_COLORS} from '../constans/constants';
 import OutlineButton from '../components/button/OutlineButton';
 import { ROUTE_NAMES } from '../components/navigation/routes';
 import { useFetching } from '../hooks/useFetching';
-import { CourseService, TestService } from '../services/API';
+import { CourseService, TestService, UBTService } from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
 
 const PreviewTestScreen = props => {
@@ -22,6 +22,8 @@ const PreviewTestScreen = props => {
     let response
     if (type === "module") {
       response = await TestService.fetchTestInfo(id)
+    } else if (type === "ubt") {
+      response = await UBTService.fetchTestInfo(id)
     } else {
       response = await CourseService.fetchTestInfo(id)
     }
@@ -37,9 +39,11 @@ const PreviewTestScreen = props => {
 
   const onStartTest = () => {
     if (type === "module") {
-      props.navigation.navigate(ROUTE_NAMES.myTestPass, {id: id, title: lessonTitle, seconds: data?.minutes * 60})
+      props.navigation.navigate(ROUTE_NAMES.myTestPass, {id: id, title: lessonTitle})
+    } else if (type === "ubt") {
+      props.navigation.navigate(ROUTE_NAMES.ubtTest, { id: id, title: lessonTitle})
     } else {
-      props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle, seconds: data?.minutes * 60})
+      props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle})
     }
   }
 

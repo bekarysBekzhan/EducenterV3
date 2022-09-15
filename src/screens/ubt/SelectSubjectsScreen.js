@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
-import {UBT} from '../../services/API';
+import {UBT, UBTService} from '../../services/API';
 import LoadingScreen from '../../components/LoadingScreen';
 import {
   FlatList,
@@ -38,7 +38,7 @@ const SelectSubjectsScreen = props => {
 
   const [fetchCategories, isFetchingCategories, fetchingCategoriesError] =
     useFetching(async () => {
-      const response = await UBT.fetchCategories();
+      const response = await UBTService.fetchCategories();
       setDataSource(prev => ({
         ...prev,
         categories: response.data?.data,
@@ -47,7 +47,7 @@ const SelectSubjectsScreen = props => {
 
   const [fetchTests, isFetchingTests, fetchingTestsError] = useFetching(
     async () => {
-        const response = await UBT.fetchTests(
+        const response = await UBTService.fetchTests(
             category.current?.id,
             category2.current?.id,
         );
@@ -122,7 +122,7 @@ const SelectSubjectsScreen = props => {
   const testItemTapped = item => {
     if (isAuth) {
         if (item?.has_subscribed) {
-            props.navigation.navigate(ROUTE_NAMES.ubtTest, { id: item?.id })
+            props.navigation.navigate(ROUTE_NAMES.testPreview, { id: item?.id })
         } else {
             props.navigation.navigate(ROUTE_NAMES.operation, {
                 operation: item,

@@ -447,7 +447,7 @@ class JournalService {
   };
 }
 
-class UBT {
+class UBTService {
 
   static fetchCategories = async () => {
     const response = await API_V2.get(URLS.ubtCategories)
@@ -499,5 +499,5 @@ export {
   SettingsService,
   OperationService,
   JournalService,
-  UBT
+  UBTService
 };
