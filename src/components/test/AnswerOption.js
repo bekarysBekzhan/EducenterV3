@@ -39,8 +39,6 @@ const AnswerOption = ({
   resultType,
 }) => {
 
-  console.log("AnswerOption rendered!");
-
   const initialState = () => {
 
     if (resultType === RESULT_TYPES.DEFAULT) {
@@ -79,8 +77,9 @@ const AnswerOption = ({
   const [state, setState] = useState(initialState());
 
   const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
-    let params = { selected: !(state === ANSWER_STATES.SELECTED), is_multiple: is_multiple}
-    console.log("passing id : " , passingID)
+    let params = {}
+    params.selected = !(state === ANSWER_STATES.SELECTED)
+    params.is_multiple = is_multiple
     const response = await CourseService.selectAnswer(passingID, { params: params})
   })
 

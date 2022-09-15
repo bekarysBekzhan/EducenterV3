@@ -29,7 +29,6 @@ const Question = ({
 
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-
   useEffect(() => {
     // console.log("passing answers : " , passing_answers)
     // console.log("question : " , questionItem)
@@ -70,7 +69,6 @@ const Question = ({
       <Text style={memoStylesText}>{index + 1} - вопрос</Text>
       {selectComponent(questionItem?.question, views.audio, views.formula, views.html)}
       {items.map((item, i) => {
-        // console.log("map")
         return (
           <AnswerOption
             item={item}

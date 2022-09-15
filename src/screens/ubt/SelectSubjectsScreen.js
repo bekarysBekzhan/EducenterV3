@@ -1,262 +1,308 @@
-import React, { useEffect, useState } from 'react'
-import UniversalView from '../../components/view/UniversalView'
-import { useFetching } from '../../hooks/useFetching'
-import { UBT } from '../../services/API'
-import LoadingScreen from '../../components/LoadingScreen'
-import { FlatList, StyleSheet, View, Text } from 'react-native'
-import Empty from '../../components/Empty'
-import { strings } from '../../localization'
-import { Select } from '@mobile-reality/react-native-select-pro';
-import { setFontStyle } from '../../utils/utils'
-import { APP_COLORS, HEIGHT, WIDTH } from '../../constans/constants'
-import ModuleTestItem from '../../components/test/ModuleTestItem'
-import SimpleButton from '../../components/button/SimpleButton'
+import React, {useEffect, useRef, useState} from 'react';
+import UniversalView from '../../components/view/UniversalView';
+import {useFetching} from '../../hooks/useFetching';
+import {UBT} from '../../services/API';
+import LoadingScreen from '../../components/LoadingScreen';
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
+import Empty from '../../components/Empty';
+import {strings} from '../../localization';
+import {setFontStyle} from '../../utils/utils';
+import {APP_COLORS, HEIGHT, WIDTH} from '../../constans/constants';
+import ModuleTestItem from '../../components/test/ModuleTestItem';
+import SimpleButton from '../../components/button/SimpleButton';
+import {down} from '../../assets/icons';
+import SelectOption from '../../components/SelectOption';
+import Overlay from '../../components/view/Overlay';
 
-const SelectSubjectsScreen = (props) => {
+const SelectSubjectsScreen = props => {
 
-    console.log("render")
+  const category = useRef(null)
+  const category2 = useRef(null)
 
-    const [dataSource, setDataSource] = useState({
-        category: null,
-        category2: null,
-        categories: [],
-        categories2: [],
-        tests: [],
-    })
+  const [dataSource, setDataSource] = useState({
+    categories: [],
+    categories2: [],
+    tests: [],
+  });
 
-    const [fetchCategories, isFetchingCategories, fetchingCategoriesError] = useFetching(async() => {
-        const response = await UBT.fetchCategories()
-        setDataSource(prev => ({
-            ...prev,
-            categories: response.data?.data
-        }))
-    })
+  const [fetchCategories, isFetchingCategories, fetchingCategoriesError] =
+    useFetching(async () => {
+      const response = await UBT.fetchCategories();
+      setDataSource(prev => ({
+        ...prev,
+        categories: response.data?.data,
+      }));
+    });
 
-    const [fetchTests, isFetchingTests, fetchingTestsError] = useFetching(async() => {
-       const response = await UBT.fetchTests(dataSource.category?.value, dataSource.category2?.value)
-       if (dataSource.category2) {
+  const [fetchTests, isFetchingTests, fetchingTestsError] = useFetching(
+    async () => {
+        const response = await UBT.fetchTests(
+            category.current?.id,
+            category2.current?.id,
+        );
+        if (category2.current) {
             setDataSource(prev => ({
                 ...prev,
                 tests: response.data?.data
             }))
-       } else {
+        } else {
+            const newCategories2 = getCategories2(response.data?.data)
             setDataSource(prev => ({
                 ...prev,
-                categories2: response.data?.data.filter(item => item?.category_id !== item?.category_id2)
+                categories2: newCategories2
             }))
-       }
-    })
-
-    useEffect(() => {
-        fetchCategories()
-    }, [])
-
-    useEffect(() => {
-        if (fetchingTestsError) {
-            console.log(fetchingTestsError)
         }
-    }, [fetchingTestsError])
+    },
+  );
 
-    useEffect(() => {
-        if (fetchingCategoriesError) {
-            console.log(fetchingCategoriesError)
-        }
-    }, [fetchingCategoriesError])
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
-    useEffect(() => {
-        if (dataSource.category) {
-            fetchTests()
-        }
-    }, [dataSource.category])
+  useEffect(() => {
+    if (fetchingTestsError) {
+      console.log(fetchingTestsError);
+    }
+  }, [fetchingTestsError]);
 
-    const getCategories2 = () => {
+  useEffect(() => {
+    if (fetchingCategoriesError) {
+      console.log(fetchingCategoriesError);
+    }
+  }, [fetchingCategoriesError]);
 
-        if (dataSource.category === null) {
-            return []
-        }
+  const getCategories2 = (categories) => {
 
-        let subjects = {}
+    console.log("dataSource.categories2 : " , categories)
 
-        dataSource.categories2.forEach(element => {
-            if (dataSource.category.value === element?.category_id) {
-                subjects[element?.category_id2] = true
-            } else {
-                subjects[element?.category_id] = true
-            }
-        });
-
-        let result = []
-
-        dataSource.categories.forEach(element => {
-            if (subjects.hasOwnProperty(element.id)) {
-                result.push({ value: element.id, label: element.name })
-            }
-        });
-
-        return result
+    if (categories.length === 0) {
+        console.log("[]")
+        return [];
     }
 
-    const onFirstSelect = (option, optionIndex) => {
-        
-        if (dataSource.category === option) {
-            return
-        }
+    let subjects = {};
 
-        setDataSource(prev => ({
-            ...prev,
-            category: option,
-            category2: null
-        }))
-    }
+    categories.forEach(element => {
+      if (category.current.id === element?.category_id) {
+        subjects[element?.category_id2] = true;
+      } else {
+        subjects[element?.category_id] = true;
+      }
+    });
 
-    const onFirstRemove = () => {
-        setDataSource(prev => ({
-            ...prev,
-            category: null,
-            category2: null,
-            categories2: []
-        }))
-    }
+    let result = dataSource.categories.filter(element => subjects.hasOwnProperty(element.id)) 
 
-    const onSecondSelect = (option, optionIndex) => {
-        setDataSource(prev => ({
-            ...prev,
-            category2: option
-        }))
-    }
+    console.log("categories 2 : " , result)
 
-    const onSecondRemove = () => {
-        setDataSource(prev => ({
-            ...prev,
-            category2: null
-        }))
-    }
+    return dataSource.categories.filter(element => subjects.hasOwnProperty(element.id)) 
+  };
 
-    const testItemTapped = (id) => {
-        console.log("test ", id)
+  const onFirstSelect = value => {
+    if (category.current === value) {
+        return
     }
+    category.current = value;
+    if (category2.current) {
+        category2.current = null
+    }
+    fetchTests();
+  };
 
-    const renderHeader = () => {
-        
-        return (
-            <View>
-                <Text>{strings['Выберите вопросы первого и второго урока чтобы начать тест']}</Text>
-                <Select
-                    options={dataSource.categories.map((item, _) => ({ value: item?.id, label: item?.name }))}
-                    placeholderText={strings['Выберите первый урок']}
-                    placeholderTextColor={APP_COLORS.placeholder}
-                    selectContainerStyle={styles.selectContainer}
-                    optionTextStyle={styles.optionText}
-                    selectControlTextStyle={styles.optionText}
-                    optionsListStyle={styles.optionList}
-                    selectControlStyle={styles.select}
-                    optionStyle={styles.option}
-                    optionSelectedStyle={styles.selectedOption}
-                    noOptionsText={strings['Нет данных']}
-                    onSelect={onFirstSelect}
-                    onRemove={onFirstRemove}
-                    defaultOption={dataSource.category}
-                />
-                <Select
-                    options={getCategories2()}
-                    placeholderText={strings['Выберите второй урок']}
-                    placeholderTextColor={APP_COLORS.placeholder}
-                    selectContainerStyle={styles.selectContainer}
-                    optionTextStyle={styles.optionText}
-                    selectControlTextStyle={styles.optionText}
-                    optionsListStyle={styles.optionList}
-                    selectControlStyle={styles.select}
-                    optionStyle={styles.option}
-                    optionSelectedStyle={styles.selectedOption}
-                    noOptionsText={strings['Нет данных']}
-                    onSelect={onSecondSelect}
-                    onRemove={onSecondRemove}
-                    defaultOption={dataSource.category2}
-                />
-                <SimpleButton
-                    text={strings.Выбрать}
-                    onPress={fetchTests}
-                    style={{ marginTop: 20 }}
-                />
-            </View>
-        )
+  const onSecondSelect = value => {
+    if (category2.current === value) {
+        return
     }
+    category2.current = value;
+  };
 
-    const renderItem = ({item, index}) => {
-        return (
-            <ModuleTestItem  
-                id={item?.id}
-                index={index}
-                categoryName={item?.category?.name}
-                time={item?.timer}
-                title={item?.title}
-                attempts={item?.attempts}
-                price={item?.price}
-                oldPrice={item?.old_price}
-                onPress={testItemTapped}
-                hasSubscribed={item?.has_subscribed}
-            />
-        )
-    }
+  const testItemTapped = id => {
+    console.log('test ', id);
+  };
 
-    const renderFooter = () => {
-        return (
-            <View/>
-        )
-    }
+  const renderHeader = () => {
 
-    if (isFetchingCategories) {
-        return <LoadingScreen/>
-    }
     return (
-        <UniversalView style={styles.container}>
+      <View>
+        <Text>
+          {
+            strings[
+              'Выберите вопросы первого и второго урока чтобы начать тест'
+            ]
+          }
+        </Text>
+        <SelectButton
+          categories={dataSource.categories}
+          placeholder={strings['Выберите первый урок']}
+          action={onFirstSelect}
+        />
+        <SelectButton
+          categories={dataSource.categories2}
+          placeholder={strings['Выберите второй урок']}
+          action={onSecondSelect}
+        />
+        <SimpleButton
+          text={strings.Выбрать}
+          onPress={fetchTests}
+          style={{marginTop: 20}}
+        />
+      </View>
+    );
+  };
+
+  const renderItem = ({item, index}) => {
+    return (
+      <ModuleTestItem
+        id={item?.id}
+        index={index}
+        categoryName={item?.category?.name}
+        time={item?.timer}
+        title={item?.title}
+        attempts={item?.attempts}
+        price={item?.price}
+        oldPrice={item?.old_price}
+        onPress={testItemTapped}
+        hasSubscribed={item?.has_subscribed}
+      />
+    );
+  };
+
+  const renderFooter = () => {
+    return <View />;
+  };
+
+  if (isFetchingCategories) {
+    return <LoadingScreen />;
+  }
+  return (
+    <UniversalView style={styles.container}>
+      <FlatList
+        data={category2.current ? dataSource.tests : []}
+        ListHeaderComponent={renderHeader()}
+        renderItem={renderItem}
+        ListEmptyComponent={() => <Empty />}
+        ListFooterComponent={renderFooter}
+        keyExtractor={(_, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
+      />
+    </UniversalView>
+  );
+};
+
+const SelectButton = ({
+  categories = [],
+  placeholder = '',
+  action = () => undefined,
+}) => {
+
+  const [visible, setVisible] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState(null);
+
+  const onPress = () => {
+    setVisible(true);
+  };
+
+  const onBackDrop = () => {
+    if (currentCategory) {
+        setCurrentCategory(null)
+    }
+    setVisible(false)
+  }
+
+  const onSelect = value => {
+    setCurrentCategory(value);
+  };
+
+  const onApply = () => {
+    setVisible(false);
+    action(currentCategory)
+  };
+
+  const renderCategory = ({item, index}) => {
+    return (
+      <SelectOption
+        selectKeyPressed={onSelect}
+        label={item?.name}
+        value={item}
+        currentKey={currentCategory}
+      />
+    );
+  };
+
+  return (
+    <View>
+      <TouchableOpacity style={styles.select} onPress={onPress}>
+        <Text style={[styles.selectText, {color: currentCategory ? APP_COLORS.font : APP_COLORS.placeholder}]}>
+          {currentCategory ? currentCategory?.name : placeholder}
+        </Text>
+        {down}
+      </TouchableOpacity>
+      <Modal visible={visible} transparent={true} animationType="fade">
+        <View style={styles.modal}>
+          <TouchableOpacity
+            style={styles.backDrop}
+            onPress={onBackDrop}
+          />
+          <View style={styles.categoriesContainer}>
+            <Text style={styles.headerTitle}>{placeholder}</Text>
             <FlatList
-                data={dataSource.tests}
-                ListHeaderComponent={renderHeader}
-                renderItem={renderItem}
-                ListEmptyComponent={() => <Empty/>}
-                ListFooterComponent={renderFooter}
-                keyExtractor={(_, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
+              data={categories}
+              ListEmptyComponent={() => <Empty />}
+              renderItem={renderCategory}
+              keyExtractor={(_, index) => index.toString()}
             />
-        </UniversalView>
-    )
-}
+            <SimpleButton
+              text={strings.Выбрать}
+              onPress={onApply}
+              style={{margin: 16, marginBottom: 32}}
+            />
+          </View>
+        </View>
+      </Modal>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 16
-    },
-    selectContainer: {
-        paddingTop: 10,
-    },
-    select: {
-        backgroundColor: APP_COLORS.input,
-        borderWidth: 0,
-        height: 48
-    },
-    optionList: {
-        borderWidth: 0,
-        maxHeight: HEIGHT / 3,
-        shadowOffset: {
-            width: 0,
-            height: 0
-        },
-        shadowColor: "#000",
-        shadowRadius: 20,
-        shadowOpacity: 0.09,
-        elevation:1
-    },
-    option: {
-        height: 45
-    },
-    selectedOption: {
-        backgroundColor: APP_COLORS.primary,
-        color: "white"
-    },
-    optionText: {
-        ...setFontStyle(17, "400")
-    }
-})
+  container: {
+    padding: 16,
+  },
+  select: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: APP_COLORS.input,
+    height: 50,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    marginTop: 16,
+  },
+  selectText: {
+    ...setFontStyle(17, '400', APP_COLORS.placeholder),
+  },
+  modal: {
+    flex: 1,
+  },
+  backDrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0.0, 0.0, 0.0, 0.2)',
+  },
+  categoriesContainer: {
+    maxHeight: HEIGHT / 2,
+    minHeight: 200,
+    backgroundColor: 'white',
+  },
+  headerTitle: {
+    ...setFontStyle(17, '600'),
+    alignSelf: 'center',
+    margin: 16,
+  },
+});
 
-export default SelectSubjectsScreen
+export default SelectSubjectsScreen;
