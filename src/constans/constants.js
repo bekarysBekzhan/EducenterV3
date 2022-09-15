@@ -73,7 +73,8 @@ export const URLS = {
   reviews: "reviews/",
   ubtCategories: "modules/ubt/categories",
   ubtTests: "modules/ubt/get_tests",
-  ubtTestStart: "test/start/module_ubt/"
+  ubtTestStart: "test/start/module_ubt/",
+  ubtTestInfo: "test/info/module_ubt/"
 };
 
 export const STORAGE = {

@@ -85,7 +85,6 @@ const SelectSubjectsScreen = props => {
   const getCategories2 = (categories) => {
 
     if (categories.length === 0) {
-        console.log("[]")
         return [];
     }
 

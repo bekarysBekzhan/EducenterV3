@@ -478,6 +478,11 @@ class UBT {
     return response
   }
 
+  static fetchTestInfo = async(id) => {
+    const response = await API_V2.get(URLS.ubtTestInfo + id)
+    return response
+  }
+
 }
 
 export {
