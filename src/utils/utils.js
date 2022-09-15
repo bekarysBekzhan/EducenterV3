@@ -105,8 +105,9 @@ export const getCurrentTimeString = time => {
     time -= minutes * SECONDS_IN_MINUTE
   }
 
+  const seconds = Math.floor(time)
   if (time) {
-    string += time < 10 ? "0" + time : time
+    string += seconds < 10 ? "0" + seconds : seconds
   }
 
   return string

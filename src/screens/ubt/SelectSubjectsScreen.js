@@ -122,7 +122,7 @@ const SelectSubjectsScreen = props => {
   const testItemTapped = item => {
     if (isAuth) {
         if (item?.has_subscribed) {
-            props.navigation.navigate(ROUTE_NAMES.testPreview, { id: item?.id })
+            props.navigation.navigate(ROUTE_NAMES.testPreview, { id: item?.id, type: "ubt" })
         } else {
             props.navigation.navigate(ROUTE_NAMES.operation, {
                 operation: item,

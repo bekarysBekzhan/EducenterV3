@@ -11,6 +11,7 @@ import Overlay from '../../components/view/Overlay';
 import RowView from '../../components/view/RowView';
 import { TimeIcon } from '../../assets/icons';
 import Timer from '../../components/test/Timer';
+import { APP_COLORS } from '../../constans/constants';
 
 const UBTTestScreen = (props) => {
 
