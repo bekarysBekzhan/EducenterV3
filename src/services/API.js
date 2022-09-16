@@ -475,6 +475,7 @@ class UBTService {
       params.again = again
     }
     const response = await API_V2.get(URLS.ubtTestStart + id)
+    console.log("UBT test with id = " + id, response)
     return response
   }
 
@@ -485,6 +486,7 @@ class UBTService {
 
   static finishTest = async id => {
     const response = await API_V2.get(URLS.ubtTestFinish + id + URLS.ubtModule)
+    console.log("Finished ubt test with id = " + id, response);
     return response
   }
 
