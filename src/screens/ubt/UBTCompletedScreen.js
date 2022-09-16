@@ -16,10 +16,12 @@ const UBTCompletedScreen = (props) => {
     const resultType = props.route?.params?.resultType
     const data = props.route?.params?.data
 
+    console.log("data : " , data);
+
     const Banner = ({children}) => {
         
-        const passedTestBanner = require('../assets/images/PassedTestBanner.png');
-        const failedTestBanner = require('../assets/images/FailedTestBanner.png');
+        const passedTestBanner = require("../../assets/images/PassedTestBanner.png");
+        const failedTestBanner = require("../../assets/images/FailedTestBanner.png");
 
         if (passed) {
         return (
@@ -97,7 +99,7 @@ const UBTCompletedScreen = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: "red"
+    
   },
   poster: {
     width: WIDTH,
