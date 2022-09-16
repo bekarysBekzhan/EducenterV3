@@ -1,11 +1,14 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import UniversalView from '../../components/view/UniversalView'
 import { setFontStyle, wordLocalization } from '../../utils/utils';
 import { strings } from '../../localization';
 import { APP_COLORS, HEIGHT, RESULT_TYPES, WIDTH } from '../../constans/constants';
 import SimpleButton from '../../components/button/SimpleButton';
 import FastImage from 'react-native-fast-image';
+import { useFetching } from '../../hooks/useFetching';
+import LoadingScreen from '../../components/LoadingScreen';
+import RowView from '../../components/view/RowView';
 
 const UBTCompletedScreen = (props) => {
 
@@ -16,7 +19,22 @@ const UBTCompletedScreen = (props) => {
     const resultType = props.route?.params?.resultType
     const data = props.route?.params?.data
 
-    console.log("data : " , data);
+
+    const [results, setResults] = useState([])
+    const [parseJSON, isLoading, parsingError] = useFetching(async() => {
+        const content = JSON.parse(data)
+        setResults(Object.values(content))
+    })
+
+    useEffect(() => {
+        parseJSON()
+    }, [])
+
+    useEffect(() => {
+        if (parsingError) {
+            console.log(parsingError);
+        }
+    }, [parsingError])
 
     const Banner = ({children}) => {
         
@@ -58,8 +76,32 @@ const UBTCompletedScreen = (props) => {
 
     }
 
+    const renderResults = () => {
+        return (
+            <View>
+                {
+                    results.map((res, index) => (
+                        <RowView 
+                            key={index}
+                        >
+                            <RowView>
+                                <Text>{index + 1}.</Text>
+                                <Text>{res?.name}</Text>
+                            </RowView>
+                            <Text>{wordLocalization(strings[':num из :count'], { num: res?.count, count: res?.total })}</Text>
+                        </RowView>
+                    ))
+                }
+            </View>
+        )
+    }
+
+    if (isLoading) {
+        return <LoadingScreen/>
+    }
+
     return (
-        <UniversalView style={styles.container}>
+        <UniversalView style={styles.container} haveScroll>
             <Banner>
                 <Text style={styles.score}>
                 {wordLocalization(strings[':num из :count'], {
@@ -87,12 +129,14 @@ const UBTCompletedScreen = (props) => {
                 style={styles.againButton}
                 onPress={onAgain}
             />
-            <SimpleButton
+            {/* <SimpleButton
                 text={strings['На главную']}
                 textStyle={[styles.againText, { color: passed ? APP_COLORS.primary : "red" }]}
                 style={styles.againButton}
                 onPress={onGoHome}
-            />
+            /> */}
+            <Text style={styles.result}>{strings['Результаты теста']}</Text>
+            {renderResults()}
         </UniversalView>
     );
 };
@@ -126,6 +170,10 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent"
   },
   againText: {},
+  result: {
+    ...setFontStyle(19, "700"),
+    marginLeft: 16
+  }
 });
 
 export default UBTCompletedScreen
