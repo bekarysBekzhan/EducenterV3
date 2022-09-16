@@ -33,6 +33,7 @@ import WriteReviewScreen from '../../screens/WriteReviewScreen';
 import TestResultScreen from '../../screens/TestResultScreen';
 import ReviewsScreen from '../../screens/ReviewsScreen';
 import UBTTestScreen from '../../screens/ubt/UBTTestScreen';
+import UBTCompletedScreen from '../../screens/ubt/UBTCompletedScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -142,6 +143,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.ubtTest,
     component: UBTTestScreen
+  },
+  {
+    name: ROUTE_NAMES.ubtCompleted,
+    component: UBTCompletedScreen
   }
 ];
 

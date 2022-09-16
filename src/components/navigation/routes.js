@@ -80,4 +80,6 @@ export const ROUTE_NAMES = {
   ubt: "UBT",
   selectSubjects: "SelectSubjects",
   ubtTest: "UBTTest",
+  ubtCompleted: "UBTCompleted",
+  
 };

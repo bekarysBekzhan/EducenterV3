@@ -25,6 +25,7 @@ import {Modal} from 'react-native';
 import {setFontStyle} from '../../utils/utils';
 import LoadingScreen from '../../components/LoadingScreen';
 import { useHeaderHeight } from '@react-navigation/elements';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
 
 const UBTTestScreen = props => {
 
@@ -50,7 +51,7 @@ const UBTTestScreen = props => {
   const [finishTest, isFinishLoading, finishError] = useFetching(async () => {
     const response = await UBTService.finishTest(data?.id);
     const finishedTestData = response.data?.data;
-    props.navigation.replace(ROUTE_NAMES.testCompleted, {
+    props.navigation.replace(ROUTE_NAMES.ubtCompleted, {
       passed: finishedTestData?.passed,
       correct: finishedTestData?.score,
       total: finishedTestData?.tests_count,
