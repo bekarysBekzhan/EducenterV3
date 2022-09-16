@@ -24,10 +24,13 @@ const UBTTestScreen = (props) => {
   const currentSetPosition = useRef(null);
   const listRef = useRef(null)
 
+  let subjects = []
+
   const [data, setData] = useState(null);
   const [fetchTest, isLoading, testError] = useFetching(async () => {
     const response = await UBTService.startTest(id)
     setData(response.data?.data)
+    subjects = getSubjects(response.data?.data?.ubt_tests)
   });
 
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
@@ -87,6 +90,10 @@ const UBTTestScreen = (props) => {
     return diffSeconds
   }
 
+  const getSubjects = (ubtTests) => {
+    return Object.values(ubtTests).map(value => value?.entity)
+  }
+
   const onTrackChange = (duration, setDuration, setPosition, setPlaying) => {
     if (currentSetDuration.current) {
       currentSetDuration.current(duration);
@@ -100,6 +107,10 @@ const UBTTestScreen = (props) => {
     }
     currentSetPlaying.current = setPlaying;
   };
+
+  const onSelectSubject = () => {
+    
+  }
 
   const renderList = ({ item, index }) => {
     return (
@@ -154,7 +165,7 @@ const UBTTestScreen = (props) => {
           showsVerticalScrollIndicator={false}
         />
       )}
-      <SubjectsModal visible={false} subjects={[]}/>
+      <SubjectsModal visible={false} subjects={subjects}/>
       <Overlay visible={isFinishLoading}/>
     </UniversalView>
   );
