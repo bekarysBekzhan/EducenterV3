@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ActivityIndicator, FlatList } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import UniversalView from '../../components/view/UniversalView'
 import { useFetching } from '../../hooks/useFetching';
@@ -12,6 +12,8 @@ import RowView from '../../components/view/RowView';
 import { TimeIcon } from '../../assets/icons';
 import Timer from '../../components/test/Timer';
 import { APP_COLORS } from '../../constans/constants';
+import { Modal } from 'react-native';
+import { setFontStyle } from '../../utils/utils';
 
 const UBTTestScreen = (props) => {
 
@@ -20,6 +22,7 @@ const UBTTestScreen = (props) => {
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
   const currentSetPosition = useRef(null);
+  const listRef = useRef(null)
 
   const [data, setData] = useState(null);
   const [fetchTest, isLoading, testError] = useFetching(async () => {
@@ -35,7 +38,8 @@ const UBTTestScreen = (props) => {
       correct: finishedTestData?.score, 
       total: finishedTestData?.tests_count, 
       id: data?.id,
-      resultType: finishedTestData?.entity?.result_type
+      resultType: finishedTestData?.entity?.result_type,
+      data: finishedTestData,
     })
   })
 
@@ -97,6 +101,22 @@ const UBTTestScreen = (props) => {
     currentSetPlaying.current = setPlaying;
   };
 
+  const renderList = ({ item, index }) => {
+    return (
+      <FlatList
+        data={item?.tests}
+        renderItem={renderQuestion}
+        ListFooterComponent={renderFooter}
+        style={{padding: 16, flex: 1}}
+        maxToRenderPerBatch={10}
+        keyExtractor={(_, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
+        initialNumToRender={12}
+        windowSize={10}
+      />
+    )
+  }
+
   const renderQuestion = ({item, index}) => {
     return (
       <Question
@@ -127,17 +147,14 @@ const UBTTestScreen = (props) => {
         <ActivityIndicator style={{ marginTop: 120}} color={APP_COLORS.primary}/>
       ) : (
         <FlatList
-          data={data?.tests}
-          renderItem={renderQuestion}
-          ListFooterComponent={renderFooter}
-          style={{padding: 16}}
-          maxToRenderPerBatch={10}
-          keyExtractor={(item, index) => index.toString()}
+          ref={listRef}
+          data={Object.values(data?.ubt_tests)}
+          renderItem={renderList}
+          keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
-          initialNumToRender={12}
-          windowSize={10}
         />
       )}
+      <SubjectsModal visible={false} subjects={[]}/>
       <Overlay visible={isFinishLoading}/>
     </UniversalView>
   );
@@ -176,11 +193,44 @@ const TestTimer = ({ initialTime, finishTest }) => {
   )
 }
 
+const SubjectsModal = ({ visible, subjects = [], onSelect = () => undefined }) => {
+
+  const onSubject = (s) => {
+
+  }
+
+  return (
+    <Modal visible={visible} transparent={true} animationType="fade">
+      <View style={styles.modal}>
+        {
+          subjects.map((s) => (
+            <TouchableOpacity style={styles.subject} activeOpacity={0.85} onPress={() => onSubject(s)}>
+              <Text style={styles.subjectText}>{s?.title}</Text>
+            </TouchableOpacity>
+          ))
+        }
+      </View>
+    </Modal>
+  )
+}
+
 const styles = StyleSheet.create({
   container: {},
   timerContainer: {
     padding: 4,
     borderRadius: 4
+  },
+  modal: {
+    flex: 1,
+    backgroundColor: "rgba(0.0, 0.0, 0.0, 0.2)"
+  },
+  subject: {
+    width: "100%",
+    padding: 16,
+    justifyContent: "center",
+  },
+  subjectText: {
+    ...setFontStyle(17, "400")
   }
 });
 
