@@ -2,9 +2,11 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator,
   FlatList,
   TouchableOpacity,
+  SafeAreaView,
+  Platform,
+  StatusBar,
 } from 'react-native';
 import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
@@ -22,6 +24,7 @@ import {APP_COLORS, WIDTH} from '../../constans/constants';
 import {Modal} from 'react-native';
 import {setFontStyle} from '../../utils/utils';
 import LoadingScreen from '../../components/LoadingScreen';
+import { useHeaderHeight } from '@react-navigation/elements';
 
 const UBTTestScreen = props => {
 
@@ -51,7 +54,7 @@ const UBTTestScreen = props => {
       total: finishedTestData?.tests_count,
       id: data?.id,
       resultType: finishedTestData?.entity?.result_type,
-      data: finishedTestData,
+      data: finishedTestData?.data,
     });
   });
 
@@ -63,9 +66,13 @@ const UBTTestScreen = props => {
   }, [testError]);
 
   useLayoutEffect(() => {
+
+    props.navigation.setOptions({
+      header: () => <RenderNavigationHeader/>
+    })
+
     if (data) {
       props.navigation.setOptions({
-        header: () => <RenderNavigationHeader/>,
         headerRight: () => (
           <TestTimer
             initialTime={getInitialSeconds(data?.finishing_time)}
@@ -88,6 +95,9 @@ const UBTTestScreen = props => {
   };
 
   const getInitialSeconds = finishingTime => {
+
+    console.log("finishing time : " , finishingTime)
+
     if (finishingTime === undefined || finishingTime === null) {
       return 0;
     }
@@ -200,7 +210,7 @@ const UBTTestScreen = props => {
           index,
         })}
         scrollEnabled={false}
-        windowSize={5}
+        windowSize={6}
         maxToRenderPerBatch={5}
         initialNumToRender={1}
         bounces={false}
@@ -216,6 +226,7 @@ const UBTTestScreen = props => {
 };
 
 const TestTimer = ({initialTime, finishTest}) => {
+
   const [backgroundColor, setBackgroundColor] = useState('green');
 
   return (
@@ -252,13 +263,20 @@ const SubjectsModal = ({
 }) => {
   console.log('subjects : ', subjects);
 
+  const headerHeight = useHeaderHeight()
+
   const onSubject = (s, index) => {
     onSelect(index);
   };
 
+  const onBackDrop = () => {
+
+  }
+
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
-      <View style={styles.modal}>
+      <SafeAreaView style={styles.modal}>
+        <View style={{ height: headerHeight }}/>
         {subjects.map((s, i) => (
           <TouchableOpacity
             style={styles.subject}
@@ -267,7 +285,8 @@ const SubjectsModal = ({
             <Text style={styles.subjectText}>{s?.entity?.name}</Text>
           </TouchableOpacity>
         ))}
-      </View>
+        <View style={styles.backDrop} onPress={onBackDrop}/>
+      </SafeAreaView>
     </Modal>
   );
 };
@@ -284,7 +303,11 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    backgroundColor: 'rgba(0.0, 0.0, 0.0, 0.2)',
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+  },
+  backDrop: {
+    flex: 1,
+    backgroundColor: "rgba(0.0, 0.0, 0.0, 0.2)"
   },
   subject: {
     width: '100%',
