@@ -11,7 +11,7 @@ import Overlay from '../../components/view/Overlay';
 import RowView from '../../components/view/RowView';
 import { TimeIcon } from '../../assets/icons';
 import Timer from '../../components/test/Timer';
-import { APP_COLORS } from '../../constans/constants';
+import { APP_COLORS, WIDTH } from '../../constans/constants';
 import { Modal } from 'react-native';
 import { setFontStyle } from '../../utils/utils';
 
@@ -108,14 +108,14 @@ const UBTTestScreen = (props) => {
     currentSetPlaying.current = setPlaying;
   };
 
-  const onSelectSubject = () => {
-    
+  const onSelectSubject = (index) => {
+    listRef.current?.scrollToIndex({ index: index, animated: false })  
   }
 
   const renderList = ({ item, index }) => {
     return (
       <FlatList
-        data={item?.tests}
+        data={item?.questions}
         renderItem={renderQuestion}
         ListFooterComponent={renderFooter}
         style={{padding: 16, flex: 1}}
@@ -163,6 +163,9 @@ const UBTTestScreen = (props) => {
           renderItem={renderList}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          getItemLayout={(data, index) => (
+            { length: WIDTH, offset: WIDTH * index, index }
+          )}
         />
       )}
       <SubjectsModal visible={false} subjects={subjects}/>
@@ -230,6 +233,10 @@ const styles = StyleSheet.create({
   timerContainer: {
     padding: 4,
     borderRadius: 4
+  },
+  list: {
+    flex: 1,
+    padding: 16
   },
   modal: {
     flex: 1,
