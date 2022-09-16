@@ -4,7 +4,6 @@ import { ROUTE_NAMES } from './routes'
 import { useSettings } from '../context/Provider'
 import { navHeaderOptions } from './navHeaderOptions'
 import SelectSubjectsScreen from '../../screens/ubt/SelectSubjectsScreen'
-import UBTTestScreen from '../../screens/ubt/UBTTestScreen'
 
 const UBTStack = createNativeStackNavigator()
 
@@ -17,10 +16,6 @@ const UBT = (props) => {
             name: ROUTE_NAMES.selectSubjects,
             component: SelectSubjectsScreen
         },
-        {
-            name: ROUTE_NAMES.ubtTest,
-            component: UBTTestScreen
-        }
     ]
 
     return (
