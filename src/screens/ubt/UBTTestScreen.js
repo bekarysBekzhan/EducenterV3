@@ -37,12 +37,14 @@ const UBTTestScreen = props => {
 
   const [data, setData] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [navigationTitle, setNavigationTitle] = useState(null)
 
   const [fetchTest, isLoading, testError] = useFetching(async () => {
     let response = await UBTService.startTest(id);
     let convertedArray = Object.values(response.data?.data?.ubt_tests)
     response.data.data.ubtTests = convertedArray
     setData(response.data?.data);
+    setNavigationTitle(response.data?.data?.ubtTests[0]?.entity?.entity?.name)
   });
 
   const [finishTest, isFinishLoading, finishError] = useFetching(async () => {
@@ -66,10 +68,6 @@ const UBTTestScreen = props => {
   }, [testError]);
 
   useLayoutEffect(() => {
-
-    props.navigation.setOptions({
-      header: () => <RenderNavigationHeader/>
-    })
 
     if (data) {
       props.navigation.setOptions({
@@ -132,20 +130,25 @@ const UBTTestScreen = props => {
     currentSetPlaying.current = setPlaying;
   };
 
-  const onSelectSubject = index => {
+  const onSelectSubject = (title, index) => {
     listRef.current?.scrollToIndex({index: index, animated: false});
     setVisible(false)
+    setNavigationTitle(title)
   };
 
   const onOpenSubjectsModal = () => {
     setVisible(true);
   };
 
-  const RenderNavigationHeader = () => {
+  const renderNavigationHeader = () => {
     return (
-      <TouchableOpacity onPress={onOpenSubjectsModal}>
-        <Text>Заголовок</Text>
-        {visible ? down : up}
+      <TouchableOpacity 
+        onPress={onOpenSubjectsModal} 
+        activeOpacity={0.75}
+        style={styles.navigationHeader}
+      >
+        <Text style={styles.navigationHeaderTitle}>{navigationTitle}</Text>
+        {visible ? up : down}
       </TouchableOpacity>
     );
   };
@@ -197,6 +200,7 @@ const UBTTestScreen = props => {
 
   return (
     <UniversalView style={styles.container}>
+      {renderNavigationHeader()}
       <FlatList
         ref={listRef}
         data={data?.ubtTests}
@@ -266,7 +270,7 @@ const SubjectsModal = ({
   const headerHeight = useHeaderHeight()
 
   const onSubject = (s, index) => {
-    onSelect(index);
+    onSelect(s?.entity?.name, index);
   };
 
   const onBackDrop = () => {
@@ -296,6 +300,15 @@ const styles = StyleSheet.create({
   timerContainer: {
     padding: 4,
     borderRadius: 4,
+  },
+  navigationHeader: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 12
+  },
+  navigationHeaderTitle: {
+    ...setFontStyle(17, "500"),
   },
   list: {
     flex: 1,
