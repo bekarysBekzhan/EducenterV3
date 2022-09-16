@@ -187,6 +187,7 @@ const Navigation = () => {
                   ? 'fade_from_bottom'
                   : 'default',
               headerBackTitleVisible: false,
+
               headerShown:
                 route.name === ROUTE_NAMES.login ||
                 route.name === ROUTE_NAMES.register ||

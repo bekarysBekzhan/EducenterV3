@@ -1,68 +1,83 @@
-import { View, Text, StyleSheet, ActivityIndicator, FlatList, TouchableOpacity } from 'react-native'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import UniversalView from '../../components/view/UniversalView'
-import { useFetching } from '../../hooks/useFetching';
-import { UBTService } from '../../services/API';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import UniversalView from '../../components/view/UniversalView';
+import {useFetching} from '../../hooks/useFetching';
+import {UBTService} from '../../services/API';
 import TrackPlayer from 'react-native-track-player';
 import Question from '../../components/test/Question';
 import SimpleButton from '../../components/button/SimpleButton';
-import { strings } from '../../localization';
+import {strings} from '../../localization';
 import Overlay from '../../components/view/Overlay';
 import RowView from '../../components/view/RowView';
-import { TimeIcon } from '../../assets/icons';
+import {down, TimeIcon, up} from '../../assets/icons';
 import Timer from '../../components/test/Timer';
-import { APP_COLORS, WIDTH } from '../../constans/constants';
-import { Modal } from 'react-native';
-import { setFontStyle } from '../../utils/utils';
+import {APP_COLORS, WIDTH} from '../../constans/constants';
+import {Modal} from 'react-native';
+import {setFontStyle} from '../../utils/utils';
+import LoadingScreen from '../../components/LoadingScreen';
 
-const UBTTestScreen = (props) => {
+const UBTTestScreen = props => {
 
-  const id = props.route?.params?.id
+  const id = props.route?.params?.id;
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
   const currentSetPosition = useRef(null);
-  const listRef = useRef(null)
-
-  let subjects = []
+  const listRef = useRef(null);
 
   const [data, setData] = useState(null);
+  const [visible, setVisible] = useState(false);
+
   const [fetchTest, isLoading, testError] = useFetching(async () => {
-    const response = await UBTService.startTest(id)
-    setData(response.data?.data)
-    subjects = getSubjects(response.data?.data?.ubt_tests)
+    let response = await UBTService.startTest(id);
+    let convertedArray = Object.values(response.data?.data?.ubt_tests)
+    response.data.data.ubtTests = convertedArray
+    setData(response.data?.data);
   });
 
-  const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
-    const response = await UBTService.finishTest(data?.id)
-    const finishedTestData = response.data?.data
-    props.navigation.replace(ROUTE_NAMES.testCompleted, { 
-      passed: finishedTestData?.passed, 
-      correct: finishedTestData?.score, 
-      total: finishedTestData?.tests_count, 
+  const [finishTest, isFinishLoading, finishError] = useFetching(async () => {
+    const response = await UBTService.finishTest(data?.id);
+    const finishedTestData = response.data?.data;
+    props.navigation.replace(ROUTE_NAMES.testCompleted, {
+      passed: finishedTestData?.passed,
+      correct: finishedTestData?.score,
+      total: finishedTestData?.tests_count,
       id: data?.id,
       resultType: finishedTestData?.entity?.result_type,
       data: finishedTestData,
-    })
-  })
+    });
+  });
 
   useEffect(() => {
     if (testError) {
-        console.log(testError)
-        props.navigation.goBack()
+      console.log(testError);
+      props.navigation.goBack();
     }
-  }, [testError])
+  }, [testError]);
 
   useLayoutEffect(() => {
     if (data) {
       props.navigation.setOptions({
-        headerRight: () => <TestTimer initialTime={getInitialSeconds(data?.finishing_time)} finishTest={finishTest}/>,
-      })
+        header: () => <RenderNavigationHeader/>,
+        headerRight: () => (
+          <TestTimer
+            initialTime={getInitialSeconds(data?.finishing_time)}
+            finishTest={finishTest}
+          />
+        ),
+      });
     }
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
-    fetchTest()
+    fetchTest();
     return () => {
       resetAudio();
     };
@@ -72,27 +87,26 @@ const UBTTestScreen = (props) => {
     await TrackPlayer.reset();
   };
 
-  const getInitialSeconds = (finishingTime) => {
-
+  const getInitialSeconds = finishingTime => {
     if (finishingTime === undefined || finishingTime === null) {
-      return 0
+      return 0;
     }
 
-    const currentSeconds = new Date().getTime() / 1000
-    const finishingSeconds = new Date(finishingTime).getTime() / 1000
+    const currentSeconds = new Date().getTime() / 1000;
+    const finishingSeconds = new Date(finishingTime).getTime() / 1000;
 
-    const diffSeconds = finishingSeconds - currentSeconds
+    const diffSeconds = finishingSeconds - currentSeconds;
 
     if (diffSeconds < 0) {
-      return 0
+      return 0;
     }
 
-    return diffSeconds
-  }
+    return diffSeconds;
+  };
 
-  const getSubjects = (ubtTests) => {
-    return Object.values(ubtTests).map(value => value?.entity)
-  }
+  const getSubjects = () => {
+    return data?.ubtTests.map(value => value?.entity);
+  };
 
   const onTrackChange = (duration, setDuration, setPosition, setPlaying) => {
     if (currentSetDuration.current) {
@@ -108,25 +122,40 @@ const UBTTestScreen = (props) => {
     currentSetPlaying.current = setPlaying;
   };
 
-  const onSelectSubject = (index) => {
-    listRef.current?.scrollToIndex({ index: index, animated: false })  
-  }
+  const onSelectSubject = index => {
+    listRef.current?.scrollToIndex({index: index, animated: false});
+    setVisible(false)
+  };
 
-  const renderList = ({ item, index }) => {
+  const onOpenSubjectsModal = () => {
+    setVisible(true);
+  };
+
+  const RenderNavigationHeader = () => {
+    return (
+      <TouchableOpacity onPress={onOpenSubjectsModal}>
+        <Text>Заголовок</Text>
+        {visible ? down : up}
+      </TouchableOpacity>
+    );
+  };
+
+  const renderList = ({item, index}) => {
     return (
       <FlatList
         data={item?.questions}
         renderItem={renderQuestion}
         ListFooterComponent={renderFooter}
-        style={{padding: 16, flex: 1}}
+        style={{ width: WIDTH }}
+        contentContainerStyle={{ padding: 16 }}
         maxToRenderPerBatch={10}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         initialNumToRender={12}
         windowSize={10}
       />
-    )
-  }
+    );
+  };
 
   const renderQuestion = ({item, index}) => {
     return (
@@ -146,110 +175,128 @@ const UBTTestScreen = (props) => {
       <SimpleButton
         text={strings['Завершить тест']}
         onPress={finishTest}
-        style={{ marginBottom: 100}}
+        style={{marginBottom: 100}}
         loading={isFinishLoading}
       />
     </View>
-  )
+  );
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <UniversalView style={styles.container}>
-      {isLoading ? (
-        <ActivityIndicator style={{ marginTop: 120}} color={APP_COLORS.primary}/>
-      ) : (
-        <FlatList
-          ref={listRef}
-          data={Object.values(data?.ubt_tests)}
-          renderItem={renderList}
-          keyExtractor={(_, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          getItemLayout={(data, index) => (
-            { length: WIDTH, offset: WIDTH * index, index }
-          )}
-        />
-      )}
-      <SubjectsModal visible={false} subjects={subjects}/>
-      <Overlay visible={isFinishLoading}/>
+      <FlatList
+        ref={listRef}
+        data={data?.ubtTests}
+        renderItem={renderList}
+        keyExtractor={(_, index) => index.toString()}
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        getItemLayout={(data, index) => ({
+          length: WIDTH,
+          offset: WIDTH * index,
+          index,
+        })}
+        scrollEnabled={false}
+        windowSize={5}
+        maxToRenderPerBatch={5}
+        initialNumToRender={1}
+        bounces={false}
+      />
+      <SubjectsModal
+        visible={visible}
+        subjects={getSubjects()}
+        onSelect={onSelectSubject}
+      />
+      <Overlay visible={isFinishLoading} />
     </UniversalView>
   );
 };
 
-const TestTimer = ({ initialTime, finishTest }) => {
+const TestTimer = ({initialTime, finishTest}) => {
+  const [backgroundColor, setBackgroundColor] = useState('green');
 
-  const [backgroundColor, setBackgroundColor] = useState("green")
-
-  return(
-    <RowView 
-      style={[styles.timerContainer, { 
-        backgroundColor: backgroundColor
-      }]}
-    >
-      <View style={{ paddingRight: 4}}>
-        <TimeIcon
-          color='white'
-        />
+  return (
+    <RowView
+      style={[
+        styles.timerContainer,
+        {
+          backgroundColor: backgroundColor,
+        },
+      ]}>
+      <View style={{paddingRight: 4}}>
+        <TimeIcon color="white" />
       </View>
-      <Timer 
+      <Timer
         initialValue={initialTime}
-        onTimes={(time) => {
-          if(time === 0) {
-            finishTest()
-          }
-          else if(time < initialTime / 5) {
-            setBackgroundColor("red")
-          }
-          else if(time < initialTime / 2) {
-            setBackgroundColor("#FACC56")
+        onTimes={time => {
+          if (time === 0) {
+            finishTest();
+          } else if (time < initialTime / 5) {
+            setBackgroundColor('red');
+          } else if (time < initialTime / 2) {
+            setBackgroundColor('#FACC56');
           }
         }}
       />
     </RowView>
-  )
-}
+  );
+};
 
-const SubjectsModal = ({ visible, subjects = [], onSelect = () => undefined }) => {
+const SubjectsModal = ({
+  visible,
+  subjects = [],
+  onSelect = () => undefined,
+}) => {
+  console.log('subjects : ', subjects);
 
-  const onSubject = (s) => {
-
-  }
+  const onSubject = (s, index) => {
+    onSelect(index);
+  };
 
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
       <View style={styles.modal}>
-        {
-          subjects.map((s) => (
-            <TouchableOpacity style={styles.subject} activeOpacity={0.85} onPress={() => onSubject(s)}>
-              <Text style={styles.subjectText}>{s?.title}</Text>
-            </TouchableOpacity>
-          ))
-        }
+        {subjects.map((s, i) => (
+          <TouchableOpacity
+            style={styles.subject}
+            activeOpacity={0.85}
+            onPress={() => onSubject(s, i)}>
+            <Text style={styles.subjectText}>{s?.entity?.name}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </Modal>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {},
   timerContainer: {
     padding: 4,
-    borderRadius: 4
+    borderRadius: 4,
   },
   list: {
     flex: 1,
-    padding: 16
+    padding: 16,
   },
   modal: {
     flex: 1,
-    backgroundColor: "rgba(0.0, 0.0, 0.0, 0.2)"
+    backgroundColor: 'rgba(0.0, 0.0, 0.0, 0.2)',
   },
   subject: {
-    width: "100%",
+    width: '100%',
+    backgroundColor: 'white',
+    borderBottomWidth: 0.5,
+    borderColor: APP_COLORS.border,
     padding: 16,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   subjectText: {
-    ...setFontStyle(17, "400")
-  }
+    ...setFontStyle(17, '400'),
+  },
 });
 
-export default UBTTestScreen
+export default UBTTestScreen;
