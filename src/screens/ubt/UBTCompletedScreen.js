@@ -9,6 +9,7 @@ import FastImage from 'react-native-fast-image';
 import { useFetching } from '../../hooks/useFetching';
 import LoadingScreen from '../../components/LoadingScreen';
 import RowView from '../../components/view/RowView';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
 
 const UBTCompletedScreen = (props) => {
 
