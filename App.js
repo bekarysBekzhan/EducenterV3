@@ -8,7 +8,6 @@ import TrackPlayer, {
   Event,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
-import {SelectProvider} from "@mobile-reality/react-native-select-pro"
 
 const events = [
   Event.PlaybackError,

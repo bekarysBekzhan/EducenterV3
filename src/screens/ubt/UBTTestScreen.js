@@ -284,6 +284,7 @@ const SubjectsModal = ({
         <View style={{ height: headerHeight }}/>
         {subjects.map((s, i) => (
           <TouchableOpacity
+            key={i}
             style={styles.subject}
             activeOpacity={0.85}
             onPress={() => onSubject(s, i)}>

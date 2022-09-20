@@ -19,7 +19,6 @@ const UBTCompletedScreen = (props) => {
     const resultType = props.route?.params?.resultType
     const data = props.route?.params?.data
 
-
     const [results, setResults] = useState([])
     const [parseJSON, isLoading, parsingError] = useFetching(async() => {
         const content = JSON.parse(data)
@@ -83,12 +82,13 @@ const UBTCompletedScreen = (props) => {
                     results.map((res, index) => (
                         <RowView 
                             key={index}
+                            style={styles.subject}
                         >
                             <RowView>
-                                <Text>{index + 1}.</Text>
-                                <Text>{res?.name}</Text>
+                                <Text style={styles.subjectIndex}>{index + 1}.</Text>
+                                <Text style={styles.subjectName}>{res?.name}</Text>
                             </RowView>
-                            <Text>{wordLocalization(strings[':num из :count'], { num: res?.count, count: res?.total })}</Text>
+                            <Text style={styles.subjectResult}>{wordLocalization(strings[':num из :count'], { num: res?.count, count: res?.total })}</Text>
                         </RowView>
                     ))
                 }
@@ -173,6 +173,24 @@ const styles = StyleSheet.create({
   result: {
     ...setFontStyle(19, "700"),
     marginLeft: 16
+  },
+  subject: {
+    marginHorizontal: 16,
+    paddingVertical: 20,
+    justifyContent: "space-between",
+    borderBottomWidth: 0.23,
+    borderColor: APP_COLORS.border,
+  },
+  subjectIndex: {
+    marginRight: 24,
+    ...setFontStyle(10, "400", APP_COLORS.placeholder),
+  },
+  subjectName: {
+    ...setFontStyle(15, "500"),
+  },
+  subjectResult: {
+    ...setFontStyle(13, "600", APP_COLORS.primary),
+    textTransform: "uppercase",
   }
 });
 
