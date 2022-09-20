@@ -490,6 +490,12 @@ class UBTService {
     return response
   }
 
+  static fetchResult = async id => {
+    const response = await API_V2.get(URLS.ubtTestResult + id)
+    console.log("UBT result with id " + id, response)
+    return response
+  }
+
 }
 
 export {

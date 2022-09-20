@@ -76,7 +76,8 @@ export const URLS = {
   ubtTestStart: "test/start/module_ubt/",
   ubtTestInfo: "test/info/module_ubt/",
   ubtTestFinish: "modules/ubt/finish/",
-  ubtModule: "/module_ubt"
+  ubtModule: "/module_ubt",
+  ubtTestResult: "modules/ubt/result/",
 };
 
 export const STORAGE = {
