@@ -81,5 +81,5 @@ export const ROUTE_NAMES = {
   selectSubjects: "SelectSubjects",
   ubtTest: "UBTTest",
   ubtCompleted: "UBTCompleted",
-  
+  ubtResult: "UBTResult",
 };
