@@ -189,11 +189,6 @@ const ModuleMyTestItem = ({
   const [isCollapsed, setIsCollapsed] = useState(true);
   const { settings } = useSettings()
 
-  useEffect(() => {
-    // console.log("attempts : " , attempts)
-    // console.log("used attempts : " , usedAttempts())
-  }, [])
-
   const usedAttempts = () => {
     return attemptHistory[attemptHistory?.length - 1].attempts;
   };
@@ -213,7 +208,6 @@ const ModuleMyTestItem = ({
         })
       }
     }
-    // console.log("data : " , data)
     return data
   }
 
