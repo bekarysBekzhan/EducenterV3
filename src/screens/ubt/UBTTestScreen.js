@@ -72,6 +72,10 @@ const UBTTestScreen = props => {
 
   useLayoutEffect(() => {
 
+    props.navigation.setOptions({
+      title: "ҰБТ",
+    })
+
     if (data) {
       props.navigation.setOptions({
         headerRight: () => (
