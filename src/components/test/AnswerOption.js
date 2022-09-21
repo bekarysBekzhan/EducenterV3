@@ -157,7 +157,9 @@ const AnswerOption = ({
       <View style={memoStylesCheckbox}>
         {renderIcon()}
       </View>
-      {selectComponent(item.answer, views.audio, views.formula, views.html)}
+      <View style={styles.answer}>
+        {selectComponent(item.answer, views.audio, views.formula, views.html)}
+      </View>
     </TouchableOpacity>
   );
 };
@@ -188,6 +190,9 @@ const styles = StyleSheet.create({
   slider: {
     width: 20,
   },
+  answer: {
+    flex: 1,
+  }
 });
 
 const selectedStyles = StyleSheet.create({
