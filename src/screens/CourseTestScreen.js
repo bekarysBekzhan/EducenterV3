@@ -18,6 +18,7 @@ import { ROUTE_NAMES } from '../components/navigation/routes';
 const CourseTestScreen = props => {
 
   const id = props.route?.params?.id
+  const again = props.route?.params?.again
   const lessonTitle = props.route?.params?.title
 
   const currentSetPlaying = useRef(null);
@@ -26,7 +27,7 @@ const CourseTestScreen = props => {
 
   const [data, setData] = useState(null);
   const [fetchTest, isLoading, testError] = useFetching(async () => {
-    const response = await CourseService.fetchTest(id)
+    const response = await CourseService.fetchTest(id, again)
     setData(response.data?.data)
   });
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {

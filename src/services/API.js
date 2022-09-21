@@ -87,8 +87,12 @@ class CourseService {
     return response;
   };
 
-  static fetchTest = async id => {
-    const response = await API_V2.get(URLS.lessonTestStart + id);
+  static fetchTest = async (id, again = false) => {
+    let params = {}
+    if (again) {
+      params.again = again
+    }
+    const response = await API_V2.get(URLS.lessonTestStart + id, { params: params });
     console.log('Lesson test with id ' + id + ':', response);
     return response;
   };
@@ -188,8 +192,12 @@ class TestService {
     return response;
   };
 
-  static startTest = async id => {
-    const response = await API_V2.get(URLS.moduleTestStart + id);
+  static startTest = async (id, again = false) => {
+    let params = {}
+    if (again) {
+      params.again = again
+    }
+    const response = await API_V2.get(URLS.moduleTestStart + id, { params: params });
     console.log('Module test start', response);
     return response;
   };

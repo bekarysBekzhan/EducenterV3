@@ -17,6 +17,7 @@ import { ROUTE_NAMES } from '../../../components/navigation/routes';
 const ModuleTestScreen = props => {
 
   const id = props.route?.params?.id
+  const again = props.route?.params?.again
   const lessonTitle = props.route?.params?.title
 
   const currentSetPlaying = useRef(null);
@@ -25,14 +26,14 @@ const ModuleTestScreen = props => {
 
   const [data, setData] = useState(null);
   const [fetchTest, isLoading, testError] = useFetching(async () => {
-    const response = await TestService.startTest(id)
+    const response = await TestService.startTest(id, again)
     setData(response.data?.data)
   });
   const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
     console.log("Test id : " , data?.id)
     const response = await TestService.finishTest(data?.id)
     const finishedTestData = response.data?.data
-    props.navigation.replace(ROUTE_NAMES.testCompleted, { 
+    props.navigation.replace(ROUTE_NAMES.moduleTestCompleted, { 
       passed: finishedTestData?.passed, 
       correct: finishedTestData?.score, 
       total: finishedTestData?.tests_count, 

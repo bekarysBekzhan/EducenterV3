@@ -30,6 +30,7 @@ import { ROUTE_NAMES } from '../../components/navigation/routes';
 const UBTTestScreen = props => {
 
   const id = props.route?.params?.id;
+  const again = props.route?.params?.again
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -41,7 +42,7 @@ const UBTTestScreen = props => {
   const [navigationTitle, setNavigationTitle] = useState(null)
 
   const [fetchTest, isLoading, testError] = useFetching(async () => {
-    let response = await UBTService.startTest(id);
+    let response = await UBTService.startTest(id, again);
     let convertedArray = Object.values(response.data?.data?.ubt_tests)
     response.data.data.ubtTests = convertedArray
     setData(response.data?.data);
