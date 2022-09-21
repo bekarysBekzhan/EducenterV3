@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {setFontStyle, wordLocalization} from '../utils/utils';
 import {strings} from '../localization';
@@ -16,6 +16,12 @@ const ModuleTestCompletedScreen = props => {
   const correct = props.route?.params?.correct;
   const total = props.route?.params?.total;
   const resultType = props.route?.params?.resultType
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      title: strings['Завершение теста'],
+    })
+  }, [])
 
   const Banner = ({children}) => {
     const passedTestBanner = require('../assets/images/PassedTestBanner.png');

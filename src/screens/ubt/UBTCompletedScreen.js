@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import UniversalView from '../../components/view/UniversalView'
 import { setFontStyle, wordLocalization } from '../../utils/utils';
 import { strings } from '../../localization';
@@ -26,6 +26,12 @@ const UBTCompletedScreen = (props) => {
         const content = JSON.parse(data)
         setResults(Object.values(content))
     })
+
+    useLayoutEffect(() => {
+        props.navigation.setOptions({
+          title: strings['Завершение теста'],
+        })
+      }, [])
 
     useEffect(() => {
         parseJSON()
