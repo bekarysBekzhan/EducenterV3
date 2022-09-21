@@ -14,6 +14,7 @@ import { ROUTE_NAMES } from '../../components/navigation/routes';
 const UBTCompletedScreen = (props) => {
 
     const id = props.route?.params?.id
+    const entity = props.route?.params?.entity
     const passed = props.route?.params?.passed;
     const correct = props.route?.params?.correct;
     const total = props.route?.params?.total;
@@ -69,7 +70,7 @@ const UBTCompletedScreen = (props) => {
     }
 
     const onAgain = () => {
-
+        props.navigation.navigate(ROUTE_NAMES.testPreview, {id: entity?.id, again: true, type: "ubt", title: entity?.title})
     }
 
     const onGoHome = () => {

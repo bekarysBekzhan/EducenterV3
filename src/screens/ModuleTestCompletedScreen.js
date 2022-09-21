@@ -11,6 +11,7 @@ import { ROUTE_NAMES } from '../components/navigation/routes';
 const ModuleTestCompletedScreen = props => {
 
   const id = props.route?.params?.id
+  const entity = props.route?.params?.entity
   const passed = props.route?.params?.passed;
   const correct = props.route?.params?.correct;
   const total = props.route?.params?.total;
@@ -48,7 +49,7 @@ const ModuleTestCompletedScreen = props => {
   }
 
   const onAgain = () => {
-    props.navigation.replace(ROUTE_NAMES.testPreview, {})
+    props.navigation.navigate(ROUTE_NAMES.testPreview, {id: entity?.id, again: true, type: "module", title: entity?.title})
   }
 
   const onGoHome = () => {

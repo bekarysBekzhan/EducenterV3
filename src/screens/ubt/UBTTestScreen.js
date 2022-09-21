@@ -57,6 +57,7 @@ const UBTTestScreen = props => {
       correct: finishedTestData?.score,
       total: finishedTestData?.tests_count,
       id: data?.id,
+      entity: data?.entity,
       resultType: finishedTestData?.entity?.result_type,
       data: finishedTestData?.data,
     });

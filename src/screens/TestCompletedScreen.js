@@ -6,12 +6,12 @@ import {strings} from '../localization';
 import FastImage from 'react-native-fast-image';
 import {APP_COLORS, HEIGHT, RESULT_TYPES, WIDTH} from '../constans/constants';
 import SimpleButton from '../components/button/SimpleButton';
-import RowView from '../components/view/RowView';
 import { ROUTE_NAMES } from '../components/navigation/routes';
 
 const TestCompletedScreen = props => {
 
   const id = props.route?.params?.id
+  const entity = props.route?.params?.entity
   const passed = props.route?.params?.passed;
   const correct = props.route?.params?.correct;
   const total = props.route?.params?.total;
@@ -49,7 +49,7 @@ const TestCompletedScreen = props => {
   }
 
   const onAgain = () => {
-
+    props.navigation.navigate(ROUTE_NAMES.testPreview, {id: entity?.id, again: true, title: entity?.title})
   }
 
   const onGoHome = () => {

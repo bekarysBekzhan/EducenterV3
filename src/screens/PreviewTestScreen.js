@@ -14,6 +14,7 @@ import LoadingScreen from '../components/LoadingScreen';
 const PreviewTestScreen = props => {
 
   const id = props.route?.params?.id
+  const again = props.route?.params?.again
   const lessonTitle = props.route?.params?.title
   const type = props.route?.params?.type
 
@@ -39,11 +40,11 @@ const PreviewTestScreen = props => {
 
   const onStartTest = () => {
     if (type === "module") {
-      props.navigation.navigate(ROUTE_NAMES.myTestPass, {id: id, title: lessonTitle})
+      props.navigation.navigate(ROUTE_NAMES.myTestPass, {id: id, title: lessonTitle, again})
     } else if (type === "ubt") {
-      props.navigation.navigate(ROUTE_NAMES.ubtTest, { id: id, title: lessonTitle})
+      props.navigation.navigate(ROUTE_NAMES.ubtTest, { id: id, title: lessonTitle, again})
     } else {
-      props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle})
+      props.navigation.navigate(ROUTE_NAMES.testPass, {id: id, title: lessonTitle, again})
     }
   }
 

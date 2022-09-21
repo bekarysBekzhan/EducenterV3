@@ -253,7 +253,7 @@ const CourseChapter = ({
             {renderProgressBar(percent)}
             <RowView style={{ justifyContent: "space-between" }}>
               <Text style={styles.counts}>{wordLocalization(strings[':num из :count'], { num: passedLessonsCount, count: totalLessonsCount})}</Text>
-              <Text style={styles.counts}>{percent}%</Text>
+              <Text style={styles.counts}>{Math.round(percent)}%</Text>
             </RowView>
           </View>
         </View>
