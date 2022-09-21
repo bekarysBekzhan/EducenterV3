@@ -28,6 +28,7 @@ import Footer from '../../../components/course/Footer';
 import LoadingScreen from '../../../components/LoadingScreen';
 
 const CourseDetailScreen = props => {
+
   const {isAuth} = useSettings();
 
   const courseID = props.route?.params?.courseID;
@@ -139,6 +140,7 @@ const CourseChapter = ({item, index, hasSubscribed, navigation}) => {
   };
 
   const renderStatus = () => {
+
     if (item?.lessons.filter(lesson => lesson?.is_promo).length > 0) {
       return (
         <RowView>
@@ -248,6 +250,7 @@ const styles = StyleSheet.create({
   subscribeToCourseText: {
     ...setFontStyle(14, '400', APP_COLORS.placeholder),
     marginLeft: 6,
+    flex: 1,
   },
   courseStatus: {
     marginBottom: 10,
@@ -290,6 +293,7 @@ const styles = StyleSheet.create({
     ...setFontStyle(13, '600', APP_COLORS.primary),
     textTransform: 'uppercase',
     marginLeft: 6,
+    flex: 1,
   },
   courseProgram: {
     margin: 16,
