@@ -14,6 +14,7 @@
     "@mobile-reality/react-native-select-pro": "^1.11.1",
     "@native-html/iframe-plugin": "^2.6.1",
     "@native-html/table-plugin": "^5.3.1",
+    "@notifee/react-native": "^5.7.0",
     "@react-native-async-storage/async-storage": "^1.17.6",
     "@react-native-clipboard/clipboard": "^1.11.0",
     "@react-native-community/netinfo": "^9.0.0",
