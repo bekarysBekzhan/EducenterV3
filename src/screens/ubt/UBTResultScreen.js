@@ -15,7 +15,7 @@ import LoadingScreen from '../../components/LoadingScreen'
 const UBTResultScreen = (props) => {
 
   const id = props.route?.params?.id
-  const resultType = props.route?.params?.resultType
+  const resultType = props.route?.params?.resultType 
 
   const listRef = useRef(null);
 
@@ -138,8 +138,7 @@ const SubjectsModal = ({
   subjects = [],
   onSelect = () => undefined,
 }) => {
-  console.log('subjects : ', subjects);
-
+  
   const headerHeight = useHeaderHeight()
 
   const onSubject = (s, index) => {

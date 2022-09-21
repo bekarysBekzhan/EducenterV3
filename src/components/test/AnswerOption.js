@@ -38,7 +38,6 @@ const AnswerOption = ({
   extraTextStyle,
   resultType,
 }) => {
-
   const initialState = () => {
 
     if (resultType === RESULT_TYPES.DEFAULT) {
@@ -113,7 +112,9 @@ const AnswerOption = ({
 
   useEffect(() => {
 
-    item.selected = state === ANSWER_STATES.SELECTED
+    if (correct === null || correct === undefined) {
+      item.selected = state === ANSWER_STATES.SELECTED
+    }
 
   }, [state])
 

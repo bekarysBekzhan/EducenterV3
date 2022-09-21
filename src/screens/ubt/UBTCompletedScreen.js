@@ -65,7 +65,7 @@ const UBTCompletedScreen = (props) => {
     };
 
     const onResults = () => {
-        props.navigation.navigate(ROUTE_NAMES.testResult, { id, resultType})
+        props.navigation.navigate(ROUTE_NAMES.ubtResult, { id, resultType})
     }
 
     const onAgain = () => {
