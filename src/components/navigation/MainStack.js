@@ -35,6 +35,7 @@ import ReviewsScreen from '../../screens/ReviewsScreen';
 import UBTTestScreen from '../../screens/ubt/UBTTestScreen';
 import UBTCompletedScreen from '../../screens/ubt/UBTCompletedScreen';
 import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
+import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -128,6 +129,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.testCompleted,
     component: TestCompletedScreen
+  },
+  {
+    name: ROUTE_NAMES.moduleTestCompleted,
+    component: ModuleTestCompletedScreen
   },
   {
     name: ROUTE_NAMES.courseFinish,
