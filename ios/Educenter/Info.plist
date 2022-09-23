@@ -35,20 +35,10 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your Apple Music.</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your BluetoothAlways.</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your BluetoothPeripheral.</string>
-	<key>NSCalendarsUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your Calendars.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Доступ к камере требуется для записи видео и фото</string>
 	<key>NSContactsUsageDescription</key>
 	<string>$(PRODUCT_NAME) needs access to your Contacts.</string>
-	<key>NSFaceIDUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your FaceID.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>${PRODUCT_NAME} needs access to your LocationAlwaysAndWhenInUse.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -62,20 +52,15 @@
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Доступ к микрофону требуется для записи аудио</string>
-	<key>NSMotionUsageDescription</key>
-	<string>YOUR TEXT</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>YOUR TEXT</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Доступ к фотогалерею требуется для передачи данных</string>
-	<key>NSRemindersUsageDescription</key>
-	<string>YOUR TEXT</string>
-	<key>NSSiriUsageDescription</key>
-	<string>YOUR TEXT</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>YOUR TEXT</string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>YOUR TEXT</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
