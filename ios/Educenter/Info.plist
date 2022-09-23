@@ -35,27 +35,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>NSCameraUsageDescription</key>
-	<string>Доступ к камере требуется для записи видео и фото</string>
-	<key>NSContactsUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your Contacts.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>${PRODUCT_NAME} needs access to your LocationAlwaysAndWhenInUse.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>YOUR TEXT</string>
-	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
-	<dict>
-		<key>YOUR-PURPOSE-KEY</key>
-		<string>YOUR TEXT</string>
-	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Доступ к микрофону требуется для записи аудио</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>YOUR TEXT</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Доступ к фотогалерею требуется для передачи данных</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

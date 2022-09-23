@@ -18,6 +18,7 @@ const events = [
 ];
 
 const App = () => {
+  
   const initPlayer = async () => {
     await TrackPlayer.setupPlayer();
   };
