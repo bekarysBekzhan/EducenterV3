@@ -1,7 +1,7 @@
 import React from 'react';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ROUTE_NAMES } from './routes';
-import { strings } from '../../localization';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {ROUTE_NAMES} from './routes';
+import {strings} from '../../localization';
 import FilterRatingScreen from '../../screens/FilterRatingScreen';
 import SelectCategoryRatingScreen from '../../screens/SelectCategoryRatingScreen';
 
@@ -10,8 +10,10 @@ const BottomSheet = createNativeStackNavigator();
 const BottomSheetRatingStack = ({
   sort,
   category,
+  test,
   setSort,
   setCategory,
+  setTest,
   filters,
   close,
 }) => {
@@ -23,7 +25,7 @@ const BottomSheetRatingStack = ({
     },
     {
       name: ROUTE_NAMES.selectCategoryRating,
-      component: SelectCategoryRatingScreen
+      component: SelectCategoryRatingScreen,
     },
   ];
 
@@ -37,8 +39,10 @@ const BottomSheetRatingStack = ({
           initialParams={{
             sort: sort,
             category: category,
+            test: test,
             setSort: setSort,
             setCategory: setCategory,
+            setTest: setTest,
             filters: filters,
             close: close,
           }}
@@ -46,7 +50,8 @@ const BottomSheetRatingStack = ({
             headerTitle: route.title,
             headerTitleAlign: 'center',
             headerBackTitleVisible: false,
-            headerBackVisible: ROUTE_NAMES.filterRating == route.name ? false : true,
+            headerBackVisible:
+              ROUTE_NAMES.filterRating == route.name ? false : true,
             animation: 'fade_from_bottom',
           }}
         />

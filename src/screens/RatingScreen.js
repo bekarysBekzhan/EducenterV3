@@ -1,27 +1,33 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { FlatList, Keyboard, StyleSheet, View, TouchableOpacity } from 'react-native';
-import { clear, filter, filterON, search } from '../assets/icons';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {
+  FlatList,
+  Keyboard,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+} from 'react-native';
+import {clear, filter, filterON, search} from '../assets/icons';
 import Empty from '../components/Empty';
 import Input from '../components/Input';
 import RatingItem from '../components/item/RatingItem';
 import Loader from '../components/Loader';
 import RowView from '../components/view/RowView';
 import UniversalView from '../components/view/UniversalView';
-import { APP_COLORS, WIDTH } from '../constans/constants';
-import { useFetching } from '../hooks/useFetching';
-import { strings } from '../localization';
-import { RatingService } from '../services/API';
-import { setFontStyle } from '../utils/utils';
-import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
+import {APP_COLORS, WIDTH} from '../constans/constants';
+import {useFetching} from '../hooks/useFetching';
+import {strings} from '../localization';
+import {RatingService} from '../services/API';
+import {setFontStyle} from '../utils/utils';
+import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import BottomSheetRatingStack from '../components/navigation/BottomSheetRatingStack';
 
-const RatingScreen = ({ }) => {
+const RatingScreen = ({}) => {
   const [dataSource, setDataSource] = useState({
     page: 1,
     lastPage: null,
     refreshing: false,
     loadMore: false,
-    list: []
+    list: [],
   });
 
   const [focus, setFocus] = useState(true);
@@ -33,6 +39,7 @@ const RatingScreen = ({ }) => {
   const [dataFilter, setDataFilter] = useState();
   const [sort, setSort] = useState(null);
   const [category, setCategory] = useState(null);
+  const [test, setTest] = useState(null);
   const [history, setHistory] = useState([]);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['25%', '40%', '50%', '60%'], []);
@@ -57,7 +64,7 @@ const RatingScreen = ({ }) => {
       loadMore: false,
       refreshing: false,
     }));
-    setDataFilter(response?.data?.filters)
+    setDataFilter(response?.data?.filters);
   });
 
   const fetchNextPage = async () => {
@@ -72,11 +79,11 @@ const RatingScreen = ({ }) => {
       refreshing: false,
       loadMore: false,
     }));
-    setSort(response?.data?.filters)
+    setSort(response?.data?.filters);
   };
 
   const getRating = async () => {
-    let params = { page: refPage.current };
+    let params = {page: refPage.current};
 
     if (!params?.page) {
       setDataSource(prev => ({
@@ -88,18 +95,18 @@ const RatingScreen = ({ }) => {
     }
 
     if (typeof params?.page != 'number') {
-      setDataSource(prev => ({ ...prev, more_loading: true }));
+      setDataSource(prev => ({...prev, more_loading: true}));
       params.page = params?.page?.split('=');
       params.page = params?.page[params?.page?.length - 1];
     }
 
     try {
-      const res = await axios.get(RATING_URL, { params });
+      const res = await axios.get(RATING_URL, {params});
 
       console.log('res getRating: ', res);
 
       let convertSorts = Object.entries(res?.data?.filters?.sorts).map(
-        ([i, k]) => ({ value: i, name: k, id: i }),
+        ([i, k]) => ({value: i, name: k, id: i}),
       );
 
       setDataSource(prev => ({
@@ -117,7 +124,7 @@ const RatingScreen = ({ }) => {
 
       refPage.current = res?.data?.next_page_url;
 
-      setDataSource(prev => ({ ...prev, loading: false }));
+      setDataSource(prev => ({...prev, loading: false}));
     } catch (e) {
       console.log('catch getRating: ', e, e?.response);
       setDataSource(prev => ({
@@ -170,7 +177,7 @@ const RatingScreen = ({ }) => {
   //   );
 
   const renderItem = useCallback(
-    ({ item, index }) => (
+    ({item, index}) => (
       <RatingItem
         count={index + 1}
         avatar={item?.user?.avatar}
@@ -250,8 +257,10 @@ const RatingScreen = ({ }) => {
           <BottomSheetRatingStack
             sort={sort}
             category={category}
+            test={test}
             setSort={setSort}
             setCategory={setCategory}
+            setTest={setTest}
             filters={dataFilter}
             close={handleClosePress}
           />
@@ -285,7 +294,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginHorizontal: 16,
   },
-  input: { ...setFontStyle(15, '400') },
+  input: {...setFontStyle(15, '400')},
   searchIcon: {
     marginRight: 10,
   },

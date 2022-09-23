@@ -104,6 +104,7 @@ const MenuStack = () => {
         headerTitleStyle: {
           ...setFontStyle(17, '600'),
         },
+        headerBackTitleVisible: false,
       }}>
       {screens.map((screen, index) => (
         <Stack.Screen
