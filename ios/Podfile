@@ -1,5 +1,4 @@
 $RNFirebaseAsStaticFramework = true
-
 require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
@@ -12,10 +11,6 @@ target 'Educenter' do
   config = use_native_modules!
 
   use_frameworks!
-
-  pod 'Firebase', :modular_headers => true
-  pod 'FirebaseCore', :modular_headers => true
-  pod 'GoogleUtilities', :modular_headers => true
 
   # Flags change depending on the env values.
   flags = get_default_flags()

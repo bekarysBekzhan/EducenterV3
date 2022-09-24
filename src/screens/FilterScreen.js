@@ -28,6 +28,20 @@ const FilterScreen = ({ navigation, route }) => {
       />
     )
   }
+
+  const renderFooter = () => {
+    return (
+      <Footer 
+        filters={filters}
+        sort={sort}
+        selectCategory={selectedCategory}
+        setSort={setSort}
+        setCategory={setCategory}
+        setSelectedCategory={setSelectedCategory}
+        close={route.params.close}
+      />
+    )
+  }
   
   return (
     <BottomSheetView
@@ -41,15 +55,7 @@ const FilterScreen = ({ navigation, route }) => {
           }
         ]}
         renderItem={renderFilter}
-        ListFooterComponent={<Footer 
-          filters={filters}
-          sort={sort}
-          selectCategory={selectedCategory}
-          setSort={setSort}
-          setCategory={setCategory}
-          setSelectedCategory={setSelectedCategory}
-          close={route.params.close}
-        />}
+        ListFooterComponent={renderFooter}
         keyExtractor={(_, index) => index.toString()}
       />
     </BottomSheetView>
