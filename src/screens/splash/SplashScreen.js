@@ -44,12 +44,10 @@ const SplashScreen = ({navigation, route}) => {
       <View
         style={styles.section4}
       >
-        {/* <Text style={{textAlign: 'center'}}>
+        <Text style={{textAlign: 'center'}}>
           <Text style={setFontStyle(12, "400", APP_COLORS.placeholder)}>Продолжая вы соглашаетесь с </Text>
           <Text style={setFontStyle(12, "400", APP_COLORS.primary)} onPress={() => {}}>Пользовательским соглашением</Text>
-        </Text> */}
-        <Text>{123}</Text>
-        <View><Text>Hello</Text></View>
+        </Text>
       </View>
     </UniversalView>
   )
