@@ -25,6 +25,7 @@ class MobileSettingsService {
         Authorization: "Bearer " + bearerToken
       }
     })
+    console.log("Device tokens set: " , response)
     return response
   }
 }

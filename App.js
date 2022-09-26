@@ -8,8 +8,6 @@ import TrackPlayer, {
   Event,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
-import { useFetching } from './src/hooks/useFetching';
-import { MobileSettingsService } from './src/services/API';
 import { firebaseService } from './src/services/FirebaseService';
 
 const events = [
@@ -23,10 +21,14 @@ const events = [
 const App = () => {
 
   useEffect(() => {
+    // Initialize player
     initPlayer();
+    // Firebase Messaging Service
+    firebaseService.register()
+    firebaseService.registerAppWithFCM()
     return () => {
       deinitPlayer();
-      firebaseService.unregister()
+      firebaseService.unsubscribe()
     };
   }, []);
   
