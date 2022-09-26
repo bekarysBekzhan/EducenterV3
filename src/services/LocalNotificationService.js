@@ -1,4 +1,7 @@
 import notifee, { EventType } from "@notifee/react-native"
+import { navigate } from "../components/navigation/RootNavigation";
+import { ROUTE_NAMES } from "../components/navigation/routes";
+import { NOTIFICATION_TYPE } from "../constans/constants";
 
 export class LocalNotificationService {
 
@@ -14,12 +17,14 @@ export class LocalNotificationService {
         return await notifee.displayNotification({
             title: message?.notification?.title,
             body: message?.notification?.body,
+            data: message?.data,
             android: {
               channelId : "default",
               sound: message?.notification?.android?.sound,
               pressAction: {
                 id: 'default',
               },
+              
             },
         });
     }
@@ -35,9 +40,9 @@ export class LocalNotificationService {
               break;
             case EventType.PRESS:
               console.log('User pressed notification', detail.notification);
-              console.log('type', type);
-              if (detail?.notification) {
-
+              const notificationData = detail?.notification?.data
+              if (notificationData?.type === NOTIFICATION_TYPE.news) {
+                navigate(ROUTE_NAMES.newsDetail, { newsId: notificationData?.id })
               }
               break;
         }
