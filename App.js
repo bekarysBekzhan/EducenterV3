@@ -9,6 +9,7 @@ import TrackPlayer, {
   useTrackPlayerEvents,
 } from 'react-native-track-player';
 import { firebaseService } from './src/services/FirebaseService';
+import { LocalNotificationService } from './src/services/LocalNotificationService';
 
 const events = [
   Event.PlaybackError,
@@ -29,6 +30,8 @@ const App = () => {
     return () => {
       deinitPlayer();
       firebaseService.unsubscribe()
+      LocalNotificationService.onForeground()
+      
     };
   }, []);
   

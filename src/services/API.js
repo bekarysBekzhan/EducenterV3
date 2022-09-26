@@ -1,5 +1,4 @@
 import { Platform } from 'react-native';
-import {call} from 'react-native-reanimated';
 import {URLS} from '../constans/constants';
 import {API_V2} from './axios';
 

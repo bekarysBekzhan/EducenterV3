@@ -1,6 +1,6 @@
-import notifee from "@notifee/react-native"
+import notifee, { EventType } from "@notifee/react-native"
 
-class LocalNotificationService {
+export class LocalNotificationService {
 
     static onDisplayNotification = async(message) => {
 
@@ -12,12 +12,11 @@ class LocalNotificationService {
         })
 
         return await notifee.displayNotification({
-            title: 'Notification Title',
-            body: 'Main body content of the notification',
+            title: message?.notification?.title,
+            body: message?.notification?.body,
             android: {
-              channelId,
-              smallIcon: 'name-of-a-small-icon', // optional, defaults to 'ic_launcher'.
-              // pressAction is needed if you want the notification to open the app when pressed
+              channelId : "default",
+              sound: message?.notification?.android?.sound,
               pressAction: {
                 id: 'default',
               },
@@ -28,5 +27,20 @@ class LocalNotificationService {
     static cancel = async(notificationId) => {
         await notifee.cancelNotification(notificationId);
     }
+
+    static onForeground = notifee.onForegroundEvent(({ type, detail }) => {
+        switch (type) {
+            case EventType.DISMISSED:
+              console.log('User dismissed notification', detail.notification);
+              break;
+            case EventType.PRESS:
+              console.log('User pressed notification', detail.notification);
+              console.log('type', type);
+              if (detail?.notification) {
+
+              }
+              break;
+        }
+    })
 
 }
