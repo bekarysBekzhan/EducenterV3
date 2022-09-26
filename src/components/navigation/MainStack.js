@@ -37,6 +37,8 @@ import UBTCompletedScreen from '../../screens/ubt/UBTCompletedScreen';
 import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
 import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
 import { navigationRef } from './RootNavigation';
+import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
+import { strings } from '../../localization';
 
 const MainStack = createNativeStackNavigator();
 
@@ -115,6 +117,10 @@ const PRIVATE = [
       type: null,
       mode: null,
     },
+  },
+  {
+    name: ROUTE_NAMES.newsDetail,
+    component: NewsDetailScreen,
   },
   {
     name: ROUTE_NAMES.myTestPass,
