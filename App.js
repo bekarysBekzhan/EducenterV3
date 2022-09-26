@@ -8,6 +8,9 @@ import TrackPlayer, {
   Event,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
+import { useFetching } from './src/hooks/useFetching';
+import { MobileSettingsService } from './src/services/API';
+import { firebaseService } from './src/services/FirebaseService';
 
 const events = [
   Event.PlaybackError,
@@ -18,6 +21,14 @@ const events = [
 ];
 
 const App = () => {
+
+  useEffect(() => {
+    initPlayer();
+    return () => {
+      deinitPlayer();
+      firebaseService.unregister()
+    };
+  }, []);
   
   const initPlayer = async () => {
     await TrackPlayer.setupPlayer();
@@ -34,13 +45,6 @@ const App = () => {
   useTrackPlayerEvents(events, () => {
     console.log();
   });
-
-  useEffect(() => {
-    initPlayer();
-    return () => {
-      deinitPlayer();
-    };
-  }, []);
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
