@@ -111,3 +111,6 @@ export const ANSWER_STATES = {
 }
 export const SECONDS_IN_MINUTE = 60
 export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
+export const NOTIFICATION_TYPE = {
+  news: "news",
+}
