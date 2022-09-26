@@ -92,7 +92,9 @@ class FirebaseService {
   }
 
   async unsubscribe() {
-    this.unsubscribe()
+    if (this.unsubscribe) {
+      this.unsubscribe()
+    }
   }
 }
 
