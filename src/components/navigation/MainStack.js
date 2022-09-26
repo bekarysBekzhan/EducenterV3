@@ -36,6 +36,7 @@ import UBTTestScreen from '../../screens/ubt/UBTTestScreen';
 import UBTCompletedScreen from '../../screens/ubt/UBTCompletedScreen';
 import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
 import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
+import { navigationRef } from './RootNavigation';
 
 const MainStack = createNativeStackNavigator();
 
@@ -188,7 +189,7 @@ const Navigation = () => {
     return <LoadingScreen />;
   }
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <MainStack.Navigator
         screenOptions={{
           headerShown: false,
