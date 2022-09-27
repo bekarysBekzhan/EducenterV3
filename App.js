@@ -31,7 +31,6 @@ const App = () => {
       deinitPlayer();
       firebaseService.unsubscribe()
       LocalNotificationService.onForeground()
-      
     };
   }, []);
   

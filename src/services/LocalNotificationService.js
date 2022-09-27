@@ -45,6 +45,8 @@ export class LocalNotificationService {
               const notificationData = detail?.notification?.data
               if (notificationData?.type === NOTIFICATION_TYPE.news) {
                 navigate(ROUTE_NAMES.newsDetail, { newsId: notificationData?.id })
+              } else {
+                navigate(ROUTE_NAMES.bottomTab)
               }
               break;
         }
