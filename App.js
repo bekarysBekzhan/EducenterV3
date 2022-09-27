@@ -37,6 +37,7 @@ const App = () => {
         console.log('Notification caused app to open from quit state:', remoteMessage);
         const notificationData = remoteMessage?.data
         if (notificationData?.type === NOTIFICATION_TYPE.news) {
+          console.log("type : " , notificationData?.type)
           navigate(ROUTE_NAMES.newsDetail, { newsId: notificationData?.id })
         } else {
           navigate(ROUTE_NAMES.bottomTab)
