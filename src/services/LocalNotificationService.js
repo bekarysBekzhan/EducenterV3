@@ -1,7 +1,7 @@
-import notifee, { EventType } from "@notifee/react-native"
+import notifee, { AndroidImportance, AndroidVisibility, EventType } from "@notifee/react-native"
 import { navigate } from "../components/navigation/RootNavigation";
 import { ROUTE_NAMES } from "../components/navigation/routes";
-import { NOTIFICATION_TYPE } from "../constans/constants";
+import { APP_COLORS, NOTIFICATION_TYPE } from "../constans/constants";
 
 export class LocalNotificationService {
 
@@ -11,7 +11,9 @@ export class LocalNotificationService {
 
         await notifee.createChannel({
             id: "default",
-            name: "Default Channel"
+            name: "Default Channel",
+            visibility: AndroidVisibility.PUBLIC,
+            importance: AndroidImportance.HIGH
         })
 
         return await notifee.displayNotification({
@@ -24,7 +26,7 @@ export class LocalNotificationService {
               pressAction: {
                 id: 'default',
               },
-              
+              color: APP_COLORS.primary,
             },
         });
     }
