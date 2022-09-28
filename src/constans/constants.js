@@ -87,7 +87,8 @@ export const STORAGE = {
   courseSearchHistory: 'courseSearchHistory',
   testSearchHistory: 'testSearchHistory',
   taskSearchHistory: 'taskSearchHistory',
-  firebaseToken: "firebaseToken"
+  firebaseToken: "firebaseToken",
+  initialStart: "initialStart",
 };
 
 export const TYPE_SUBCRIBES = {

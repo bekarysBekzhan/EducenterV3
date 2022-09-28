@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React, { createContext, useContext } from 'react'
 import { useState } from 'react'
 
@@ -15,6 +14,7 @@ const Provider = ({children}) => {
     const [settings, setSettings] = useState(null)
     const [isAuth, setIsAuth] = useState(null)
     const [userToken, setUserToken] = useState(null)
+    const [initialStart, setInitialStart] = useState(true)
 
     return (
         <Settings.Provider 
@@ -24,7 +24,9 @@ const Provider = ({children}) => {
                 isAuth: isAuth,
                 setIsAuth: setIsAuth,
                 userToken: userToken,
-                setUserToken: setUserToken
+                setUserToken: setUserToken,
+                initialStart: initialStart,
+                setInitialStart: setInitialStart
             }}
         >
             {children}

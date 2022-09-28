@@ -5,7 +5,7 @@ import {useFetching} from '../../hooks/useFetching';
 import {MobileSettingsService} from '../../services/API';
 import {useSettings} from '../context/Provider';
 import {ROUTE_NAMES} from './routes';
-import {getString} from '../../storage/AsyncStorage';
+import {getObject, getString} from '../../storage/AsyncStorage';
 import Splash from './SplashStack';
 import BottomTab from './BottomTabStack';
 import LessonScreen from '../../screens/LessonScreen';
@@ -14,7 +14,7 @@ import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
 import {API_V2} from '../../services/axios';
 import CourseTaskScreen from '../../screens/CourseTaskScreen';
-import {REQUEST_HEADERS} from '../../constans/constants';
+import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import CourseSearchScreen from '../../screens/CourseSearchScreen';
 import TestSearchScreen from '../../screens/TestSearchScreen';
 import TaskSearchScreen from '../../screens/TaskSearchScreen';
@@ -38,7 +38,6 @@ import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
 import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
 import { navigationRef } from './RootNavigation';
 import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
-import { strings } from '../../localization';
 
 const MainStack = createNativeStackNavigator();
 
@@ -169,20 +168,23 @@ const PRIVATE = [
 
 const Navigation = () => {
 
-  const {setSettings, setUserToken, setIsAuth, isAuth} = useSettings();
+  const {setSettings, setUserToken, setIsAuth, isAuth, setInitialStart} = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
-    const userToken = await getString('userToken');
+    const userToken = await getString(STORAGE.token);
     const response = await MobileSettingsService.fetchSettings();
-
+    const isInitialStart = await getObject(STORAGE.initialStart)
+    console.log("isInitialStart : " , isInitialStart);
     if (API_V2.defaults.headers[REQUEST_HEADERS.Authorization]?.length) {
       setIsAuth(true);
     } else {
       setIsAuth(false);
     }
-
     if (userToken) {
       setUserToken(userToken);
+    }
+    if (!isInitialStart) {
+      setInitialStart(isInitialStart)
     }
     setSettings(response.data?.data);
   });
@@ -246,11 +248,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
-const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
