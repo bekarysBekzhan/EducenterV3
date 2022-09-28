@@ -87,6 +87,7 @@ export const STORAGE = {
   courseSearchHistory: 'courseSearchHistory',
   testSearchHistory: 'testSearchHistory',
   taskSearchHistory: 'taskSearchHistory',
+  firebaseToken: "firebaseToken"
 };
 
 export const TYPE_SUBCRIBES = {
@@ -110,3 +111,6 @@ export const ANSWER_STATES = {
 }
 export const SECONDS_IN_MINUTE = 60
 export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
+export const NOTIFICATION_TYPE = {
+  news: "news",
+}

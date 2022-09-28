@@ -1,4 +1,4 @@
-package com.educenter.newarchitecture.modules;
+package com.buginsoft.educenter.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

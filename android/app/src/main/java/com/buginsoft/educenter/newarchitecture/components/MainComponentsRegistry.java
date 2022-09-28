@@ -1,4 +1,4 @@
-package com.educenter.newarchitecture.components;
+package com.buginsoft.educenter.newarchitecture.components;
 
 import com.facebook.jni.HybridData;
 import com.facebook.proguard.annotations.DoNotStrip;

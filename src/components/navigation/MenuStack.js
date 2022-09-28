@@ -46,13 +46,6 @@ const MenuStack = () => {
       initialParams: {profile: false},
     },
     {
-      name: ROUTE_NAMES.newsDetail,
-      component: NewsDetailScreen,
-      options: {
-        title: strings.Новость,
-      },
-    },
-    {
       name: ROUTE_NAMES.history,
       component: HistoryScreen,
       options: {

@@ -1,4 +1,4 @@
-import {call} from 'react-native-reanimated';
+import { Platform } from 'react-native';
 import {URLS} from '../constans/constants';
 import {API_V2} from './axios';
 
@@ -13,6 +13,20 @@ class MobileSettingsService {
     const response = await API_V2.get(URLS.languages);
     return response;
   };
+
+  static setFCMToken = async(fcmToken, bearerToken) => {
+    const response = await API_V2.post('device/tokens', null, {
+      params: {
+        token: fcmToken,
+        type_id: Platform.OS === "ios" ? 1 : 2
+      },
+      headers: {
+        Authorization: "Bearer " + bearerToken
+      }
+    })
+    console.log("Device tokens set: " , response)
+    return response
+  }
 }
 
 class CourseService {

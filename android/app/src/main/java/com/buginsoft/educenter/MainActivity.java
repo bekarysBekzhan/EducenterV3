@@ -1,4 +1,4 @@
-package com.educenter;
+package com.buginsoft.educenter;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
