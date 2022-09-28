@@ -477,7 +477,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Educenter/Educenter.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N22GK5NAV7;
+				DEVELOPMENT_TEAM = 6W6XXZ7M8W;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Educenter/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Educenter;
@@ -508,7 +508,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Educenter/Educenter.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N22GK5NAV7;
+				DEVELOPMENT_TEAM = 6W6XXZ7M8W;
 				INFOPLIST_FILE = Educenter/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Educenter;
 				LD_RUNPATH_SEARCH_PATHS = (
