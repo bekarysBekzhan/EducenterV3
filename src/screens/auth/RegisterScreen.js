@@ -7,17 +7,22 @@ import SimpleButton from '../../components/button/SimpleButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
-import {storeObject} from '../../storage/AsyncStorage';
-import {STORAGE} from '../../constans/constants';
+import {removeStorage, storeObject, storeString} from '../../storage/AsyncStorage';
+import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import RNRestart from 'react-native-restart';
+import { API_V2 } from '../../services/axios';
+import { useSettings } from '../../components/context/Provider';
 
 const RegisterScreen = ({navigation}) => {
+
   const [dataSource, setDataSource] = useState({
     name: '',
     email: '',
     phone: '',
     password: '',
   });
+
+  const { setIsAuth } = useSettings()
 
   const setName = name => setDataSource(prev => ({...prev, name}));
   const setEmail = email => setDataSource(prev => ({...prev, email}));
@@ -26,8 +31,10 @@ const RegisterScreen = ({navigation}) => {
 
   const [fetchRegister, isLoading, error] = useFetching(async params => {
     const response = await AuthService.fetchRegister(params);
-    await storeObject(STORAGE.user, response?.data?.data);
-    RNRestart.Restart();
+    const token = response.data?.data?.api_token
+    await storeString(STORAGE.userToken, token)
+    API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = "Bearer " + token
+    setIsAuth(true)
   });
 
   useLayoutEffect(() => {

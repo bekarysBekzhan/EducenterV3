@@ -81,9 +81,8 @@ export const URLS = {
 };
 
 export const STORAGE = {
-  token: 'token',
+  userToken: 'userToken',
   language: 'language',
-  user: 'user',
   courseSearchHistory: 'courseSearchHistory',
   testSearchHistory: 'testSearchHistory',
   taskSearchHistory: 'taskSearchHistory',

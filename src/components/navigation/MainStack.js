@@ -1,4 +1,4 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useFetching} from '../../hooks/useFetching';
@@ -9,7 +9,6 @@ import {getObject, getString} from '../../storage/AsyncStorage';
 import Splash from './SplashStack';
 import BottomTab from './BottomTabStack';
 import LessonScreen from '../../screens/LessonScreen';
-import {StyleSheet} from 'react-native';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
 import {API_V2} from '../../services/axios';
@@ -171,27 +170,32 @@ const Navigation = () => {
   const {setSettings, setUserToken, setIsAuth, isAuth, setInitialStart} = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
-    const userToken = await getString(STORAGE.token);
+
     const response = await MobileSettingsService.fetchSettings();
-    const isInitialStart = await getObject(STORAGE.initialStart)
-    console.log("isInitialStart : " , isInitialStart);
-    if (API_V2.defaults.headers[REQUEST_HEADERS.Authorization]?.length) {
-      setIsAuth(true);
-    } else {
-      setIsAuth(false);
-    }
+    setSettings(response.data?.data);
+
+    const userToken = await getString(STORAGE.userToken);
     if (userToken) {
-      setUserToken(userToken);
+      setIsAuth(true)
+      API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = "Bearer " + userToken
     }
+
+    const isInitialStart = await getObject(STORAGE.initialStart)
     if (!isInitialStart) {
       setInitialStart(isInitialStart)
     }
-    setSettings(response.data?.data);
+    
   });
 
   useLayoutEffect(() => {
     fetchSettings();
   }, []);
+
+  useEffect(() => {
+    if (settingsError) {
+      console.log(settingsError)
+    }
+  }, [settingsError])
 
   if (isLoading) {
     return <LoadingScreen />;

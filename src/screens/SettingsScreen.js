@@ -15,6 +15,7 @@ import {removeStorage, storeString} from '../storage/AsyncStorage';
 import {useFetching} from '../hooks/useFetching';
 import {SettingsService} from '../services/API';
 import SelectOption from '../components/SelectOption';
+import { useSettings } from '../components/context/Provider';
 
 const SettingsScreen = () => {
   const [dataSource, setDataSource] = useState({
@@ -24,6 +25,8 @@ const SettingsScreen = () => {
     isReminderCourse: false,
     currentKey: strings.getLanguage(),
   });
+
+  const { setIsAuth } = useSettings()
 
   const [fetchSettings, isLoading, error] = useFetching(async () => {
     const response = await SettingsService.fetchLanguage();
@@ -42,10 +45,9 @@ const SettingsScreen = () => {
   }, []);
 
   const onExit = async () => {
-    await removeStorage(STORAGE.token);
-    await removeStorage(STORAGE.user);
+    await removeStorage(STORAGE.userToken);
     delete API_V2.defaults.headers[REQUEST_HEADERS.Authorization];
-    RNRestart.Restart();
+    setIsAuth(false)
   };
 
   const keyExtractor = useCallback(item => item?.id?.toString(), []);

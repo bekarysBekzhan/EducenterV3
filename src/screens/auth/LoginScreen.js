@@ -9,12 +9,16 @@ import TextButton from '../../components/button/TextButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
-import {APP_COLORS, STORAGE} from '../../constans/constants';
-import {storeString} from '../../storage/AsyncStorage';
+import {APP_COLORS, REQUEST_HEADERS, STORAGE} from '../../constans/constants';
+import {storeObject, storeString} from '../../storage/AsyncStorage';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
-import RNRestart from 'react-native-restart';
+import { useSettings } from '../../components/context/Provider';
+import { API_V2 } from '../../services/axios';
 
 const LoginScreen = ({navigation}) => {
+
+  const { setIsAuth } = useSettings();
+
   const [dataSource, setDataSource] = useState({
     email: '',
     password: '',
@@ -22,8 +26,10 @@ const LoginScreen = ({navigation}) => {
 
   const [fetchLogin, isLoading, authError] = useFetching(async params => {
     const response = await AuthService.fetchLogin(params);
-    await storeString(STORAGE.token, response?.data?.data?.token);
-    RNRestart.Restart();
+    const token = response?.data?.data?.token
+    await storeString(STORAGE.userToken, token)
+    API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = "Bearer " + token
+    setIsAuth(true)
   });
 
   useLayoutEffect(() => {

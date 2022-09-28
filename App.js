@@ -13,6 +13,7 @@ import { LocalNotificationService } from './src/services/LocalNotificationServic
 import { NOTIFICATION_TYPE } from './src/constans/constants';
 import { navigate } from './src/components/navigation/RootNavigation';
 import { ROUTE_NAMES } from './src/components/navigation/routes';
+import LoadingScreen from './src/components/LoadingScreen';
 
 const events = [
   Event.PlaybackError,
@@ -69,7 +70,7 @@ const App = () => {
   });
 
   if (loading) {
-    return null
+    return <LoadingScreen/>
   }
 
   return (

@@ -8,12 +8,10 @@ const useSettings = () => {
     return value
 }
 
-
 const Provider = ({children}) => {
 
     const [settings, setSettings] = useState(null)
-    const [isAuth, setIsAuth] = useState(null)
-    const [userToken, setUserToken] = useState(null)
+    const [isAuth, setIsAuth] = useState(false)
     const [initialStart, setInitialStart] = useState(true)
 
     return (
@@ -23,8 +21,6 @@ const Provider = ({children}) => {
                 setSettings: setSettings,
                 isAuth: isAuth,
                 setIsAuth: setIsAuth,
-                userToken: userToken,
-                setUserToken: setUserToken,
                 initialStart: initialStart,
                 setInitialStart: setInitialStart
             }}
