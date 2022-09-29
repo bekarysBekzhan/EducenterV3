@@ -167,6 +167,25 @@ class CourseService {
     console.log('Task with id ' + id + ' sent:', response);
     return response;
   };
+
+  static sendComment = async(lesson_id, reply_id = null, text = '') => {
+
+    if (!lesson_id) {
+      return
+    }
+
+    let params = {}
+    if (reply_id) {
+      params.reply_id = reply_id
+    }
+    if (text.length <= 0) {
+      return null
+    }
+    params.text = text
+    const response = await API_V2.post(URLS.lesson + lesson_id + URLS.sendComment)
+    console.log("Sent comment for lesson with id " + lesson_id, response);
+    return response
+  }
 }
 
 class TestService {
