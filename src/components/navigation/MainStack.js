@@ -189,7 +189,7 @@ const Navigation = () => {
     }
 
     const isInitialStart = await getObject(STORAGE.initialStart)
-    if (!isInitialStart) {
+    if (isInitialStart === false) {
       setInitialStart(isInitialStart)
     }
 
