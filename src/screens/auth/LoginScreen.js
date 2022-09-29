@@ -14,10 +14,11 @@ import {storeObject, storeString} from '../../storage/AsyncStorage';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import { useSettings } from '../../components/context/Provider';
 import { API_V2 } from '../../services/axios';
+import { CommonActions } from '@react-navigation/native';
 
 const LoginScreen = ({navigation}) => {
 
-  const { setIsAuth } = useSettings();
+  const { setIsAuth, settings } = useSettings();
 
   const [dataSource, setDataSource] = useState({
     email: '',
@@ -30,6 +31,17 @@ const LoginScreen = ({navigation}) => {
     await storeString(STORAGE.userToken, token)
     API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = "Bearer " + token
     setIsAuth(true)
+    if (settings?.marketplace_enabled) {
+      navigation.replace(ROUTE_NAMES.bottomTab)
+    } else {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {name: ROUTE_NAMES.bottomTab }
+          ]
+      }))
+    }
   });
 
   useLayoutEffect(() => {

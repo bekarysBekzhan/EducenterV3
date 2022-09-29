@@ -9,9 +9,10 @@ import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
 import {removeStorage, storeObject, storeString} from '../../storage/AsyncStorage';
 import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
-import RNRestart from 'react-native-restart';
 import { API_V2 } from '../../services/axios';
 import { useSettings } from '../../components/context/Provider';
+import { CommonActions } from '@react-navigation/native';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
 
 const RegisterScreen = ({navigation}) => {
 
@@ -22,7 +23,7 @@ const RegisterScreen = ({navigation}) => {
     password: '',
   });
 
-  const { setIsAuth } = useSettings()
+  const { setIsAuth, settings } = useSettings()
 
   const setName = name => setDataSource(prev => ({...prev, name}));
   const setEmail = email => setDataSource(prev => ({...prev, email}));
@@ -35,6 +36,17 @@ const RegisterScreen = ({navigation}) => {
     await storeString(STORAGE.userToken, token)
     API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = "Bearer " + token
     setIsAuth(true)
+    if (settings?.marketplace_enabled) {
+      navigation.replace(ROUTE_NAMES.bottomTab)
+    } else {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            {name: ROUTE_NAMES.bottomTab }
+          ]
+      }))
+    }
   });
 
   useLayoutEffect(() => {
