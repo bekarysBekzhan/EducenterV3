@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, TextInput } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { useEffect } from 'react'
@@ -18,6 +18,7 @@ import AudioPlayer from '../components/AudioPlayer'
 import TrackPlayer from 'react-native-track-player'
 import Overlay from '../components/view/Overlay'
 import FileItem from '../components/FileItem'
+import SimpleButton from '../components/button/SimpleButton'
 
 const LessonScreen = (props) => {
 
@@ -162,6 +163,7 @@ const LessonScreen = (props) => {
                             :
                             null
                         }
+                        <WriteComment/>
                     </View>
                 }
             </UniversalView>
@@ -187,6 +189,30 @@ const LessonScreen = (props) => {
             }   
             <Overlay visible={isModal}/>
         </UniversalView>
+    )
+}
+
+const WriteComment = ({}) => {
+
+
+    const [text, setText] = useState("")
+
+    return (
+        <View style={styles.comment}>
+            <TextInput
+                value={text}
+                onChangeText={() => undefined}
+                placeholder={strings.Комментарий}
+                placeholderTextColor={APP_COLORS.placeholder}
+                multiline
+                blurOnSubmit={false}
+                style={styles.input}
+            />
+            <SimpleButton 
+                text={strings.Отправить}
+                onPress={() => undefined}
+            />
+        </View>
     )
 }
 
@@ -240,6 +266,19 @@ const styles = StyleSheet.create({
         backgroundColor: APP_COLORS.input,
         justifyContent: "center",
         alignItems: "center"
+    },
+    comment: {
+
+    },
+    input: {
+        flex: 1,
+        height: 120,
+        ...setFontStyle(16, "400", undefined, 25),
+        marginVertical: 16,
+        padding: 12,
+        borderWidth: 0.4,
+        borderColor: APP_COLORS.border,
+        borderRadius: 6
     }
 })
 
