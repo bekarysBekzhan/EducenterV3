@@ -37,6 +37,7 @@ import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
 import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
 import { navigationRef } from './RootNavigation';
 import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
+import { strings } from '../../localization';
 
 const MainStack = createNativeStackNavigator();
 
@@ -167,7 +168,7 @@ const PRIVATE = [
 
 const Navigation = () => {
 
-  const {setSettings, setUserToken, setIsAuth, isAuth, setInitialStart} = useSettings();
+  const {setSettings, setIsAuth, isAuth, setInitialStart} = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
 
@@ -180,11 +181,18 @@ const Navigation = () => {
       API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = "Bearer " + userToken
     }
 
+    const language = await getString(STORAGE.language)
+    if (language) {
+      strings.setLanguage(language)
+    } else {
+      strings.setLanguage("ru")
+    }
+
     const isInitialStart = await getObject(STORAGE.initialStart)
     if (!isInitialStart) {
       setInitialStart(isInitialStart)
     }
-    
+
   });
 
   useLayoutEffect(() => {
