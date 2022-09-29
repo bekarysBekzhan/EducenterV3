@@ -38,6 +38,7 @@ const AnswerOption = ({
   extraTextStyle,
   resultType,
 }) => {
+
   const initialState = () => {
 
     if (resultType === RESULT_TYPES.DEFAULT) {
@@ -79,7 +80,7 @@ const AnswerOption = ({
     let params = {}
     params.selected = !(state === ANSWER_STATES.SELECTED)
     params.is_multiple = is_multiple
-    const response = await CourseService.selectAnswer(passingID, { params: params})
+    await CourseService.selectAnswer(passingID, { params: params})
   })
 
   useEffect(() => {
@@ -152,7 +153,7 @@ const AnswerOption = ({
       style={memoStylesContainer}
       onPress={selectTapped}
       activeOpacity={0.7}
-      disabled={isSelectDisabled()}
+      // disabled={isSelectDisabled()}
     >
       <View style={memoStylesCheckbox}>
         {renderIcon()}

@@ -29,11 +29,6 @@ const Question = ({
 
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  useEffect(() => {
-    // console.log("passing answers : " , passing_answers)
-    // console.log("question : " , questionItem)
-  }, [])
-
   const onSelect = (newIndex) => {
     if (selectedIndex !== newIndex) {
       setSelectedIndex(newIndex);
