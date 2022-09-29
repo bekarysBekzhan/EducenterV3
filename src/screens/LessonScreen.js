@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity, TextInput, FlatList } from 'react-native'
 import React, { useLayoutEffect } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { useEffect } from 'react'
@@ -7,7 +7,7 @@ import { CourseService } from '../services/API'
 import { useState } from 'react'
 import { APP_COLORS, WIDTH } from '../constans/constants'
 import HtmlView from '../components/HtmlView'
-import { setFontStyle } from '../utils/utils'
+import { isValidText, setFontStyle } from '../utils/utils'
 import RowView from '../components/view/RowView'
 import OutlineButton from '../components/button/OutlineButton'
 import { strings } from '../localization'
@@ -19,6 +19,7 @@ import TrackPlayer from 'react-native-track-player'
 import Overlay from '../components/view/Overlay'
 import FileItem from '../components/FileItem'
 import SimpleButton from '../components/button/SimpleButton'
+import Empty from '../components/Empty'
 
 const LessonScreen = (props) => {
 
@@ -90,9 +91,10 @@ const LessonScreen = (props) => {
         props.navigation.replace(ROUTE_NAMES.lesson, { id: data?.previous_lesson_id })
     }
 
-    return (
-        <UniversalView>
-            <UniversalView haveScroll style={styles.container}>
+
+    const renderHeader = () => {
+        return (
+            <View>
                 {
                     isLoading
                     ?
@@ -163,10 +165,34 @@ const LessonScreen = (props) => {
                             :
                             null
                         }
-                        <WriteComment/>
+                        <WriteComment 
+                            lessonId={id}
+                        />
                     </View>
                 }
-            </UniversalView>
+            </View>
+        )
+    }
+
+    const renderComment = ({ item, index }) => {
+        return (
+            <View>
+
+            </View>
+        )
+    }
+
+    return (
+        <UniversalView>
+            <FlatList
+                data={data?.comments}
+                style={styles.container}
+                renderItem={renderComment}
+                keyExtractor={(_, index) => index.toString()}
+                showsVerticalScrollIndicator={false}
+                ListHeaderComponent={renderHeader}
+                ListEmptyComponent={() => <Empty/>}
+            />
             {
                 isLoading || isCaptured
                 ?
@@ -192,16 +218,38 @@ const LessonScreen = (props) => {
     )
 }
 
-const WriteComment = ({}) => {
-
+const WriteComment = ({
+    lessonId,
+}) => {
 
     const [text, setText] = useState("")
+    const [sendComment, isLoading, sendingError] = useFetching(async() => {
+        await CourseService.sendComment(lessonId, null, text)
+    })
+
+    const onChangeText = (value) => {
+        setText(value)
+    }
+
+    const onPress = () => {
+        if (isValidText(text)) {
+            sendComment()
+        } else {
+            setText('')
+        }
+    }
+
+    useEffect(() => {
+        if (sendingError) {
+            console.log(sendingError)
+        }
+    }, [sendingError])
 
     return (
         <View style={styles.comment}>
             <TextInput
                 value={text}
-                onChangeText={() => undefined}
+                onChangeText={onChangeText}
                 placeholder={strings.Комментарий}
                 placeholderTextColor={APP_COLORS.placeholder}
                 multiline
@@ -210,7 +258,8 @@ const WriteComment = ({}) => {
             />
             <SimpleButton 
                 text={strings.Отправить}
-                onPress={() => undefined}
+                onPress={onPress}
+                loading={isLoading}
             />
         </View>
     )
@@ -245,7 +294,6 @@ const styles = StyleSheet.create({
         marginBottom: 8
     },
     taskButton: {
-        marginBottom: 150
     },
     switchBar: {
         position: "absolute",

@@ -51,7 +51,7 @@ const CourseTaskScreen = props => {
   });
 
   const [sendAnswer, isSending, sendingError] = useFetching(async() => {
-    const response = await CourseService.sendTaskAnswer(data?.id, answer, attachedFile, controller.current, setProgress)
+    await CourseService.sendTaskAnswer(data?.id, answer, attachedFile, controller.current, setProgress)
     setAnswer("")
     setAttachedFile(null)
     setProgress(0)
@@ -189,14 +189,6 @@ const CourseTaskScreen = props => {
       setHeight(prev => prev + contentSize.height - inputHeight)
       setInputHeight(contentSize.height)
     }
-  }
-
-  const onChange = ({ nativeEvent }) => {
-    console.log("onChange : " , nativeEvent)
-  }
-
-  const onLayout = ({ nativeEvent }) => {
-    console.log("onLayout : " , nativeEvent)
   }
 
   const renderHeader = () => (
