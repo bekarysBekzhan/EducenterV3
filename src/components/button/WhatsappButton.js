@@ -1,13 +1,30 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Linking } from 'react-native'
 import React from 'react'
 import { WhatsappLogo } from '../../assets/icons'
+import { useSettings } from '../context/Provider'
+import { getWhatsappNumber } from '../../utils/utils'
 
 const WhatsappButton = () => {
-  return (
-    <TouchableOpacity style={styles.container} activeOpacity={0.88}>
-        <WhatsappLogo/>
-    </TouchableOpacity>
-  )
+
+    const { settings } = useSettings()
+
+    const onPress = () => {
+        if (settings?.phone) {
+            const whatsappURL = 'http://api.whatsapp.com/send?phone=' + getWhatsappNumber(settings?.phone)
+            console.log("whatsappURL : " , whatsappURL);
+            Linking.openURL(whatsappURL)
+        }
+    }
+
+    if (!settings?.whatsapp_icon_enabled) { 
+        return null
+    }
+
+    return (
+        <TouchableOpacity style={styles.container} activeOpacity={0.88} onPress={onPress}>
+            <WhatsappLogo/>
+        </TouchableOpacity>
+    )
 }
 
 const styles = StyleSheet.create({
