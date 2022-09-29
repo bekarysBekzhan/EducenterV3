@@ -226,3 +226,23 @@ export const convertToIterable = object => {
   return array;
 };
 
+export const getWhatsappNumber = (phone) => {
+  let result = ''
+  if (phone[0] === '8') {
+    phone = phone.replace('8', '7')
+  } else if (phone[0] === '+') {
+    phone = phone.replace('+', '')
+  }
+  for (let index = 0; index < phone.length; index++) {
+    if (isNumber(phone[index])) {
+      result += phone[index]
+    }
+  }
+  return result;
+}
+
+export const isNumber = (str) => {
+  if (typeof str != "string") return false // we only process strings!  
+  return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+         !isNaN(parseFloat(str)) //
+}
