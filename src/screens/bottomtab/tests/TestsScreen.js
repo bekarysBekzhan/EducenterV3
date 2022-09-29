@@ -9,6 +9,7 @@ import { TestService } from '../../../services/API'
 import { APP_COLORS, WIDTH } from '../../../constans/constants'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
 import Empty from '../../../components/Empty'
+import WhatsappButton from '../../../components/button/WhatsappButton'
 
 const TestsScreen = (props) => {
 
@@ -115,6 +116,7 @@ const TestsScreen = (props) => {
           setPage(1)
         }}
       />
+      <WhatsappButton/>
     </UniversalView>
   )
 }
