@@ -13,15 +13,21 @@ import { storeObject } from '../../storage/AsyncStorage';
 
 const SplashScreen = ({navigation, route}) => {
 
-  const {settings, initialStart} = useSettings();
+  const {settings, initialStart, isAuth} = useSettings();
 
   useEffect(() => {
-    setTimeout(keepGoingPressed, 3000)
+    setTimeout(() => {
+      if (settings?.marketplace_enabled && !isAuth) {
+        keepGoingPressed(ROUTE_NAMES.login)
+      } else {
+        keepGoingPressed(ROUTE_NAMES.bottomTab)
+      }
+    }, 3000)
   }, [])
 
-  const keepGoingPressed = async() => {
+  const keepGoingPressed = async(route = ROUTE_NAMES.bottomTab) => {
     await storeObject(STORAGE.initialStart, false)
-    navigation.replace(ROUTE_NAMES.bottomTab);
+    navigation.replace(route);
   };
 
   const changeLanguagePressed = () => {
