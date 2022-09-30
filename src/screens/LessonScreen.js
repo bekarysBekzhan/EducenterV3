@@ -6,7 +6,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import React, {useLayoutEffect} from 'react';
+import React, {useLayoutEffect, useRef} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {useEffect} from 'react';
 import {useFetching} from '../hooks/useFetching';
@@ -30,6 +30,7 @@ import Empty from '../components/Empty';
 import LoadingScreen from '../components/LoadingScreen';
 import TextButton from '../components/button/TextButton';
 import Divider from '../components/Divider';
+import { Modal } from 'react-native';
 
 const LessonScreen = props => {
 
@@ -123,7 +124,6 @@ const LessonScreen = props => {
   };
 
   const onSwitchBarLayout = ({ nativeEvent: { layout: { height} } }) => {
-    console.log("switch bar height : " , height)
     setPadding(height + 16)
   }
 
@@ -307,23 +307,36 @@ const Comment = ({
     replies = [],
  }) => {
 
-    const [reply, setReply] = useState("reply")
+    const [reply, setReply] = useState("")
+    const [isModal, setIsModal] = useState(false)
+    const replyID = useRef(null)
 
-    const [sendReply, isLoading, sendingError] = useFetching(async(replyID) => {
-      const response = await CourseService.sendComment(lessonId, replyID, reply);
+    const [sendReply, isLoading, sendingError] = useFetching(async() => {
+      const response = await CourseService.sendComment(lessonId, replyID.current, reply);
+      setReply("")
       const comments = response.data?.data
       const commentLists = comments.filter((cmnt) => cmnt?.id === id)[0]?.comment_lists
       const replySent = commentLists[commentLists.length - 1]
       submitCommentTapped(id, replySent)
     })
 
-    const onPress = (replyID) => {
+    const onPress = () => {
+      setIsModal(false)
       if (isValidText(reply)) {
-        sendReply(replyID);
+        sendReply();
       } else {
         setReply('');
       }
     };
+
+    const onChangeReply = value => {
+      setReply(value);
+    };
+
+    const onReply = (replyId) => {
+      replyID.current = replyId
+      setIsModal(true)
+    }
 
     useEffect(() => {
       if (sendingError) {
@@ -337,7 +350,7 @@ const Comment = ({
                 <Text style={comment.name}>{name}</Text>
                 <Text style={comment.date}>{date}</Text>
                 <Text style={comment.text}>{text}</Text>
-                <TouchableOpacity style={comment.button} activeOpacity={0.65} onPress={() => onPress(id)}>
+                <TouchableOpacity style={comment.button} activeOpacity={0.65} onPress={() => onReply(id)}>
                   <Text style={comment.buttonText}>{strings.Ответить}</Text>
                 </TouchableOpacity>
             </View>
@@ -350,7 +363,7 @@ const Comment = ({
               <Text style={comment.name}>{item?.user?.name}</Text>
               <Text style={comment.date}>{item?.added_at}</Text>
               <Text style={comment.text}>{item?.text}</Text>
-              <TouchableOpacity style={comment.button} activeOpacity={0.65} onPress={() => onPress(item?.id)}>
+              <TouchableOpacity style={comment.button} activeOpacity={0.65} onPress={() => onReply(item?.id)}>
                 <Text style={comment.buttonText}>{strings.Ответить}</Text>
               </TouchableOpacity>
             </View>
@@ -368,7 +381,28 @@ const Comment = ({
             scrollEnabled={false}
             bounces={false}
         />
-        <Overlay visible={isLoading}/>
+        <Modal visible={isModal} transparent={true} animationType="fade">
+          <TouchableOpacity activeOpacity={0} style={comment.backDrop} onPress={() => setIsModal(false)}>
+            <View style={comment.modal}>
+              <Text style={comment.name}>{strings.Ответить}</Text>
+              <Divider isAbsolute/>
+              <TextInput
+                value={reply}
+                onChangeText={onChangeReply}
+                placeholder={strings.Комментарий}
+                placeholderTextColor={APP_COLORS.placeholder}
+                multiline
+                blurOnSubmit={false}
+                style={styles.input}
+              />
+              <SimpleButton
+                text={strings.Отправить}
+                onPress={() => onPress()}
+                loading={isLoading}
+              />
+            </View>
+          </TouchableOpacity>
+        </Modal>
       </View>
     )
 }
@@ -424,7 +458,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    flex: 1,
+    // flex: 1,
     height: 120,
     ...setFontStyle(16, '400', undefined, 25),
     marginVertical: 16,
@@ -470,6 +504,18 @@ const comment = StyleSheet.create({
       padding: 12,
       alignSelf: "flex-end",
       marginBottom: 16,
+    },
+    backDrop: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)"
+    },
+    modal: {
+      width: WIDTH - 36,
+      borderRadius: 12,
+      backgroundColor: APP_COLORS.white,
+      padding: 12
     }
 })
 
