@@ -32,6 +32,7 @@ import CourseCompletedScreen from '../../screens/CourseCompletedScreen';
 import WriteReviewScreen from '../../screens/WriteReviewScreen';
 import TestResultScreen from '../../screens/TestResultScreen';
 import ReviewsScreen from '../../screens/ReviewsScreen';
+import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -51,6 +52,10 @@ const GENERAL = [
   {
     name: ROUTE_NAMES.testSearch,
     component: TestSearchScreen,
+  },
+  {
+    name: ROUTE_NAMES.offlineCourseSearchScreen,
+    component: OfflineCourseSearchScreen,
   },
   {
     name: ROUTE_NAMES.taskSearch,

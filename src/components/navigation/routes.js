@@ -76,5 +76,11 @@ export const ROUTE_NAMES = {
   journalNavigator: 'JournalNavigator',
   journals: 'Journals',
   myJournlas: 'MyJournals',
-  readJournal:'ReadJournal'
+  readJournal:'ReadJournal',
+  //Offline courses
+  offlineCourses: 'OfflineCourses',
+  offlineCourseDetailsScreen: 'OfflineCourseDetailsScreen',
+  offlineCourseMemberScreen: 'OfflineCourseMemberScreen',
+  courseMaterialScreen: 'CourseMaterialScreen',
+  offlineCourseSearchScreen: 'OfflineCourseSearchScreen',
 };

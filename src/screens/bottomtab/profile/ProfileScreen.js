@@ -129,6 +129,15 @@ const ProfileScreen = ({navigation, route}) => {
           iconLeft: <ReclamentIcon />,
           enabled: true,
         },
+
+        {
+          id: 6,
+          text: settings?.modules_enabled_offline_courses_title,
+          iconLeft: <ReclamentIcon />,
+          action: 'navigation',
+          enabled: settings?.modules_enabled_offline_courses,
+          route: ROUTE_NAMES.offlineCourses,
+        },
       ],
     },
     {

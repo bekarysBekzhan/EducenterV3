@@ -40,6 +40,30 @@ class CourseService {
     return response;
   };
 
+  static fetchOfflineCourses = async (
+    query = '',
+    page = 1,
+    price = undefined,
+    categoryID = undefined,
+  ) => {
+    let params = {
+      filters: true,
+      page: page,
+    };
+    if (query.length > 0) {
+      params.query = query;
+    }
+    if (price) {
+      params.price = price;
+    }
+    if (categoryID) {
+      params.category_id = categoryID;
+    }
+    const response = await API_V2.get(URLS.offlineCourses, {params: params});
+    console.log('Offline courses : ', response);
+    return response;
+  };
+
   static fetchCourseByID = async id => {
     const response = await API_V2.get(URLS.courseByID + id);
     console.log('Course with id ' + id + ':', response);

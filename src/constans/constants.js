@@ -70,7 +70,8 @@ export const URLS = {
   journal: 'modules/journal',
   journal_subscribed: 'modules/journal/my/subscribed',
   testResult: "test/result/",
-  reviews: "reviews/"
+  reviews: "reviews/",
+  offlineCourses: 'offline_courses',
 };
 
 export const STORAGE = {
@@ -80,6 +81,7 @@ export const STORAGE = {
   courseSearchHistory: 'courseSearchHistory',
   testSearchHistory: 'testSearchHistory',
   taskSearchHistory: 'taskSearchHistory',
+  offlineSearchHistory: 'offlineSearchHistory',
 };
 
 export const TYPE_SUBCRIBES = {
