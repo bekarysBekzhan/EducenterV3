@@ -32,12 +32,14 @@ import TextButton from '../components/button/TextButton';
 import Divider from '../components/Divider';
 
 const LessonScreen = props => {
+
   const id = props.route?.params?.id;
   const chapterTitle = props.route?.params?.title;
 
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
   const [isModal, setIsModal] = useState(false);
+  const [padding, setPadding] = useState(0)
   const isCaptured = useIsCaptured();
   const [fetchLesson, isLoading, lessonError] = useFetching(async () => {
     const response = await CourseService.fetchLesson(id);
@@ -120,6 +122,11 @@ const LessonScreen = props => {
     });
   };
 
+  const onSwitchBarLayout = ({ nativeEvent: { layout: { height} } }) => {
+    console.log("switch bar height : " , height)
+    setPadding(height + 16)
+  }
+
   const renderHeader = () => {
     return (
       <View>
@@ -194,6 +201,8 @@ const LessonScreen = props => {
     )
   };
 
+  const renderBottomPadding = () => <View style={{ height: padding }}/>
+
   if (isLoading) {
     return <LoadingScreen />;
   }
@@ -212,9 +221,13 @@ const LessonScreen = props => {
         ItemSeparatorComponent={() => <Divider isAbsolute={false}/>}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={renderHeader}
+        ListFooterComponent={renderBottomPadding}
         ListEmptyComponent={() => <Empty text={strings['Нет комментариев']}/>}
       />
-      <RowView style={styles.switchBar}>
+      <View 
+        style={styles.switchBar}
+        onLayout={onSwitchBarLayout}
+      >
         {data?.isFirst ? (
           <View />
         ) : (
@@ -230,7 +243,7 @@ const LessonScreen = props => {
           disabled={isModal}>
           <RightIcon color={APP_COLORS.placeholder} />
         </TouchableOpacity>
-      </RowView>
+      </View>
       <Overlay visible={isModal} />
     </UniversalView>
   );
@@ -389,6 +402,8 @@ const styles = StyleSheet.create({
   },
   taskButton: {},
   switchBar: {
+    flexDirection: "row",
+    alignItems: "center",
     position: 'absolute',
     bottom: 0,
     width: WIDTH,
