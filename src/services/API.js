@@ -182,7 +182,9 @@ class CourseService {
       return null
     }
     params.text = text
-    const response = await API_V2.post(URLS.lesson + lesson_id + URLS.sendComment)
+
+    console.log("params : " , params)
+    const response = await API_V2.post(URLS.lesson + lesson_id + URLS.sendComment, params)
     console.log("Sent comment for lesson with id " + lesson_id, response);
     return response
   }

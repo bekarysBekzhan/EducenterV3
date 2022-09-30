@@ -68,9 +68,15 @@ const LessonScreen = props => {
     };
   }, []);
 
-  const submitCommentTapped = (replyID, comment) => {
-    if (replyID) {
-
+  const submitCommentTapped = (commentId, comment) => {
+    if (commentId) {
+      let commentsChanged = comments
+      commentsChanged.forEach((cmnt, index) => {
+        if (cmnt.id === commentId) {
+          commentsChanged[index].comment_lists.push(comment)
+        }
+      });
+      setComments(commentsChanged)
     } else {
         setComments(prev => prev.concat(comment))
     }
@@ -165,7 +171,7 @@ const LessonScreen = props => {
               style={styles.taskButton}
             />
           ) : null}
-          <WriteComment lessonId={id} />
+          <WriteComment lessonId={id} submitCommentTapped={submitCommentTapped}/>
           <Text style={styles.commentsCount}>{comments.length} {strings.Комментарий}</Text>
           <Divider isAbsolute={false}/>
         </View>
@@ -177,10 +183,13 @@ const LessonScreen = props => {
 
     return (
         <Comment
+            id={item?.id}
             name={item?.user?.name}
             date={item?.added_at}
             text={item?.text}
             replies={item?.comment_lists}
+            lessonId={id}
+            submitCommentTapped={submitCommentTapped}
         />
     )
   };
@@ -228,10 +237,12 @@ const LessonScreen = props => {
 };
 
 const WriteComment = ({lessonId, submitCommentTapped = () => undefined}) => {
+
   const [text, setText] = useState('');
   const [sendComment, isLoading, sendingError] = useFetching(async () => {
     const response = await CourseService.sendComment(lessonId, null, text);
-    submitCommentTapped(null, response.data?.data)
+    const commentSent = response.data?.data?.[response.data?.data?.length - 1]
+    submitCommentTapped(null, commentSent)
   });
 
   const onChangeText = value => {
@@ -268,11 +279,14 @@ const WriteComment = ({lessonId, submitCommentTapped = () => undefined}) => {
         onPress={onPress}
         loading={isLoading}
       />
+      <Overlay visible={isLoading}/>
     </View>
   );
 };
 
 const Comment = ({ 
+    lessonId,
+    id,
     name,
     date,
     text,
@@ -280,13 +294,37 @@ const Comment = ({
     replies = [],
  }) => {
 
+    const [reply, setReply] = useState("reply")
+
+    const [sendReply, isLoading, sendingError] = useFetching(async(replyID) => {
+      const response = await CourseService.sendComment(lessonId, replyID, reply);
+      const comments = response.data?.data
+      const commentLists = comments.filter((cmnt) => cmnt?.id === id)[0]?.comment_lists
+      const replySent = commentLists[commentLists.length - 1]
+      submitCommentTapped(id, replySent)
+    })
+
+    const onPress = (replyID) => {
+      if (isValidText(reply)) {
+        sendReply(replyID);
+      } else {
+        setReply('');
+      }
+    };
+
+    useEffect(() => {
+      if (sendingError) {
+        console.log(sendingError);
+      }
+    }, [sendingError]);
+
     const renderHeader = () => {
         return (
             <View style={comment.container}>
                 <Text style={comment.name}>{name}</Text>
                 <Text style={comment.date}>{date}</Text>
                 <Text style={comment.text}>{text}</Text>
-                <TouchableOpacity style={comment.button} activeOpacity={0.65}>
+                <TouchableOpacity style={comment.button} activeOpacity={0.65} onPress={() => onPress(id)}>
                   <Text style={comment.buttonText}>{strings.Ответить}</Text>
                 </TouchableOpacity>
             </View>
@@ -299,7 +337,7 @@ const Comment = ({
               <Text style={comment.name}>{item?.user?.name}</Text>
               <Text style={comment.date}>{item?.added_at}</Text>
               <Text style={comment.text}>{item?.text}</Text>
-              <TouchableOpacity style={comment.button} activeOpacity={0.65}>
+              <TouchableOpacity style={comment.button} activeOpacity={0.65} onPress={() => onPress(item?.id)}>
                 <Text style={comment.buttonText}>{strings.Ответить}</Text>
               </TouchableOpacity>
             </View>
@@ -307,6 +345,7 @@ const Comment = ({
     }
 
     return (
+      <View>
         <FlatList
             data={replies}
             renderItem={renderReply}
@@ -314,7 +353,10 @@ const Comment = ({
             keyExtractor={(_, index) => index.toString()}
             showsVerticalScrollIndicator={false}
             scrollEnabled={false}
+            bounces={false}
         />
+        <Overlay visible={isLoading}/>
+      </View>
     )
 }
 
