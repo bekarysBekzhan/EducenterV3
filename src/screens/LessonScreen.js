@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator,
   TouchableOpacity,
   TextInput,
   FlatList,
@@ -29,6 +28,8 @@ import FileItem from '../components/FileItem';
 import SimpleButton from '../components/button/SimpleButton';
 import Empty from '../components/Empty';
 import LoadingScreen from '../components/LoadingScreen';
+import TextButton from '../components/button/TextButton';
+import Divider from '../components/Divider';
 
 const LessonScreen = props => {
   const id = props.route?.params?.id;
@@ -67,8 +68,8 @@ const LessonScreen = props => {
     };
   }, []);
 
-  const submitCommentTapped = (reply_id, comment) => {
-    if (reply_id) {
+  const submitCommentTapped = (replyID, comment) => {
+    if (replyID) {
 
     } else {
         setComments(prev => prev.concat(comment))
@@ -165,13 +166,23 @@ const LessonScreen = props => {
             />
           ) : null}
           <WriteComment lessonId={id} />
+          <Text style={styles.commentsCount}>{comments.length} {strings.Комментарий}</Text>
+          <Divider isAbsolute={false}/>
         </View>
       </View>
     );
   };
 
   const renderComment = ({item, index}) => {
-    return <View></View>;
+
+    return (
+        <Comment
+            name={item?.user?.name}
+            date={item?.added_at}
+            text={item?.text}
+            replies={item?.comment_lists}
+        />
+    )
   };
 
   if (isLoading) {
@@ -189,9 +200,10 @@ const LessonScreen = props => {
         style={styles.container}
         renderItem={renderComment}
         keyExtractor={(_, index) => index.toString()}
+        ItemSeparatorComponent={() => <Divider isAbsolute={false}/>}
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={renderHeader}
-        ListEmptyComponent={() => <Empty />}
+        ListEmptyComponent={() => <Empty text={strings['Нет комментариев']}/>}
       />
       <RowView style={styles.switchBar}>
         {data?.isFirst ? (
@@ -241,7 +253,7 @@ const WriteComment = ({lessonId, submitCommentTapped = () => undefined}) => {
   }, [sendingError]);
 
   return (
-    <View style={styles.comment}>
+    <View>
       <TextInput
         value={text}
         onChangeText={onChangeText}
@@ -259,6 +271,52 @@ const WriteComment = ({lessonId, submitCommentTapped = () => undefined}) => {
     </View>
   );
 };
+
+const Comment = ({ 
+    name,
+    date,
+    text,
+    submitCommentTapped = () => undefined,
+    replies = [],
+ }) => {
+
+    const renderHeader = () => {
+        return (
+            <View style={comment.container}>
+                <Text style={comment.name}>{name}</Text>
+                <Text style={comment.date}>{date}</Text>
+                <Text style={comment.text}>{text}</Text>
+                <TouchableOpacity style={comment.button} activeOpacity={0.65}>
+                  <Text style={comment.buttonText}>{strings.Ответить}</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+
+    const renderReply = ({ item, index }) => {
+        return (
+            <View style={comment.reply}>
+              <Text style={comment.name}>{item?.user?.name}</Text>
+              <Text style={comment.date}>{item?.added_at}</Text>
+              <Text style={comment.text}>{item?.text}</Text>
+              <TouchableOpacity style={comment.button} activeOpacity={0.65}>
+                <Text style={comment.buttonText}>{strings.Ответить}</Text>
+              </TouchableOpacity>
+            </View>
+        )
+    }
+
+    return (
+        <FlatList
+            data={replies}
+            renderItem={renderReply}
+            ListHeaderComponent={renderHeader}
+            keyExtractor={(_, index) => index.toString()}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={false}
+        />
+    )
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -308,7 +366,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  comment: {},
   input: {
     flex: 1,
     height: 120,
@@ -319,6 +376,44 @@ const styles = StyleSheet.create({
     borderColor: APP_COLORS.border,
     borderRadius: 6,
   },
+  commentsCount: {
+    ...setFontStyle(19, "600"),
+    marginTop: 48,
+    marginBottom: 12
+  }
 });
+
+const comment = StyleSheet.create({
+    container: {
+      paddingVertical: 12,
+      flex: 1,
+    },
+    name: {
+      marginBottom: 5,
+      ...setFontStyle(16, "600")
+    },
+    date: {
+      marginBottom: 8,
+      ...setFontStyle(15, "500", APP_COLORS.placeholder)
+    },
+    text: {
+      marginBottom: 8,
+    },
+    button: {
+      alignSelf: "flex-end",
+    },
+    buttonText: {
+      ...setFontStyle(13, "600", APP_COLORS.placeholder),
+      textTransform: "uppercase",
+    },
+    reply: {
+      width: "80%",
+      backgroundColor: APP_COLORS.gray,
+      borderRadius: 6,
+      padding: 12,
+      alignSelf: "flex-end",
+      marginBottom: 16,
+    }
+})
 
 export default LessonScreen;
