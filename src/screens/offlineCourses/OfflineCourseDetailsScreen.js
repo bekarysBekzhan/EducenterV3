@@ -26,7 +26,6 @@ const OfflineCourseDetailsScreen = props => {
   const [fetchCourse, isLoading, courseError] = useFetching(async () => {
     const response = await CourseService.fetchCourseByID(courseID);
     setData(response.data?.data);
-    console.log('lalalalalala', response);
   });
 
   useEffect(() => {
