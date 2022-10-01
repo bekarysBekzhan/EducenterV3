@@ -14,6 +14,10 @@ import ProfieEditScreen from '../../screens/ProfileEditScreen';
 import ScheduleNavigator from './ScheduleNavigator';
 import SettingsScreen from '../../screens/SettingsScreen';
 import JournalNavigator from './JournalNavigator';
+import OfflineCourseScreen from '../../screens/offlineCourses/OfflineCourseScreen';
+import OfflineCourseDetailsScreen from '../../screens/offlineCourses/OfflineCourseDetailsScreen';
+import CourseMaterialScreen from '../../screens/offlineCourses/CourseMaterialsScreen';
+import OfflineCourseMemberScreen from '../../screens/offlineCourses/OfflineCourseMemberScreen';
 import UBT from './UBTStack';
 
 const Stack = createNativeStackNavigator();
@@ -87,6 +91,38 @@ const MenuStack = () => {
         title: strings['Все журналы'],
       },
     },
+    {
+      name: ROUTE_NAMES.offlineCourses,
+      component: OfflineCourseScreen,
+      options: {
+        title: strings["Офлайн курсы"],
+        headerBackTitleVisible: false,
+      },
+    },
+    {
+      name: ROUTE_NAMES.offlineCourseDetailsScreen,
+      component: OfflineCourseDetailsScreen,
+      options: {
+        headerBackTitleVisible: false,
+        headerTitle: ""
+      },
+     
+    },
+    {
+      name: ROUTE_NAMES.offlineCourseMemberScreen,
+      component: OfflineCourseMemberScreen,
+      options: {
+        title: strings["Участники курса"]
+      },
+    },
+    {
+      name: ROUTE_NAMES.courseMaterialScreen,
+      component: CourseMaterialScreen,
+      options: {
+        title: strings["Материалы курса"]
+      },
+    }
+    
   ];
 
   return (

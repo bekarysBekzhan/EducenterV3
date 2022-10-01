@@ -71,6 +71,7 @@ export const URLS = {
   journal_subscribed: 'modules/journal/my/subscribed',
   testResult: "test/result/",
   reviews: "reviews/",
+  offlineCourses: 'offline_courses',
   ubtCategories: "modules/ubt/categories",
   ubtTests: "modules/ubt/get_tests",
   ubtTestStart: "test/start/module_ubt/",
@@ -87,6 +88,7 @@ export const STORAGE = {
   courseSearchHistory: 'courseSearchHistory',
   testSearchHistory: 'testSearchHistory',
   taskSearchHistory: 'taskSearchHistory',
+  offlineSearchHistory: 'offlineSearchHistory',
   firebaseToken: "firebaseToken",
   initialStart: "initialStart",
 };

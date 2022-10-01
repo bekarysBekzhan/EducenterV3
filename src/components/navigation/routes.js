@@ -78,6 +78,12 @@ export const ROUTE_NAMES = {
   journals: 'Journals',
   myJournlas: 'MyJournals',
   readJournal:'ReadJournal',
+  //Offline courses
+  offlineCourses: 'OfflineCourses',
+  offlineCourseDetailsScreen: 'OfflineCourseDetailsScreen',
+  offlineCourseMemberScreen: 'OfflineCourseMemberScreen',
+  courseMaterialScreen: 'CourseMaterialScreen',
+  offlineCourseSearchScreen: 'OfflineCourseSearchScreen',
   ubt: "UBT",
   selectSubjects: "SelectSubjects",
   ubtTest: "UBTTest",
