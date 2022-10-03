@@ -17,18 +17,20 @@ const ReviewsScreen = (props) => {
 
     const id = props.route?.params?.id
 
-    const [data, setData] = useState(null)
+    const [course, setCourse] = useState(null)
+    const [reviews, setReviews] = useState(null)
     const [page, setPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
 
     const [fetchReviews, isFetching, fetchingError] = useFetching(async() => {
         const response = await CourseService.fetchReviews(id)
-        setData(response.data?.data)
+        setCourse(response.data?.data?.course)
+        setReviews(response.data?.data?.reviews?.data)
         setLastPage(response.data?.data?.reviews?.last_page)
     })
     const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(async() => {
         const response = await CourseService.fetchReviews(id, page)
-        setData(prev => prev.concat(response.data?.data))
+        setReviews(prev => prev.concat(response.data?.data?.reviews?.data))
     })
 
     useLayoutEffect(() => {
@@ -57,16 +59,16 @@ const ReviewsScreen = (props) => {
     const renderHeader = () => {
         return (
             <RowView style={styles.header}>
-                <Text style={styles.rating}>{data?.course?.rating}</Text>
+                <Text style={styles.rating}>{course?.rating}</Text>
                 <View style={styles.ratingInfo}>
                     <RatingStar 
                         disabled={true} 
                         maxStars={5} 
-                        rating={data?.course?.rating}
+                        rating={parseFloat(course?.rating)}
                         halfStarEnabled={true}
                         starSize={32}
                     />
-                    <Text style={styles.reviewCount}>{wordLocalization(strings['Оставлено :num отзывов'], { num: data?.course?.reviews_count })}</Text>
+                    <Text style={styles.reviewCount}>{wordLocalization(strings['Оставлено :num отзывов'], { num: course?.reviews_count })}</Text>
                 </View>
             </RowView>
         )
@@ -78,15 +80,11 @@ const ReviewsScreen = (props) => {
                 avatar={item?.user?.avatar}
                 name={item?.user?.name}
                 date={item?.added_at}
-                rating={item?.rating}
+                rating={item?.stars}
                 startRating={item?.stars}
                 review={item?.text}
-                style={{
-                    ...styles.reviewItem,
-                    marginLeft: index === 0 ? 16 : 0,
-                    marginRight: index === data.length - 1 ? 16 : 10,
-                }}
-                numberOfLines={3}
+                style={styles.reviewItem}
+                // numberOfLines={3}
             />
         )
     }
@@ -125,7 +123,7 @@ const ReviewsScreen = (props) => {
     return (
         <UniversalView style={styles.container}>
             <FlatList
-                data={data?.reviews?.data}
+                data={reviews}
                 renderItem={renderReview}
                 ListHeaderComponent={renderHeader}
                 ListEmptyComponent={() => <Empty/>}
@@ -164,8 +162,8 @@ const styles = StyleSheet.create({
         marginLeft: 8
     },
     reviewItem: {
-        width: WIDTH -32,
-        height: 200,
+        width: WIDTH - 32,
+        alignSelf: "center",
         marginBottom: 8
     },
     footer: {

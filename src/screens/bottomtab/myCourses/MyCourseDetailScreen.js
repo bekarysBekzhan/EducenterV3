@@ -137,7 +137,7 @@ const MyCourseDetailScreen = props => {
   };
 
   const renderFooter = () => {
-    return <Footer data={data} navigation={props?.navigation} />;
+    return <Footer data={data} navigation={props?.navigation}/>;
   };
 
   const renderTransactionButton = () => {
