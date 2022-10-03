@@ -117,3 +117,9 @@ export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
 export const NOTIFICATION_TYPE = {
   news: "news",
 }
+
+export const AUTH_TYPE = {
+  emailPhone: "email-phone",
+  email: "email",
+  phone: "phone"
+}

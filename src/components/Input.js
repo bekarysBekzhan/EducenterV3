@@ -4,6 +4,7 @@ import {TextInputMask} from 'react-native-masked-text';
 import RowView from './view/RowView';
 import {APP_COLORS} from '../constans/constants';
 import {setFontStyle} from '../utils/utils';
+import { useSettings } from './context/Provider';
 
 const Input = ({
   placeholder = '',
@@ -22,6 +23,7 @@ const Input = ({
   onPressRightIcon,
   ...props
 }) => {
+
   const [focus, setFocus] = useState(_focus);
 
   const memoStyles = useMemo(

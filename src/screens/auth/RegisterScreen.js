@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
 import {strings} from '../../localization';
@@ -7,7 +7,7 @@ import SimpleButton from '../../components/button/SimpleButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
-import {removeStorage, storeObject, storeString} from '../../storage/AsyncStorage';
+import {storeString} from '../../storage/AsyncStorage';
 import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import { API_V2 } from '../../services/axios';
 import { useSettings } from '../../components/context/Provider';
@@ -48,6 +48,9 @@ const RegisterScreen = ({navigation}) => {
       }))
     }
   });
+
+  useEffect(() => {
+  }, [dataSource.phone])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -93,7 +96,6 @@ const RegisterScreen = ({navigation}) => {
         secureTextEntry
         editable={!isLoading}
       />
-
       <SimpleButton
         text={strings.Зарегистрироваться}
         style={styles.button}
