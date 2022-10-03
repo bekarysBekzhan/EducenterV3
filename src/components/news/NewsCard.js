@@ -13,7 +13,10 @@ const NewsCard = ({title, onPress, source, date, isLast, item}) => {
   };
 
   return (
-    <TouchableOpacity activeOpacity={0.9} onPress={handlerOnPress}>
+    <TouchableOpacity
+      style={styles.view}
+      activeOpacity={0.9}
+      onPress={handlerOnPress}>
       <RowView style={isLast ? styles.rowLast : styles.row}>
         <FastImage
           source={{uri: source, priority: 'high'}}
@@ -29,6 +32,9 @@ const NewsCard = ({title, onPress, source, date, isLast, item}) => {
 };
 
 const styles = StyleSheet.create({
+  view: {
+    marginBottom: 16,
+  },
   image: {
     width: 60,
     height: 60,

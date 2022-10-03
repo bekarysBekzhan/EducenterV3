@@ -30,17 +30,12 @@ const RatingScreen = ({}) => {
     list: [],
   });
 
-  const [focus, setFocus] = useState(true);
   const [value, setValue] = useState('');
-  const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
-  const [lastPage, setLastPage] = useState(null);
   const [isFilter, setIsFilter] = useState(false);
   const [dataFilter, setDataFilter] = useState();
   const [sort, setSort] = useState(null);
   const [category, setCategory] = useState(null);
   const [test, setTest] = useState(null);
-  const [history, setHistory] = useState([]);
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['25%', '40%', '50%', '60%'], []);
 
@@ -56,11 +51,15 @@ const RatingScreen = ({}) => {
     let params = {
       page: dataSource?.page,
       filter: true,
+      category_id: category?.id,
+      test_id: test?.id,
+      query: value,
     };
     const response = await RatingService.fetchRating(params);
     setDataSource(prev => ({
       ...prev,
       list: response?.data?.data,
+      lastPage: response?.data?.last_page,
       loadMore: false,
       refreshing: false,
     }));
@@ -71,69 +70,17 @@ const RatingScreen = ({}) => {
     let params = {
       page: dataSource?.page,
       filter: true,
+      category_id: category?.id,
+      test_id: test?.id,
+      query: value,
     };
     const response = await RatingService.fetchRating(params);
     setDataSource(prev => ({
       ...prev,
-      list: prev?.data?.concat(response?.data?.data),
+      list: prev?.list?.concat(response?.data?.data),
       refreshing: false,
       loadMore: false,
     }));
-    setSort(response?.data?.filters);
-  };
-
-  const getRating = async () => {
-    let params = {page: refPage.current};
-
-    if (!params?.page) {
-      setDataSource(prev => ({
-        ...prev,
-        refreshing: false,
-        more_loading: false,
-      }));
-      return;
-    }
-
-    if (typeof params?.page != 'number') {
-      setDataSource(prev => ({...prev, more_loading: true}));
-      params.page = params?.page?.split('=');
-      params.page = params?.page[params?.page?.length - 1];
-    }
-
-    try {
-      const res = await axios.get(RATING_URL, {params});
-
-      console.log('res getRating: ', res);
-
-      let convertSorts = Object.entries(res?.data?.filters?.sorts).map(
-        ([i, k]) => ({value: i, name: k, id: i}),
-      );
-
-      setDataSource(prev => ({
-        ...prev,
-        list:
-          refPage.current == 1
-            ? res?.data?.data
-            : prev?.list?.concat(res?.data?.data),
-        sorts: convertSorts,
-        categories: res?.data?.filters?.categories,
-        tests: res?.data?.filters?.tests,
-        refreshing: false,
-        more_loading: false,
-      }));
-
-      refPage.current = res?.data?.next_page_url;
-
-      setDataSource(prev => ({...prev, loading: false}));
-    } catch (e) {
-      console.log('catch getRating: ', e, e?.response);
-      setDataSource(prev => ({
-        ...prev,
-        refreshing: false,
-        more_loading: false,
-      }));
-      //   handlerErrorRequest(e);
-    }
   };
 
   const onRefresh = () => {
@@ -149,6 +96,19 @@ const RatingScreen = ({}) => {
     }
   };
 
+  const onEndReached = () => {
+    if (!dataSource?.loadMore) {
+      if (dataSource?.page < dataSource?.lastPage) {
+        setDataSource(prev => ({
+          ...prev,
+          loadMore: true,
+          refreshing: false,
+          page: prev?.page + 1,
+        }));
+      }
+    }
+  };
+
   useEffect(() => {
     if (dataSource?.page == 1) {
       fetchRating();
@@ -156,6 +116,17 @@ const RatingScreen = ({}) => {
       fetchNextPage();
     }
   }, [dataSource?.page]);
+
+  useEffect(() => {
+    if (value === '' && sort === null && category === null) {
+      setDataSource(prev => ({...prev, list: []}));
+    } else {
+      if (dataSource?.page != 1) {
+        console.log('call');
+        fetchRating();
+      }
+    }
+  }, [value, sort, category]);
 
   const handleSheetChanges = useCallback(index => {
     if (index === -1) {
@@ -167,14 +138,7 @@ const RatingScreen = ({}) => {
     bottomSheetRef.current.close();
   };
 
-  const keyExtractor = useCallback(item => item?.id?.toString(), []);
-
-  //   const renderHeader = (
-  //     <FitlerView
-  //       onFilterPress={() => handleClosePressFilter()}
-  //       placeholder={strings['Поиск среди участников']}
-  //     />
-  //   );
+  const keyExtractor = useCallback((_, index) => index, []);
 
   const renderItem = useCallback(
     ({item, index}) => (
@@ -215,7 +179,7 @@ const RatingScreen = ({}) => {
       <RowView style={styles.searchBar}>
         <Input
           // _focus={focus}
-          placeholder={strings['Поиск курсов']}
+          placeholder={strings['Поиск тестов']}
           left={<View style={styles.searchIcon}>{search('#000')}</View>}
           right={
             <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
@@ -245,6 +209,8 @@ const RatingScreen = ({}) => {
         ListFooterComponent={renderFooter}
         refreshing={dataSource?.refreshing}
         onRefresh={onRefresh}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.01}
       />
       {isFilter ? (
         <BottomSheet
