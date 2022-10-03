@@ -1276,3 +1276,13 @@ export const WhatsappLogo = ({width = 60, height = 60}) => (
     />
   </Svg>
 );
+
+
+export const CourseProgramIcon = ({}) => (
+  <Svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path fillRule="evenodd" clipRule="evenodd" d="M19.49 21H5.51C4.4 21 3.5 20.105 3.5 19V11C3.5 9.895 4.4 9 5.51 9H19.49C20.6 9 21.5 9.895 21.5 11V19C21.5 20.105 20.599 21 19.49 21V21Z" stroke="#737373" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <Path fillRule="evenodd" clipRule="evenodd" d="M11.785 13.1398L14.405 14.6898C14.736 14.8858 14.736 15.3658 14.405 15.5608L11.785 17.1108C11.448 17.3108 11.021 17.0668 11.021 16.6748V13.5758C11.021 13.1838 11.448 12.9398 11.785 13.1398Z" stroke="#737373" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <Path d="M5.28198 9V8C5.28198 6.895 6.17698 6 7.28198 6H17.717C18.822 6 19.717 6.895 19.717 8V9" stroke="#737373" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <Path d="M7.01599 6V5C7.01599 3.895 7.91099 3 9.01599 3H15.985C17.09 3 17.985 3.895 17.985 5V6" stroke="#737373" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </Svg>
+)
