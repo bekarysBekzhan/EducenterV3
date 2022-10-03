@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
@@ -13,12 +13,16 @@ import { API_V2 } from '../../services/axios';
 import { useSettings } from '../../components/context/Provider';
 import { CommonActions } from '@react-navigation/native';
 import { ROUTE_NAMES } from '../../components/navigation/routes';
+import CountryPicker from "react-native-country-picker-modal"
+import RowView from '../../components/view/RowView';
 
 const RegisterScreen = ({navigation}) => {
 
   const [dataSource, setDataSource] = useState({
     name: '',
     email: '',
+    countryCode: "KZ",
+    callingCode: "+7",
     phone: '',
     password: '',
   });
@@ -49,15 +53,21 @@ const RegisterScreen = ({navigation}) => {
     }
   });
 
-  useEffect(() => {
-  }, [dataSource.phone])
-
   useLayoutEffect(() => {
     navigation.setOptions({
       title: strings['Создать аккаунт'],
       headerTitleAlign: 'center',
     });
   });
+
+  const onCountrySelect = (country) => {
+    console.log("country : " , country)
+    setDataSource(prev => ({
+      ...prev,
+      countryCode: country.cca2,
+      callingCode: country?.callingCode[0]
+    }))
+  }
 
   return (
     <UniversalView haveScroll contentContainerStyle={styles.view}>
@@ -72,14 +82,31 @@ const RegisterScreen = ({navigation}) => {
         extraStyle={styles.input}
         editable={!isLoading}
       />
-      <Input
-        placeholder={strings['Номер телефона']}
-        extraStyle={styles.input}
-        mask={'+9 (999) 999-99-99'}
-        editable={!isLoading}
-        value={dataSource?.phone}
-        onChangeText={setPhone}
-      />
+      <RowView style={styles.phone}>
+        <CountryPicker
+          {...{
+            withFilter: true,
+            withFlag: true,
+            withAlphaFilter: true,
+            withCallingCode: true,
+            withCallingCodeButton: true,
+            withEmoji: true,
+            withCloseButton: true,
+            countryCode: dataSource.countryCode,
+            onSelect: onCountrySelect,
+          }}
+          // visible
+        />
+        <View style={{ width: 16 }}/>
+        <Input
+          placeholder={strings['Номер телефона']}
+          extraStyle={styles.input}
+          mask={'(999) 999 99 99'}
+          editable={!isLoading}
+          value={dataSource?.phone}
+          onChangeText={setPhone}
+        />
+      </RowView>
       <Input
         placeholder={'E-mail'}
         onChangeText={setEmail}
@@ -100,7 +127,13 @@ const RegisterScreen = ({navigation}) => {
         text={strings.Зарегистрироваться}
         style={styles.button}
         loading={isLoading}
-        onPress={() => fetchRegister(dataSource)}
+        onPress={() => {
+          setDataSource(prev => ({
+            ...prev,
+            phone: dataSource.callingCode + prev.phone
+          }))
+          fetchRegister(dataSource)
+        }}
       />
     </UniversalView>
   );
@@ -116,9 +149,14 @@ const styles = StyleSheet.create({
     marginBottom: 24,
   },
   input: {
+    flex: 1,
     marginBottom: 8,
   },
   button: {
     marginTop: 16,
+  },
+  phone: {
+    flex: 1,
+    alignItems: "center"
   },
 });
