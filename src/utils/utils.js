@@ -246,3 +246,18 @@ export const isNumber = (str) => {
   return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
          !isNaN(parseFloat(str)) //
 }
+
+export const passedLessonCount = (chapter, data) => {
+  if (chapter?.position < data?.progress?.last_chapter_position) {
+    return chapter?.lessons_count
+  } 
+  if (chapter?.position > data?.progress?.last_chapter_position) {
+    return 0
+  }
+
+  return data?.progress?.last_lesson_position
+}
+
+export const getProgressPercent = (chapter, data) => {
+  return (passedLessonCount(chapter, data) / chapter?.lessons_count) * 100
+}
