@@ -1286,3 +1286,13 @@ export const CourseProgramIcon = ({}) => (
     <Path d="M7.01599 6V5C7.01599 3.895 7.91099 3 9.01599 3H15.985C17.09 3 17.985 3.895 17.985 5V6" stroke="#737373" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </Svg>
 )
+
+export const BellIcon = ({ isRead = false, color = APP_COLORS.primary }) => (
+  <Svg width="24" height="26" viewBox="0 0 24 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <Path fillRule="evenodd" clipRule="evenodd" d="M17.6763 12.5811V10.1785C17.6763 7.08224 15.0497 4.57227 11.8096 4.57227C8.56957 4.57227 5.94298 7.08224 5.94298 10.1785V12.5811C5.94298 15.224 3.42871 15.8647 3.42871 17.3864C3.42871 18.7479 6.69727 19.7891 11.8096 19.7891C16.922 19.7891 20.1905 18.7479 20.1905 17.3864C20.1905 15.8647 17.6763 15.224 17.6763 12.5811Z" stroke={color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <Path d="M12.3334 21.6795C11.4059 21.6795 10.5345 21.6497 9.71436 21.5918C10.0732 22.6856 11.1338 23.4301 12.3334 23.4301C13.533 23.4301 14.5936 22.6856 14.9524 21.5918C14.1323 21.6497 13.2608 21.6795 12.3334 21.6795Z" fill={color}/>
+    {
+      isRead ? null : <Circle cx="17" cy="5" r="4" fill="#FF3B30" stroke="white" strokeWidth="2"/>
+    }
+  </Svg>
+)

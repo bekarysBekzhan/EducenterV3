@@ -18,6 +18,7 @@ import {strings} from '../../../localization';
 import NavButtonRow from '../../../components/view/NavButtonRow';
 import SectionView from '../../../components/view/SectionView';
 import {
+  BellIcon,
   CalendarIcon,
   CallCenterIcon,
   History,
@@ -51,7 +52,10 @@ const ProfileScreen = ({navigation, route}) => {
   });
 
   useLayoutEffect(() => {
-    navigation.setOptions(navHeaderOptions(settings?.logo, strings.Меню));
+    navigation.setOptions({
+      headerRight: renderHeaderRight,
+      ...navHeaderOptions(settings?.logo, strings.Меню)
+    });
   }, []);
 
   const MENU = [
@@ -138,7 +142,6 @@ const ProfileScreen = ({navigation, route}) => {
           iconLeft: <ReclamentIcon />,
           enabled: true,
         },
-
         {
           id: 6,
           text: settings?.modules_enabled_offline_courses_title,
@@ -209,6 +212,23 @@ const ProfileScreen = ({navigation, route}) => {
       refreshing: true,
     }));
   }, []);
+
+  const isRead = () => {
+    console.log("global : " , global)
+    if (global.hasOwnProperty('isRead')) {
+      return global.isRead
+    }
+    return true
+  }
+
+  const renderHeaderRight = () => (
+    <TouchableOpacity 
+      activeOpacity={0.65}
+      onPress={() => undefined}
+    >
+      <BellIcon isRead={isRead()}/>
+    </TouchableOpacity>
+  )
 
   if (isLoading) {
     return <LoadingScreen />;
