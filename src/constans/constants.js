@@ -91,6 +91,7 @@ export const STORAGE = {
   offlineSearchHistory: 'offlineSearchHistory',
   firebaseToken: "firebaseToken",
   initialStart: "initialStart",
+  isRead: 'isRead',
 };
 
 export const TYPE_SUBCRIBES = {

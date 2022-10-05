@@ -320,7 +320,6 @@ class MyCourseService {
       params.category_id = categoryID;
     }
     const response = await API_V2.get(URLS.myCourses, {params: params});
-    console.log('My courses : ', response);
     return response;
   };
   static fetchMyTests = async (
@@ -343,7 +342,6 @@ class MyCourseService {
       params.category_id = categoryID;
     }
     const response = await API_V2.get(URLS.moduleMyTests, {params: params});
-    console.log('My tests : ', response);
     return response;
   };
   static fetchMyTasks = async (
@@ -366,7 +364,6 @@ class MyCourseService {
       params.category_id = categoryID;
     }
     const response = await API_V2.get(URLS.moduleMyTasks, {params: params});
-    console.log('My tasks : ', response);
     return response;
   }
 }

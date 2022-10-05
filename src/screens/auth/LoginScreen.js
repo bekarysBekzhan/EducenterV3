@@ -15,11 +15,12 @@ import {
   REQUEST_HEADERS,
   STORAGE,
 } from '../../constans/constants';
-import {storeString} from '../../storage/AsyncStorage';
+import {getString, storeString} from '../../storage/AsyncStorage';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import {useSettings} from '../../components/context/Provider';
 import {API_V2} from '../../services/axios';
 import {CommonActions} from '@react-navigation/native';
+import { firebaseService } from '../../services/FirebaseService';
 
 const LoginScreen = ({navigation}) => {
 
@@ -46,6 +47,9 @@ const LoginScreen = ({navigation}) => {
         }),
       );
     }
+    firebaseService.registerAppWithFCM();
+    const fcmToken = await getString(STORAGE.firebaseToken);
+    firebaseService.setFCMToken(fcmToken, token);
   });
 
   useLayoutEffect(() => {

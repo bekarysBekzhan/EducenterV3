@@ -5,7 +5,6 @@ import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
 import NewsScreen from '../../screens/news/NewsScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import {useSettings} from '../context/Provider';
-import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
 import {setFontStyle} from '../../utils/utils';
 import {strings} from '../../localization';
 import HistoryScreen from '../../screens/HistoryScreen';
@@ -22,7 +21,7 @@ import UBT from './UBTStack';
 
 const Stack = createNativeStackNavigator();
 
-const MenuStack = () => {
+const MenuStack = ({navigation}) => {
   const {isAuth} = useSettings();
 
   const screens = [
@@ -41,8 +40,8 @@ const MenuStack = () => {
       name: ROUTE_NAMES.ubt,
       component: UBT,
       options: {
-        headerShown: false
-      }
+        headerShown: false,
+      },
     },
     {
       name: ROUTE_NAMES.profile,
@@ -95,7 +94,7 @@ const MenuStack = () => {
       name: ROUTE_NAMES.offlineCourses,
       component: OfflineCourseScreen,
       options: {
-        title: strings["Офлайн курсы"],
+        title: strings['Офлайн курсы'],
         headerBackTitleVisible: false,
       },
     },
@@ -104,25 +103,23 @@ const MenuStack = () => {
       component: OfflineCourseDetailsScreen,
       options: {
         headerBackTitleVisible: false,
-        headerTitle: ""
+        headerTitle: '',
       },
-     
     },
     {
       name: ROUTE_NAMES.offlineCourseMemberScreen,
       component: OfflineCourseMemberScreen,
       options: {
-        title: strings["Участники курса"]
+        title: strings['Участники курса'],
       },
     },
     {
       name: ROUTE_NAMES.courseMaterialScreen,
       component: CourseMaterialScreen,
       options: {
-        title: strings["Материалы курса"]
+        title: strings['Материалы курса'],
       },
-    }
-    
+    },
   ];
 
   return (

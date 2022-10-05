@@ -7,7 +7,7 @@ import SimpleButton from '../../components/button/SimpleButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
-import {storeString} from '../../storage/AsyncStorage';
+import {getString, storeString} from '../../storage/AsyncStorage';
 import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import { API_V2 } from '../../services/axios';
 import { useSettings } from '../../components/context/Provider';
@@ -15,6 +15,7 @@ import { CommonActions } from '@react-navigation/native';
 import { ROUTE_NAMES } from '../../components/navigation/routes';
 import CountryPicker from "react-native-country-picker-modal"
 import RowView from '../../components/view/RowView';
+import { firebaseService } from '../../services/FirebaseService';
 
 const RegisterScreen = ({navigation}) => {
 
@@ -51,6 +52,9 @@ const RegisterScreen = ({navigation}) => {
           ]
       }))
     }
+    const fcmToken = await getString(STORAGE.firebaseToken);
+    firebaseService.setFCMToken(fcmToken, token);
+    firebaseService.registerAppWithFCM();
   });
 
   useLayoutEffect(() => {
