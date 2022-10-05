@@ -79,7 +79,8 @@ export const URLS = {
   ubtTestFinish: "modules/ubt/finish/",
   ubtModule: "/module_ubt",
   ubtTestResult: "modules/ubt/result/",
-  sendComment: "/send_comment"
+  sendComment: "/send_comment",
+  notifications: 'notifications',
 };
 
 export const STORAGE = {
@@ -117,6 +118,11 @@ export const SECONDS_IN_MINUTE = 60
 export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
 export const NOTIFICATION_TYPE = {
   news: "news",
+  test: "test",
+  task: "task",
+  buy: "buy",
+  course: "course",
+  complete: "complete",
 }
 
 export const AUTH_TYPE = {

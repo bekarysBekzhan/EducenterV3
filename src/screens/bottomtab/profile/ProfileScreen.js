@@ -220,6 +220,7 @@ const ProfileScreen = ({navigation, route}) => {
   const onPressNotification = async () => {
     await storeObject(STORAGE.isRead, true);
     setIsRead(true);
+    navigation.navigate(ROUTE_NAMES.notifications)
   };
 
   const renderHeaderRight = () => (
