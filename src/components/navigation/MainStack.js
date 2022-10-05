@@ -39,6 +39,7 @@ import {navigationRef} from './RootNavigation';
 import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
 import {strings} from '../../localization';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
+import NotificationsScreen from '../../screens/NotificationsScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -169,6 +170,10 @@ const PRIVATE = [
     name: ROUTE_NAMES.ubtResult,
     component: UBTResultScreen,
   },
+  {
+    name: ROUTE_NAMES.notifications,
+    component: NotificationsScreen
+  }
 ];
 
 const Navigation = () => {

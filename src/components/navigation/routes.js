@@ -89,4 +89,5 @@ export const ROUTE_NAMES = {
   ubtTest: "UBTTest",
   ubtCompleted: "UBTCompleted",
   ubtResult: "UBTResult",
+  notifications: "Notifications"
 };
