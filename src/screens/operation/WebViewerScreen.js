@@ -1,4 +1,5 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {Linking} from 'react-native';
 import WebView from 'react-native-webview';
 import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
@@ -43,6 +44,10 @@ const WebViewerScreen = ({navigation, route}) => {
       type?.type,
       params,
     );
+
+    if (type?.type == 'kaspi_ur') {
+      Linking.openURL(res?.data?.link);
+    }
 
     setDataSource(prev => ({
       ...prev,
