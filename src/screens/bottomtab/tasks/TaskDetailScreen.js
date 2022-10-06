@@ -34,7 +34,7 @@ const TaskDetailScreen = (props) => {
     const onNavigation = () => {
       if (isAuth) {
         if (data?.has_subscribed) {
-          props.navigation.navigate(ROUTE_NAMES.courseTask, { id: data?.id, title: data?.title })
+          props.navigation.navigate(ROUTE_NAMES.moduleTask, { id: data?.id, title: data?.title })
         } else {
           props.navigation.navigate(ROUTE_NAMES.payment, { operation: data, type: TYPE_SUBCRIBES.TASK_SUBSCRIBE })
         }

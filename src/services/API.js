@@ -304,7 +304,7 @@ class TaskService {
   };
 
   static fetchTaskByID = async id => {
-    const response = await API_V2.get(URLS.moduleTasks + '/' + id);
+    const response = await API_V2.get(URLS.moduleTask + id);
     console.log('Task with id ' + id + ':', response);
     return response;
   };

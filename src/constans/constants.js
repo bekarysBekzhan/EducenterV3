@@ -58,6 +58,7 @@ export const URLS = {
   moduleMyTests: 'modules/tests/my/tests',
   moduleMyTasks: 'modules/tasks/my/tasks',
   moduleTasks: 'modules/tasks',
+  moduleTask: "task/show/module_task/",
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',
   scheduleVisits: 'modules/schedule_conference/attendances',

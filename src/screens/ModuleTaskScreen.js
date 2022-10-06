@@ -65,7 +65,7 @@ import {
   
     useLayoutEffect(() => {
       props.navigation.setOptions({
-        title: lessonTitle ? lessonTitle : strings.Задание,
+        title: strings.Задание,
       });
     }, []);
   
@@ -276,6 +276,7 @@ import {
             ]
           }
         </Text>
+        <Text style={styles.onlineTask}>{data?.task?.title}</Text>
         <HtmlView html={data?.task?.question} />
         <Divider isAbsolute={false} style={{marginBottom: 24}} />
         <Person

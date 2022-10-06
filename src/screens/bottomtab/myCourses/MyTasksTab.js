@@ -53,7 +53,7 @@ const MyTasksTab = (props) => {
 
 
   const taskItemTapped = (taskID) => {
-    props.navigation.navigate(ROUTE_NAMES.courseTask, {id: taskID})
+    props.navigation.navigate(ROUTE_NAMES.moduleTask, {id: taskID})
   }
 
   const renderTask = ({ item, index }) => {

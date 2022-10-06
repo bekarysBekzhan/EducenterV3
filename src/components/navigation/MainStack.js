@@ -40,6 +40,7 @@ import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
 import {strings} from '../../localization';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
 import NotificationsScreen from '../../screens/NotificationsScreen';
+import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -130,6 +131,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.myTestPass,
     component: ModuleTestScreen,
+  },
+  {
+    name: ROUTE_NAMES.moduleTask,
+    component: ModuleTaskScreen
   },
   {
     name: ROUTE_NAMES.readJournal,

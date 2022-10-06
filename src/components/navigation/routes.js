@@ -48,6 +48,7 @@ export const ROUTE_NAMES = {
   // Tasks
   tasks: 'Tasks',
   taskDetail: 'TaskDetail',
+  moduleTask: "ModuleTask",
   // Menu
   menu: 'Menu',
   rating: 'Rating',
