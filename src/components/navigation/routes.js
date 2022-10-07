@@ -7,7 +7,7 @@ export const ROUTE_NAMES = {
   filterRating: 'FilterRating',
   selectCategory: 'SelectCategory',
   selectCategoryRating: 'SelectCategoryRating',
-  courseReview: 'CourseReview',
+  reviews: 'Reviews',
   courseLeaveReview: 'CourseLeaveReview',
   courseFinish: 'CourseFinish',
   payment: 'Payment',
@@ -19,7 +19,8 @@ export const ROUTE_NAMES = {
   myTestPass: 'MyTestPass',
   testResult: 'TestResult',
   myTestResult: 'MyTestResult',
-  testFinish: 'TestFinish',
+  testCompleted: 'CourseTestCompleted',
+  moduleTestCompleted: "ModuleTestCompleted",
   courseTask: 'CourseTask',
   bottomTab: 'BottomTab',
   // SPLASH STACK SCREENS
@@ -49,6 +50,7 @@ export const ROUTE_NAMES = {
   // Tasks
   tasks: 'Tasks',
   taskDetail: 'TaskDetail',
+  moduleTask: "ModuleTask",
   // Menu
   menu: 'Menu',
   rating: 'Rating',
@@ -79,6 +81,18 @@ export const ROUTE_NAMES = {
   journals: 'Journals',
   myJournlas: 'MyJournals',
   readJournal: 'ReadJournal',
+  //Offline courses
+  offlineCourses: 'OfflineCourses',
+  offlineCourseDetailsScreen: 'OfflineCourseDetailsScreen',
+  offlineCourseMemberScreen: 'OfflineCourseMemberScreen',
+  courseMaterialScreen: 'CourseMaterialScreen',
+  offlineCourseSearchScreen: 'OfflineCourseSearchScreen',
+  ubt: "UBT",
+  selectSubjects: "SelectSubjects",
+  ubtTest: "UBTTest",
+  ubtCompleted: "UBTCompleted",
+  ubtResult: "UBTResult",
+  notifications: "Notifications",
   //Rating
   rating: 'Rating',
 };

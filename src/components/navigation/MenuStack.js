@@ -5,7 +5,6 @@ import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
 import NewsScreen from '../../screens/news/NewsScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import {useSettings} from '../context/Provider';
-import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
 import {setFontStyle} from '../../utils/utils';
 import {strings} from '../../localization';
 import HistoryScreen from '../../screens/HistoryScreen';
@@ -14,12 +13,18 @@ import ProfieEditScreen from '../../screens/ProfileEditScreen';
 import ScheduleNavigator from './ScheduleNavigator';
 import SettingsScreen from '../../screens/SettingsScreen';
 import JournalNavigator from './JournalNavigator';
+import OfflineCourseScreen from '../../screens/offlineCourses/OfflineCourseScreen';
+import OfflineCourseDetailsScreen from '../../screens/offlineCourses/OfflineCourseDetailsScreen';
+import CourseMaterialScreen from '../../screens/offlineCourses/CourseMaterialsScreen';
+import OfflineCourseMemberScreen from '../../screens/offlineCourses/OfflineCourseMemberScreen';
+import SelectSubjectsScreen from '../../screens/ubt/SelectSubjectsScreen';
 import RatingScreen from '../../screens/RatingScreen';
 
 const Stack = createNativeStackNavigator();
 
-const MenuStack = () => {
-  const {isAuth} = useSettings();
+const MenuStack = ({navigation}) => {
+
+  const {isAuth, settings} = useSettings();
 
   const screens = [
     {
@@ -34,16 +39,16 @@ const MenuStack = () => {
       },
     },
     {
+      name: ROUTE_NAMES.selectSubjects,
+      component: SelectSubjectsScreen,
+      options: {
+        title: settings?.modules_enabled_ubt_title,
+      },
+    },
+    {
       name: ROUTE_NAMES.profile,
       component: ProfileScreen,
       initialParams: {profile: false},
-    },
-    {
-      name: ROUTE_NAMES.newsDetail,
-      component: NewsDetailScreen,
-      options: {
-        title: strings.Новость,
-      },
     },
     {
       name: ROUTE_NAMES.history,
@@ -85,6 +90,36 @@ const MenuStack = () => {
       component: JournalNavigator,
       options: {
         title: strings['Все журналы'],
+      },
+    },
+    {
+      name: ROUTE_NAMES.offlineCourses,
+      component: OfflineCourseScreen,
+      options: {
+        title: strings['Офлайн курсы'],
+        headerBackTitleVisible: false,
+      },
+    },
+    {
+      name: ROUTE_NAMES.offlineCourseDetailsScreen,
+      component: OfflineCourseDetailsScreen,
+      options: {
+        headerBackTitleVisible: false,
+        headerTitle: '',
+      },
+    },
+    {
+      name: ROUTE_NAMES.offlineCourseMemberScreen,
+      component: OfflineCourseMemberScreen,
+      options: {
+        title: strings['Участники курса'],
+      },
+    },
+    {
+      name: ROUTE_NAMES.courseMaterialScreen,
+      component: CourseMaterialScreen,
+      options: {
+        title: strings['Материалы курса'],
       },
     },
     {

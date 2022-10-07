@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {setFontStyle} from '../../utils/utils';
-import {check} from '../../assets/icons';
+import {check, x} from '../../assets/icons';
 import {APP_COLORS} from '../../constans/constants';
 
 const PacketItem = ({style, name, nameStyle, selected = false, onPress}) => (

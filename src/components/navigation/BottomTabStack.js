@@ -25,7 +25,9 @@ import MyCourses from './MyCoursesStack';
 const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
-  const {settings} = useSettings();
+
+  const onNotification = props.route?.params?.onNotification;
+  const {settings, isAuth} = useSettings();
 
   const BOTTOM_TAB = [
     {
@@ -75,13 +77,24 @@ const BottomTab = props => {
     },
   ];
 
+  const getInitialRouteName = () => {
+    if (onNotification) {
+      return ROUTE_NAMES.menuStack;
+    }
+    if (isAuth) {
+      return ROUTE_NAMES.myCoursesStack;
+    }
+    return ROUTE_NAMES.coursesStack;
+  };
+
   return (
     <BottomTabStack.Navigator
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: APP_COLORS.primary,
         tabBarInactiveTintColor: APP_COLORS.placeholder,
-      }}>
+      }}
+      initialRouteName={getInitialRouteName()}>
       {BOTTOM_TAB.map((route, index) => {
         const screen = (
           <BottomTabStack.Screen

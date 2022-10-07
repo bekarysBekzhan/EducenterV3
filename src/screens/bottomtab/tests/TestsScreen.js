@@ -8,6 +8,8 @@ import ModuleTestItem from '../../../components/test/ModuleTestItem'
 import { TestService } from '../../../services/API'
 import { APP_COLORS, WIDTH } from '../../../constans/constants'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
+import Empty from '../../../components/Empty'
+import WhatsappButton from '../../../components/button/WhatsappButton'
 
 const TestsScreen = (props) => {
 
@@ -49,9 +51,8 @@ const TestsScreen = (props) => {
   }, [page])
 
 
-  const testItemTapped = (testID) => {
-    console.log("test : " , testID)
-    props.navigation.navigate(ROUTE_NAMES.testDetail, {id: testID})
+  const testItemTapped = (item) => {
+    props.navigation.navigate(ROUTE_NAMES.testDetail, {id: item?.id})
   }
 
   const renderTest = ({ item, index }) => {
@@ -65,7 +66,7 @@ const TestsScreen = (props) => {
         attempts={item?.attempts}
         price={item?.price}
         oldPrice={item?.old_price}
-        onPress={testItemTapped}
+        onPress={() => testItemTapped(item)}
         hasSubscribed={item?.has_subscribed}
       />
     )
@@ -103,6 +104,7 @@ const TestsScreen = (props) => {
         contentContainerStyle={styles.container}
         renderItem={renderTest}
         ListFooterComponent={renderFooter}
+        ListEmptyComponent={() => <Empty/>}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
@@ -114,6 +116,7 @@ const TestsScreen = (props) => {
           setPage(1)
         }}
       />
+      <WhatsappButton/>
     </UniversalView>
   )
 }

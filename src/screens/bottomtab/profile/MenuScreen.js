@@ -72,6 +72,8 @@ const MenuScreen = ({navigation}) => {
           text: settings?.modules_enabled_offline_courses_title,
           iconLeft: <ReclamentIcon />,
           enabled: settings?.modules_enabled_offline_courses,
+          route: ROUTE_NAMES.offlineCourses,
+          action: 'navigation',
         },
         {
           id: 6,
@@ -85,6 +87,7 @@ const MenuScreen = ({navigation}) => {
           iconLeft: <ReclamentIcon />,
           enabled: true,
         },
+ 
       ],
     },
     {
@@ -108,6 +111,9 @@ const MenuScreen = ({navigation}) => {
     switch (item?.action) {
       case 'navigation':
         if (item?.route == ROUTE_NAMES.news) {
+          navigate(item?.route);
+        }
+        if (item?.route == ROUTE_NAMES.offlineCourses) {
           navigate(item?.route);
         }
         break;

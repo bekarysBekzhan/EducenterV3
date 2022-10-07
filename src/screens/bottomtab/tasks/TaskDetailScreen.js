@@ -33,14 +33,24 @@ const TaskDetailScreen = (props) => {
 
     const onNavigation = () => {
       if (isAuth) {
-        if (data?.has_subscribed) {
-          props.navigation.navigate(ROUTE_NAMES.courseTask, { id: data?.id, title: data?.title })
+        if (data?.task?.has_subscribed) {
+          props.navigation.navigate(ROUTE_NAMES.moduleTask, { id: data?.task?.id, title: data?.task?.title })
         } else {
-          props.navigation.navigate(ROUTE_NAMES.payment, { operation: data, type: TYPE_SUBCRIBES.TASK_SUBSCRIBE })
+          props.navigation.navigate(ROUTE_NAMES.operation, { operation: data, type: TYPE_SUBCRIBES.TASK_SUBSCRIBE })
         }
       } else {
         props.navigation.navigate(ROUTE_NAMES.login)
       }
+    }
+
+    const getTransactionText = () => {
+      if (data?.task?.has_subscribed) {
+        return strings['Пройти задание'];
+      }
+      if (data?.task?.price) {
+        return strings['Купить задание'];
+      }
+      return strings.Бесплатно;
     }
   
     if (isFetching) {
@@ -69,7 +79,7 @@ const TaskDetailScreen = (props) => {
           />
         </UniversalView>
         <TransactionButton
-          text={data?.has_subscribed ? strings['Пройти задание']  : data?.price ? strings['Купить задание'] : strings.Бесплатно }
+          text={getTransactionText()}
           onPress={onNavigation}
           oldPrice={data?.has_subscribed ? 0 : data?.old_price}
           price={data?.has_subscribed ? 0 : data?.price}

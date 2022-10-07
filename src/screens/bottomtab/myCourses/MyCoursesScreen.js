@@ -6,6 +6,7 @@ import MyCoursesTab from './MyCoursesTab'
 import MyTestsTab from './MyTestsTab'
 import MyTasksTab from './MyTasksTab'
 import TopTab from '../../../components/view/TopTab'
+import WhatsappButton from '../../../components/button/WhatsappButton'
 
 const MyCoursesScreen = (props) => {
 
@@ -27,6 +28,7 @@ const MyCoursesScreen = (props) => {
   return (
     <UniversalView>
       <TopTab screens={screens} swipeEnabled={true}/>
+      <WhatsappButton/>
     </UniversalView>
   )
 }

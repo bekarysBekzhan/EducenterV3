@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Provider } from './src/components/context/Provider';
 import Navigation from './src/components/navigation/MainStack';
@@ -9,6 +9,12 @@ import TrackPlayer, {
   Event,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
+import {firebaseService} from './src/services/FirebaseService';
+import {LocalNotificationService} from './src/services/LocalNotificationService';
+import {NOTIFICATION_TYPE} from './src/constans/constants';
+import {navigate} from './src/components/navigation/RootNavigation';
+import {ROUTE_NAMES} from './src/components/navigation/routes';
+import LoadingScreen from './src/components/LoadingScreen';
 
 const events = [
   Event.PlaybackError,
@@ -19,30 +25,40 @@ const events = [
 ];
 
 const App = () => {
-  const initPlayer =  () => {
-     TrackPlayer.setupPlayer();
-  };
-
-  const toastConfig = {
-    error: ({ text2 }) => <ToastView text={text2} />,
-  };
-
-  const deinitPlayer =  () => {
-     TrackPlayer.reset()
-  };
-
-  useTrackPlayerEvents(events, () => {
-    console.log();
-  });
-
-  useLayoutEffect(() => {
-    initPlayer();
-    // return () => {
-    //   deinitPlayer();
-    // };
-  }, []);
+  
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Initialize player
+    initPlayer();
+    // Firebase Messaging Service
+    firebaseService.register();
+    firebaseService.registerAppWithFCM();
+    firebaseService.getInitialNotification().then(remoteMessage => {
+      if (remoteMessage) {
+        console.log(
+          'Notification caused app to open from quit state:',
+          remoteMessage,
+        );
+        const notificationData = remoteMessage?.data;
+        if (notificationData?.type === NOTIFICATION_TYPE.news) {
+          console.log('type : ', notificationData?.type);
+          navigate(ROUTE_NAMES.newsDetail, {newsId: notificationData?.id});
+        } else {
+          navigate(ROUTE_NAMES.bottomTab, {onNotification: true});
+        }
+      }
+      setLoading(false);
+    });
+    return () => {
+      deinitPlayer();
+      firebaseService.unsubscribe();
+      LocalNotificationService.onForeground();
+    };
+  }, []);
+
+  const initPlayer = async () => {
+    await TrackPlayer.setupPlayer();
     TrackPlayer.updateOptions({
       capabilities: [
         Capability.Play,
@@ -55,8 +71,23 @@ const App = () => {
         Capability.Stop
       ]
     })
-  }, [])
+  };
 
+  const toastConfig = {
+    error: ({ text2 }) => <ToastView text={text2} />,
+  };
+
+  const deinitPlayer = async () => {
+    // await TrackPlayer.destroy();
+  };
+
+  useTrackPlayerEvents(events, () => {
+    console.log();
+  });
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider>

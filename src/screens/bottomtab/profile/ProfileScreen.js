@@ -18,6 +18,7 @@ import {strings} from '../../../localization';
 import NavButtonRow from '../../../components/view/NavButtonRow';
 import SectionView from '../../../components/view/SectionView';
 import {
+  BellIcon,
   CalendarIcon,
   CallCenterIcon,
   History,
@@ -28,6 +29,7 @@ import {
   RatingIcon,
   ReclamentIcon,
   Settings,
+  UbtIcon,
 } from '../../../assets/icons';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
@@ -37,21 +39,28 @@ import RowView from '../../../components/view/RowView';
 import {useFetching} from '../../../hooks/useFetching';
 import {ProfileService} from '../../../services/API';
 import {setFontStyle} from '../../../utils/utils';
-import {APP_COLORS} from '../../../constans/constants';
+import {APP_COLORS, STORAGE} from '../../../constans/constants';
 import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
 import LoadingScreen from '../../../components/LoadingScreen';
+import {storeObject} from '../../../storage/AsyncStorage';
 
 const ProfileScreen = ({navigation, route}) => {
+
   const {profile} = route.params;
-  const {settings} = useSettings();
+  const {settings, isRead, setIsRead} = useSettings();
   const [dataSource, setDataSource] = useState({
     data: null,
     refreshing: false,
   });
 
+  console.log('isRead: ' , isRead);
+
   useLayoutEffect(() => {
-    navigation.setOptions(navHeaderOptions(settings?.logo, strings.Меню));
-  }, []);
+    navigation.setOptions({
+      headerRight: renderHeaderRight,
+      ...navHeaderOptions(settings?.logo, strings.Меню),
+    });
+  }, [isRead]);
 
   const MENU = [
     {
@@ -97,6 +106,14 @@ const ProfileScreen = ({navigation, route}) => {
       enabled: true,
       data: [
         {
+          id: 0,
+          text: settings?.modules_enabled_ubt_title,
+          iconLeft: <UbtIcon />,
+          enabled: settings?.modules_enabled_ubt,
+          action: 'navigation',
+          route: ROUTE_NAMES.selectSubjects,
+        },
+        {
           id: 1,
           text: settings?.modules_enabled_journals_title,
           iconLeft: <JournalIcon />,
@@ -131,6 +148,14 @@ const ProfileScreen = ({navigation, route}) => {
           iconLeft: <ReclamentIcon />,
           enabled: true,
         },
+        {
+          id: 6,
+          text: settings?.modules_enabled_offline_courses_title,
+          iconLeft: <ReclamentIcon />,
+          action: 'navigation',
+          enabled: settings?.modules_enabled_offline_courses,
+          route: ROUTE_NAMES.offlineCourses,
+        },
       ],
     },
     {
@@ -150,7 +175,6 @@ const ProfileScreen = ({navigation, route}) => {
 
   const onAction = item => {
     const {navigate} = navigation;
-    console.log('item', item);
     switch (item?.action) {
       case 'navigation':
         navigate(item?.route);
@@ -194,6 +218,18 @@ const ProfileScreen = ({navigation, route}) => {
       refreshing: true,
     }));
   }, []);
+
+  const onPressNotification = async () => {
+    await storeObject(STORAGE.isRead, true);
+    setIsRead(true);
+    navigation.navigate(ROUTE_NAMES.notifications)
+  };
+
+  const renderHeaderRight = () => (
+    <TouchableOpacity activeOpacity={0.65} onPress={onPressNotification}>
+      <BellIcon isRead={isRead} />
+    </TouchableOpacity>
+  );
 
   if (isLoading) {
     return <LoadingScreen />;

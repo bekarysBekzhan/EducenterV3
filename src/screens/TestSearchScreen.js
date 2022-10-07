@@ -122,7 +122,7 @@ const TestSearchScreen = props => {
     }
   }, [fetchingHistoryError]);
 
-  const moduleItemTapped = async id => {
+  const moduleItemTapped = async item => {
     let historyList = history;
 
     if (
@@ -136,7 +136,7 @@ const TestSearchScreen = props => {
       await storeObject(STORAGE.testSearchHistory, historyList);
     }
 
-    props.navigation.navigate(ROUTE_NAMES.testDetail, {id});
+    props.navigation.navigate(ROUTE_NAMES.testDetail, {id: item?.id});
   };
 
   const renderItem = ({item, index}) => {
@@ -148,9 +148,10 @@ const TestSearchScreen = props => {
         categoryName={item?.category?.name}
         time={item?.timer}
         attempts={item?.attempts}
+        hasSubscribed={item?.has_subscribed}
         price={item?.price}
         oldPrice={item?.old_price}
-        onPress={moduleItemTapped}
+        onPress={() => moduleItemTapped(item)}
       />
     );
   };

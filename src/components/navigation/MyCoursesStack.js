@@ -16,8 +16,6 @@ const MyCourses = () => {
     const TITLE = strings['Мои курсы']
     const { settings, isAuth } = useSettings()
 
-    console.log("isAuth " , isAuth)
-
     const screens = [
         {
             name: ROUTE_NAMES.myCourses,
@@ -25,11 +23,13 @@ const MyCourses = () => {
         },
         {
             name: ROUTE_NAMES.myCourseDetail,
-            component: MyCourseDetailScreen
+            component: MyCourseDetailScreen,
+            title: strings['Мой курс']
         },
         {
             name: ROUTE_NAMES.myTestDetail,
-            component: MyTestDetailScreen
+            component: MyTestDetailScreen,
+            title: strings['Мой тест']
         }
     ]
 
@@ -47,7 +47,7 @@ const MyCourses = () => {
                             navHeaderOptions(settings?.logo, TITLE)
                             :
                             {
-                                headerTitle: "Мой курс",
+                                headerTitle: screen?.title,
                                 headerBackTitleVisible: false,
                             }
                         }

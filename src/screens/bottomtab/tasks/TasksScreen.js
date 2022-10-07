@@ -8,6 +8,8 @@ import ModuleTestItem from '../../../components/test/ModuleTestItem'
 import { TaskService, TestService } from '../../../services/API'
 import { APP_COLORS, WIDTH } from '../../../constans/constants'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
+import Empty from '../../../components/Empty'
+import WhatsappButton from '../../../components/button/WhatsappButton'
 
 const TasksScreen = (props) => {
 
@@ -48,10 +50,8 @@ const TasksScreen = (props) => {
     }
   }, [page])
 
-
-  const taskItemTapped = (testID) => {
-    console.log("test : " , testID)
-    props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: testID})
+  const taskItemTapped = (item) => {
+    props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: item?.id})
   }
 
   const renderTask = ({ item, index }) => {
@@ -63,9 +63,10 @@ const TasksScreen = (props) => {
         time={item?.timer}
         title={item?.title}
         attempts={item?.attempts}
+        type="task"
         price={item?.price}
         oldPrice={item?.old_price}
-        onPress={taskItemTapped}
+        onPress={() => taskItemTapped(item)}
         hasSubscribed={item?.has_subscribed}
       />
     )
@@ -103,6 +104,7 @@ const TasksScreen = (props) => {
         contentContainerStyle={styles.container}
         renderItem={renderTask}
         ListFooterComponent={renderFooter}
+        ListEmptyComponent={() => <Empty/>}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
@@ -114,6 +116,7 @@ const TasksScreen = (props) => {
           setPage(1)
         }}
       />
+      <WhatsappButton/>
     </UniversalView>
   )
 }

@@ -23,7 +23,8 @@ const CourseRow = ({
     reviewCount, 
     onPress = () => undefined,
     disabled = false,
-    certificate
+    certificate,
+    containerStyle = {},
 }) => {
 
     const [visible, setVisible] = useState(false)
@@ -66,7 +67,7 @@ const CourseRow = ({
 
     return (
         <TouchableOpacity
-            style={styles.container}
+            style={[styles.container, containerStyle]}
             onPress={() => onPress(id)}
             activeOpacity={0.8}
             disabled={disabled}
@@ -114,7 +115,7 @@ const CourseRow = ({
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         flexDirection: 'row',
         justifyContent: "space-between",
         alignItems: "flex-start"
@@ -141,7 +142,6 @@ const styles = StyleSheet.create({
         fontWeight: "500",
     },
     column: {
-        height: "100%",
         justifyContent: "space-between",
         alignItems: "flex-end"
     },

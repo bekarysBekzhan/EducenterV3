@@ -1,5 +1,9 @@
 import {StyleSheet} from 'react-native';
-import {APP_COLORS} from '../constans/constants';
+import {
+  APP_COLORS,
+  SECONDS_IN_HOUR,
+  SECONDS_IN_MINUTE,
+} from '../constans/constants';
 import {strings} from '../localization';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
@@ -74,7 +78,7 @@ export const selectComponent = (
   mathComponent,
   htmlComponent,
 ) => {
-  if (value === null) {
+  if (value === null && value === undefined) {
     return null;
   }
 
@@ -90,12 +94,52 @@ export const selectComponent = (
 };
 
 export const getCurrentTimeString = time => {
-  const whole = Math.floor(time);
-  let seconds = whole % 60;
-  let minutes = (whole - seconds) / 60;
-  let secondString = seconds < 10 ? '0' + seconds : seconds;
-  let minuteString = minutes < 10 ? '0' + minutes : minutes;
-  return minuteString + ':' + secondString;
+  let string = '';
+
+  const hours = Math.floor(time / SECONDS_IN_HOUR);
+  if (hours) {
+    string += hours + ':';
+    time -= hours * SECONDS_IN_HOUR;
+  }
+
+  const minutes = Math.floor(time / SECONDS_IN_MINUTE);
+  if (minutes) {
+    string += (minutes < 10 ? '0' + minutes : minutes) + ':';
+    time -= minutes * SECONDS_IN_MINUTE;
+  }
+
+  const seconds = Math.floor(time);
+  if (time) {
+    string += seconds < 10 ? '0' + seconds : seconds;
+  }
+
+  return string;
+};
+
+export const getTimeString = seconds => {
+  if (!(seconds > '-1')) {
+    return '0' + strings.с;
+  }
+
+  let string = '';
+
+  const hours = Math.floor(seconds / SECONDS_IN_HOUR);
+  if (hours) {
+    string += hours + ' ' + strings.ч + '.';
+    seconds -= hours * SECONDS_IN_HOUR;
+  }
+
+  const minutes = Math.floor(seconds / SECONDS_IN_MINUTE);
+  if (minutes) {
+    string += minutes + ' ' + strings.мин + '.';
+    seconds -= minutes * SECONDS_IN_MINUTE;
+  }
+
+  if (seconds) {
+    string += seconds + ' ' + strings.с + '.';
+  }
+
+  return string;
 };
 
 export const wordLocalization = (word, args = {}, type = false) => {
@@ -183,3 +227,70 @@ export const convertToIterable = object => {
   console.log('convertToIterable result : ', array);
   return array;
 };
+
+export const getWhatsappNumber = phone => {
+  let result = '';
+  if (phone[0] === '8') {
+    phone = phone.replace('8', '7');
+  } else if (phone[0] === '+') {
+    phone = phone.replace('+', '');
+  }
+  for (let index = 0; index < phone.length; index++) {
+    if (isNumber(phone[index])) {
+      result += phone[index];
+    }
+  }
+  return result;
+};
+
+export const isNumber = str => {
+  if (typeof str != 'string') return false; // we only process strings!
+  return (
+    !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+    !isNaN(parseFloat(str))
+  ); //
+};
+
+export const passedLessonCount = (chapter, data) => {
+  if (chapter?.position < data?.progress?.last_chapter_position) {
+    return chapter?.lessons_count;
+  }
+  if (chapter?.position > data?.progress?.last_chapter_position) {
+    return 0;
+  }
+
+  return data?.progress?.last_lesson_position;
+};
+
+export const getProgressPercent = (chapter, data) => {
+  return (passedLessonCount(chapter, data) / chapter?.lessons_count) * 100;
+};
+
+export const getHTML = str => {
+  // open tag regular expression
+  const re1 = /</;
+  let startIndex;
+  if (re1.exec(str) !== null) {
+    console.log("start index: " , re1.lastIndex);
+    startIndex = re1.lastIndex;
+  } else {
+    return null;
+  }
+
+  // closed tag regular expression
+  const re2 = />/;
+
+  let lastIndex;
+  while (re2.exec(str) !== null) {
+    lastIndex = re2.lastIndex;
+  }
+
+  if (lastIndex === undefined) {
+    return null;
+  }
+
+  console.log("last index: " , lastIndex);
+  return str.substring(startIndex, lastIndex + 1);
+};
+
+export const containsHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);

@@ -123,7 +123,7 @@ const TaskSearchScreen = props => {
     }
   }, [fetchingHistoryError]);
 
-  const moduleItemTapped = async id => {
+  const moduleItemTapped = async item => {
     let historyList = history;
 
     if (
@@ -137,7 +137,7 @@ const TaskSearchScreen = props => {
       await storeObject(STORAGE.taskSearchHistory, historyList);
     }
 
-    props.navigation.navigate(ROUTE_NAMES.taskDetail, {id});
+    props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: item?.id});
   };
 
   const renderItem = ({item, index}) => {
@@ -149,9 +149,10 @@ const TaskSearchScreen = props => {
         categoryName={item?.category?.name}
         time={item?.timer}
         attempts={item?.attempts}
+        hasSubscribed={item?.has_subscribed}
         price={item?.price}
         oldPrice={item?.old_price}
-        onPress={moduleItemTapped}
+        onPress={() => moduleItemTapped(item)}
       />
     );
   };

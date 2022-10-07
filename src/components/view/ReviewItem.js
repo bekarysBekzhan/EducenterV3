@@ -72,5 +72,6 @@ const styles = StyleSheet.create({
   review: {
     ...setFontStyle(15, '400', '#111621', 22),
     marginTop: 12,
+    flex: 1,
   },
 });

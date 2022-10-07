@@ -11,73 +11,74 @@ import {useRef} from 'react';
 
 const Question = ({
   questionItem,
+  items = [],
   index,
   passing_answers,
-  onTrackChange,
+  onTrackChange = () => undefined,
   is_multiple = false,
   extraStyle,
   extraTextStyle,
+  resultType,
 }) => {
+
   const memoStylesContainer = useMemo(() => [styles.container, extraStyle], []);
   const memoStylesText = useMemo(
     () => [setFontStyle(18, '500', APP_COLORS.primary), {}, extraTextStyle],
     [],
   );
 
-  const currentSetState = useRef(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const onSelect = (newIndex, setState) => {
+  const onSelect = (newIndex) => {
     if (selectedIndex !== newIndex) {
       setSelectedIndex(newIndex);
-
-      if (currentSetState.current) {
-        currentSetState.current('unselected');
-      }
-
-      setState('selected');
-
-      currentSetState.current = setState;
     } else {
-      setState(prev => (prev === 'selected' ? 'unselected' : 'selected'));
+      setSelectedIndex(null)
     }
   };
+
+  const getSelected = (item, i) => {
+
+    if (selectedIndex !== null) {
+      return selectedIndex === i
+    }
+
+    if (item?.selected !== undefined && item?.selected !== null) {
+      return item?.selected
+    }
+      
+    if (selectedIndex === null) {
+      return passing_answers?.[questionItem?.id]?.[item?.id]?.selected
+    } 
+
+  }
+
+  const views = {
+    audio: <AudioPlayer url={getAudioUrl(questionItem?.question)} _index={index} onTrackChange={onTrackChange}/>,
+    html: <HtmlView html={questionItem?.question} baseStyle={styles.baseStyle} tagsStyles={tagsStyles}/>,
+    formula: <MathView text={questionItem?.question} mathStyle={{padding: 14}}/>
+  }
 
   return (
     <View style={memoStylesContainer}>
       <Text style={memoStylesText}>{index + 1} - вопрос</Text>
-      {selectComponent(
-        questionItem?.question,
-        <AudioPlayer
-          url={getAudioUrl(questionItem?.question)}
-          _index={index}
-          onTrackChange={onTrackChange}
-        />,
-        <MathView text={questionItem?.question} mathStyle={{padding: 14}} />,
-        <HtmlView
-          html={questionItem?.question}
-          baseStyle={styles.baseStyle}
-          tagsStyles={tagsStyles}
-        />,
-      )}
-      {questionItem.answers.map((option, i) => (
-        <AnswerOption
-          item={option}
-          passingID={passing_answers?.[option?.test_id]?.[option?.id]?.id}
-          index={i}
-          selected={
-            option?.selected !== undefined
-              ? option?.selected
-              : selectedIndex === null
-              ? passing_answers?.[questionItem?.id]?.[option?.id]?.selected
-              : selectedIndex === i
-          }
-          onSelect={onSelect}
-          is_multiple={is_multiple}
-          onTrackChange={onTrackChange}
-          key={i}
-        />
-      ))}
+      {selectComponent(questionItem?.question, views.audio, views.formula, views.html)}
+      {items.map((item, i) => {
+        return (
+          <AnswerOption
+            item={item}
+            resultType={resultType}
+            passingID={passing_answers?.[questionItem?.id]?.[item?.id]?.id}
+            index={i}
+            selected={getSelected(item, i)}
+            onSelect={onSelect}
+            is_multiple={is_multiple}
+            onTrackChange={onTrackChange}
+            correct={item?.is_correct}
+            key={i}
+          />
+        )
+      })}
     </View>
   );
 };

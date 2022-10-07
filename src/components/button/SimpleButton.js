@@ -16,6 +16,7 @@ const SimpleButton = ({
   textStyle,
   ...buttonProps
 }) => {
+  
   const memoStyle = useMemo(() => [styles.button, style], [style]);
   const memoTextStyle = useMemo(() => [styles.text, textStyle], [textStyle]);
 

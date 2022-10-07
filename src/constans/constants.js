@@ -33,6 +33,8 @@ export const URLS = {
   courses: 'courses',
   myCourses: 'my_courses',
   courseByID: 'course/',
+  courseRate: "/rate",
+  finishCourse: "/finish",
   categories: 'categories',
   lesson: 'lesson/',
   lessonTestStart: 'test/start/lesson/',
@@ -51,9 +53,12 @@ export const URLS = {
   moduleTests: 'modules/tests',
   moduleTestStart: 'test/start/module_test/',
   moduleTestInfo: 'test/info/module_test/',
-  moduleTestFinish: 'test/finish/module_test/',
+  moduleTestFinish: 'test/finish/',
+  moduleTest: "/module_test",
   moduleMyTests: 'modules/tests/my/tests',
+  moduleMyTasks: 'modules/tasks/my/tasks',
   moduleTasks: 'modules/tasks',
+  moduleTask: "task/show/module_task/",
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',
   scheduleVisits: 'modules/schedule_conference/attendances',
@@ -65,16 +70,31 @@ export const URLS = {
   promocodes: 'promocodes',
   journal: 'modules/journal',
   journal_subscribed: 'modules/journal/my/subscribed',
+  testResult: "test/result/",
+  reviews: "reviews/",
+  offlineCourses: 'offline_courses',
+  ubtCategories: "modules/ubt/categories",
+  ubtTests: "modules/ubt/get_tests",
+  ubtTestStart: "test/start/module_ubt/",
+  ubtTestInfo: "test/info/module_ubt/",
+  ubtTestFinish: "modules/ubt/finish/",
+  ubtModule: "/module_ubt",
+  ubtTestResult: "modules/ubt/result/",
+  sendComment: "/send_comment",
+  notifications: 'notifications',
   rating:'modules/tests/my/rating'
 };
 
 export const STORAGE = {
-  token: 'token',
+  userToken: 'userToken',
   language: 'language',
-  user: 'user',
   courseSearchHistory: 'courseSearchHistory',
   testSearchHistory: 'testSearchHistory',
   taskSearchHistory: 'taskSearchHistory',
+  offlineSearchHistory: 'offlineSearchHistory',
+  firebaseToken: "firebaseToken",
+  initialStart: "initialStart",
+  isRead: 'isRead',
 };
 
 export const TYPE_SUBCRIBES = {
@@ -83,3 +103,33 @@ export const TYPE_SUBCRIBES = {
   TASK_SUBSCRIBE: 'task',
   JOURNAL_SUBCRIBE:'journal'
 };
+
+export const RESULT_TYPES = {
+  WITH_WRONGS: "with_wrongs",
+  DEFAULT: "default",
+  NONE: "none"
+}
+
+export const ANSWER_STATES = {
+  SELECTED: "selected",
+  UNSELECTED: "unselected",
+  CORRECT: "correct",
+  INCORRECT: "incorrect"
+}
+export const SECONDS_IN_MINUTE = 60
+export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
+export const NOTIFICATION_TYPE = {
+  news: "news",
+  test: "test",
+  task: "task",
+  buy: "buy",
+  course: "course",
+  complete: "complete",
+  certificate: "certificate"
+}
+
+export const AUTH_TYPE = {
+  emailPhone: "email-phone",
+  email: "email",
+  phone: "phone"
+}

@@ -15,8 +15,11 @@ import {removeStorage, storeString} from '../storage/AsyncStorage';
 import {useFetching} from '../hooks/useFetching';
 import {SettingsService} from '../services/API';
 import SelectOption from '../components/SelectOption';
+import {useSettings} from '../components/context/Provider';
+import {ROUTE_NAMES} from '../components/navigation/routes';
+import {CommonActions} from '@react-navigation/native';
 
-const SettingsScreen = () => {
+const SettingsScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
     refreshing: false,
     list: [],
@@ -24,6 +27,8 @@ const SettingsScreen = () => {
     isReminderCourse: false,
     currentKey: strings.getLanguage(),
   });
+
+  const {setIsAuth, settings} = useSettings();
 
   const [fetchSettings, isLoading, error] = useFetching(async () => {
     const response = await SettingsService.fetchLanguage();
@@ -42,10 +47,19 @@ const SettingsScreen = () => {
   }, []);
 
   const onExit = async () => {
-    await removeStorage(STORAGE.token);
-    await removeStorage(STORAGE.user);
+    await removeStorage(STORAGE.userToken);
     delete API_V2.defaults.headers[REQUEST_HEADERS.Authorization];
-    RNRestart.Restart();
+    setIsAuth(false);
+    if (settings?.marketplace_enabled) {
+      navigation.replace(ROUTE_NAMES.login);
+    } else {
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: ROUTE_NAMES.bottomTab}],
+        }),
+      );
+    }
   };
 
   const keyExtractor = useCallback(item => item?.id?.toString(), []);
@@ -57,7 +71,14 @@ const SettingsScreen = () => {
         ...prev,
         currentKey: key,
       }));
-      RNRestart.Restart();
+      strings.setLanguage(key);
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = key;
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [{name: ROUTE_NAMES.bottomTab}],
+        }),
+      );
     }
   };
 

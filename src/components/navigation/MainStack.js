@@ -1,20 +1,19 @@
-import React, {useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useFetching} from '../../hooks/useFetching';
 import {MobileSettingsService} from '../../services/API';
 import {useSettings} from '../context/Provider';
 import {ROUTE_NAMES} from './routes';
-import {getString} from '../../storage/AsyncStorage';
+import {getObject, getString} from '../../storage/AsyncStorage';
 import Splash from './SplashStack';
 import BottomTab from './BottomTabStack';
 import LessonScreen from '../../screens/LessonScreen';
-import {StyleSheet} from 'react-native';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
 import {API_V2} from '../../services/axios';
 import CourseTaskScreen from '../../screens/CourseTaskScreen';
-import {REQUEST_HEADERS} from '../../constans/constants';
+import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import CourseSearchScreen from '../../screens/CourseSearchScreen';
 import TestSearchScreen from '../../screens/TestSearchScreen';
 import TaskSearchScreen from '../../screens/TaskSearchScreen';
@@ -27,6 +26,21 @@ import ModuleTestScreen from '../../screens/bottomtab/tests/ModuleTestScreen';
 import ReadJournalScreen from '../../screens/journal/ReadJournalScreen';
 import OperationScreen from '../../screens/operation/OperationScreen';
 import WebViewerScreen from '../../screens/operation/WebViewerScreen';
+import TestCompletedScreen from '../../screens/TestCompletedScreen';
+import CourseCompletedScreen from '../../screens/CourseCompletedScreen';
+import WriteReviewScreen from '../../screens/WriteReviewScreen';
+import TestResultScreen from '../../screens/TestResultScreen';
+import ReviewsScreen from '../../screens/ReviewsScreen';
+import UBTTestScreen from '../../screens/ubt/UBTTestScreen';
+import UBTCompletedScreen from '../../screens/ubt/UBTCompletedScreen';
+import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
+import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
+import {navigationRef} from './RootNavigation';
+import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
+import {strings} from '../../localization';
+import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
+import NotificationsScreen from '../../screens/NotificationsScreen';
+import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -48,6 +62,10 @@ const GENERAL = [
     component: TestSearchScreen,
   },
   {
+    name: ROUTE_NAMES.offlineCourseSearchScreen,
+    component: OfflineCourseSearchScreen,
+  },
+  {
     name: ROUTE_NAMES.taskSearch,
     component: TaskSearchScreen,
   },
@@ -62,6 +80,10 @@ const GENERAL = [
   {
     name: ROUTE_NAMES.recovery,
     component: RecoveryScreen,
+  },
+  {
+    name: ROUTE_NAMES.reviews,
+    component: ReviewsScreen,
   },
 ];
 const PRIVATE = [
@@ -103,8 +125,16 @@ const PRIVATE = [
     },
   },
   {
+    name: ROUTE_NAMES.newsDetail,
+    component: NewsDetailScreen,
+  },
+  {
     name: ROUTE_NAMES.myTestPass,
     component: ModuleTestScreen,
+  },
+  {
+    name: ROUTE_NAMES.moduleTask,
+    component: ModuleTaskScreen
   },
   {
     name: ROUTE_NAMES.readJournal,
@@ -113,36 +143,97 @@ const PRIVATE = [
       readJournal: null,
     },
   },
+  {
+    name: ROUTE_NAMES.testCompleted,
+    component: TestCompletedScreen,
+  },
+  {
+    name: ROUTE_NAMES.moduleTestCompleted,
+    component: ModuleTestCompletedScreen,
+  },
+  {
+    name: ROUTE_NAMES.courseFinish,
+    component: CourseCompletedScreen,
+  },
+  {
+    name: ROUTE_NAMES.courseLeaveReview,
+    component: WriteReviewScreen,
+  },
+  {
+    name: ROUTE_NAMES.testResult,
+    component: TestResultScreen,
+  },
+  {
+    name: ROUTE_NAMES.ubtTest,
+    component: UBTTestScreen,
+  },
+  {
+    name: ROUTE_NAMES.ubtCompleted,
+    component: UBTCompletedScreen,
+  },
+  {
+    name: ROUTE_NAMES.ubtResult,
+    component: UBTResultScreen,
+  },
+  {
+    name: ROUTE_NAMES.notifications,
+    component: NotificationsScreen
+  }
 ];
 
 const Navigation = () => {
-  const {setSettings, setUserToken, setIsAuth, isAuth} = useSettings();
+  const {setSettings, setIsAuth, isAuth, setInitialStart, setIsRead} =
+    useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
-    const userToken = await getString('userToken');
     const response = await MobileSettingsService.fetchSettings();
-
-    if (API_V2.defaults.headers[REQUEST_HEADERS.Authorization]?.length) {
-      setIsAuth(true);
-    } else {
-      setIsAuth(false);
-    }
-
-    if (userToken) {
-      setUserToken(userToken);
-    }
     setSettings(response.data?.data);
+
+    const userToken = await getString(STORAGE.userToken);
+    if (userToken) {
+      setIsAuth(true);
+      API_V2.defaults.headers[REQUEST_HEADERS.Authorization] =
+        'Bearer ' + userToken;
+    }
+
+    const language = await getString(STORAGE.language);
+    if (language) {
+      strings.setLanguage(language);
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = language;
+    } else {
+      strings.setLanguage('ru');
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = "ru";
+    }
+
+    const isInitialStart = await getObject(STORAGE.initialStart);
+    if (isInitialStart === false) {
+      setInitialStart(isInitialStart);
+    }
+
+    const isRead = await getObject(STORAGE.isRead);
+    if (isRead !== null) {
+      setIsRead(isRead);
+    } else {
+      setIsRead(true);
+    }
+    global.setIsRead = setIsRead;
   });
 
   useLayoutEffect(() => {
     fetchSettings();
   }, []);
 
+  useEffect(() => {
+    if (settingsError) {
+      console.log(settingsError);
+    }
+  }, [settingsError]);
+
   if (isLoading) {
     return <LoadingScreen />;
   }
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <MainStack.Navigator
         screenOptions={{
           headerShown: false,
@@ -160,10 +251,12 @@ const Navigation = () => {
                   ? 'fade_from_bottom'
                   : 'default',
               headerBackTitleVisible: false,
+
               headerShown:
-                route.name == ROUTE_NAMES.login ||
-                route.name == ROUTE_NAMES.register ||
-                route.name == ROUTE_NAMES.recovery
+                route.name === ROUTE_NAMES.login ||
+                route.name === ROUTE_NAMES.register ||
+                route.name === ROUTE_NAMES.recovery ||
+                route.name === ROUTE_NAMES.reviews
                   ? true
                   : false,
             }}
@@ -190,11 +283,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-
-const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});

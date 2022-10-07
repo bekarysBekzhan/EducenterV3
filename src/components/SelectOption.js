@@ -11,7 +11,6 @@ const SelectOption = ({
   value,
   currentKey,
 }) => {
-  console.log('render');
   return (
     <TouchableOpacity
       style={styles.container}
