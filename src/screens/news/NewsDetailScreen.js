@@ -7,22 +7,37 @@ import {NewsService} from '../../services/API';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../utils/utils';
 import DateFormat from '../../components/DateFormat';
+import { storeObject } from '../../storage/AsyncStorage';
+import { STORAGE } from '../../constans/constants';
 
 const NewsDetailScreen = ({route}) => {
+
+  const { onNotification, newsId } = route?.params;
+
   const [dataSource, setDataSource] = useState({
     data: '',
   });
   console.log('====', route);
   const [fetchNewsDetail, isLoading, error] = useFetching(async () => {
-    const response = await NewsService.fetchNewsDetail(route?.params?.newsId);
+    const response = await NewsService.fetchNewsDetail(newsId);
     setDataSource(prev => ({
       ...prev,
       data: response?.data?.data,
     }));
   });
 
+  const markRead = async() => {
+    await storeObject(STORAGE.isRead, true);
+    if (global.setIsRead) {
+      global.setIsRead(true);
+    }
+  }
+
   useEffect(() => {
     fetchNewsDetail();
+    if (onNotification) {
+      markRead();
+    }
   }, []);
 
   return (

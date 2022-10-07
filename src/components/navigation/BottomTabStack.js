@@ -26,6 +26,7 @@ const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
 
+  const onNotification = props.route?.params?.onNotification;
   const {settings, isAuth} = useSettings();
 
   const BOTTOM_TAB = [
@@ -76,6 +77,16 @@ const BottomTab = props => {
     },
   ];
 
+  const getInitialRouteName = () => {
+    if (onNotification) {
+      return ROUTE_NAMES.menuStack;
+    }
+    if (isAuth) {
+      return ROUTE_NAMES.myCoursesStack;
+    }
+    return ROUTE_NAMES.coursesStack;
+  };
+
   return (
     <BottomTabStack.Navigator
       screenOptions={{
@@ -83,8 +94,7 @@ const BottomTab = props => {
         tabBarActiveTintColor: APP_COLORS.primary,
         tabBarInactiveTintColor: APP_COLORS.placeholder,
       }}
-      initialRouteName={isAuth ? ROUTE_NAMES.myCoursesStack : ROUTE_NAMES.coursesStack}
-    >
+      initialRouteName={getInitialRouteName()}>
       {BOTTOM_TAB.map((route, index) => {
         const screen = (
           <BottomTabStack.Screen

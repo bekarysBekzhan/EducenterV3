@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import {URLS} from '../constans/constants';
 import {API_V2} from './axios';
 
@@ -14,19 +14,19 @@ class MobileSettingsService {
     return response;
   };
 
-  static setFCMToken = async(fcmToken, bearerToken) => {
+  static setFCMToken = async (fcmToken, bearerToken) => {
     const response = await API_V2.post('device/tokens', null, {
       params: {
         token: fcmToken,
-        type_id: Platform.OS === "ios" ? 1 : 2
+        type_id: Platform.OS === 'ios' ? 1 : 2,
       },
       headers: {
-        Authorization: "Bearer " + bearerToken
-      }
-    })
-    console.log("Device tokens set: " , response)
-    return response
-  }
+        Authorization: 'Bearer ' + bearerToken,
+      },
+    });
+    console.log('Device tokens set: ', response);
+    return response;
+  };
 }
 
 class CourseService {
@@ -85,27 +85,28 @@ class CourseService {
   };
 
   static finishCourse = async id => {
-    const response = await API_V2.get(URLS.courseByID + id + URLS.finishCourse)
-    console.log("Finish course with id : " + id , response)
-    return response
-  }
+    const response = await API_V2.get(URLS.courseByID + id + URLS.finishCourse);
+    console.log('Finish course with id : ' + id, response);
+    return response;
+  };
 
-  static rateCourse = async (id, text = "", stars) => {
-
-    let params = {}
+  static rateCourse = async (id, text = '', stars) => {
+    let params = {};
 
     if (text.length > 0) {
-      params.text = text
+      params.text = text;
     }
 
     if (stars !== undefined) {
-      params.stars = stars
+      params.stars = stars;
     }
 
-    const response = await API_V2.get(URLS.courseByID + id + URLS.courseRate, { params: params })
-    console.log("Course with id : " + id + " rated : " , response)
-    return response
-  }
+    const response = await API_V2.get(URLS.courseByID + id + URLS.courseRate, {
+      params: params,
+    });
+    console.log('Course with id : ' + id + ' rated : ', response);
+    return response;
+  };
 
   static fetchCategories = async () => {
     const response = await API_V2.get(URLS.categories);
@@ -114,10 +115,12 @@ class CourseService {
   };
 
   static fetchReviews = async (id, page = 1) => {
-    const response = await API_V2.get(URLS.reviews + id, { params: { page: page } })
-    console.log("Reviews : " , response)
-    return response
-  }
+    const response = await API_V2.get(URLS.reviews + id, {
+      params: {page: page},
+    });
+    console.log('Reviews : ', response);
+    return response;
+  };
 
   static fetchLesson = async id => {
     const response = await API_V2.get(URLS.lesson + id);
@@ -126,11 +129,13 @@ class CourseService {
   };
 
   static fetchTest = async (id, again = false) => {
-    let params = {}
+    let params = {};
     if (again) {
-      params.again = again
+      params.again = again;
     }
-    const response = await API_V2.get(URLS.lessonTestStart + id, { params: params });
+    const response = await API_V2.get(URLS.lessonTestStart + id, {
+      params: params,
+    });
     console.log('Lesson test with id ' + id + ':', response);
     return response;
   };
@@ -153,10 +158,10 @@ class CourseService {
   };
 
   static fetchTestResult = async id => {
-    const response = await API_V2.get(URLS.testResult + id)
-    console.log("TEST RESULT WITH ID " + id + " :", response)
-    return response
-  }
+    const response = await API_V2.get(URLS.testResult + id);
+    console.log('TEST RESULT WITH ID ' + id + ' :', response);
+    return response;
+  };
 
   static fetchTask = async id => {
     const response = await API_V2.get(URLS.lessonTaskShow + id);
@@ -192,26 +197,28 @@ class CourseService {
     return response;
   };
 
-  static sendComment = async(lesson_id, reply_id = null, text = '') => {
-
+  static sendComment = async (lesson_id, reply_id = null, text = '') => {
     if (!lesson_id) {
-      return
+      return;
     }
 
-    let params = {}
+    let params = {};
     if (reply_id) {
-      params.reply_id = reply_id
+      params.reply_id = reply_id;
     }
     if (text.length <= 0) {
-      return null
+      return null;
     }
-    params.text = text
+    params.text = text;
 
-    console.log("params : " , params)
-    const response = await API_V2.post(URLS.lesson + lesson_id + URLS.sendComment, params)
-    console.log("Sent comment for lesson with id " + lesson_id, response);
-    return response
-  }
+    console.log('params : ', params);
+    const response = await API_V2.post(
+      URLS.lesson + lesson_id + URLS.sendComment,
+      params,
+    );
+    console.log('Sent comment for lesson with id ' + lesson_id, response);
+    return response;
+  };
 }
 
 class TestService {
@@ -252,17 +259,21 @@ class TestService {
   };
 
   static startTest = async (id, again = false) => {
-    let params = {}
+    let params = {};
     if (again) {
-      params.again = again
+      params.again = again;
     }
-    const response = await API_V2.get(URLS.moduleTestStart + id, { params: params });
+    const response = await API_V2.get(URLS.moduleTestStart + id, {
+      params: params,
+    });
     console.log('Module test start', response);
     return response;
   };
 
   static finishTest = async id => {
-    const response = await API_V2.get(URLS.moduleTestFinish + id + URLS.moduleTest);
+    const response = await API_V2.get(
+      URLS.moduleTestFinish + id + URLS.moduleTest,
+    );
     return response;
   };
 }
@@ -293,7 +304,7 @@ class TaskService {
   };
 
   static fetchTaskByID = async id => {
-    const response = await API_V2.get(URLS.moduleTasks + '/' + id);
+    const response = await API_V2.get(URLS.moduleTask + id);
     console.log('Task with id ' + id + ':', response);
     return response;
   };
@@ -320,7 +331,6 @@ class MyCourseService {
       params.category_id = categoryID;
     }
     const response = await API_V2.get(URLS.myCourses, {params: params});
-    console.log('My courses : ', response);
     return response;
   };
   static fetchMyTests = async (
@@ -343,7 +353,6 @@ class MyCourseService {
       params.category_id = categoryID;
     }
     const response = await API_V2.get(URLS.moduleMyTests, {params: params});
-    console.log('My tests : ', response);
     return response;
   };
   static fetchMyTasks = async (
@@ -366,9 +375,8 @@ class MyCourseService {
       params.category_id = categoryID;
     }
     const response = await API_V2.get(URLS.moduleMyTasks, {params: params});
-    console.log('My tasks : ', response);
     return response;
-  }
+  };
 }
 
 class AuthService {
@@ -515,54 +523,61 @@ class JournalService {
 }
 
 class UBTService {
-
   static fetchCategories = async () => {
-    const response = await API_V2.get(URLS.ubtCategories)
-    console.log("UBT categories : " , response)
-    return response
-  }
+    const response = await API_V2.get(URLS.ubtCategories);
+    console.log('UBT categories : ', response);
+    return response;
+  };
 
-  static fetchTests = async(category, category2) => {
-    let params = {}
+  static fetchTests = async (category, category2) => {
+    let params = {};
     if (category) {
-      params.category = category
+      params.category = category;
     }
     if (category2) {
-      params.category2 = category2
+      params.category2 = category2;
     }
 
-    const response = await API_V2.get(URLS.ubtTests, { params: params })
-    console.log("UBT test : " , response)
-    return response
-  }
+    const response = await API_V2.get(URLS.ubtTests, {params: params});
+    console.log('UBT test : ', response);
+    return response;
+  };
 
-  static startTest = async(id, again = false) => {
-    let params = {}
+  static startTest = async (id, again = false) => {
+    let params = {};
     if (again) {
-      params.again = again
+      params.again = again;
     }
-    const response = await API_V2.get(URLS.ubtTestStart + id)
-    console.log("UBT test with id = " + id, response)
-    return response
-  }
+    const response = await API_V2.get(URLS.ubtTestStart + id);
+    console.log('UBT test with id = ' + id, response);
+    return response;
+  };
 
-  static fetchTestInfo = async(id) => {
-    const response = await API_V2.get(URLS.ubtTestInfo + id)
-    return response
-  }
+  static fetchTestInfo = async id => {
+    const response = await API_V2.get(URLS.ubtTestInfo + id);
+    return response;
+  };
 
   static finishTest = async id => {
-    const response = await API_V2.get(URLS.ubtTestFinish + id + URLS.ubtModule)
-    console.log("Finished ubt test with id = " + id, response);
-    return response
-  }
+    const response = await API_V2.get(URLS.ubtTestFinish + id + URLS.ubtModule);
+    console.log('Finished ubt test with id = ' + id, response);
+    return response;
+  };
 
   static fetchResult = async id => {
-    const response = await API_V2.get(URLS.ubtTestResult + id)
-    console.log("UBT result with id " + id, response)
-    return response
-  }
+    const response = await API_V2.get(URLS.ubtTestResult + id);
+    console.log('UBT result with id ' + id, response);
+    return response;
+  };
+}
 
+class NotificationService {
+  static fetch = async (page = 1) => {
+    let params = {page};
+    const response = await API_V2.get(URLS.notifications, { params });
+    console.log('notifications: ', response);
+    return response;
+  };
 }
 
 export {
@@ -579,5 +594,6 @@ export {
   SettingsService,
   OperationService,
   JournalService,
-  UBTService
+  UBTService,
+  NotificationService,
 };

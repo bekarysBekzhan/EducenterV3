@@ -11,6 +11,7 @@ const HtmlView = ({
     baseStyle,
     contentWidth = 32,
     tagsStyles,
+    renderers = {},
     ...props
 }) => {
 
@@ -20,7 +21,8 @@ const HtmlView = ({
 
     const memoRenderers = useMemo(() => ({
         iframe: IframeRenderer,
-        table: TableRenderer
+        table: TableRenderer,
+        ...renderers,
     }), []);
 
     const memoCustomHTMLElementModels = useMemo(() => ({

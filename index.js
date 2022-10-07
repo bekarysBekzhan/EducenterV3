@@ -7,8 +7,11 @@ import messaging from '@react-native-firebase/messaging';
 import App from './App';
 import {name as appName} from './app.json';
 import TrackPlayer from 'react-native-track-player';
+import { storeObject } from './src/storage/AsyncStorage';
+import { STORAGE } from './src/constans/constants';
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {
+  await storeObject(STORAGE.isRead, false);
   console.log('Message handled in the background!', remoteMessage);
 });
 

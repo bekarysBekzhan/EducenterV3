@@ -58,6 +58,7 @@ export const URLS = {
   moduleMyTests: 'modules/tests/my/tests',
   moduleMyTasks: 'modules/tasks/my/tasks',
   moduleTasks: 'modules/tasks',
+  moduleTask: "task/show/module_task/",
   profileUpdate: 'user/update',
   scheduleLesson: 'modules/schedule_conference',
   scheduleVisits: 'modules/schedule_conference/attendances',
@@ -79,7 +80,8 @@ export const URLS = {
   ubtTestFinish: "modules/ubt/finish/",
   ubtModule: "/module_ubt",
   ubtTestResult: "modules/ubt/result/",
-  sendComment: "/send_comment"
+  sendComment: "/send_comment",
+  notifications: 'notifications',
 };
 
 export const STORAGE = {
@@ -91,6 +93,7 @@ export const STORAGE = {
   offlineSearchHistory: 'offlineSearchHistory',
   firebaseToken: "firebaseToken",
   initialStart: "initialStart",
+  isRead: 'isRead',
 };
 
 export const TYPE_SUBCRIBES = {
@@ -116,6 +119,12 @@ export const SECONDS_IN_MINUTE = 60
 export const SECONDS_IN_HOUR = SECONDS_IN_MINUTE * 60
 export const NOTIFICATION_TYPE = {
   news: "news",
+  test: "test",
+  task: "task",
+  buy: "buy",
+  course: "course",
+  complete: "complete",
+  certificate: "certificate"
 }
 
 export const AUTH_TYPE = {

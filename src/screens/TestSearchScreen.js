@@ -148,6 +148,7 @@ const TestSearchScreen = props => {
         categoryName={item?.category?.name}
         time={item?.timer}
         attempts={item?.attempts}
+        hasSubscribed={item?.has_subscribed}
         price={item?.price}
         oldPrice={item?.old_price}
         onPress={() => moduleItemTapped(item)}

@@ -35,10 +35,12 @@ import UBTTestScreen from '../../screens/ubt/UBTTestScreen';
 import UBTCompletedScreen from '../../screens/ubt/UBTCompletedScreen';
 import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
 import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
-import { navigationRef } from './RootNavigation';
+import {navigationRef} from './RootNavigation';
 import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
-import { strings } from '../../localization';
+import {strings} from '../../localization';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
+import NotificationsScreen from '../../screens/NotificationsScreen';
+import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -81,8 +83,8 @@ const GENERAL = [
   },
   {
     name: ROUTE_NAMES.reviews,
-    component: ReviewsScreen
-  }
+    component: ReviewsScreen,
+  },
 ];
 const PRIVATE = [
   {
@@ -131,6 +133,10 @@ const PRIVATE = [
     component: ModuleTestScreen,
   },
   {
+    name: ROUTE_NAMES.moduleTask,
+    component: ModuleTaskScreen
+  },
+  {
     name: ROUTE_NAMES.readJournal,
     component: ReadJournalScreen,
     initialParams: {
@@ -139,65 +145,78 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.testCompleted,
-    component: TestCompletedScreen
+    component: TestCompletedScreen,
   },
   {
     name: ROUTE_NAMES.moduleTestCompleted,
-    component: ModuleTestCompletedScreen
+    component: ModuleTestCompletedScreen,
   },
   {
     name: ROUTE_NAMES.courseFinish,
-    component: CourseCompletedScreen
+    component: CourseCompletedScreen,
   },
   {
     name: ROUTE_NAMES.courseLeaveReview,
-    component: WriteReviewScreen
+    component: WriteReviewScreen,
   },
   {
     name: ROUTE_NAMES.testResult,
-    component: TestResultScreen
+    component: TestResultScreen,
   },
   {
     name: ROUTE_NAMES.ubtTest,
-    component: UBTTestScreen
+    component: UBTTestScreen,
   },
   {
     name: ROUTE_NAMES.ubtCompleted,
-    component: UBTCompletedScreen
+    component: UBTCompletedScreen,
   },
   {
     name: ROUTE_NAMES.ubtResult,
-    component: UBTResultScreen
+    component: UBTResultScreen,
+  },
+  {
+    name: ROUTE_NAMES.notifications,
+    component: NotificationsScreen
   }
 ];
 
 const Navigation = () => {
-
-  const {setSettings, setIsAuth, isAuth, setInitialStart} = useSettings();
+  const {setSettings, setIsAuth, isAuth, setInitialStart, setIsRead} =
+    useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
-
     const response = await MobileSettingsService.fetchSettings();
     setSettings(response.data?.data);
 
     const userToken = await getString(STORAGE.userToken);
     if (userToken) {
-      setIsAuth(true)
-      API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = "Bearer " + userToken
+      setIsAuth(true);
+      API_V2.defaults.headers[REQUEST_HEADERS.Authorization] =
+        'Bearer ' + userToken;
     }
 
-    const language = await getString(STORAGE.language)
+    const language = await getString(STORAGE.language);
     if (language) {
-      strings.setLanguage(language)
+      strings.setLanguage(language);
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = language;
     } else {
-      strings.setLanguage("ru")
+      strings.setLanguage('ru');
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = "ru";
     }
 
-    const isInitialStart = await getObject(STORAGE.initialStart)
+    const isInitialStart = await getObject(STORAGE.initialStart);
     if (isInitialStart === false) {
-      setInitialStart(isInitialStart)
+      setInitialStart(isInitialStart);
     }
 
+    const isRead = await getObject(STORAGE.isRead);
+    if (isRead !== null) {
+      setIsRead(isRead);
+    } else {
+      setIsRead(true);
+    }
+    global.setIsRead = setIsRead;
   });
 
   useLayoutEffect(() => {
@@ -206,9 +225,9 @@ const Navigation = () => {
 
   useEffect(() => {
     if (settingsError) {
-      console.log(settingsError)
+      console.log(settingsError);
     }
-  }, [settingsError])
+  }, [settingsError]);
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -218,8 +237,7 @@ const Navigation = () => {
       <MainStack.Navigator
         screenOptions={{
           headerShown: false,
-        }}
-      >
+        }}>
         {GENERAL.map((route, index) => (
           <MainStack.Screen
             name={route.name}

@@ -50,7 +50,6 @@ const TasksScreen = (props) => {
     }
   }, [page])
 
-
   const taskItemTapped = (item) => {
     props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: item?.id})
   }
@@ -64,6 +63,7 @@ const TasksScreen = (props) => {
         time={item?.timer}
         title={item?.title}
         attempts={item?.attempts}
+        type="task"
         price={item?.price}
         oldPrice={item?.old_price}
         onPress={() => taskItemTapped(item)}

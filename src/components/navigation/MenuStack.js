@@ -5,7 +5,6 @@ import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
 import NewsScreen from '../../screens/news/NewsScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import {useSettings} from '../context/Provider';
-import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
 import {setFontStyle} from '../../utils/utils';
 import {strings} from '../../localization';
 import HistoryScreen from '../../screens/HistoryScreen';
@@ -18,12 +17,13 @@ import OfflineCourseScreen from '../../screens/offlineCourses/OfflineCourseScree
 import OfflineCourseDetailsScreen from '../../screens/offlineCourses/OfflineCourseDetailsScreen';
 import CourseMaterialScreen from '../../screens/offlineCourses/CourseMaterialsScreen';
 import OfflineCourseMemberScreen from '../../screens/offlineCourses/OfflineCourseMemberScreen';
-import UBT from './UBTStack';
+import SelectSubjectsScreen from '../../screens/ubt/SelectSubjectsScreen';
 
 const Stack = createNativeStackNavigator();
 
-const MenuStack = () => {
-  const {isAuth} = useSettings();
+const MenuStack = ({navigation}) => {
+
+  const {isAuth, settings} = useSettings();
 
   const screens = [
     {
@@ -38,11 +38,11 @@ const MenuStack = () => {
       },
     },
     {
-      name: ROUTE_NAMES.ubt,
-      component: UBT,
+      name: ROUTE_NAMES.selectSubjects,
+      component: SelectSubjectsScreen,
       options: {
-        headerShown: false
-      }
+        title: settings?.modules_enabled_ubt_title,
+      },
     },
     {
       name: ROUTE_NAMES.profile,
@@ -95,7 +95,7 @@ const MenuStack = () => {
       name: ROUTE_NAMES.offlineCourses,
       component: OfflineCourseScreen,
       options: {
-        title: strings["Офлайн курсы"],
+        title: strings['Офлайн курсы'],
         headerBackTitleVisible: false,
       },
     },
@@ -104,25 +104,23 @@ const MenuStack = () => {
       component: OfflineCourseDetailsScreen,
       options: {
         headerBackTitleVisible: false,
-        headerTitle: ""
+        headerTitle: '',
       },
-     
     },
     {
       name: ROUTE_NAMES.offlineCourseMemberScreen,
       component: OfflineCourseMemberScreen,
       options: {
-        title: strings["Участники курса"]
+        title: strings['Участники курса'],
       },
     },
     {
       name: ROUTE_NAMES.courseMaterialScreen,
       component: CourseMaterialScreen,
       options: {
-        title: strings["Материалы курса"]
+        title: strings['Материалы курса'],
       },
-    }
-    
+    },
   ];
 
   return (
