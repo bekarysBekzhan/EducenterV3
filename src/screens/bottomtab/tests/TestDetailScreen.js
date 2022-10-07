@@ -37,11 +37,25 @@ const TestDetailScreen = (props) => {
       if (data?.has_subscribed) {
         props.navigation.navigate(ROUTE_NAMES.testPreview, { id: data?.id, title: data?.title, type: "module" })
       } else {
-        props.navigation.navigate(ROUTE_NAMES.payment, { operation: data, type: TYPE_SUBCRIBES.TEST_SUBCRIBE })
+        props.navigation.navigate(ROUTE_NAMES.operation, { operation: data, type: TYPE_SUBCRIBES.TEST_SUBCRIBE })
       }
     } else {
       props.navigation.navigate(ROUTE_NAMES.login)
     }
+  }
+
+  const getTransactionText = () => {
+    if (data?.has_subscribed) {
+      return strings['Пройти тест'];
+    }
+    if (data?.price) {
+      return strings['Купить тест'];
+    }
+    return strings.Бесплатно;
+  }
+
+  if (isFetching) {
+    return <LoadingScreen/>
   }
 
   if (isFetching) {
@@ -70,7 +84,7 @@ const TestDetailScreen = (props) => {
         />
       </UniversalView>
       <TransactionButton
-        text={data?.has_subscribed ? strings['Пройти тест'] : data?.price ? strings['Купить тест'] : strings.Бесплатно}
+        text={getTransactionText()}
         onPress={onNavigation}
         oldPrice={data?.has_subscribed ? 0 : data?.old_price}
         price={data?.has_subscribed ? 0 : data?.price}

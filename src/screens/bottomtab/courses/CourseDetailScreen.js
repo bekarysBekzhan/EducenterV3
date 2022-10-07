@@ -19,6 +19,7 @@ import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import Footer from '../../../components/course/Footer';
 import LoadingScreen from '../../../components/LoadingScreen';
 import CourseChapter from '../../../components/course/CourseChapter';
+import { TYPE_SUBCRIBES } from '../../../constans/constants';
 
 const CourseDetailScreen = props => {
 

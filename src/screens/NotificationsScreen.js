@@ -13,7 +13,7 @@ import Loader from '../components/Loader';
 import Divider from '../components/Divider';
 import Empty from '../components/Empty';
 import HtmlView from '../components/HtmlView';
-import { ROUTE_NAMES } from '../components/navigation/routes';
+import {ROUTE_NAMES} from '../components/navigation/routes';
 
 const NotificationsScreen = ({navigation}) => {
   const [notifications, setNotifications] = useState(null);
@@ -94,7 +94,7 @@ const NotificationsScreen = ({navigation}) => {
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.2}
         ItemSeparatorComponent={() => <Divider />}
-        // onEndReached={onEndReached}
+        onEndReached={onEndReached}
         onRefresh={onRefresh}
         refreshing={isFetching}
         initialNumToRender={20}
@@ -108,16 +108,16 @@ const NotificationItem = ({message, date, type, modelID, navigation}) => {
   const onPress = () => {
     switch (type) {
       case NOTIFICATION_TYPE.course:
-        navigation.navigate(ROUTE_NAMES.myCourseDetail, { courseID: modelID })
+        navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: modelID});
         break;
       case NOTIFICATION_TYPE.news:
-        navigation.navigate(ROUTE_NAMES.newsDetail, { newsId: modelID })
+        navigation.navigate(ROUTE_NAMES.newsDetail, {newsId: modelID});
         break;
       case NOTIFICATION_TYPE.task:
-        navigation.navigate(ROUTE_NAMES.courseTask, { id: modelID })
+        navigation.navigate(ROUTE_NAMES.moduleTask, {id: modelID});
         break;
       case NOTIFICATION_TYPE.test:
-        navigation.navigate(ROUTE_NAMES.testDetail, { id: modelID })
+        navigation.navigate(ROUTE_NAMES.testDetail, {id: modelID});
         break;
       default:
         break;
