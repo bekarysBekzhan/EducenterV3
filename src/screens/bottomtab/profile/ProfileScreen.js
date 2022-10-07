@@ -111,7 +111,7 @@ const ProfileScreen = ({navigation, route}) => {
           iconLeft: <UbtIcon />,
           enabled: settings?.modules_enabled_ubt,
           action: 'navigation',
-          route: ROUTE_NAMES.ubt,
+          route: ROUTE_NAMES.selectSubjects,
         },
         {
           id: 1,

@@ -17,12 +17,13 @@ import OfflineCourseScreen from '../../screens/offlineCourses/OfflineCourseScree
 import OfflineCourseDetailsScreen from '../../screens/offlineCourses/OfflineCourseDetailsScreen';
 import CourseMaterialScreen from '../../screens/offlineCourses/CourseMaterialsScreen';
 import OfflineCourseMemberScreen from '../../screens/offlineCourses/OfflineCourseMemberScreen';
-import UBT from './UBTStack';
+import SelectSubjectsScreen from '../../screens/ubt/SelectSubjectsScreen';
 
 const Stack = createNativeStackNavigator();
 
 const MenuStack = ({navigation}) => {
-  const {isAuth} = useSettings();
+
+  const {isAuth, settings} = useSettings();
 
   const screens = [
     {
@@ -37,10 +38,10 @@ const MenuStack = ({navigation}) => {
       },
     },
     {
-      name: ROUTE_NAMES.ubt,
-      component: UBT,
+      name: ROUTE_NAMES.selectSubjects,
+      component: SelectSubjectsScreen,
       options: {
-        headerShown: false,
+        title: settings?.modules_enabled_ubt_title,
       },
     },
     {
