@@ -124,6 +124,7 @@ export const NOTIFICATION_TYPE = {
   buy: "buy",
   course: "course",
   complete: "complete",
+  certificate: "certificate"
 }
 
 export const AUTH_TYPE = {
