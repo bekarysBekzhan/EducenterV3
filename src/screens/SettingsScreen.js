@@ -71,7 +71,8 @@ const SettingsScreen = ({navigation}) => {
         ...prev,
         currentKey: key,
       }));
-      strings.setLanguage(key)
+      strings.setLanguage(key);
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = key;
       navigation.dispatch(
         CommonActions.reset({
           index: 0,

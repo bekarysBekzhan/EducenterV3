@@ -199,8 +199,10 @@ const Navigation = () => {
     const language = await getString(STORAGE.language);
     if (language) {
       strings.setLanguage(language);
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = language;
     } else {
       strings.setLanguage('ru');
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = "ru";
     }
 
     const isInitialStart = await getObject(STORAGE.initialStart);
