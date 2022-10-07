@@ -118,15 +118,12 @@ const RatingScreen = ({}) => {
   }, [dataSource?.page]);
 
   useEffect(() => {
-    if (value === '' && sort === null && category === null) {
+    if (value === '' && sort === null && category === null && test === null) {
       setDataSource(prev => ({...prev, list: []}));
     } else {
-      if (dataSource?.page != 1) {
-        console.log('call');
-        fetchRating();
-      }
+      fetchRating();
     }
-  }, [value, sort, category]);
+  }, [value, sort, category, test]);
 
   const handleSheetChanges = useCallback(index => {
     if (index === -1) {
@@ -175,7 +172,7 @@ const RatingScreen = ({}) => {
   };
 
   return (
-    <UniversalView haveLoader={loading}>
+    <UniversalView>
       <RowView style={styles.searchBar}>
         <Input
           // _focus={focus}
@@ -200,18 +197,24 @@ const RatingScreen = ({}) => {
           {category || sort ? filterON : filter}
         </TouchableOpacity>
       </RowView>
-      <FlatList
-        data={dataSource?.list}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        // ListHeaderComponent={renderHeader}
-        ListEmptyComponent={renderEmpty}
-        ListFooterComponent={renderFooter}
-        refreshing={dataSource?.refreshing}
-        onRefresh={onRefresh}
-        onEndReached={onEndReached}
-        onEndReachedThreshold={0.01}
-      />
+      {
+        loading
+        ?
+        <Loader/>
+        :
+        <FlatList
+          data={dataSource?.list}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          // ListHeaderComponent={renderHeader}
+          ListEmptyComponent={renderEmpty}
+          ListFooterComponent={renderFooter}
+          refreshing={dataSource?.refreshing}
+          onRefresh={onRefresh}
+          onEndReached={onEndReached}
+          onEndReachedThreshold={0.01}
+        />
+      }
       {isFilter ? (
         <BottomSheet
           ref={bottomSheetRef}

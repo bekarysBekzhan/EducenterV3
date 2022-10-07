@@ -52,6 +52,7 @@ const FilterRatingScreen = ({navigation, route}) => {
       setCategory={setCategory}
       setTest={setTest}
       setSelectedCategory={setSelectedCategory}
+      setSelectedTest={setSelectedTest}
       close={route.params.close}
     />
   );
@@ -87,6 +88,7 @@ const Footer = ({
   setCategory,
   setTest,
   setSelectedCategory,
+  setSelectedTest,
   close,
 }) => {
   const [currentKey, setCurrentKey] = useState(sort);
@@ -103,6 +105,7 @@ const Footer = ({
     setCategory(null);
     setTest(null);
     setSelectedCategory(null);
+    setSelectedTest(null);
   };
 
   const applyFilterTapped = async () => {
