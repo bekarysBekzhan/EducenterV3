@@ -45,7 +45,6 @@ import LoadingScreen from '../../../components/LoadingScreen';
 import {storeObject} from '../../../storage/AsyncStorage';
 
 const ProfileScreen = ({navigation, route}) => {
-
   const {profile} = route.params;
   const {settings, isRead, setIsRead} = useSettings();
   const [dataSource, setDataSource] = useState({
@@ -53,7 +52,7 @@ const ProfileScreen = ({navigation, route}) => {
     refreshing: false,
   });
 
-  console.log('isRead: ' , isRead);
+  console.log('isRead: ', isRead);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -156,6 +155,14 @@ const ProfileScreen = ({navigation, route}) => {
           enabled: settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCourses,
         },
+        {
+          id: 7,
+          text: strings.Календарь,
+          iconLeft: <CalendarIcon />,
+          action: 'navigation',
+          enabled: settings?.modules_enabled_offline_courses,
+          route: ROUTE_NAMES.offlineCalendar,
+        },
       ],
     },
     {
@@ -222,7 +229,7 @@ const ProfileScreen = ({navigation, route}) => {
   const onPressNotification = async () => {
     await storeObject(STORAGE.isRead, true);
     setIsRead(true);
-    navigation.navigate(ROUTE_NAMES.notifications)
+    navigation.navigate(ROUTE_NAMES.notifications);
   };
 
   const renderHeaderRight = () => (

@@ -41,6 +41,7 @@ import {strings} from '../../localization';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
 import NotificationsScreen from '../../screens/NotificationsScreen';
 import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
+import CalendarScreen from '../../screens/offlineCourses/CalendarScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -178,6 +179,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.notifications,
     component: NotificationsScreen
+  },
+  {
+    name: ROUTE_NAMES.offlineCalendar,
+    component: CalendarScreen
   }
 ];
 

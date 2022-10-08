@@ -93,6 +93,7 @@ export const ROUTE_NAMES = {
   ubtCompleted: "UBTCompleted",
   ubtResult: "UBTResult",
   notifications: "Notifications",
+  offlineCalendar:'OfflineCalendar',
   //Rating
   rating: 'Rating',
 };
