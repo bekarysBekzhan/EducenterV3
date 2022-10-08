@@ -1,32 +1,77 @@
-import {Text, FlatList, StyleSheet} from 'react-native';
-import React from 'react';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {Fragment, useCallback, useState, useEffect, useRef} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
 import {CourseService} from '../../services/API';
-import {useState} from 'react';
-import {useEffect} from 'react';
-import {APP_COLORS, TYPE_SUBCRIBES, WIDTH} from '../../constans/constants';
-import {setFontStyle} from '../../utils/utils';
+import {TYPE_SUBCRIBES} from '../../constans/constants';
+import {fileDownloader, setFontStyle} from '../../utils/utils';
 import {JournalIcon} from '../../assets/icons';
 import {strings} from '../../localization';
-import Divider from '../../components/Divider';
 import {useSettings} from '../../components/context/Provider';
 import TransactionButton from '../../components/button/TransactionButton';
-import DetailView from '../../components/view/DetailView';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import Footer from '../../components/course/Footer';
 import LoadingScreen from '../../components/LoadingScreen';
 import NavButtonRow from '../../components/view/NavButtonRow';
+import FastImage from 'react-native-fast-image';
+import EventItem from '../../components/item/EventItem';
+import Downloader from '../../components/Downloader';
+import RNFS from 'react-native-fs';
 
 const OfflineCourseDetailsScreen = props => {
   const {isAuth} = useSettings();
   const courseID = props.route?.params?.courseID;
 
   const [data, setData] = useState(null);
+  const [progress, setProgress] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const refJobId = useRef(null);
   const [fetchCourse, isLoading, courseError] = useFetching(async () => {
     const response = await CourseService.fetchCourseByID(courseID);
     setData(response.data?.data);
   });
+
+  const onProgress = useCallback(data => {
+    console.log('progress: ', data);
+
+    if (data) {
+      refJobId.current = data?.jobId;
+      let currentPercent = (data?.bytesWritten * 100) / data?.contentLength;
+      setProgress(currentPercent);
+    } else {
+      refJobId.current = null;
+      setProgress(0);
+    }
+  }, []);
+
+  const cancelDownloader = useCallback(() => {
+    setVisible(false);
+    if (refJobId.current) {
+      RNFS.stopDownload(refJobId.current);
+      setProgress(0);
+    }
+  }, []);
+
+  const maps = [
+    {
+      title: strings['Участники курса'],
+      leftIcon: <JournalIcon />,
+      navigation: ROUTE_NAMES.offlineCourseMemberScreen,
+      props: data?.members,
+    },
+    {
+      title: strings['Материалы курса'],
+      leftIcon: <JournalIcon />,
+      navigation: ROUTE_NAMES.courseMaterialScreen,
+      props: data?.files,
+    },
+    {
+      title: strings['Скачать сертификат'],
+      leftIcon: <JournalIcon />,
+      hide: !data?.user_certificate?.file,
+      type: 'certificate',
+    },
+  ];
 
   useEffect(() => {
     fetchCourse();
@@ -34,24 +79,75 @@ const OfflineCourseDetailsScreen = props => {
 
   const onTransaction = () => {
     if (isAuth) {
-      if (data?.has_subscribed) {
-      } else {
-        props.navigation.navigate(ROUTE_NAMES.operation, {
-          operation: data,
-          type: TYPE_SUBCRIBES.COURSE_SUBCRIBE,
-        });
-      }
+      props.navigation.navigate(ROUTE_NAMES.operation, {
+        operation: data,
+        type: TYPE_SUBCRIBES.COURSE_SUBCRIBE,
+      });
     } else {
       props.navigation.navigate(ROUTE_NAMES.login);
     }
   };
+
+  const renderItem = useCallback(
+    ({item, index}) => (
+      <EventItem
+        item={item}
+        date={item?.start_time + ' - ' + item?.end_time}
+        address={item?.address}
+      />
+    ),
+    [],
+  );
+
+  const keyExtractor = useCallback((_, index) => index, []);
 
   const renderHeader = () => {
     return <CourseListHeader data={data} props={props} />;
   };
 
   const renderFooter = () => {
-    return <Footer data={data} navigation={props.navigation} />;
+    const listOfData = () => {
+      return maps.map((map, key) => {
+        if (map.hide) {
+          return null;
+        } else {
+          return (
+            <NavButtonRow
+              key={key}
+              leftIcon={map.leftIcon}
+              style={{marginHorizontal: 16, marginVertical: 8}}
+              title={map.title}
+              onPress={() => {
+                if (isAuth) {
+                  if (map?.type == 'certificate') {
+                    setVisible(true);
+                    fileDownloader(
+                      data?.user_certificate?.file,
+                      data?.title,
+                      () => setVisible(false),
+                      onProgress,
+                    );
+                  } else {
+                    if (data?.has_subscribed) {
+                      props?.navigation?.navigate(map.navigation, map.props);
+                    }
+                  }
+                } else {
+                  props?.navigation.navigate(ROUTE_NAMES.login);
+                }
+              }}
+            />
+          );
+        }
+      });
+    };
+
+    return (
+      <Fragment>
+        {listOfData()}
+        <Footer data={data} navigation={props.navigation} haveAuthor={false} />
+      </Fragment>
+    );
   };
 
   const renderTransactionButton = () => {
@@ -70,164 +166,50 @@ const OfflineCourseDetailsScreen = props => {
   }
 
   return (
-    <UniversalView style={styles.container}>
+    <UniversalView>
       <FlatList
+        data={data?.times}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
-        ItemSeparatorComponent={() => <Divider />}
-        keyExtractor={(_, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
       />
       {renderTransactionButton()}
+      <Downloader
+        visible={visible}
+        progress={progress}
+        onPressCancel={cancelDownloader}
+      />
     </UniversalView>
   );
 };
 
-const CourseListHeader = ({data, props}) => {
-  const {isAuth} = useSettings();
-
-  const maps = [
-    {
-      title: strings['Участники курса'],
-      leftIcon: <JournalIcon />,
-      navigation: ROUTE_NAMES.offlineCourseMemberScreen,
-      props: data?.members,
-    },
-    {
-      title: strings['Материалы курса'],
-      leftIcon: <JournalIcon />,
-      navigation: ROUTE_NAMES.courseMaterialScreen,
-      props: data?.files,
-    },
-  ];
-
-  const listOfData = () => {
-    return maps.map((map, key) => (
-      <NavButtonRow
-        key={key}
-        leftIcon={map.leftIcon}
-        style={{marginHorizontal: 16, marginVertical: 8}}
-        title={map.title}
-        onPress={() => props?.navigation?.navigate(map.navigation, map.props)}
-      />
-    ));
-  };
-
+const CourseListHeader = ({data}) => {
   return (
-    <UniversalView>
-      <DetailView
-        poster={data?.poster}
-        category={data?.category?.name}
-        title={data?.title}
-        duration={data?.time}
-        rating={data?.rating}
-        reviewCount={data?.reviews_count}
-        description={data?.description}
+    <View>
+      <FastImage
+        source={{
+          uri: data?.poster,
+          priority: 'high',
+        }}
+        style={styles.poster}
       />
-
-      {isAuth ? (data?.has_subscribed ? listOfData() : null) : null}
-
-      <Divider isAbsolute={false} />
-      <Text style={styles.courseProgram}>{strings['Программа курса']}</Text>
-    </UniversalView>
+      <Text style={styles.title}>{data?.title}</Text>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
-  counts: {
-    ...setFontStyle(13, '400', APP_COLORS.placeholder),
+  poster: {
+    width: '100%',
+    height: 232,
+    marginBottom: 16,
+  },
+  title: {
+    ...setFontStyle(20, '700'),
     marginBottom: 8,
-  },
-  subscribeToCourseText: {
-    ...setFontStyle(14, '400', APP_COLORS.placeholder),
-    marginLeft: 6,
-  },
-  courseStatus: {
-    marginBottom: 10,
-  },
-  chapter: {
-    padding: 8,
-    paddingLeft: 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  chapterInfo: {
-    flex: 1,
-    paddingRight: 8,
-  },
-  chapterPoster: {
-    width: 62,
-    height: 62,
-    borderRadius: 8,
-  },
-  chapterTitle: {
-    ...setFontStyle(16, '600'),
-    marginBottom: 7,
-  },
-  chapterPosterOpacity: {
-    flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.15)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  chapterPlay: {
-    width: 32,
-    height: 32,
-    borderRadius: 100,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  promoText: {
-    ...setFontStyle(13, '600', APP_COLORS.primary),
+    marginHorizontal: 16,
     textTransform: 'uppercase',
-    marginLeft: 6,
-  },
-  courseProgram: {
-    margin: 16,
-    ...setFontStyle(21, '700'),
-  },
-  collapsed: {
-    padding: 0,
-  },
-  lesson: {
-    flex: 1,
-    marginHorizontal: 6,
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    padding: 10,
-    marginVertical: 2,
-    borderRadius: 8,
-  },
-  lessonRow1: {
-    flex: 1,
-    paddingRight: 40,
-  },
-  lessonIcon: {
-    marginRight: 9,
-  },
-  lessonPlay: {
-    width: 24,
-    height: 24,
-    borderRadius: 100,
-    backgroundColor: APP_COLORS.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  lessonTitle: {
-    ...setFontStyle(12, '500'),
-  },
-  lessonLockedTitle: {
-    ...setFontStyle(12, '400', APP_COLORS.placeholder),
-  },
-  lessonTime: {
-    ...setFontStyle(11, '400', APP_COLORS.placeholder),
-  },
-  courseInfoTitle: {
-    ...setFontStyle(18, '500'),
-    paddingHorizontal: 13,
   },
 });
 

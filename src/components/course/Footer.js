@@ -10,7 +10,7 @@ import {setFontStyle} from '../../utils/utils';
 import TextButton from '../button/TextButton';
 import {APP_COLORS, WIDTH} from '../../constans/constants';
 
-const Footer = ({data, navigation}) => {
+const Footer = ({data, navigation, haveAuthor = true}) => {
   const onAllReviews = () => {
     navigation.navigate(ROUTE_NAMES.reviews, {id: data?.id});
   };
@@ -37,12 +37,15 @@ const Footer = ({data, navigation}) => {
   return (
     <UniversalView>
       <View style={{padding: 16, paddingTop: 32}}>
-        <Person
-          status={strings['Автор курса']}
-          image={data?.author?.avatar}
-          name={data?.author?.name + ' ' + data?.author?.surname}
-          description={data?.author?.description}
-        />
+        {haveAuthor ? (
+          <Person
+            status={strings['Автор курса']}
+            image={data?.author?.avatar}
+            name={data?.author?.name + ' ' + data?.author?.surname}
+            description={data?.author?.description}
+          />
+        ) : null}
+
         <RowView style={{justifyContent: 'space-between'}}>
           <Text
             style={{

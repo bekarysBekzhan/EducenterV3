@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  Platform,
 } from 'react-native';
 import React, {useLayoutEffect, useRef} from 'react';
 import UniversalView from '../components/view/UniversalView';
@@ -37,10 +38,9 @@ import Divider from '../components/Divider';
 import {Modal} from 'react-native';
 import MyCourseChapter from '../components/course/MyCourseChapter';
 import CourseChapter from '../components/course/CourseChapter';
-import { useHeaderHeight } from '@react-navigation/elements';
+import {useHeaderHeight} from '@react-navigation/elements';
 
 const LessonScreen = props => {
-
   const id = props.route?.params?.id;
   const chapterTitle = props.route?.params?.title;
   const hasSubscribed = props.route?.params?.hasSubscribed;
@@ -51,9 +51,9 @@ const LessonScreen = props => {
   const [isModal, setIsModal] = useState(false);
   const [isCourseProgram, setIsCourseProgram] = useState(false);
   const [padding, setPadding] = useState(0);
-  const isCaptured = useIsCaptured();
+  const isCaptured = Platform.OS == 'ios' ? useIsCaptured() : false;
 
-  const navigationHeight = useHeaderHeight()
+  const navigationHeight = useHeaderHeight();
 
   const [fetchLesson, isLoading, lessonError] = useFetching(async () => {
     const response = await CourseService.fetchLesson(id);
@@ -148,7 +148,7 @@ const LessonScreen = props => {
     setPadding(height + 16);
   };
 
-  const onExitCourseProgram = () => setIsCourseProgram(false)
+  const onExitCourseProgram = () => setIsCourseProgram(false);
 
   const renderHeader = () => {
     return (
@@ -157,7 +157,7 @@ const LessonScreen = props => {
           style={styles.programmButton}
           activeOpacity={0.65}
           onPress={() => {
-            setIsCourseProgram(true)
+            setIsCourseProgram(true);
           }}>
           <CourseProgramIcon />
           <Text style={styles.programText}>{strings['Программа курса']}</Text>
@@ -238,9 +238,7 @@ const LessonScreen = props => {
     return (
       <RowView style={modal.header}>
         <Text style={modal.text}>{strings['Программа курса']}</Text>
-        <TouchableOpacity 
-          onPress={() => setIsCourseProgram(false)}
-        >
+        <TouchableOpacity onPress={() => setIsCourseProgram(false)}>
           {x(16, APP_COLORS.placeholder)}
         </TouchableOpacity>
       </RowView>
@@ -248,7 +246,6 @@ const LessonScreen = props => {
   };
 
   const renderChapter = ({item, index}) => {
-
     if (hasSubscribed) {
       return (
         <MyCourseChapter
@@ -318,13 +315,13 @@ const LessonScreen = props => {
       <Overlay visible={isModal} />
       <Modal transparent={true} animationType="fade" visible={isCourseProgram}>
         <View style={modal.container}>
-          <View style={{ height: navigationHeight }}/>
+          <View style={{height: navigationHeight}} />
           <View style={modal.listContainer}>
             <FlatList
               data={course?.chapters}
               ListHeaderComponent={renderModalHeader}
               renderItem={renderChapter}
-              ListFooterComponent={() => <View style={{ height: 50 }}/>}
+              ListFooterComponent={() => <View style={{height: 50}} />}
               ItemSeparatorComponent={() => <Divider />}
               keyExtractor={(_, index) => index.toString()}
               showsVerticalScrollIndicator={false}
@@ -640,12 +637,12 @@ const modal = StyleSheet.create({
     backgroundColor: APP_COLORS.white,
   },
   header: {
-    justifyContent: "space-between",
-    margin: 16
+    justifyContent: 'space-between',
+    margin: 16,
   },
   text: {
-    ...setFontStyle(18, "600")
-  }
-})
+    ...setFontStyle(18, '600'),
+  },
+});
 
 export default LessonScreen;

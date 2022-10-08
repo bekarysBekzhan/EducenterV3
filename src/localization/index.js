@@ -257,6 +257,7 @@ export const strings = new LocalizedStrings({
         "Email" : "Пошта",
         "Номер телефона" : "Телефон нөмірі",
         "Уведомления" : "Хабарландырулар",
+        "Детали":"Егжей"
     },
     ru: {
         "Курсы": "Курсы",
@@ -515,6 +516,7 @@ export const strings = new LocalizedStrings({
         "Email" : "Почта",
         "Номер телефона" : "Номер телефона",
         "Уведомления" : "Уведомления",
+        "Детали":"Детали"
     },
     en: {
         "Курсы": "Courses",
@@ -774,5 +776,6 @@ export const strings = new LocalizedStrings({
         "Email" : "Email",
         "Номер телефона" : "Phone",
         "Уведомления" : "Notifications",
+        "Детали":"Details"
     }
 })

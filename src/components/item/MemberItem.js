@@ -1,4 +1,4 @@
-import React, {useState, memo, useEffect} from 'react';
+import React, {useState, memo} from 'react';
 import {
   View,
   Text,
@@ -9,12 +9,14 @@ import {
   Linking,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {x} from '../../assets/icons';
+import {CallCenterIcon, x} from '../../assets/icons';
 import {APP_COLORS, HEIGHT, WIDTH} from '../../constans/constants';
 import {strings} from '../../localization';
 import {getWhatsappNumber} from '../../utils/utils';
 import OutlineButton from '../button/OutlineButton';
 import SimpleButton from '../button/SimpleButton';
+import Divider from '../Divider';
+import RowView from '../view/RowView';
 
 const MemberItem = ({
   name,
@@ -77,7 +79,7 @@ const MemberItem = ({
                 width: WIDTH - 48,
                 alignItems: 'center',
               }}>
-              <Text style={styles.title}>Детали</Text>
+              <Text style={styles.title}>{strings.Детали}</Text>
             </View>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
               {x(16, APP_COLORS.border)}
@@ -85,8 +87,12 @@ const MemberItem = ({
           </View>
           {info}
           {hide_phone ? null : (
-            <View style={styles.phoneContainer}>
-              <Text style={styles.title}>{phone}</Text>
+            <View>
+              <RowView style={styles.phoneContainer}>
+                <CallCenterIcon />
+                <Text style={styles.title}>{phone}</Text>
+              </RowView>
+              <Divider isAbsolute style={styles.divider} />
             </View>
           )}
           {hide_phone ? null : (
@@ -97,7 +103,7 @@ const MemberItem = ({
                 onPress={callNumber}
               />
               <OutlineButton
-                text={'Написать в WhatsApp'}
+                text={strings['Написать в WhatsApp']}
                 onPress={whatsappLink}
               />
             </View>
@@ -117,7 +123,8 @@ const MemberItem = ({
 
 const styles = StyleSheet.create({
   phoneContainer: {
-    margin: 16,
+    marginHorizontal: 16,
+    paddingVertical: 12,
   },
   border: {
     top: 10,
@@ -190,6 +197,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
     color: 'black',
+    marginHorizontal: 16,
   },
   caption: {
     fontSize: 14,
@@ -201,6 +209,9 @@ const styles = StyleSheet.create({
     width: WIDTH - 32,
     left: 16,
     bottom: 32,
+  },
+  divider: {
+    left: '15%',
   },
 });
 

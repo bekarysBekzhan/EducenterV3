@@ -1,10 +1,10 @@
 import React, {useCallback} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import Empty from '../../components/Empty';
 import FileItem from '../../components/FileItem';
 import UniversalView from '../../components/view/UniversalView';
-import {APP_COLORS, WIDTH} from '../../constans/constants';
+import {WIDTH} from '../../constans/constants';
 
 const CourseMaterialScreen = props => {
   const data = props.route.params;
@@ -13,39 +13,34 @@ const CourseMaterialScreen = props => {
 
   const renderItem = useCallback(
     ({item}) => (
-      <View>
-        <FileItem
-          urlFile={item?.link}
-          fileName={item?.file_name}
-          style={{width: WIDTH, paddingHorizontal: 16}}
-        />
-      </View>
+      <FileItem
+        urlFile={item?.link}
+        fileName={item?.file_name}
+        style={{width: WIDTH, paddingHorizontal: 16}}
+      />
     ),
     [],
   );
 
+  const renderEmpty = () => <Empty />;
+
   return (
     <UniversalView>
-      <View style={styles.container}>
-        <FlatList
-          ListEmptyComponent={() => <Empty />}
-          data={data}
-          maxToRenderPerBatch={20}
-          initialNumToRender={20}
-          renderItem={renderItem}
-          keyExtractor={keyExtractor}
-        />
-      </View>
+      <FlatList
+        ListEmptyComponent={renderEmpty}
+        data={data}
+        maxToRenderPerBatch={20}
+        initialNumToRender={20}
+        renderItem={renderItem}
+        keyExtractor={keyExtractor}
+        contentContainerStyle={styles.list}
+      />
     </UniversalView>
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'flex-start',
-    borderBottomWidth: 0.5,
-    paddingTop: 16,
-    borderColor: APP_COLORS.border,
+  list: {
+    padding: 16,
   },
 });
 
