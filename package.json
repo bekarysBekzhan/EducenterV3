@@ -26,7 +26,6 @@
     "@react-navigation/material-top-tabs": "^6.2.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
-    "accordion-collapse-react-native": "^1.1.1",
     "axios": "^0.27.2",
     "react": "17.0.2",
     "react-native": "0.68.2",
@@ -62,7 +61,6 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-toast-message": "^2.1.5",
     "react-native-track-player": "3.1.0",
-    "react-native-video": "^5.2.0",
     "react-native-webview": "^11.22.2",
     "socket.io-client": "^4.5.1"
   },
