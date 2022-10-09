@@ -5,14 +5,19 @@ import FastImage from 'react-native-fast-image';
 import RowView from '../view/RowView';
 import Price from '../Price';
 import ItemRating from '../ItemRating';
+import {setFontStyle} from '../../utils/utils';
+import {APP_COLORS} from '../../constans/constants';
 
-const CalendarCourseItem = ({onPress = () => undefined}) => {
+const CalendarCourseItem = ({item = {}, onPress = () => undefined}) => {
   return (
     <TouchableOpacity
       style={styles.courseCard}
       activeOpacity={0.9}
       onPress={onPress}>
-      <FastImage source={{uri: item?.poster}} style={styles.poster} />
+      <FastImage
+        source={{uri: item?.poster, priority: 'high'}}
+        style={styles.poster}
+      />
       <RowView style={styles.row1}>
         <Text style={styles.category}>{item?.category_name}</Text>
         <Price
@@ -39,4 +44,44 @@ const CalendarCourseItem = ({onPress = () => undefined}) => {
 
 export default CalendarCourseItem;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  courseCard: {
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginBottom: 16,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowColor: '#000',
+    shadowRadius: 20,
+    shadowOpacity: 0.09,
+    elevation: 1,
+  },
+  row1: {
+    justifyContent: 'space-between',
+    padding: 10,
+    paddingBottom: 0,
+  },
+  row2: {
+    paddingHorizontal: 10,
+    paddingBottom: 20,
+  },
+  title: {
+    margin: 10,
+    ...setFontStyle(18, '700'),
+  },
+  category: {
+    textTransform: 'uppercase',
+    ...setFontStyle(14, '700', APP_COLORS.placeholder),
+  },
+  poster: {
+    width: '100%',
+    height: 200,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
+  price: {
+    fontSize: 14,
+  },
+});

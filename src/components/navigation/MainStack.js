@@ -41,7 +41,6 @@ import {strings} from '../../localization';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
 import NotificationsScreen from '../../screens/NotificationsScreen';
 import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
-import CalendarScreen from '../../screens/offlineCourses/CalendarScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -135,7 +134,7 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.moduleTask,
-    component: ModuleTaskScreen
+    component: ModuleTaskScreen,
   },
   {
     name: ROUTE_NAMES.readJournal,
@@ -178,12 +177,8 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.notifications,
-    component: NotificationsScreen
+    component: NotificationsScreen,
   },
-  {
-    name: ROUTE_NAMES.offlineCalendar,
-    component: CalendarScreen
-  }
 ];
 
 const Navigation = () => {
@@ -207,7 +202,7 @@ const Navigation = () => {
       API_V2.defaults.headers[REQUEST_HEADERS.lang] = language;
     } else {
       strings.setLanguage('ru');
-      API_V2.defaults.headers[REQUEST_HEADERS.lang] = "ru";
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = 'ru';
     }
 
     const isInitialStart = await getObject(STORAGE.initialStart);

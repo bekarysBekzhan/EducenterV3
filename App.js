@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useLayoutEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {Provider} from './src/components/context/Provider';
 import Navigation from './src/components/navigation/MainStack';
@@ -59,7 +59,7 @@ const App = () => {
   const initPlayer = async () => {
     try {
       await TrackPlayer.setupPlayer();
-      TrackPlayer.updateOptions({
+      await TrackPlayer.updateOptions({
         capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
         compactCapabilities: [
           Capability.Play,
