@@ -12,23 +12,8 @@ import moment from 'moment';
 import 'moment';
 import 'moment/min/locales';
 import {API_V2} from '../../services/axios';
-
-function formatDate(date) {
-  let d = new Date(date),
-    month = '' + (d.getMonth() + 1),
-    day = '' + d.getDate(),
-    year = d.getFullYear();
-
-  if (month.length < 2) {
-    month = '0' + month;
-  }
-
-  if (day.length < 2) {
-    day = '0' + day;
-  }
-
-  return [year, month, day].join('-');
-}
+import Loader from '../../components/Loader';
+import Empty from '../../components/Empty';
 
 const CalendarScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -36,10 +21,15 @@ const CalendarScreen = ({navigation}) => {
     day: moment().format('YYYY-MM-DD'),
     backgroundColors: {},
     dayKey: null,
+    loadMore: false,
+    page: 1,
+    lastPage: null,
   });
 
   const [fetchCalendar, loading] = useFetching(async () => {
-    let params = {};
+    let params = {
+      day: dataSource?.day,
+    };
 
     const response = await CourseService.fetchOfflineCalendar(params);
     console.log('fetchOfflineCalendar: ', response);
@@ -47,36 +37,28 @@ const CalendarScreen = ({navigation}) => {
     let dayData = {};
     let selectedDayBackgroundColors = {};
 
-    let year = new Date(dataSource?.day).getFullYear();
-    let month = new Date(dataSource?.day).getMonth() + 1;
-    if (month?.toString()?.length < 2) {
-      month = '0' + month;
-    }
-    let formatDays = year + '-';
+    let formatDays = moment(dataSource?.day).format('YYYY-MM');
 
-    Object.entries(response?.data?.filters?.events)?.forEach(([i, k]) => {
-      let f =
-        formatDays +
-        (k?.month?.toString().length < 2 ? '0' + k?.month : k?.month) +
-        '-' +
-        (i.split('day_')[1].length < 2
-          ? '0' + i.split('day_')[1]
-          : i.split('day_')[1]);
+    Object.entries(response?.data?.filters?.events)?.forEach(([k, v]) => {
+      let splitDay = k?.split('day_')[1];
 
-      dayData[formatDate(f)] = {
+      let keyFormat = formatDays + '-' + splitDay;
+
+      dayData[moment(keyFormat).format('YYYY-MM-DD')] = {
         selected: false,
         customStyles: {
           text: {
-            color: k?.count ? (k?.color ? k?.color : '#000') : '#000',
+            color: v?.count ? (v?.color ? v?.color : '#000') : '#000',
           },
         },
       };
 
-      selectedDayBackgroundColors[formatDate(f)] = k?.count
-        ? k?.color
-          ? k?.color
-          : APP_COLORS.primary
-        : APP_COLORS.primary;
+      selectedDayBackgroundColors[moment(keyFormat).format('YYYY-MM-DD')] =
+        v?.count
+          ? v?.color
+            ? v?.color
+            : APP_COLORS.primary
+          : APP_COLORS.primary;
 
       dayData[dataSource?.day] = {
         selected: true,
@@ -225,9 +207,24 @@ const CalendarScreen = ({navigation}) => {
   }, []);
 
   useEffect(() => {
-    console.log('THIS', dataSource?.day);
     fetchCalendar();
   }, []);
+
+  useEffect(() => {
+    fetchCalendar();
+  }, [dataSource?.day]);
+
+  const onEndReached = () => {
+    if (!dataSource?.loadMore) {
+      if (dataSource?.page < dataSource?.lastPage) {
+        setDataSource(prev => ({
+          ...prev,
+          loadMore: true,
+          page: prev?.page + 1,
+        }));
+      }
+    }
+  };
 
   const renderItem = useCallback(
     ({item}) => (
@@ -278,6 +275,15 @@ const CalendarScreen = ({navigation}) => {
     />
   );
 
+  const renderFooter = () => {
+    if (dataSource?.loadMore) {
+      return <Loader />;
+    }
+    return null;
+  };
+
+  const renderEmpty = () => <Empty />;
+
   return (
     <UniversalView haveLoader={loading}>
       <FlatList
@@ -287,6 +293,10 @@ const CalendarScreen = ({navigation}) => {
         contentContainerStyle={styles.list}
         ListHeaderComponent={renderHeader}
         ListHeaderComponentStyle={styles.listHeader}
+        onEndReached={onEndReached}
+        onEndReachedThreshold={0.01}
+        ListFooterComponent={renderFooter}
+        ListEmptyComponent={renderEmpty}
       />
     </UniversalView>
   );
