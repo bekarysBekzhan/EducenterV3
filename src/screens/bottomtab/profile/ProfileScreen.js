@@ -39,14 +39,14 @@ import RowView from '../../../components/view/RowView';
 import {useFetching} from '../../../hooks/useFetching';
 import {ProfileService} from '../../../services/API';
 import {setFontStyle} from '../../../utils/utils';
-import {APP_COLORS, STORAGE} from '../../../constans/constants';
+import {APP_COLORS, N_STATUS, STORAGE} from '../../../constans/constants';
 import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
 import LoadingScreen from '../../../components/LoadingScreen';
 import {storeObject} from '../../../storage/AsyncStorage';
 
 const ProfileScreen = ({navigation, route}) => {
   const {profile} = route.params;
-  const {settings, isRead, setIsRead} = useSettings();
+  const {settings, isRead, setIsRead, nstatus} = useSettings();
   const [dataSource, setDataSource] = useState({
     data: null,
     refreshing: false,
@@ -55,10 +55,11 @@ const ProfileScreen = ({navigation, route}) => {
   console.log('isRead: ', isRead);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: renderHeaderRight,
-      ...navHeaderOptions(settings?.logo, strings.Меню),
-    });
+    let navigationOptions = navHeaderOptions(settings?.logo, strings.Меню);
+    if (nstatus !== N_STATUS) {
+      navigationOptions.headerRight = renderHeaderRight;
+    }
+    navigation.setOptions(navigationOptions);
   }, [isRead]);
 
   const MENU = [

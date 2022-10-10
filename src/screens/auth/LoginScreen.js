@@ -12,6 +12,7 @@ import {AuthService} from '../../services/API';
 import {
   APP_COLORS,
   AUTH_TYPE,
+  N_STATUS,
   REQUEST_HEADERS,
   STORAGE,
 } from '../../constans/constants';
@@ -24,7 +25,7 @@ import { firebaseService } from '../../services/FirebaseService';
 
 const LoginScreen = ({navigation}) => {
 
-  const {setIsAuth, settings} = useSettings();
+  const {setIsAuth, settings, nstatus} = useSettings();
 
   const [dataSource, setDataSource] = useState({
     email: '',
@@ -47,9 +48,11 @@ const LoginScreen = ({navigation}) => {
         }),
       );
     }
-    firebaseService.registerAppWithFCM();
-    const fcmToken = await getString(STORAGE.firebaseToken);
-    firebaseService.setFCMToken(fcmToken, token);
+    if (nstatus !== N_STATUS) {
+      firebaseService.registerAppWithFCM();
+      const fcmToken = await getString(STORAGE.firebaseToken);
+      firebaseService.setFCMToken(fcmToken, token);
+    }
   });
 
   useLayoutEffect(() => {
