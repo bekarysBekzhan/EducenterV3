@@ -7,8 +7,12 @@ import MyTestsTab from './MyTestsTab'
 import MyTasksTab from './MyTasksTab'
 import TopTab from '../../../components/view/TopTab'
 import WhatsappButton from '../../../components/button/WhatsappButton'
+import { useSettings } from '../../../components/context/Provider'
+import { N_STATUS } from '../../../constans/constants'
 
 const MyCoursesScreen = (props) => {
+
+  const { nstatus } = useSettings();
 
   const screens = [
     {
@@ -25,12 +29,16 @@ const MyCoursesScreen = (props) => {
     }
   ]
 
+  if (nstatus === N_STATUS) {
+    return <MyCoursesTab {...props}/>;
+  }
+
   return (
     <UniversalView>
       <TopTab screens={screens} swipeEnabled={true}/>
-      <WhatsappButton/>
+      { nstatus === N_STATUS ? null : <WhatsappButton/> }
     </UniversalView>
   )
 }
 
-export default MyCoursesScreen
+export default MyCoursesScreen;

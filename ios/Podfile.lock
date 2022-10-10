@@ -451,6 +451,8 @@ PODS:
   - RNScreens (3.15.0):
     - React-Core
     - React-RCTImage
+  - RNSha256 (1.4.8):
+    - React-Core
   - RNShare (7.9.0):
     - React-Core
   - RNSVG (12.4.4):
@@ -524,6 +526,7 @@ DEPENDENCIES:
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNSha256 (from `../node_modules/react-native-sha256`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -661,6 +664,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNSha256:
+    :path: "../node_modules/react-native-sha256"
   RNShare:
     :path: "../node_modules/react-native-share"
   RNSVG:
@@ -738,6 +743,7 @@ SPEC CHECKSUMS:
   RNNotifee: 5155e0a5e0a97d0c839030d8192783cd63053999
   RNReanimated: 5bdcbcc3a72aedeee7bb099604262403aa75a1e5
   RNScreens: 4a1af06327774490d97342c00aee0c2bafb497b7
+  RNSha256: 80bea5b2e7005f813f6438cb41e573b3d531146c
   RNShare: be91a5c149585affb02c25b351bd07ba927c7006
   RNSVG: ecd661f380a07ba690c9c5929c475a44f432d674
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
@@ -746,6 +752,6 @@ SPEC CHECKSUMS:
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 99652481fcd320aefa4a7ef90095b95acd181952
 
-PODFILE CHECKSUM: ae443540fca78c4fd52d62b6097f1e658722b84d
+PODFILE CHECKSUM: d7071eae618f252dd298f0168f1d7fdd4c94ed6a
 
 COCOAPODS: 1.11.3

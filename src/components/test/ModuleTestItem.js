@@ -6,7 +6,8 @@ import {strings} from '../../localization';
 import Price from '../Price';
 import TextButton from '../button/TextButton';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS, N_STATUS} from '../../constans/constants';
+import { useSettings } from '../context/Provider';
 
 const ModuleTestItem = ({
   id,
@@ -21,7 +22,15 @@ const ModuleTestItem = ({
   hasSubscribed = false,
   onPress = () => undefined,
 }) => {
+
+  const { nstatus } = useSettings();
+
   const getText = () => {
+
+    if (nstatus === N_STATUS) {
+      return strings.Пройти;
+    }
+
     const buyText = {
       test: strings['Купить тест'],
       task: strings['Купить задание'],

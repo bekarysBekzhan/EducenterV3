@@ -15,7 +15,7 @@ import {
 } from '../../assets/icons';
 import {strings} from '../../localization';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS, N_STATUS} from '../../constans/constants';
 import Courses from './CoursesStack';
 import MenuStack from './MenuStack';
 import Tests from './TestsStack';
@@ -27,7 +27,7 @@ const BottomTabStack = createBottomTabNavigator();
 const BottomTab = props => {
 
   const onNotification = props.route?.params?.onNotification;
-  const {settings, isAuth} = useSettings();
+  const {settings, isAuth, nstatus} = useSettings();
 
   const BOTTOM_TAB = [
     {
@@ -111,7 +111,7 @@ const BottomTab = props => {
         );
 
         if (route.name === ROUTE_NAMES.testsStack) {
-          if (settings?.modules_enabled_tests) {
+          if (nstatus !== N_STATUS && settings?.modules_enabled_tests) {
             return screen;
           } else {
             return null;
@@ -125,7 +125,7 @@ const BottomTab = props => {
         //   }
         // }
         else if (route.name === ROUTE_NAMES.tasksStack) {
-          if (settings?.modules_enabled_tasks) {
+          if (nstatus !== N_STATUS && settings?.modules_enabled_tasks) {
             return screen;
           } else {
             return null;

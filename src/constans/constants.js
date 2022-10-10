@@ -19,6 +19,8 @@ export const APP_COLORS = {
 };
 
 export const DOMAIN = 'https://demo.educenter.kz';
+export const PURE_DOMAIN = DOMAIN.substring(8);
+export const CONFIG_TOKEN = 'fmv5aTwGkAwuTzKibSU4JHTmlpkDtZHxdHQowkKVbk0Xk9Xl0pzZCCVBhvFjXmUJHiaPmLTeriI52BFpD7jRH9xxDhSNqaD7WRp4HTwdRhWKQLiLge2edDV0vVDj6R44rGu2J0YW9OoHdYqxphVyyJFM7fHMjN86fCYrHSb9gqTMAqPu2Zvc7E48ZRyJORB';
 export const REQUEST_HEADERS = {
   Accept: 'application/json',
   Authorization: 'Authorization',

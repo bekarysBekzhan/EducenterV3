@@ -14,7 +14,7 @@ import Divider from '../Divider';
 const MyCourseChapter = ({
     item, 
     index, 
-    hasSubscribed, 
+    hasSubscribed = true, 
     navigation,
     totalLessonsCount,
     passedLessonsCount,

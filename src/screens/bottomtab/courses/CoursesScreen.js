@@ -102,12 +102,14 @@ const CoursesScreen = props => {
           setPage(1);
         }}
       />
-      <WhatsappButton />
+      { nstatus === N_STATUS ? null : <WhatsappButton/> }
     </UniversalView>
   );
 };
 
 const CourseCard = ({item, index, navigation}) => {
+  const {nstatus} = useSettings();
+
   const onCourse = () => {
     if (item?.has_subscribed) {
       navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: item?.id});
@@ -124,12 +126,14 @@ const CourseCard = ({item, index, navigation}) => {
       <FastImage source={{uri: item?.poster}} style={styles.poster} />
       <RowView style={styles.row1}>
         <Text style={styles.category}>{item?.category_name}</Text>
-        <Price
-          price={item?.price}
-          oldPrice={item?.old_price}
-          priceStyle={styles.price}
-          oldPriceStyle={styles.price}
-        />
+        {nstatus === N_STATUS ? null : (
+          <Price
+            price={item?.price}
+            oldPrice={item?.old_price}
+            priceStyle={styles.price}
+            oldPriceStyle={styles.price}
+          />
+        )}
       </RowView>
       <Text style={styles.title} numberOfLines={2}>
         {item?.title}

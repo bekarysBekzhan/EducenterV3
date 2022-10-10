@@ -79,7 +79,7 @@ const ProfileScreen = ({navigation, route}) => {
           id: 2,
           text: 'Расписание',
           iconLeft: <CalendarIcon />,
-          enabled: true,
+          enabled: nstatus !== N_STATUS,
           route: ROUTE_NAMES.scheduleNavigator,
           action: 'navigation',
         },
@@ -109,7 +109,7 @@ const ProfileScreen = ({navigation, route}) => {
           id: 0,
           text: settings?.modules_enabled_ubt_title,
           iconLeft: <UbtIcon />,
-          enabled: settings?.modules_enabled_ubt,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_ubt,
           action: 'navigation',
           route: ROUTE_NAMES.selectSubjects,
         },
@@ -153,7 +153,7 @@ const ProfileScreen = ({navigation, route}) => {
           text: settings?.modules_enabled_offline_courses_title,
           iconLeft: <ReclamentIcon />,
           action: 'navigation',
-          enabled: settings?.modules_enabled_offline_courses,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCourses,
         },
         {
@@ -161,7 +161,7 @@ const ProfileScreen = ({navigation, route}) => {
           text: strings.Календарь,
           iconLeft: <CalendarIcon />,
           action: 'navigation',
-          enabled: settings?.modules_enabled_offline_courses,
+          enabled:  nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCalendar,
         },
       ],
@@ -304,7 +304,7 @@ const ProfileScreen = ({navigation, route}) => {
             })}
         </Fragment>
       ))}
-      {settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
+      {nstatus !== N_STATUS && settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
     </UniversalView>
   );
 };

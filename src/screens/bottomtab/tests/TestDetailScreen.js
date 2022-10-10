@@ -9,13 +9,13 @@ import { strings } from '../../../localization'
 import TransactionButton from '../../../components/button/TransactionButton'
 import { useSettings } from '../../../components/context/Provider'
 import { ROUTE_NAMES } from '../../../components/navigation/routes'
-import { TYPE_SUBCRIBES } from '../../../constans/constants'
+import { N_STATUS, TYPE_SUBCRIBES } from '../../../constans/constants'
 
 const TestDetailScreen = (props) => {
 
   const id = props.route?.params?.id
 
-  const { isAuth } = useSettings()
+  const { isAuth, nstatus } = useSettings()
   const [data, setData] = useState(null)
   const [fetchTest, isFetching, fetchingError] = useFetching(async() => {
     const response = await TestService.fetchTestByID(id)
@@ -45,6 +45,10 @@ const TestDetailScreen = (props) => {
   }
 
   const getTransactionText = () => {
+    if (nstatus === N_STATUS) {
+      return strings['Пройти тест'];
+    }
+
     if (data?.has_subscribed) {
       return strings['Пройти тест'];
     }

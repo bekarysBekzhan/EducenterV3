@@ -22,7 +22,7 @@ import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 
 const MenuScreen = ({navigation}) => {
-  const {settings, nstatus} = useSettings();
+  const {settings, nstatus, isAuth} = useSettings();
 
   const MENU = [
     {
@@ -33,7 +33,7 @@ const MenuScreen = ({navigation}) => {
           id: 1,
           text: settings?.modules_enabled_ubt_title,
           iconLeft: <UbtIcon />,
-          enabled: settings?.modules_enabled_ubt,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_ubt,
         },
         {
           id: 2,
@@ -45,13 +45,15 @@ const MenuScreen = ({navigation}) => {
           id: 3,
           text: settings?.modules_enabled_schedules_title,
           iconLeft: <JournalIcon />,
-          enabled: settings?.modules_enabled_schedules,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_schedules,
         },
         {
           id: 2,
           text: settings?.modules_enabled_rating_title,
           iconLeft: <RatingIcon />,
-          enabled: settings?.modules_enabled_rating,
+          enabled: isAuth && settings?.modules_enabled_rating,
+          route: ROUTE_NAMES.rating,
+          action: "navigation",
         },
         // {
         //     id: 3,
@@ -71,7 +73,7 @@ const MenuScreen = ({navigation}) => {
           id: 5,
           text: settings?.modules_enabled_offline_courses_title,
           iconLeft: <ReclamentIcon />,
-          enabled: settings?.modules_enabled_offline_courses,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCourses,
           action: 'navigation',
         },
@@ -79,7 +81,7 @@ const MenuScreen = ({navigation}) => {
           id: 6,
           text: strings.Календарь,
           iconLeft: <CalendarIcon />,
-          enabled: settings?.modules_enabled_offline_courses,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
         },
         {
           id: 6,
@@ -98,7 +100,7 @@ const MenuScreen = ({navigation}) => {
           id: 1,
           text: settings?.phone,
           iconLeft: <CallCenterIcon />,
-          enabled: true,
+          enabled: nstatus !== N_STATUS,
           action: 'call',
         },
       ],
@@ -110,12 +112,13 @@ const MenuScreen = ({navigation}) => {
     console.log('item', item);
     switch (item?.action) {
       case 'navigation':
-        if (item?.route == ROUTE_NAMES.news) {
-          navigate(item?.route);
-        }
-        if (item?.route == ROUTE_NAMES.offlineCourses) {
-          navigate(item?.route);
-        }
+        navigate(item?.route);
+        // if (item?.route == ROUTE_NAMES.news) {
+        //   navigate(item?.route);
+        // }
+        // if (item?.route == ROUTE_NAMES.offlineCourses) {
+        //   navigate(item?.route);
+        // }
         break;
       case 'call':
         if (item?.text?.length) {
@@ -175,7 +178,7 @@ const MenuScreen = ({navigation}) => {
             ))}
         </Fragment>
       ))}
-      {settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
+      {nstatus !== N_STATUS && settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
     </UniversalView>
   );
 };
