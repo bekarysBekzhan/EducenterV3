@@ -593,6 +593,18 @@ class RatingService {
   };
 }
 
+class PolicyService {
+  static fetchPage = async () => {
+    const response = await API_V2.get(URLS.pages);
+    return response;
+  };
+
+  static fetchPageById = async id => {
+    const response = await API_V2.get(`${URLS.pages}/${id}`);
+    return response;
+  };
+}
+
 export {
   MobileSettingsService,
   CourseService,
@@ -610,4 +622,5 @@ export {
   UBTService,
   NotificationService,
   RatingService,
+  PolicyService,
 };

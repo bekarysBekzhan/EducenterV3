@@ -146,6 +146,8 @@ const ProfileScreen = ({navigation, route}) => {
           text: strings['Правила и соглашения'],
           iconLeft: <ReclamentIcon />,
           enabled: true,
+          action: 'navigation',
+          route: ROUTE_NAMES?.privacy,
         },
         {
           id: 6,

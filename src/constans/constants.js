@@ -82,7 +82,8 @@ export const URLS = {
   ubtTestResult: "modules/ubt/result/",
   sendComment: "/send_comment",
   notifications: 'notifications',
-  rating:'modules/tests/my/rating'
+  rating:'modules/tests/my/rating',
+  pages:'pages'
 };
 
 export const STORAGE = {

@@ -96,4 +96,5 @@ export const ROUTE_NAMES = {
   offlineCalendar:'OfflineCalendar',
   //Rating
   rating: 'Rating',
+  privacy:'Privacy'
 };

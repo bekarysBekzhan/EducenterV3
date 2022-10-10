@@ -20,6 +20,8 @@ import CourseMaterialScreen from '../../screens/offlineCourses/CourseMaterialsSc
 import OfflineCourseMemberScreen from '../../screens/offlineCourses/OfflineCourseMemberScreen';
 import SelectSubjectsScreen from '../../screens/ubt/SelectSubjectsScreen';
 import RatingScreen from '../../screens/RatingScreen';
+import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
+import PolicyScreen from '../../screens/privacy/PolicyScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -135,6 +137,20 @@ const MenuStack = ({navigation}) => {
       component: RatingScreen,
       options: {
         title: strings.Рейтинг,
+      },
+    },
+    {
+      name: ROUTE_NAMES.privacy,
+      component: PrivacyScreen,
+      options: {
+        title: strings['Правила и соглашения'],
+      },
+    },
+    {
+      name: ROUTE_NAMES.privacyPolicy,
+      component: PolicyScreen,
+      options: {
+        title: strings['Правила и соглашения'],
       },
     },
   ];
