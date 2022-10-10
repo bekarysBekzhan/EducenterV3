@@ -41,6 +41,8 @@ import {strings} from '../../localization';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
 import NotificationsScreen from '../../screens/NotificationsScreen';
 import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
+import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
+import PolicyScreen from '../../screens/privacy/PolicyScreen';
 
 const MainStack = createNativeStackNavigator();
 
@@ -178,6 +180,14 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.notifications,
     component: NotificationsScreen,
+  },
+  {
+    name: ROUTE_NAMES.privacy,
+    component: PrivacyScreen,
+  },
+  {
+    name: ROUTE_NAMES.privacyPolicy,
+    component: PolicyScreen,
   },
 ];
 

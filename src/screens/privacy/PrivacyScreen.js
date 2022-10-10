@@ -1,15 +1,23 @@
 import {FlatList, StyleSheet} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import PrivacyItem from '../../components/item/PrivacyItem';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import {useFetching} from '../../hooks/useFetching';
 import {PolicyService} from '../../services/API';
+import {strings} from '../../localization';
 
 const PrivacyScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
     data: [],
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: strings['Правила и соглашения'],
+      headerTitleAlign: 'center',
+    });
+  }, []);
 
   const [fetchPage, loading, error] = useFetching(async () => {
     const response = await PolicyService.fetchPage();
