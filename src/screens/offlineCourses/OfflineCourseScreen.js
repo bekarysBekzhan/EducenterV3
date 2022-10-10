@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   courseCard: {
     borderRadius: 10,
     backgroundColor: 'white',
-    marginBottom: 22,
+    marginBottom: 16,
     shadowOffset: {
       width: 0,
       height: 0,

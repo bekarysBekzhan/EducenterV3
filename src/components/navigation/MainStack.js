@@ -134,7 +134,7 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.moduleTask,
-    component: ModuleTaskScreen
+    component: ModuleTaskScreen,
   },
   {
     name: ROUTE_NAMES.readJournal,
@@ -177,8 +177,8 @@ const PRIVATE = [
   },
   {
     name: ROUTE_NAMES.notifications,
-    component: NotificationsScreen
-  }
+    component: NotificationsScreen,
+  },
 ];
 
 const Navigation = () => {
@@ -202,7 +202,7 @@ const Navigation = () => {
       API_V2.defaults.headers[REQUEST_HEADERS.lang] = language;
     } else {
       strings.setLanguage('ru');
-      API_V2.defaults.headers[REQUEST_HEADERS.lang] = "ru";
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = 'ru';
     }
 
     const isInitialStart = await getObject(STORAGE.initialStart);

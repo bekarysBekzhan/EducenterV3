@@ -14,6 +14,7 @@ import ScheduleNavigator from './ScheduleNavigator';
 import SettingsScreen from '../../screens/SettingsScreen';
 import JournalNavigator from './JournalNavigator';
 import OfflineCourseScreen from '../../screens/offlineCourses/OfflineCourseScreen';
+import CalendarScreen from '../../screens/offlineCourses/CalendarScreen';
 import OfflineCourseDetailsScreen from '../../screens/offlineCourses/OfflineCourseDetailsScreen';
 import CourseMaterialScreen from '../../screens/offlineCourses/CourseMaterialsScreen';
 import OfflineCourseMemberScreen from '../../screens/offlineCourses/OfflineCourseMemberScreen';
@@ -23,7 +24,6 @@ import RatingScreen from '../../screens/RatingScreen';
 const Stack = createNativeStackNavigator();
 
 const MenuStack = ({navigation}) => {
-
   const {isAuth, settings} = useSettings();
 
   const screens = [
@@ -97,6 +97,14 @@ const MenuStack = ({navigation}) => {
       component: OfflineCourseScreen,
       options: {
         title: strings['Офлайн курсы'],
+        headerBackTitleVisible: false,
+      },
+    },
+    {
+      name: ROUTE_NAMES.offlineCalendar,
+      component: CalendarScreen,
+      options: {
+        title: strings.Календарь,
         headerBackTitleVisible: false,
       },
     },

@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { Provider } from './src/components/context/Provider';
+import React, {useEffect, useState} from 'react';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {Provider} from './src/components/context/Provider';
 import Navigation from './src/components/navigation/MainStack';
 import ToastView from './src/components/view/ToastView';
 import Toast from 'react-native-toast-message';
@@ -25,7 +25,6 @@ const events = [
 ];
 
 const App = () => {
-  
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -58,27 +57,37 @@ const App = () => {
   }, []);
 
   const initPlayer = async () => {
-    await TrackPlayer.setupPlayer();
-    TrackPlayer.updateOptions({
-      capabilities: [
-        Capability.Play,
-        Capability.Pause,
-        Capability.Stop
-      ],
-      compactCapabilities: [
-        Capability.Play,
-        Capability.Pause,
-        Capability.Stop
-      ]
-    })
+    try {
+      await TrackPlayer.setupPlayer();
+      await TrackPlayer.updateOptions({
+        capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
+        compactCapabilities: [
+          Capability.Play,
+          Capability.Pause,
+          Capability.Stop,
+        ],
+        stoppingAppPausesPlayback: true,
+      });
+    } catch (e) {
+      if (
+        e?.message?.includes(
+          'The player has already been initialized via setupPlayer',
+        )
+      ) {
+        return Promise.resolve();
+      }
+
+      return Promise.reject(e);
+    }
   };
 
   const toastConfig = {
-    error: ({ text2 }) => <ToastView text={text2} />,
+    error: ({text2}) => <ToastView text={text2} />,
   };
 
   const deinitPlayer = async () => {
     // await TrackPlayer.destroy();
+    await TrackPlayer.reset();
   };
 
   useTrackPlayerEvents(events, () => {
@@ -89,7 +98,7 @@ const App = () => {
     return <LoadingScreen />;
   }
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
+    <GestureHandlerRootView style={{flex: 1}}>
       <Provider>
         <Navigation />
         <Toast config={toastConfig} />

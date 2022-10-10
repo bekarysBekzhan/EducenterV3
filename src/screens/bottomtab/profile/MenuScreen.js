@@ -80,14 +80,15 @@ const MenuScreen = ({navigation}) => {
           text: strings.Календарь,
           iconLeft: <CalendarIcon />,
           enabled: settings?.modules_enabled_offline_courses,
+          route: ROUTE_NAMES.offlineCalendar,
+          action: 'navigation',
         },
         {
-          id: 6,
+          id: 7,
           text: strings['Правила и соглашения'],
           iconLeft: <ReclamentIcon />,
           enabled: true,
         },
- 
       ],
     },
     {

@@ -219,6 +219,11 @@ class CourseService {
     console.log('Sent comment for lesson with id ' + lesson_id, response);
     return response;
   };
+
+  static fetchOfflineCalendar = async params => {
+    const response = await API_V2.get(URLS.offlineCourses, {params});
+    return response;
+  };
 }
 
 class TestService {
@@ -574,7 +579,7 @@ class UBTService {
 class NotificationService {
   static fetch = async (page = 1) => {
     let params = {page};
-    const response = await API_V2.get(URLS.notifications, { params });
+    const response = await API_V2.get(URLS.notifications, {params});
     console.log('notifications: ', response);
     return response;
   };
