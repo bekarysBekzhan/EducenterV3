@@ -13,13 +13,14 @@ import RatingItem from '../components/item/RatingItem';
 import Loader from '../components/Loader';
 import RowView from '../components/view/RowView';
 import UniversalView from '../components/view/UniversalView';
-import {APP_COLORS, WIDTH} from '../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../constans/constants';
 import {useFetching} from '../hooks/useFetching';
 import {strings} from '../localization';
 import {RatingService} from '../services/API';
 import {setFontStyle} from '../utils/utils';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import BottomSheetRatingStack from '../components/navigation/BottomSheetRatingStack';
+import {useSettings} from '../components/context/Provider';
 
 const RatingScreen = ({}) => {
   const [dataSource, setDataSource] = useState({
@@ -30,6 +31,7 @@ const RatingScreen = ({}) => {
     list: [],
   });
 
+  const {nstatus} = useSettings();
   const [value, setValue] = useState('');
   const [isFilter, setIsFilter] = useState(false);
   const [dataFilter, setDataFilter] = useState();
@@ -173,35 +175,35 @@ const RatingScreen = ({}) => {
 
   return (
     <UniversalView>
-      <RowView style={styles.searchBar}>
-        <Input
-          // _focus={focus}
-          placeholder={strings['Поиск тестов']}
-          left={<View style={styles.searchIcon}>{search('#000')}</View>}
-          right={
-            <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
-              {clear()}
-            </TouchableOpacity>
-          }
-          value={value}
-          onChangeText={onChangeText}
-          extraStyle={styles.inputContainer}
-          extraInputStyle={styles.input}
-        />
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => {
-            setIsFilter(true);
-            Keyboard.dismiss();
-          }}>
-          {category || sort ? filterON : filter}
-        </TouchableOpacity>
-      </RowView>
-      {
-        loading
-        ?
-        <Loader/>
-        :
+      {nstatus === N_STATUS ? null : (
+        <RowView style={styles.searchBar}>
+          <Input
+            // _focus={focus}
+            placeholder={strings['Поиск тестов']}
+            left={<View style={styles.searchIcon}>{search('#000')}</View>}
+            right={
+              <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
+                {clear()}
+              </TouchableOpacity>
+            }
+            value={value}
+            onChangeText={onChangeText}
+            extraStyle={styles.inputContainer}
+            extraInputStyle={styles.input}
+          />
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              setIsFilter(true);
+              Keyboard.dismiss();
+            }}>
+            {category || sort ? filterON : filter}
+          </TouchableOpacity>
+        </RowView>
+      )}
+      {loading ? (
+        <Loader />
+      ) : (
         <FlatList
           data={dataSource?.list}
           renderItem={renderItem}
@@ -214,7 +216,7 @@ const RatingScreen = ({}) => {
           onEndReached={onEndReached}
           onEndReachedThreshold={0.01}
         />
-      }
+      )}
       {isFilter ? (
         <BottomSheet
           ref={bottomSheetRef}

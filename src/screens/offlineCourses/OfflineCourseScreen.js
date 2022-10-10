@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import SearchButton from '../../components/button/SearchButton';
+import { useSettings } from '../../components/context/Provider';
 import Empty from '../../components/Empty';
 import ItemRating from '../../components/ItemRating';
 import LoadingScreen from '../../components/LoadingScreen';
@@ -9,12 +10,14 @@ import {ROUTE_NAMES} from '../../components/navigation/routes';
 import Price from '../../components/Price';
 import RowView from '../../components/view/RowView';
 import UniversalView from '../../components/view/UniversalView';
-import {APP_COLORS, WIDTH} from '../../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../../constans/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {CourseService} from '../../services/API';
 import {setFontStyle} from '../../utils/utils';
 
 const OfflineCourseScreen = props => {
+
+  const { nstatus } = useSettings();
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState(null);
   const [lastPage, setLastPage] = useState(1);
@@ -66,11 +69,15 @@ const OfflineCourseScreen = props => {
 
   return (
     <UniversalView>
-      <SearchButton
-        navigation={props.navigation}
-        type={'offlineCourse'}
-        filters={filters}
-      />
+      {
+        nstatus === N_STATUS ? null : (
+          <SearchButton
+            navigation={props.navigation}
+            type={'offlineCourse'}
+            filters={filters}
+          />
+        )
+      }
       <FlatList
         data={data}
         renderItem={renderCourse}
