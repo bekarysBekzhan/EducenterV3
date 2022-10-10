@@ -10,7 +10,7 @@ import FastImage from 'react-native-fast-image';
 import Collapsible from 'react-native-collapsible';
 import { setFontStyle } from '../../utils/utils';
 
-const CourseChapter = ({item, index, hasSubscribed, navigation, from = "course", onPress = () => undefined}) => {
+const CourseChapter = ({item, index, hasSubscribed = false, navigation, from = "course", onPress = () => undefined}) => {
 
     const [isCollapsed, setIsCollapsed] = useState(true);
     const {settings, isAuth} = useSettings();

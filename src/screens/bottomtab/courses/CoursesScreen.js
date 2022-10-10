@@ -12,7 +12,7 @@ import SearchButton from '../../../components/button/SearchButton';
 import {useFetching} from '../../../hooks/useFetching';
 import {CourseService} from '../../../services/API';
 import {useState} from 'react';
-import {APP_COLORS, WIDTH} from '../../../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../../../constans/constants';
 import {useEffect} from 'react';
 import FastImage from 'react-native-fast-image';
 import RowView from '../../../components/view/RowView';
@@ -23,8 +23,10 @@ import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import LoadingScreen from '../../../components/LoadingScreen';
 import Empty from '../../../components/Empty';
 import WhatsappButton from '../../../components/button/WhatsappButton';
+import {useSettings} from '../../../components/context/Provider';
 
 const CoursesScreen = props => {
+  const {nstatus} = useSettings();
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState(null);
   const [lastPage, setLastPage] = useState(1);
@@ -76,11 +78,13 @@ const CoursesScreen = props => {
 
   return (
     <UniversalView>
-      <SearchButton
-        navigation={props.navigation}
-        type={'course'}
-        filters={filters}
-      />
+      {nstatus === N_STATUS ? null : (
+        <SearchButton
+          navigation={props.navigation}
+          type={'course'}
+          filters={filters}
+        />
+      )}
       <FlatList
         data={data}
         renderItem={renderCourse}
@@ -98,12 +102,14 @@ const CoursesScreen = props => {
           setPage(1);
         }}
       />
-      <WhatsappButton/>
+      { nstatus === N_STATUS ? null : <WhatsappButton/> }
     </UniversalView>
   );
 };
 
 const CourseCard = ({item, index, navigation}) => {
+  const {nstatus} = useSettings();
+
   const onCourse = () => {
     if (item?.has_subscribed) {
       navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: item?.id});
@@ -120,12 +126,14 @@ const CourseCard = ({item, index, navigation}) => {
       <FastImage source={{uri: item?.poster}} style={styles.poster} />
       <RowView style={styles.row1}>
         <Text style={styles.category}>{item?.category_name}</Text>
-        <Price
-          price={item?.price}
-          oldPrice={item?.old_price}
-          priceStyle={styles.price}
-          oldPriceStyle={styles.price}
-        />
+        {nstatus === N_STATUS ? null : (
+          <Price
+            price={item?.price}
+            oldPrice={item?.old_price}
+            priceStyle={styles.price}
+            oldPriceStyle={styles.price}
+          />
+        )}
       </RowView>
       <Text style={styles.title} numberOfLines={2}>
         {item?.title}

@@ -10,7 +10,7 @@ import {ExitIcon} from '../assets/icons';
 import RowView from '../components/view/RowView';
 import {setFontStyle} from '../utils/utils';
 import {API_V2} from '../services/axios';
-import {REQUEST_HEADERS, STORAGE} from '../constans/constants';
+import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../constans/constants';
 import {removeStorage, storeString} from '../storage/AsyncStorage';
 import {useFetching} from '../hooks/useFetching';
 import {SettingsService} from '../services/API';
@@ -28,7 +28,7 @@ const SettingsScreen = ({navigation}) => {
     currentKey: strings.getLanguage(),
   });
 
-  const {setIsAuth, settings} = useSettings();
+  const {setIsAuth, settings, nstatus} = useSettings();
 
   const [fetchSettings, isLoading, error] = useFetching(async () => {
     const response = await SettingsService.fetchLanguage();
@@ -102,14 +102,22 @@ const SettingsScreen = ({navigation}) => {
 
   const renderFooter = (
     <View>
-      <SectionView label={strings.Уведомление} />
-      <SettingItem
-        text={strings['Уведомления о действиях']}
-        value={dataSource?.isPushAction}
-        onValueChange={isPushAction =>
-          setDataSource(prev => ({...prev, isPushAction}))
-        }
-      />
+      {
+        nstatus === N_STATUS ? null : (
+          <SectionView label={strings.Уведомление} />
+        )
+      }
+      {
+        nstatus === N_STATUS ? null : (
+          <SettingItem
+            text={strings['Уведомления о действиях']}
+            value={dataSource?.isPushAction}
+            onValueChange={isPushAction =>
+              setDataSource(prev => ({...prev, isPushAction}))
+            }
+          />
+        )
+      }
       {/* <SettingItem
         text={strings['Напоминание о прохождении курса']}
         label={strings['Еженедельные напоминание о прохождения курса']}
@@ -144,7 +152,7 @@ const SettingsScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   row: {
-    marginHorizontal: 16,
+    margin: 16
   },
   exit: {
     ...setFontStyle(17, '400', '#FF3B30'),

@@ -13,9 +13,10 @@ import {useEffect} from 'react';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
 import {useState} from 'react';
-import {APP_COLORS, WIDTH} from '../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../constans/constants';
 import HtmlView from '../components/HtmlView';
 import {
+  generateHash,
   getProgressPercent,
   isValidText,
   passedLessonCount,
@@ -39,12 +40,14 @@ import {Modal} from 'react-native';
 import MyCourseChapter from '../components/course/MyCourseChapter';
 import CourseChapter from '../components/course/CourseChapter';
 import {useHeaderHeight} from '@react-navigation/elements';
+import { useSettings } from '../components/context/Provider';
 
 const LessonScreen = props => {
   const id = props.route?.params?.id;
   const chapterTitle = props.route?.params?.title;
   const hasSubscribed = props.route?.params?.hasSubscribed;
 
+  const { nstatus } = useSettings();
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
   const [course, setCourse] = useState(null);
@@ -56,7 +59,11 @@ const LessonScreen = props => {
   const navigationHeight = useHeaderHeight();
 
   const [fetchLesson, isLoading, lessonError] = useFetching(async () => {
-    const response = await CourseService.fetchLesson(id);
+    let params = {};
+    if (nstatus === N_STATUS) {
+      params.publication_app = await generateHash();
+    }
+    const response = await CourseService.fetchLesson(id, params);
     const courseID = response.data?.data?.course.id;
     const courseData = (await CourseService.fetchCourseByID(courseID)).data
       ?.data;

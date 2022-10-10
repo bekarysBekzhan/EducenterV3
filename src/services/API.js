@@ -9,6 +9,12 @@ class MobileSettingsService {
     return response;
   };
 
+  static getStatus = async () => {
+    const response = await API_V2.get(URLS.getStatus);
+    console.log("status: " , response.data);
+    return response;
+  }
+
   static fetchLanguages = async () => {
     const response = await API_V2.get(URLS.languages);
     return response;
@@ -78,8 +84,8 @@ class CourseService {
     return response;
   };
 
-  static fetchCourseByID = async id => {
-    const response = await API_V2.get(URLS.courseByID + id);
+  static fetchCourseByID = async (id, params) => {
+    const response = await API_V2.get(URLS.courseByID + id, { params });
     console.log('Course with id ' + id + ':', response);
     return response;
   };
@@ -122,8 +128,8 @@ class CourseService {
     return response;
   };
 
-  static fetchLesson = async id => {
-    const response = await API_V2.get(URLS.lesson + id);
+  static fetchLesson = async (id, params) => {
+    const response = await API_V2.get(URLS.lesson + id, { params });
     console.log('Lesson with id ' + id + ':', response);
     return response;
   };

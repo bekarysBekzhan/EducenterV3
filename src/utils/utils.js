@@ -1,6 +1,8 @@
 import {StyleSheet} from 'react-native';
 import {
   APP_COLORS,
+  CONFIG_TOKEN,
+  PURE_DOMAIN,
   SECONDS_IN_HOUR,
   SECONDS_IN_MINUTE,
 } from '../constans/constants';
@@ -8,6 +10,7 @@ import {strings} from '../localization';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';
 import {Alert} from 'react-native';
+import { sha256 } from 'react-native-sha256';
 
 export const getAudioUrl = html => {
   let pattern1 = new RegExp('src=');
@@ -271,7 +274,7 @@ export const getHTML = str => {
   const re1 = /</;
   let startIndex;
   if (re1.exec(str) !== null) {
-    console.log("start index: " , re1.lastIndex);
+    console.log('start index: ', re1.lastIndex);
     startIndex = re1.lastIndex;
   } else {
     return null;
@@ -289,8 +292,15 @@ export const getHTML = str => {
     return null;
   }
 
-  console.log("last index: " , lastIndex);
+  console.log('last index: ', lastIndex);
   return str.substring(startIndex, lastIndex + 1);
 };
 
 export const containsHTML = RegExp.prototype.test.bind(/(<([^>]+)>)/i);
+
+export const generateHash = async() => {
+
+  const hash = await sha256(PURE_DOMAIN + CONFIG_TOKEN);
+  
+  return hash;
+};

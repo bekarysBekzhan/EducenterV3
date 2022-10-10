@@ -39,14 +39,14 @@ import RowView from '../../../components/view/RowView';
 import {useFetching} from '../../../hooks/useFetching';
 import {ProfileService} from '../../../services/API';
 import {setFontStyle} from '../../../utils/utils';
-import {APP_COLORS, STORAGE} from '../../../constans/constants';
+import {APP_COLORS, N_STATUS, STORAGE} from '../../../constans/constants';
 import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
 import LoadingScreen from '../../../components/LoadingScreen';
 import {storeObject} from '../../../storage/AsyncStorage';
 
 const ProfileScreen = ({navigation, route}) => {
   const {profile} = route.params;
-  const {settings, isRead, setIsRead} = useSettings();
+  const {settings, isRead, setIsRead, nstatus} = useSettings();
   const [dataSource, setDataSource] = useState({
     data: null,
     refreshing: false,
@@ -55,10 +55,11 @@ const ProfileScreen = ({navigation, route}) => {
   console.log('isRead: ', isRead);
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: renderHeaderRight,
-      ...navHeaderOptions(settings?.logo, strings.Меню),
-    });
+    let navigationOptions = navHeaderOptions(settings?.logo, strings.Меню);
+    if (nstatus !== N_STATUS) {
+      navigationOptions.headerRight = renderHeaderRight;
+    }
+    navigation.setOptions(navigationOptions);
   }, [isRead]);
 
   const MENU = [
@@ -70,7 +71,7 @@ const ProfileScreen = ({navigation, route}) => {
           id: 1,
           text: strings['История оплаты'],
           iconLeft: <History />,
-          enabled: true,
+          enabled: nstatus !== N_STATUS,
           action: 'navigation',
           route: ROUTE_NAMES.history,
         },
@@ -78,7 +79,7 @@ const ProfileScreen = ({navigation, route}) => {
           id: 2,
           text: 'Расписание',
           iconLeft: <CalendarIcon />,
-          enabled: true,
+          enabled: nstatus !== N_STATUS,
           route: ROUTE_NAMES.scheduleNavigator,
           action: 'navigation',
         },
@@ -108,7 +109,7 @@ const ProfileScreen = ({navigation, route}) => {
           id: 0,
           text: settings?.modules_enabled_ubt_title,
           iconLeft: <UbtIcon />,
-          enabled: settings?.modules_enabled_ubt,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_ubt,
           action: 'navigation',
           route: ROUTE_NAMES.selectSubjects,
         },
@@ -116,7 +117,7 @@ const ProfileScreen = ({navigation, route}) => {
           id: 1,
           text: settings?.modules_enabled_journals_title,
           iconLeft: <JournalIcon />,
-          enabled: settings?.modules_enabled_journals,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_journals,
           action: 'navigation',
           route: ROUTE_NAMES.journalNavigator,
         },
@@ -154,7 +155,7 @@ const ProfileScreen = ({navigation, route}) => {
           text: settings?.modules_enabled_offline_courses_title,
           iconLeft: <ReclamentIcon />,
           action: 'navigation',
-          enabled: settings?.modules_enabled_offline_courses,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCourses,
         },
         {
@@ -162,14 +163,14 @@ const ProfileScreen = ({navigation, route}) => {
           text: strings.Календарь,
           iconLeft: <CalendarIcon />,
           action: 'navigation',
-          enabled: settings?.modules_enabled_offline_courses,
+          enabled:  nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCalendar,
         },
       ],
     },
     {
       section: strings.Помощь,
-      enabled: settings?.phone?.length,
+      enabled: nstatus !== N_STATUS && settings?.phone?.length,
       data: [
         {
           id: 1,
@@ -305,7 +306,7 @@ const ProfileScreen = ({navigation, route}) => {
             })}
         </Fragment>
       ))}
-      {settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
+      {nstatus !== N_STATUS && settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
     </UniversalView>
   );
 };

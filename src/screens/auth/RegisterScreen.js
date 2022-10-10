@@ -8,7 +8,7 @@ import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
 import {getString, storeString} from '../../storage/AsyncStorage';
-import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
+import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import { API_V2 } from '../../services/axios';
 import { useSettings } from '../../components/context/Provider';
 import { CommonActions } from '@react-navigation/native';
@@ -28,7 +28,7 @@ const RegisterScreen = ({navigation}) => {
     password: '',
   });
 
-  const { setIsAuth, settings } = useSettings()
+  const { setIsAuth, settings, nstatus } = useSettings()
 
   const setName = name => setDataSource(prev => ({...prev, name}));
   const setEmail = email => setDataSource(prev => ({...prev, email}));
@@ -52,9 +52,11 @@ const RegisterScreen = ({navigation}) => {
           ]
       }))
     }
-    const fcmToken = await getString(STORAGE.firebaseToken);
-    firebaseService.setFCMToken(fcmToken, token);
-    firebaseService.registerAppWithFCM();
+    if (nstatus !== N_STATUS) {
+      const fcmToken = await getString(STORAGE.firebaseToken);
+      firebaseService.setFCMToken(fcmToken, token);
+      firebaseService.registerAppWithFCM();
+    }
   });
 
   useLayoutEffect(() => {
