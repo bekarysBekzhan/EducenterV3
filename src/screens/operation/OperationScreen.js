@@ -439,26 +439,33 @@ const OperationScreen = ({navigation, route}) => {
         />
       ) : null}
 
-      <PromoRow
-        text={strings['Мои бонусы']}
-        price={dataSource?.data?.total_bonuses}
-        showZero
-      />
+      {settings?.modules_enabled_bonus ? (
+        <Fragment>
+          <PromoRow
+            text={strings['Мои бонусы']}
+            price={dataSource?.data?.total_bonuses}
+            showZero
+          />
 
-      <PromoRow
-        text={wordLocalization(strings['Доступно (:percent% от стоимости)'], {
-          percent: settings?.modules_bonus_percent,
-        })}
-        price={dataSource?.bonuses}
-        showZero
-      />
+          <PromoRow
+            text={wordLocalization(
+              strings['Доступно (:percent% от стоимости)'],
+              {
+                percent: settings?.modules_bonus_percent,
+              },
+            )}
+            price={dataSource?.bonuses}
+            showZero
+          />
 
-      {dataSource?.bonuses || dataSource?.data?.bonuses ? (
-        <CheckButton
-          onPress={onCheckedBonuses}
-          checked={dataSource?.usedBonuses}
-          text={strings['Использовать бонусы']}
-        />
+          {dataSource?.bonuses || dataSource?.data?.bonuses ? (
+            <CheckButton
+              onPress={onCheckedBonuses}
+              checked={dataSource?.usedBonuses}
+              text={strings['Использовать бонусы']}
+            />
+          ) : null}
+        </Fragment>
       ) : null}
 
       <PromoRow
