@@ -16,13 +16,13 @@ import NavButtonRow from '../../../components/view/NavButtonRow';
 import RowView from '../../../components/view/RowView';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../../utils/utils';
-import {APP_COLORS} from '../../../constans/constants';
+import {APP_COLORS, N_STATUS} from '../../../constans/constants';
 import DevView from '../../../components/view/DevView';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 
 const MenuScreen = ({navigation}) => {
-  const {settings} = useSettings();
+  const {settings, nstatus} = useSettings();
 
   const MENU = [
     {
@@ -39,7 +39,7 @@ const MenuScreen = ({navigation}) => {
           id: 2,
           text: settings?.modules_enabled_journals_title,
           iconLeft: <JournalIcon />,
-          enabled: settings?.modules_enabled_journals,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_journals,
         },
         {
           id: 3,
@@ -92,7 +92,7 @@ const MenuScreen = ({navigation}) => {
     },
     {
       section: strings.Помощь,
-      enabled: settings?.phone?.length,
+      enabled: nstatus !== N_STATUS && settings?.phone?.length,
       data: [
         {
           id: 1,

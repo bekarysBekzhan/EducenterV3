@@ -71,7 +71,7 @@ const ProfileScreen = ({navigation, route}) => {
           id: 1,
           text: strings['История оплаты'],
           iconLeft: <History />,
-          enabled: true,
+          enabled: nstatus !== N_STATUS,
           action: 'navigation',
           route: ROUTE_NAMES.history,
         },
@@ -117,7 +117,7 @@ const ProfileScreen = ({navigation, route}) => {
           id: 1,
           text: settings?.modules_enabled_journals_title,
           iconLeft: <JournalIcon />,
-          enabled: settings?.modules_enabled_journals,
+          enabled: nstatus !== N_STATUS && settings?.modules_enabled_journals,
           action: 'navigation',
           route: ROUTE_NAMES.journalNavigator,
         },
@@ -168,7 +168,7 @@ const ProfileScreen = ({navigation, route}) => {
     },
     {
       section: strings.Помощь,
-      enabled: settings?.phone?.length,
+      enabled: nstatus !== N_STATUS && settings?.phone?.length,
       data: [
         {
           id: 1,
