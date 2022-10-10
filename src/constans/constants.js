@@ -82,7 +82,8 @@ export const URLS = {
   ubtTestResult: "modules/ubt/result/",
   sendComment: "/send_comment",
   notifications: 'notifications',
-  rating:'modules/tests/my/rating'
+  rating:'modules/tests/my/rating',
+  getStatus: "get",
 };
 
 export const STORAGE = {
@@ -133,3 +134,5 @@ export const AUTH_TYPE = {
   email: "email",
   phone: "phone"
 }
+
+export const N_STATUS = 3;

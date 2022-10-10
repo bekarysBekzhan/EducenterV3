@@ -41,6 +41,7 @@ import {strings} from '../../localization';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
 import NotificationsScreen from '../../screens/NotificationsScreen';
 import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
+import { Platform } from 'react-native';
 
 const MainStack = createNativeStackNavigator();
 
@@ -182,12 +183,15 @@ const PRIVATE = [
 ];
 
 const Navigation = () => {
-  const {setSettings, setIsAuth, isAuth, setInitialStart, setIsRead} =
+  const {setSettings, setIsAuth, isAuth, setInitialStart, setIsRead, setNstatus} =
     useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
     const response = await MobileSettingsService.fetchSettings();
     setSettings(response.data?.data);
+
+    const status = await MobileSettingsService.getStatus();
+    setNstatus(status.data[Platform.OS]);
 
     const userToken = await getString(STORAGE.userToken);
     if (userToken) {

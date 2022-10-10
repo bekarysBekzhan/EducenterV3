@@ -9,6 +9,12 @@ class MobileSettingsService {
     return response;
   };
 
+  static getStatus = async () => {
+    const response = await API_V2.get(URLS.getStatus);
+    console.log("status: " , response.data);
+    return response;
+  }
+
   static fetchLanguages = async () => {
     const response = await API_V2.get(URLS.languages);
     return response;
