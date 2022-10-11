@@ -41,7 +41,7 @@ const CourseTaskScreen = props => {
   const [attachedFile, setAttachedFile] = useState(null);
   const [answer, setAnswer] = useState('');
   const [progress, setProgress] = useState(0);
-  const [height, setHeight] = useState(38);
+  const [height, setHeight] = useState(48);
   const [inputHeight, setInputHeight] = useState(0);
 
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
@@ -205,7 +205,7 @@ const CourseTaskScreen = props => {
   }
   return (
     <KeyboardAvoidingView
-      behavior="padding"
+      behavior={Platform.OS == 'android' ? null : 'padding'}
       style={styles.container}
       keyboardVerticalOffset={keyboardOffset}>
       <FlatList
@@ -342,8 +342,6 @@ const styles = StyleSheet.create({
     flex: 1,
     marginHorizontal: 16,
     borderRadius: 14,
-    borderWidth: 0.25,
-    borderColor: APP_COLORS.border,
     backgroundColor: APP_COLORS.input,
     maxHeight: 120,
     height: 48,

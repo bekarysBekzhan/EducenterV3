@@ -12,7 +12,7 @@ import {strings} from '../../localization';
 import {storeObject} from '../../storage/AsyncStorage';
 import HtmlView from '../../components/HtmlView';
 
-const SplashScreen = ({navigation, route}) => {
+const SplashScreen = ({navigation}) => {
   const {settings, initialStart, isAuth} = useSettings();
 
   useEffect(() => {

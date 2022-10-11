@@ -1,5 +1,5 @@
 import {Linking, StyleSheet, Text, View} from 'react-native';
-import React, {Fragment} from 'react';
+import React, {Fragment, useLayoutEffect} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {
   CalendarIcon,
@@ -20,9 +20,14 @@ import {APP_COLORS, N_STATUS} from '../../../constans/constants';
 import DevView from '../../../components/view/DevView';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
+import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
 
 const MenuScreen = ({navigation}) => {
   const {settings, nstatus, isAuth} = useSettings();
+
+  useLayoutEffect(() => {
+    navigation.setOptions(navHeaderOptions(settings?.logo, strings.Меню));
+  }, []);
 
   const MENU = [
     {
@@ -53,7 +58,7 @@ const MenuScreen = ({navigation}) => {
           iconLeft: <RatingIcon />,
           enabled: isAuth && settings?.modules_enabled_rating,
           route: ROUTE_NAMES.rating,
-          action: "navigation",
+          action: 'navigation',
         },
         // {
         //     id: 3,
@@ -73,7 +78,8 @@ const MenuScreen = ({navigation}) => {
           id: 5,
           text: settings?.modules_enabled_offline_courses_title,
           iconLeft: <ReclamentIcon />,
-          enabled: nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
+          enabled:
+            nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCourses,
           action: 'navigation',
         },
@@ -81,7 +87,8 @@ const MenuScreen = ({navigation}) => {
           id: 6,
           text: strings.Календарь,
           iconLeft: <CalendarIcon />,
-          enabled: nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
+          enabled:
+            nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCalendar,
           action: 'navigation',
         },
@@ -90,6 +97,8 @@ const MenuScreen = ({navigation}) => {
           text: strings['Правила и соглашения'],
           iconLeft: <ReclamentIcon />,
           enabled: true,
+          route: ROUTE_NAMES.privacy,
+          action: 'navigation',
         },
       ],
     },
@@ -179,7 +188,9 @@ const MenuScreen = ({navigation}) => {
             ))}
         </Fragment>
       ))}
-      {nstatus !== N_STATUS && settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
+      {nstatus !== N_STATUS && settings?.field_enabled_logo_buginsoft ? (
+        <DevView />
+      ) : null}
     </UniversalView>
   );
 };

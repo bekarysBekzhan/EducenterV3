@@ -139,4 +139,4 @@ export const AUTH_TYPE = {
   phone: "phone"
 }
 
-export const N_STATUS = '5';
+export const N_STATUS = '6';
