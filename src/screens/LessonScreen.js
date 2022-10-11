@@ -40,14 +40,14 @@ import {Modal} from 'react-native';
 import MyCourseChapter from '../components/course/MyCourseChapter';
 import CourseChapter from '../components/course/CourseChapter';
 import {useHeaderHeight} from '@react-navigation/elements';
-import { useSettings } from '../components/context/Provider';
+import {useSettings} from '../components/context/Provider';
 
 const LessonScreen = props => {
   const id = props.route?.params?.id;
   const chapterTitle = props.route?.params?.title;
   const hasSubscribed = props.route?.params?.hasSubscribed;
 
-  const { nstatus } = useSettings();
+  const {nstatus, settings} = useSettings();
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
   const [course, setCourse] = useState(null);
@@ -216,16 +216,27 @@ const LessonScreen = props => {
             style={styles.taskButton}
           />
         ) : null}
-        <WriteComment lessonId={id} submitCommentTapped={submitCommentTapped} />
-        <Text style={styles.commentsCount}>
-          {comments.length} {strings.Комментарий}
-        </Text>
-        <Divider isAbsolute={false} />
+        {settings?.modules_enable_comments_lesson ? (
+          <WriteComment
+            lessonId={id}
+            submitCommentTapped={submitCommentTapped}
+          />
+        ) : null}
+        {settings?.modules_enable_comments_lesson ? (
+          <Text style={styles.commentsCount}>
+            {comments.length} {strings.Комментарий}
+          </Text>
+        ) : null}
+        {settings?.modules_enable_comments_lesson ? (
+          <Divider isAbsolute={false} />
+        ) : null}
       </View>
     );
   };
 
   const renderComment = ({item, index}) => {
+    if (!settings?.modules_enable_comments_lesson) return null;
+
     return (
       <Comment
         id={item?.id}
@@ -240,6 +251,12 @@ const LessonScreen = props => {
   };
 
   const renderBottomPadding = () => <View style={{height: padding}} />;
+
+  const renderEmptyComponent = () => {
+    if (!settings?.modules_enable_comments_lesson) return null;
+
+    return <Empty text={strings['Нет комментариев']} />;
+  };
 
   const renderModalHeader = () => {
     return (
@@ -300,7 +317,7 @@ const LessonScreen = props => {
         showsVerticalScrollIndicator={false}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderBottomPadding}
-        ListEmptyComponent={() => <Empty text={strings['Нет комментариев']} />}
+        ListEmptyComponent={renderEmptyComponent}
       />
       <View style={styles.switchBar} onLayout={onSwitchBarLayout}>
         {data?.isFirst ? (
