@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         padding: 16,
         paddingVertical: 14
     },
-    text: [setFontStyle(13, "400", APP_COLORS.placeholder)],
+    text: {...setFontStyle(13, "400", APP_COLORS.placeholder)},
 })
 
 export default SectionView

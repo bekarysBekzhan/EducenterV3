@@ -1,6 +1,5 @@
 import React, {useCallback} from 'react';
-import {StyleSheet} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import {FlatList, StyleSheet} from 'react-native';
 import Empty from '../../components/Empty';
 import FileItem from '../../components/FileItem';
 import UniversalView from '../../components/view/UniversalView';

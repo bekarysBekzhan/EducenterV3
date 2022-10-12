@@ -1,8 +1,8 @@
 import React from 'react'
 import UniversalView from '../components/view/UniversalView'
-import { FlatList } from 'react-native-gesture-handler'
 import { useState } from 'react'
 import SelectOption from '../components/SelectOption'
+import { FlatList } from 'react-native'
 
 const SelectCategoryScreen = ({ navigation, route }) => {
 

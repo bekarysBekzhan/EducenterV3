@@ -11,7 +11,7 @@ import UniversalView from '../../../components/view/UniversalView';
 import {useFetching} from '../../../hooks/useFetching';
 import LoadingScreen from '../../../components/LoadingScreen';
 import {MyCourseService} from '../../../services/API';
-import {APP_COLORS, WIDTH} from '../../../constans/constants';
+import {APP_COLORS} from '../../../constans/constants';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {check, down, lock, PlayIcon, TimeIcon, up} from '../../../assets/icons';
 import RowView from '../../../components/view/RowView';
@@ -37,6 +37,7 @@ const MyTestsTab = props => {
 
   const [fetchTests, isFetching, fetchingError] = useFetching(async () => {
     const response = await MyCourseService.fetchMyTests();
+    console.log('fetchTests',response);
     setData(response.data?.data);
     setLastPage(response.data?.last_page);
   });
@@ -44,6 +45,7 @@ const MyTestsTab = props => {
   const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(
     async () => {
       const response = await MyCourseService.fetchMyTests('', page);
+      console.log('fetchNext MyTest',response);
       setData(prev => prev.concat(response.data?.data));
     },
   );
@@ -83,7 +85,7 @@ const MyTestsTab = props => {
     setVisible(true);
     fileDownloader(urlFile, fileName, () => setVisible(false), onProgress);
 
-  }, []);
+  }, [data]);
 
   const cancelDownloader = useCallback(() => {
 
@@ -159,9 +161,10 @@ const MyTestsTab = props => {
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.01}
         refreshing={isFetching}
         onRefresh={onRefresh}
+        initialNumToRender={20}
       />
       <Downloader
         visible={visible}
@@ -338,6 +341,7 @@ const ModuleMyTestItem = ({
           bounces={false}
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}
+          initialNumToRender={getData()?.length}
         />
       </Collapsible>
     </View>
@@ -349,8 +353,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   footer: {
-    width: WIDTH - 32,
-    height: 30,
+    marginVertical:16,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -65,7 +65,7 @@ const MyCourseDetailScreen = props => {
     const fileName = data?.title;
     setVisible(true);
     fileDownloader(urlFile, fileName, () => setVisible(false), onProgress);
-  }, []);
+  }, [data]);
 
   const cancelDownloader = useCallback(() => {
     setVisible(false);

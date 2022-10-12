@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  text: [setFontStyle(15, '400', APP_COLORS.placeholder), {marginLeft: 15}],
+  text: {...setFontStyle(15, '400', APP_COLORS.placeholder), marginLeft: 15},
 });
 
 export default SearchButton;

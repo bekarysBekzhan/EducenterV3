@@ -1,6 +1,5 @@
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet ,TouchableOpacity} from 'react-native'
 import React, { useCallback, useRef, useState } from 'react'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import FastImage from 'react-native-fast-image'
 import { fileDownloader, setFontStyle } from '../utils/utils'
 import { APP_COLORS } from '../constans/constants'

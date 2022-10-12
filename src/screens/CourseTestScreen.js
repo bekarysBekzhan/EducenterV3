@@ -1,11 +1,10 @@
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, FlatList,  StyleSheet, ActivityIndicator} from 'react-native';
 import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import TrackPlayer from 'react-native-track-player';
 import {useFetching} from '../hooks/useFetching';
 import Question from '../components/test/Question';
 import { CourseService } from '../services/API';
-import { FlatList } from 'react-native-gesture-handler';
 import { APP_COLORS } from '../constans/constants';
 import SimpleButton from '../components/button/SimpleButton';
 import { strings } from '../localization';

@@ -1,7 +1,7 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet'
 import React from 'react'
 import { useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import {  StyleSheet, View } from 'react-native'
 import SimpleButton from '../components/button/SimpleButton'
 import { ROUTE_NAMES } from '../components/navigation/routes'
 import SelectOption from '../components/SelectOption'

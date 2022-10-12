@@ -1,6 +1,5 @@
-import {StyleSheet, Text} from 'react-native';
+import {StyleSheet, Text,TouchableOpacity} from 'react-native';
 import React from 'react';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import FastImage from 'react-native-fast-image';
 import RowView from '../view/RowView';
 import Price from '../Price';

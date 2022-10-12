@@ -1,7 +1,7 @@
-import React, {useCallback, useLayoutEffect, useState} from 'react';
+import React, {useCallback, useLayoutEffect, useState,} from 'react';
 import UniversalView from '../components/view/UniversalView';
-import {FlatList} from 'react-native-gesture-handler';
 import SelectOption from '../components/SelectOption';
+import { FlatList } from 'react-native';
 
 const SelectCategoryRatingScreen = ({navigation, route}) => {
   console.log('SelectCategoryRatingScreen', navigation, route);

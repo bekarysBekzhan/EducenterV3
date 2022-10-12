@@ -9,9 +9,13 @@ const CheckButton = ({checked = false, onPress, text, textStyle, style}) => (
   <TouchableOpacity
     activeOpacity={0.9}
     onPress={onPress}
-    style={{...style, ...styles.button}}>
+    style={{
+      ...style,
+      ...styles.button,
+      borderColor: checked ? APP_COLORS.primary : APP_COLORS.border,
+    }}>
     <RowView style={styles.row}>
-      {checked ? check() : x()}
+      {checked ? check(1, APP_COLORS.primary) : null}
       <Text style={{...styles.textStyle, ...textStyle}}>{text}</Text>
     </RowView>
   </TouchableOpacity>
