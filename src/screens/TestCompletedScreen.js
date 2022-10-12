@@ -59,7 +59,7 @@ const TestCompletedScreen = props => {
   }
 
   const onGoHome = () => {
-
+    props.navigation.popToTop();
   }
 
   return (
