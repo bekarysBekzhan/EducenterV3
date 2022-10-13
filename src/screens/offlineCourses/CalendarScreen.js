@@ -59,16 +59,16 @@ const CalendarScreen = ({navigation}) => {
             ? v?.color
             : APP_COLORS.primary
           : APP_COLORS.primary;
-
-      dayData[dataSource?.day] = {
-        selected: true,
-        customStyles: {
-          text: {
-            color: '#fff',
-          },
-        },
-      };
     });
+
+    dayData[dataSource?.day] = {
+      selected: true,
+      customStyles: {
+        text: {
+          color: '#fff',
+        },
+      },
+    };
 
     setDataSource(prev => ({
       ...prev,
