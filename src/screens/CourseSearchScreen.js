@@ -45,7 +45,7 @@ const CourseSearchScreen = props => {
   const [category, setCategory] = useState(null);
   const [history, setHistory] = useState([]);
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['25%', '40%', '50%', '60%'], []);
+  const snapPoints = useMemo(() => ['70%', '80%'], []);
 
   const [fetchInitial, isFetchingInitial, fetchingInitialError] = useFetching(
     async () => {

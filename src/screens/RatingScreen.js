@@ -39,7 +39,7 @@ const RatingScreen = ({}) => {
   const [category, setCategory] = useState(null);
   const [test, setTest] = useState(null);
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['25%', '40%', '50%', '60%'], []);
+  const snapPoints = useMemo(() => ['80%', '90%'], []);
 
   const clearTapped = () => {
     setValue('');
@@ -221,7 +221,7 @@ const RatingScreen = ({}) => {
         <BottomSheet
           ref={bottomSheetRef}
           snapPoints={snapPoints}
-          index={3}
+          index={1}
           onChange={handleSheetChanges}
           // enablePanDownToClose
           backdropComponent={renderBackdrop}>

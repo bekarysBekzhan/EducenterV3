@@ -115,7 +115,7 @@ const Footer = ({
   return (
     <View>
       <SectionView label={strings.Сортировка} />
-      {convertToIterable(filters.sorts).map((sort, index) => (
+      {convertToIterable(filters?.sorts).map((sort, index) => (
         <SelectOption
           value={sort.key}
           _key={sort.key}
