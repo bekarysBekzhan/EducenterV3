@@ -11,7 +11,7 @@ const HtmlView = ({
   html,
   baseStyle,
   contentWidth = 32,
-  tagsStyles,
+  tagsStyles = {},
   renderers = {},
   ...props
 }) => {
@@ -21,9 +21,8 @@ const HtmlView = ({
 
   const memoTagsStyles = useMemo(
     () => ({
-      ...tagsStyles,
-      p: {color: APP_COLORS.font},
-      span: {color: APP_COLORS.font},
+      p: {color: APP_COLORS.font, ...tagsStyles?.p},
+      span: {color: APP_COLORS.font, ...tagsStyles?.span},
     }),
     [],
   );
