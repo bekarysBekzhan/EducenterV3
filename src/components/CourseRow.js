@@ -72,7 +72,7 @@ const CourseRow = ({
             disabled={disabled}
         >
             <FastImage
-                source={{uri: poster}}
+                source={{uri: poster, priority: "high"}}
                 style={styles.poster}
             />
             <View

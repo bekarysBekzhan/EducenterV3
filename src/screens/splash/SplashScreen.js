@@ -45,7 +45,7 @@ const SplashScreen = ({navigation}) => {
   if (initialStart) {
     return (
       <UniversalView style={styles.container}>
-        <FastImage style={styles.logo} source={{uri: settings?.logo}} />
+        <FastImage style={styles.logo} source={{uri: settings?.logo, priority: "high"}} />
         <Text numberOfLines={3} style={styles.description}>
           {settings?.description}
         </Text>
@@ -68,6 +68,7 @@ const SplashScreen = ({navigation}) => {
                   word: `<span style='color:${APP_COLORS.primary}'>${strings['Пользовательским соглашением']}</span>`,
                 },
               )}</p>`}
+              tagsStyles={{ p: { color: APP_COLORS.font } }}
             />
           </TouchableOpacity>
         </View>

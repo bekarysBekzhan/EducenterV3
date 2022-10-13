@@ -106,7 +106,7 @@ const MyCourseCard = ({ item, index, navigation }) => {
       >
         <FastImage 
           style={styles.poster}
-          source={{ uri: item?.progress_information?.next_lesson?.preview }}
+          source={{ uri: item?.progress_information?.next_lesson?.preview, priority: "high" }}
         >
           <View style={styles.posterOverlay}>
             <RowView style={styles.row1}>

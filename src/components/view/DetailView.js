@@ -63,7 +63,7 @@ const DetailView = ({
               ? styles.descriptionViewShow
               : styles.descriptionViewHidden
           }>
-          {description ? <HtmlView html={description} /> : null}
+          {description ? <HtmlView html={description} tagsStyles={{ p: { color: APP_COLORS.font }, span: { color: APP_COLORS.font  } }}/> : null}
         </View>
         {description && !isDescriptionMore ? (
           <TextButton

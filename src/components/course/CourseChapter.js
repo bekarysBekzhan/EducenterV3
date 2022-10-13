@@ -79,6 +79,7 @@ const CourseChapter = ({item, index, hasSubscribed = false, navigation, from = "
                   item?.lessons?.length > 0
                     ? item?.lessons[0]?.preview
                     : settings?.logo,
+                priority: "high",
               }}
               style={styles.chapterPoster}>
               <View style={styles.chapterPosterOpacity}>

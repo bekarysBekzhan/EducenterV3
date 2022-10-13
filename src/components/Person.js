@@ -20,7 +20,7 @@ const Person = ({
         <View style={[styles.container, extraStyles]}>
             <Text style={styles.status}>{status}</Text>
             <RowView style={styles.row}>
-                <FastImage source={{ uri: image }} style={styles.image}/>
+                <FastImage source={{ uri: image, priority: "high" }} style={styles.image}/>
                 <View style={styles.column}>
                     <Text style={styles.name}>{name}</Text>
                     {

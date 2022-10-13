@@ -5,6 +5,7 @@ import { WebView } from 'react-native-webview';
 import IframeRenderer, { iframeModel } from '@native-html/iframe-plugin';
 import TableRenderer, { tableModel } from '@native-html/table-plugin';
 import TrackPlayer, { State } from 'react-native-track-player';
+import { APP_COLORS } from '../constans/constants';
 
 const HtmlView = ({
     html,
@@ -73,7 +74,7 @@ const HtmlView = ({
             renderersProps={memoRenderersProps}
             defaultWebViewProps={memoDefaultWebViewProps}
             ignoredDomTags={memoIgnoredDomTags}
-            tagsStyles={tagsStyles}
+            tagsStyles={{...tagsStyles, p: { color: APP_COLORS.font}, span: { color: APP_COLORS.font}}}
             {...props}
         />
     );

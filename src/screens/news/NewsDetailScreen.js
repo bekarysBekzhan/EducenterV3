@@ -51,7 +51,7 @@ const NewsDetailScreen = ({route}) => {
       </View>
       <FastImage
         style={styles.poster}
-        source={{uri: dataSource?.data?.poster}}
+        source={{uri: dataSource?.data?.poster, priority: "high"}}
       />
       <HtmlView html={dataSource?.data?.description} />
     </UniversalView>
