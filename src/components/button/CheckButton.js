@@ -4,15 +4,20 @@ import {APP_COLORS} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
 import RowView from '../view/RowView';
 import {check, x} from '../../assets/icons';
+import { useSettings } from '../context/Provider';
 
-const CheckButton = ({checked = false, onPress, text, textStyle, style}) => (
+const CheckButton = ({checked = false, onPress, text, textStyle, style}) => {
+
+  const { settings } = useSettings();
+
+  return (
   <TouchableOpacity
     activeOpacity={0.9}
     onPress={onPress}
     style={{
       ...style,
       ...styles.button,
-      borderColor: checked ? APP_COLORS.primary : APP_COLORS.border,
+      borderColor: checked ? settings?.color_app : APP_COLORS.border,
     }}>
     <RowView style={styles.row}>
       {checked ? check(1, APP_COLORS.primary) : null}
@@ -20,6 +25,7 @@ const CheckButton = ({checked = false, onPress, text, textStyle, style}) => (
     </RowView>
   </TouchableOpacity>
 );
+}
 
 const styles = StyleSheet.create({
   button: {

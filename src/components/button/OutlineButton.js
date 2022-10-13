@@ -7,6 +7,7 @@ import {
 import React, {useMemo} from 'react';
 import {setFontStyle} from '../../utils/utils';
 import {APP_COLORS} from '../../constans/constants';
+import { useSettings } from '../context/Provider';
 
 const OutlineButton = ({
   text,
@@ -17,8 +18,9 @@ const OutlineButton = ({
   colorIndicator = APP_COLORS.primary,
   ...props
 }) => {
+  const {settings} = useSettings();
   const memoStyle = useMemo(() => [styles.button, style], [style]);
-  const memoTextStyle = useMemo(() => [styles.text, textStyle], [textStyle]);
+  const memoTextStyle = useMemo(() => [{...styles.text, color: settings?.color_app}, textStyle], [textStyle]);
 
   return (
     <TouchableOpacity

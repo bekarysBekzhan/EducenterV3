@@ -3,8 +3,12 @@ import React, {useMemo} from 'react';
 import RowView from './view/RowView';
 import {setFontStyle} from '../utils/utils';
 import {APP_COLORS} from '../constans/constants';
+import { useSettings } from './context/Provider';
 
 const Price = ({price = 0, priceStyle, oldPrice = 0, oldPriceStyle, style}) => {
+
+  const { settings } = useSettings();
+
   const memoPriceStyle = useMemo(
     () => [styles.price, priceStyle],
     [priceStyle],
@@ -17,9 +21,9 @@ const Price = ({price = 0, priceStyle, oldPrice = 0, oldPriceStyle, style}) => {
 
   return (
     <RowView style={style}>
-      <Text style={memoPriceStyle}>{price.toLocaleString("fr")} ₸</Text>
+      <Text style={memoPriceStyle}>{price.toLocaleString("fr")} {settings?.currency_symbol}</Text>
       {oldPrice != 0 && oldPrice != null ? (
-        <Text style={memoOldPriceStyle}>{oldPrice.toLocaleString('fr')} ₸</Text>
+        <Text style={memoOldPriceStyle}>{oldPrice.toLocaleString('fr')} {settings?.currency_symbol}</Text>
       ) : null}
     </RowView>
   );
