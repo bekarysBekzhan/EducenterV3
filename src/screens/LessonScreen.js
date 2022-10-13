@@ -603,6 +603,7 @@ const styles = StyleSheet.create({
   },
   programText: {
     marginLeft: 16,
+    color: APP_COLORS.font,
   },
 });
 
