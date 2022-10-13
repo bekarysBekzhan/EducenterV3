@@ -37,6 +37,7 @@ const AnswerOption = ({
   extraStyle,
   extraTextStyle,
   resultType,
+  disabled=false
 }) => {
 
   const initialState = () => {
@@ -154,6 +155,7 @@ const AnswerOption = ({
       onPress={selectTapped}
       activeOpacity={0.7}
       // disabled={isSelectDisabled()}
+      disabled={disabled}
     >
       <View style={memoStylesCheckbox}>
         {renderIcon()}

@@ -42,6 +42,7 @@ const TestResultScreen = (props) => {
                 index={index}
                 is_multiple={item?.question?.is_multiple}
                 resultType={resultType ? resultType : RESULT_TYPES.DEFAULT}
+                disabledAnswer
             />
         )
     }

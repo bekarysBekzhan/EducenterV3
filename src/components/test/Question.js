@@ -19,6 +19,7 @@ const Question = ({
   extraStyle,
   extraTextStyle,
   resultType,
+  disabledAnswer=false
 }) => {
 
   const memoStylesContainer = useMemo(() => [styles.container, extraStyle], []);
@@ -76,6 +77,7 @@ const Question = ({
             onTrackChange={onTrackChange}
             correct={item?.is_correct}
             key={i}
+            disabled={disabledAnswer}
           />
         )
       })}

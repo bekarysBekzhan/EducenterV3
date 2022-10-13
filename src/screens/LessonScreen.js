@@ -318,6 +318,7 @@ const LessonScreen = props => {
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderBottomPadding}
         ListEmptyComponent={renderEmptyComponent}
+        contentContainerStyle={styles.listContent}
       />
       <View style={styles.switchBar} onLayout={onSwitchBarLayout}>
         {data?.isFirst ? (
@@ -528,6 +529,9 @@ const Comment = ({
 };
 
 const styles = StyleSheet.create({
+  listContent:{
+    paddingBottom:50
+  },
   container: {
     padding: 16,
   },

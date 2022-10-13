@@ -46,19 +46,21 @@ const Footer = ({data, navigation, haveAuthor = true}) => {
           />
         ) : null}
 
-        <RowView style={{justifyContent: 'space-between'}}>
-          <Text
-            style={{
-              ...setFontStyle(21, '700'),
-            }}>
-            {strings.Отзывы}
-          </Text>
-          <TextButton
-            text={strings.Все}
-            textStyle={styles.allButton}
-            onPress={onAllReviews}
-          />
-        </RowView>
+        {data?.reviews?.length ? (
+          <RowView style={{justifyContent: 'space-between'}}>
+            <Text
+              style={{
+                ...setFontStyle(21, '700'),
+              }}>
+              {strings.Отзывы}
+            </Text>
+            <TextButton
+              text={strings.Все}
+              textStyle={styles.allButton}
+              onPress={onAllReviews}
+            />
+          </RowView>
+        ) : null}
       </View>
       <FlatList
         data={data?.reviews}

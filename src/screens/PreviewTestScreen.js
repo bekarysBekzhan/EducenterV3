@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
   label: {
+    flex:1,
     ...setFontStyle(14),
     marginVertical: 3.5,
   },
