@@ -111,7 +111,7 @@ const CourseCard = ({item, index, navigation}) => {
       style={styles.courseCard}
       activeOpacity={0.9}
       onPress={onCourse}>
-      <FastImage source={{uri: item?.poster}} style={styles.poster} />
+      <FastImage source={{uri: item?.poster, priority: "high"}} style={styles.poster} />
       <RowView style={styles.row1}>
         <Text style={styles.category}>{item?.category_name}</Text>
         <Price

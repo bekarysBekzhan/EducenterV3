@@ -105,7 +105,7 @@ const MyCourseDetailScreen = props => {
         <Divider isAbsolute={false} />
         <Text style={styles.courseProgram}>{strings['Программа курса']}</Text>
         <RowView style={{ justifyContent: "space-between", margin: 16 }}>
-          <Text>{strings['Скрыть пройденные курсы']}</Text>
+          <Text style={{ color: APP_COLORS.font }}>{strings['Скрыть пройденные курсы']}</Text>
           <Switch
             value={isFilter}
             onValueChange={(value) => setIsFilter(value)}

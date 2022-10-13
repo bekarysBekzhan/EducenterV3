@@ -22,15 +22,14 @@ import {down, TimeIcon, up} from '../../assets/icons';
 import Timer from '../../components/test/Timer';
 import {APP_COLORS, WIDTH} from '../../constans/constants';
 import {Modal} from 'react-native';
-import {setFontStyle} from '../../utils/utils';
+import {getSeconds, setFontStyle} from '../../utils/utils';
 import LoadingScreen from '../../components/LoadingScreen';
-import { useHeaderHeight } from '@react-navigation/elements';
-import { ROUTE_NAMES } from '../../components/navigation/routes';
+import {useHeaderHeight} from '@react-navigation/elements';
+import {ROUTE_NAMES} from '../../components/navigation/routes';
 
 const UBTTestScreen = props => {
-
   const id = props.route?.params?.id;
-  const again = props.route?.params?.again
+  const again = props.route?.params?.again;
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -39,14 +38,14 @@ const UBTTestScreen = props => {
 
   const [data, setData] = useState(null);
   const [visible, setVisible] = useState(false);
-  const [navigationTitle, setNavigationTitle] = useState(null)
+  const [navigationTitle, setNavigationTitle] = useState(null);
 
   const [fetchTest, isLoading, testError] = useFetching(async () => {
     let response = await UBTService.startTest(id, again);
-    let convertedArray = Object.values(response.data?.data?.ubt_tests)
-    response.data.data.ubtTests = convertedArray
+    let convertedArray = Object.values(response.data?.data?.ubt_tests);
+    response.data.data.ubtTests = convertedArray;
     setData(response.data?.data);
-    setNavigationTitle(response.data?.data?.ubtTests[0]?.entity?.entity?.name)
+    setNavigationTitle(response.data?.data?.ubtTests[0]?.entity?.entity?.name);
   });
 
   const [finishTest, isFinishLoading, finishError] = useFetching(async () => {
@@ -71,17 +70,17 @@ const UBTTestScreen = props => {
   }, [testError]);
 
   useLayoutEffect(() => {
-
     props.navigation.setOptions({
-      title: "ҰБТ",
-    })
+      title: 'ҰБТ',
+    });
 
     if (data) {
       props.navigation.setOptions({
         headerRight: () => (
           <TestTimer
-            initialTime={getInitialSeconds(data?.finishing_time)}
+            finishingTime={data?.finishing_time}
             finishTest={finishTest}
+            totalSeconds={getSeconds(data?.finishing_time)}
           />
         ),
       });
@@ -100,8 +99,7 @@ const UBTTestScreen = props => {
   };
 
   const getInitialSeconds = finishingTime => {
-
-    console.log("finishing time : " , finishingTime)
+    console.log('finishing time : ', finishingTime);
 
     if (finishingTime === undefined || finishingTime === null) {
       return 0;
@@ -139,8 +137,8 @@ const UBTTestScreen = props => {
 
   const onSelectSubject = (title, index) => {
     listRef.current?.scrollToIndex({index: index, animated: false});
-    setVisible(false)
-    setNavigationTitle(title)
+    setVisible(false);
+    setNavigationTitle(title);
   };
 
   const onOpenSubjectsModal = () => {
@@ -149,11 +147,10 @@ const UBTTestScreen = props => {
 
   const renderNavigationHeader = () => {
     return (
-      <TouchableOpacity 
-        onPress={onOpenSubjectsModal} 
+      <TouchableOpacity
+        onPress={onOpenSubjectsModal}
         activeOpacity={0.75}
-        style={styles.navigationHeader}
-      >
+        style={styles.navigationHeader}>
         <Text style={styles.navigationHeaderTitle}>{navigationTitle}</Text>
         {visible ? up : down}
       </TouchableOpacity>
@@ -166,8 +163,8 @@ const UBTTestScreen = props => {
         data={item?.questions}
         renderItem={renderQuestion}
         ListFooterComponent={renderFooter}
-        style={{ width: WIDTH }}
-        contentContainerStyle={{ padding: 16 }}
+        style={{width: WIDTH}}
+        contentContainerStyle={{padding: 16}}
         maxToRenderPerBatch={10}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
@@ -236,8 +233,7 @@ const UBTTestScreen = props => {
   );
 };
 
-const TestTimer = ({initialTime, finishTest}) => {
-
+const TestTimer = ({finishingTime, finishTest, totalSeconds}) => {
   const [backgroundColor, setBackgroundColor] = useState('green');
 
   return (
@@ -252,13 +248,13 @@ const TestTimer = ({initialTime, finishTest}) => {
         <TimeIcon color="white" />
       </View>
       <Timer
-        initialValue={initialTime}
+        finishingTime={finishingTime}
         onTimes={time => {
           if (time === 0) {
             finishTest();
-          } else if (time < initialTime / 5) {
+          } else if (time < totalSeconds / 5) {
             setBackgroundColor('red');
-          } else if (time < initialTime / 2) {
+          } else if (time < totalSeconds / 2) {
             setBackgroundColor('#FACC56');
           }
         }}
@@ -274,20 +270,18 @@ const SubjectsModal = ({
 }) => {
   console.log('subjects : ', subjects);
 
-  const headerHeight = useHeaderHeight()
+  const headerHeight = useHeaderHeight();
 
   const onSubject = (s, index) => {
     onSelect(s?.entity?.name, index);
   };
 
-  const onBackDrop = () => {
-
-  }
+  const onBackDrop = () => {};
 
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
       <SafeAreaView style={styles.modal}>
-        <View style={{ height: headerHeight }}/>
+        <View style={{height: headerHeight}} />
         {subjects.map((s, i) => (
           <TouchableOpacity
             key={i}
@@ -297,7 +291,7 @@ const SubjectsModal = ({
             <Text style={styles.subjectText}>{s?.entity?.name}</Text>
           </TouchableOpacity>
         ))}
-        <View style={styles.backDrop} onPress={onBackDrop}/>
+        <View style={styles.backDrop} onPress={onBackDrop} />
       </SafeAreaView>
     </Modal>
   );
@@ -310,13 +304,13 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   navigationHeader: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 12
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 12,
   },
   navigationHeaderTitle: {
-    ...setFontStyle(17, "500"),
+    ...setFontStyle(17, '500'),
   },
   list: {
     flex: 1,
@@ -324,11 +318,11 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   backDrop: {
     flex: 1,
-    backgroundColor: "rgba(0.0, 0.0, 0.0, 0.2)"
+    backgroundColor: 'rgba(0.0, 0.0, 0.0, 0.2)',
   },
   subject: {
     width: '100%',

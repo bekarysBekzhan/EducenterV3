@@ -72,7 +72,7 @@ const CourseRow = ({
             disabled={disabled}
         >
             <FastImage
-                source={{uri: poster}}
+                source={{uri: poster, priority: "high"}}
                 style={styles.poster}
             />
             <View
@@ -95,7 +95,7 @@ const CourseRow = ({
                     ?
                     <TextButton
                         style={styles.button}
-                        textStyle={styles.buttonText}
+                        textStyle={{...styles.buttonText, color: settings?.color_app}}
                         text={strings.Скачать}
                         onPress={downloader}
                     />

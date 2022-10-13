@@ -14,21 +14,24 @@ import {
 import Empty from '../../components/Empty';
 import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS, HEIGHT, TYPE_SUBCRIBES, WIDTH} from '../../constans/constants';
+import {
+  APP_COLORS,
+  HEIGHT,
+  TYPE_SUBCRIBES,
+  WIDTH,
+} from '../../constans/constants';
 import ModuleTestItem from '../../components/test/ModuleTestItem';
 import SimpleButton from '../../components/button/SimpleButton';
 import {down} from '../../assets/icons';
 import SelectOption from '../../components/SelectOption';
-import Overlay from '../../components/view/Overlay';
-import { useSettings } from '../../components/context/Provider';
-import { ROUTE_NAMES } from '../../components/navigation/routes';
+import {useSettings} from '../../components/context/Provider';
+import {ROUTE_NAMES} from '../../components/navigation/routes';
 
 const SelectSubjectsScreen = props => {
+  const category = useRef(null);
+  const category2 = useRef(null);
 
-  const category = useRef(null)
-  const category2 = useRef(null)
-
-  const { isAuth } = useSettings()
+  const {isAuth} = useSettings();
 
   const [dataSource, setDataSource] = useState({
     categories: [],
@@ -47,22 +50,22 @@ const SelectSubjectsScreen = props => {
 
   const [fetchTests, isFetchingTests, fetchingTestsError] = useFetching(
     async () => {
-        const response = await UBTService.fetchTests(
-            category.current?.id,
-            category2.current?.id,
-        );
-        if (category2.current) {
-            setDataSource(prev => ({
-                ...prev,
-                tests: response.data?.data
-            }))
-        } else {
-            const newCategories2 = getCategories2(response.data?.data)
-            setDataSource(prev => ({
-                ...prev,
-                categories2: newCategories2
-            }))
-        }
+      const response = await UBTService.fetchTests(
+        category.current?.id,
+        category2.current?.id,
+      );
+      if (category2.current) {
+        setDataSource(prev => ({
+          ...prev,
+          tests: response.data?.data,
+        }));
+      } else {
+        const newCategories2 = getCategories2(response.data?.data);
+        setDataSource(prev => ({
+          ...prev,
+          categories2: newCategories2,
+        }));
+      }
     },
   );
 
@@ -82,10 +85,9 @@ const SelectSubjectsScreen = props => {
     }
   }, [fetchingCategoriesError]);
 
-  const getCategories2 = (categories) => {
-
+  const getCategories2 = categories => {
     if (categories.length === 0) {
-        return [];
+      return [];
     }
 
     let subjects = {};
@@ -98,47 +100,51 @@ const SelectSubjectsScreen = props => {
       }
     });
 
-    return dataSource.categories.filter(element => subjects.hasOwnProperty(element.id)) 
+    return dataSource.categories.filter(element =>
+      subjects.hasOwnProperty(element.id),
+    );
   };
 
   const onFirstSelect = value => {
     if (category.current === value) {
-        return
+      return;
     }
     category.current = value;
     if (category2.current) {
-        category2.current = null
+      category2.current = null;
     }
     fetchTests();
   };
 
   const onSecondSelect = value => {
     if (category2.current === value) {
-        return
+      return;
     }
     category2.current = value;
   };
 
   const testItemTapped = item => {
     if (isAuth) {
-        if (item?.has_subscribed) {
-            props.navigation.navigate(ROUTE_NAMES.testPreview, { id: item?.id, type: "ubt" })
-        } else {
-            props.navigation.navigate(ROUTE_NAMES.operation, {
-                operation: item,
-                type: TYPE_SUBCRIBES.TEST_SUBCRIBE
-            })
-        }
+      if (item?.has_subscribed) {
+        props.navigation.navigate(ROUTE_NAMES.testPreview, {
+          id: item?.id,
+          type: 'ubt',
+        });
+      } else {
+        props.navigation.navigate(ROUTE_NAMES.operation, {
+          operation: item,
+          type: TYPE_SUBCRIBES.TEST_SUBCRIBE,
+        });
+      }
     } else {
-        props.navigation.navigate(ROUTE_NAMES.login)
+      props.navigation.navigate(ROUTE_NAMES.login);
     }
   };
 
   const renderHeader = () => {
-
     return (
       <View>
-        <Text>
+        <Text style={{color: APP_COLORS.font}}>
           {
             strings[
               'Выберите вопросы первого и второго урока чтобы начать тест'
@@ -208,7 +214,6 @@ const SelectButton = ({
   placeholder = '',
   action = () => undefined,
 }) => {
-
   const [visible, setVisible] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
 
@@ -218,10 +223,10 @@ const SelectButton = ({
 
   const onBackDrop = () => {
     if (currentCategory) {
-        setCurrentCategory(null)
+      setCurrentCategory(null);
     }
-    setVisible(false)
-  }
+    setVisible(false);
+  };
 
   const onSelect = value => {
     setCurrentCategory(value);
@@ -229,7 +234,7 @@ const SelectButton = ({
 
   const onApply = () => {
     setVisible(false);
-    action(currentCategory)
+    action(currentCategory);
   };
 
   const renderCategory = ({item, index}) => {
@@ -246,17 +251,18 @@ const SelectButton = ({
   return (
     <View>
       <TouchableOpacity style={styles.select} onPress={onPress}>
-        <Text style={[styles.selectText, {color: currentCategory ? APP_COLORS.font : APP_COLORS.placeholder}]}>
+        <Text
+          style={[
+            styles.selectText,
+            {color: currentCategory ? APP_COLORS.font : APP_COLORS.placeholder},
+          ]}>
           {currentCategory ? currentCategory?.name : placeholder}
         </Text>
         {down}
       </TouchableOpacity>
       <Modal visible={visible} transparent={true} animationType="fade">
         <View style={styles.modal}>
-          <TouchableOpacity
-            style={styles.backDrop}
-            onPress={onBackDrop}
-          />
+          <TouchableOpacity style={styles.backDrop} onPress={onBackDrop} />
           <View style={styles.categoriesContainer}>
             <Text style={styles.headerTitle}>{placeholder}</Text>
             <FlatList

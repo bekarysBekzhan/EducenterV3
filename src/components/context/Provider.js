@@ -1,6 +1,6 @@
 import React, {createContext, useContext} from 'react';
 import {useState} from 'react';
-import { N_STATUS } from '../../constans/constants';
+import { APP_COLORS, N_STATUS } from '../../constans/constants';
 
 const Settings = createContext({});
 
@@ -15,10 +15,11 @@ const Provider = ({children}) => {
   const [initialStart, setInitialStart] = useState(true);
   const [isRead, setIsRead] = useState(true);
   const [nstatus, setNstatus] = useState(N_STATUS);
+  const [color, setColor] = useState(APP_COLORS.primary);
 
   return (
     <Settings.Provider
-      value={{settings, setSettings, isAuth, setIsAuth, initialStart, setInitialStart, isRead, setIsRead, nstatus, setNstatus}}>
+      value={{settings, setSettings, isAuth, setIsAuth, initialStart, setInitialStart, isRead, setIsRead, nstatus, setNstatus, color, setColor}}>
       {children}
     </Settings.Provider>
   );

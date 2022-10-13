@@ -4,6 +4,7 @@ import RowView from '../view/RowView';
 import {APP_COLORS} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
 import Price from '../Price';
+import { useSettings } from '../context/Provider';
 
 const TransactionButton = ({
   text,
@@ -16,7 +17,9 @@ const TransactionButton = ({
   onPress = () => undefined,
   style,
 }) => {
-  const memoStyle = useMemo(() => [styles.button, style], [style]);
+
+  const {settings} = useSettings();
+  const memoStyle = useMemo(() => [{...styles.button, backgroundColor: settings?.color_app}, style], [style]);
   const memoTextStyle = useMemo(() => [styles.text, textStyle], [textStyle]);
   const memoPriceStyle = useMemo(
     () => [styles.price, priceStyle],

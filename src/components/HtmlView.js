@@ -5,18 +5,27 @@ import {WebView} from 'react-native-webview';
 import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';
 import TableRenderer, {tableModel} from '@native-html/table-plugin';
 import TrackPlayer, {State} from 'react-native-track-player';
+import {APP_COLORS} from '../constans/constants';
 
 const HtmlView = ({
   html,
   baseStyle,
   contentWidth = 32,
-  tagsStyles,
+  tagsStyles = {},
   renderers = {},
   ...props
 }) => {
   useEffect(() => {
     // console.log("HTML View")
   }, []);
+
+  const memoTagsStyles = useMemo(
+    () => ({
+      p: {color: APP_COLORS.font, ...tagsStyles?.p},
+      span: {color: APP_COLORS.font, ...tagsStyles?.span},
+    }),
+    [],
+  );
 
   const memoRenderers = useMemo(
     () => ({
@@ -88,7 +97,7 @@ const HtmlView = ({
       renderersProps={memoRenderersProps}
       defaultWebViewProps={memoDefaultWebViewProps}
       ignoredDomTags={memoIgnoredDomTags}
-      tagsStyles={tagsStyles}
+      tagsStyles={memoTagsStyles}
       {...props}
     />
   );

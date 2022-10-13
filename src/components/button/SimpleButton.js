@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import {APP_COLORS} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
+import { useSettings } from '../context/Provider';
 
 const SimpleButton = ({
   onPress = () => undefined,
@@ -17,7 +18,8 @@ const SimpleButton = ({
   ...buttonProps
 }) => {
   
-  const memoStyle = useMemo(() => [styles.button, style], [style]);
+  const {settings} = useSettings();
+  const memoStyle = useMemo(() => [{...styles.button, backgroundColor: settings?.color_app}, style], [style]);
   const memoTextStyle = useMemo(() => [styles.text, textStyle], [textStyle]);
 
   return (

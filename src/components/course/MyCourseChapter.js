@@ -28,9 +28,7 @@ const MyCourseChapter = ({
   
     const onLesson = (id, title) => {
       if (!isAuth) {
-        navigation.replace(ROUTE_NAMES.bottomTab, {
-          screen: ROUTE_NAMES.menuStack,
-        });
+        navigation.navigate(ROUTE_NAMES.login);
       } else {
         if (from === "course") {
           navigation.navigate(ROUTE_NAMES.lesson, {id, title, hasSubscribed});
@@ -161,7 +159,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
       },
       chapterTitle: {
-        ...setFontStyle(16, '600'),
+        ...setFontStyle(16, '600', APP_COLORS.font),
         marginBottom: 7,
       },
       chapterPosterOpacity: {
@@ -180,7 +178,7 @@ const styles = StyleSheet.create({
       },
       courseProgram: {
         margin: 16,
-        ...setFontStyle(21, '700'),
+        ...setFontStyle(21, '700', APP_COLORS.font),
       },
       collapsed: {
         padding: 0,
@@ -223,6 +221,13 @@ const styles = StyleSheet.create({
         backgroundColor: APP_COLORS.input,
         borderRadius: 13,
         marginVertical: 8
+      },
+      counts: {
+        ...setFontStyle(13, '400', APP_COLORS.placeholder),
+        marginBottom: 8,
+      },
+      courseStatus: {
+        marginBottom: 10,
       },
       completedProgress: {
         height: 7.0,

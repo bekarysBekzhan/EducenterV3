@@ -140,7 +140,7 @@ const NotificationItem = ({message, date, type, modelID, navigation}) => {
 
   if (containsHTML(message)) {
     messageComponent = (
-      <HtmlView html={message} renderers={{span: renderButton}} />
+      <HtmlView html={"<p>" + message + "</p>"} renderers={{span: renderButton}} tagsStyles={{ p: {...setFontStyle(15, '500', APP_COLORS.font), marginTop: 0} }}/>
     );
   }
 
