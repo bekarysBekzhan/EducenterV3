@@ -19,7 +19,7 @@ import WhatsappButton from '../../../components/button/WhatsappButton';
 import {useSettings} from '../../../components/context/Provider';
 
 const TestsScreen = props => {
-  const {nstatus} = useSettings();
+  const {nstatus, isAuth} = useSettings();
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState(null);
   const [page, setPage] = useState(1);
@@ -60,7 +60,11 @@ const TestsScreen = props => {
   }, [page]);
 
   const testItemTapped = item => {
-    props.navigation.navigate(ROUTE_NAMES.testDetail, {id: item?.id});
+    if (isAuth) {
+      props.navigation.navigate(ROUTE_NAMES.testDetail, {id: item?.id});
+    } else {
+      props.navigation.navigate(ROUTE_NAMES.login);
+    }
   };
 
   const renderTest = ({item, index}) => {

@@ -17,9 +17,7 @@ const CourseChapter = ({item, index, hasSubscribed = false, navigation, from = "
   
     const onLesson = (id, title) => {
       if (!isAuth) {
-        navigation.replace(ROUTE_NAMES.bottomTab, {
-          screen: ROUTE_NAMES.menuStack,
-        });
+        navigation.navigate(ROUTE_NAMES.login);
       } else {
         if (from === "course") {
           navigation.navigate(ROUTE_NAMES.lesson, {id, title, hasSubscribed});

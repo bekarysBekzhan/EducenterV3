@@ -19,7 +19,7 @@ import WhatsappButton from '../../../components/button/WhatsappButton';
 import {useSettings} from '../../../components/context/Provider';
 
 const TasksScreen = props => {
-  const {nstatus} = useSettings();
+  const {nstatus, isAuth} = useSettings();
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState(null);
   const [page, setPage] = useState(1);
@@ -60,7 +60,11 @@ const TasksScreen = props => {
   }, [page]);
 
   const taskItemTapped = item => {
-    props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: item?.id});
+    if (isAuth) {
+      props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: item?.id});
+    } else {
+      props.navigation.navigate(ROUTE_NAMES.login);
+    }
   };
 
   const renderTask = ({item, index}) => {
