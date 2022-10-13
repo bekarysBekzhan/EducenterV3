@@ -7,7 +7,7 @@ import RowView from '../view/RowView';
 
 const SettingItem = ({text, label, value, style, onValueChange}) => {
   const memoStyle = useMemo(() => [styles.view, style], [style]);
-  const memoTrackColor = useMemo(() => ({true: 'rgba(85, 89, 244,0.12)'}), []);
+  const memoTrackColor = useMemo(() => ({true: 'rgba(85, 89, 244,0.12)',false:'#eee'}), []);
 
   return (
     <View style={memoStyle}>

@@ -147,6 +147,7 @@ const CourseDetailScreen = props => {
         ItemSeparatorComponent={() => <Divider />}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContent}
       />
       {renderTransactionButton()}
     </UniversalView>
@@ -172,6 +173,9 @@ const CourseListHeader = ({data}) => {
 };
 
 const styles = StyleSheet.create({
+  listContent:{
+    paddingBottom:50
+  },
   container: {},
   courseProgram: {
     margin: 16,

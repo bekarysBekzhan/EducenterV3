@@ -29,7 +29,7 @@ const MemberItem = ({
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
-  const callNumber = phone => {
+  const callNumber = () => {
     Linking.openURL(`tel:${phone}`);
     console.log('call number: ', phone);
   };

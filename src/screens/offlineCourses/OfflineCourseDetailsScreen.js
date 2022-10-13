@@ -173,6 +173,7 @@ const OfflineCourseDetailsScreen = props => {
         keyExtractor={keyExtractor}
         ListHeaderComponent={renderHeader}
         ListFooterComponent={renderFooter}
+        contentContainerStyle={styles.listContent}
       />
       {renderTransactionButton()}
       <Downloader
@@ -200,6 +201,9 @@ const CourseListHeader = ({data}) => {
 };
 
 const styles = StyleSheet.create({
+  listContent:{
+    paddingBottom:50
+  },
   poster: {
     width: '100%',
     height: 232,

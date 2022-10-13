@@ -110,7 +110,7 @@ const MyCourseDetailScreen = props => {
             value={isFilter}
             onValueChange={(value) => setIsFilter(value)}
             thumbColor={isFilter ? APP_COLORS.primary : APP_COLORS.placeholder}
-            trackColor={{ true: "#EBEBFE", false: "white"}}
+            trackColor={{ true: "#EBEBFE", false: "#eee"}}
           />
         </RowView>
       </UniversalView>
@@ -179,6 +179,7 @@ const MyCourseDetailScreen = props => {
           ListFooterComponent={renderFooter}
           keyExtractor={(_, index) => index.toString()}
           showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listContent}
         />
       {renderTransactionButton()}
       <Downloader
@@ -191,6 +192,9 @@ const MyCourseDetailScreen = props => {
 };
 
 const styles = StyleSheet.create({
+  listContent:{
+    paddingBottom:50
+  },
   container: {},
   counts: {
     ...setFontStyle(13, '500', APP_COLORS.placeholder),

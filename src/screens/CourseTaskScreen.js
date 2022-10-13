@@ -217,6 +217,7 @@ const CourseTaskScreen = props => {
         showsVerticalScrollIndicator={false}
         onRefresh={onRefresh}
         refreshing={isLoading}
+        contentContainerStyle={styles.listContent}
       />
       {attachedFile ? (
         <RowView style={styles.attachedFile}>
@@ -310,6 +311,9 @@ const TaskResult = ({item, index}) => {
 };
 
 const styles = StyleSheet.create({
+  listContent:{
+    paddingBottom:50
+  },
   container: {
     flex: 1,
     backgroundColor: 'white',
