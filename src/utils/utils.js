@@ -304,3 +304,20 @@ export const generateHash = async() => {
   
   return hash;
 };
+
+export const getSeconds = (finishingTime) => {
+  if (finishingTime === undefined || finishingTime === null) {
+    return 0
+  }
+
+  const currentSeconds = new Date().getTime() / 1000
+  const finishingSeconds = new Date(finishingTime).getTime() / 1000
+
+  const diffSeconds = finishingSeconds - currentSeconds
+
+  if (diffSeconds < 0) {
+    return 0
+  }
+
+  return diffSeconds
+}

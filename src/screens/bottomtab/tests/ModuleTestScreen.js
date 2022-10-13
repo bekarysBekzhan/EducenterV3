@@ -1,24 +1,30 @@
-import {View, Text, StyleSheet, ActivityIndicator, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+} from 'react-native';
 import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import TrackPlayer from 'react-native-track-player';
-import { useFetching } from '../../../hooks/useFetching';
+import {useFetching} from '../../../hooks/useFetching';
 import Question from '../../../components/test/Question';
-import { TestService } from '../../../services/API';
-import { APP_COLORS } from '../../../constans/constants';
+import {TestService} from '../../../services/API';
+import {APP_COLORS} from '../../../constans/constants';
 import SimpleButton from '../../../components/button/SimpleButton';
-import { strings } from '../../../localization';
+import {strings} from '../../../localization';
 import RowView from '../../../components/view/RowView';
-import { TimeIcon } from '../../../assets/icons';
+import {TimeIcon} from '../../../assets/icons';
 import Timer from '../../../components/test/Timer';
 import Overlay from '../../../components/view/Overlay';
-import { ROUTE_NAMES } from '../../../components/navigation/routes';
+import {ROUTE_NAMES} from '../../../components/navigation/routes';
+import {getSeconds} from '../../../utils/utils';
 
 const ModuleTestScreen = props => {
-
-  const id = props.route?.params?.id
-  const again = props.route?.params?.again
-  const lessonTitle = props.route?.params?.title
+  const id = props.route?.params?.id;
+  const again = props.route?.params?.again;
+  const lessonTitle = props.route?.params?.title;
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -26,44 +32,49 @@ const ModuleTestScreen = props => {
 
   const [data, setData] = useState(null);
   const [fetchTest, isLoading, testError] = useFetching(async () => {
-    const response = await TestService.startTest(id, again)
-    setData(response.data?.data)
+    const response = await TestService.startTest(id, again);
+    setData(response.data?.data);
   });
-  const [finishTest, isFinishLoading, finishError] = useFetching(async() => {
-    console.log("Test id : " , data?.id)
-    const response = await TestService.finishTest(data?.id)
-    const finishedTestData = response.data?.data
-    props.navigation.replace(ROUTE_NAMES.moduleTestCompleted, { 
-      passed: finishedTestData?.passed, 
-      correct: finishedTestData?.score, 
-      total: finishedTestData?.tests_count, 
+  const [finishTest, isFinishLoading, finishError] = useFetching(async () => {
+    console.log('Test id : ', data?.id);
+    const response = await TestService.finishTest(data?.id);
+    const finishedTestData = response.data?.data;
+    props.navigation.replace(ROUTE_NAMES.moduleTestCompleted, {
+      passed: finishedTestData?.passed,
+      correct: finishedTestData?.score,
+      total: finishedTestData?.tests_count,
       id: data?.id,
       entity: data?.entity,
-      resultType: finishedTestData?.entity?.result_type
-    })
-  })
+      resultType: finishedTestData?.entity?.result_type,
+    });
+  });
 
   useEffect(() => {
     if (testError) {
-        console.log(testError)
-        props.navigation.goBack()
+      console.log(testError);
+      props.navigation.goBack();
     }
-  }, [testError])
-
+  }, [testError]);
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: lessonTitle ? lessonTitle : strings.тест
-    })
+      title: lessonTitle ? lessonTitle : strings.тест,
+    });
     if (data) {
       props.navigation.setOptions({
-        headerRight: () => <TestTimer initialTime={getInitialSeconds(data?.finishing_time)} finishTest={finishTest}/>,
-      })
+        headerRight: () => (
+          <TestTimer
+            finishingTime={data?.finishing_time}
+            finishTest={finishTest}
+            totalSeconds={getSeconds(data?.finishing_time)}
+          />
+        ),
+      });
     }
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
-    fetchTest()
+    fetchTest();
     return () => {
       resetAudio();
     };
@@ -73,25 +84,24 @@ const ModuleTestScreen = props => {
     await TrackPlayer.reset();
   };
 
-  const getInitialSeconds = (finishingTime) => {
-
+  const getInitialSeconds = finishingTime => {
     if (finishingTime === undefined || finishingTime === null) {
-      return 0
+      return 0;
     }
 
-    const currentSeconds = new Date().getTime() / 1000
-    const finishingSeconds = new Date(finishingTime).getTime() / 1000
+    const currentSeconds = new Date().getTime() / 1000;
+    const finishingSeconds = new Date(finishingTime).getTime() / 1000;
 
-    const diffSeconds = finishingSeconds - currentSeconds
+    const diffSeconds = finishingSeconds - currentSeconds;
 
-    console.log("difference : " , diffSeconds)
+    console.log('difference : ', diffSeconds);
 
     if (diffSeconds < 0) {
-      return 0
+      return 0;
     }
 
-    return diffSeconds
-  }
+    return diffSeconds;
+  };
 
   const onTrackChange = (duration, setDuration, setPosition, setPlaying) => {
     if (currentSetDuration.current) {
@@ -125,16 +135,19 @@ const ModuleTestScreen = props => {
       <SimpleButton
         text={strings['Завершить тест']}
         onPress={finishTest}
-        style={{ marginBottom: 100}}
+        style={{marginBottom: 100}}
         loading={isFinishLoading}
       />
     </View>
-  )
+  );
 
   return (
     <UniversalView style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator style={{ marginTop: 120}} color={APP_COLORS.primary}/>
+        <ActivityIndicator
+          style={{marginTop: 120}}
+          color={APP_COLORS.primary}
+        />
       ) : (
         <FlatList
           data={data?.tests}
@@ -148,50 +161,47 @@ const ModuleTestScreen = props => {
           windowSize={10}
         />
       )}
-      <Overlay visible={isFinishLoading}/>
+      <Overlay visible={isFinishLoading} />
     </UniversalView>
   );
 };
 
-const TestTimer = ({ initialTime, finishTest }) => {
+const TestTimer = ({finishingTime, finishTest, totalSeconds}) => {
+  const [backgroundColor, setBackgroundColor] = useState('green');
 
-  const [backgroundColor, setBackgroundColor] = useState("green")
-
-  return(
-    <RowView 
-      style={[styles.timerContainer, { 
-        backgroundColor: backgroundColor
-      }]}
-    >
-      <View style={{ paddingRight: 4}}>
-        <TimeIcon
-          color='white'
-        />
+  return (
+    <RowView
+      style={[
+        styles.timerContainer,
+        {
+          backgroundColor: backgroundColor,
+        },
+      ]}>
+      <View style={{paddingRight: 4}}>
+        <TimeIcon color="white" />
       </View>
-      <Timer 
-        initialValue={initialTime}
-        onTimes={(time) => {
-          if(time === 0) {
-            finishTest()
-          }
-          else if(time < initialTime / 5) {
-            setBackgroundColor("red")
-          }
-          else if(time < initialTime / 2) {
-            setBackgroundColor("#FACC56")
+      <Timer
+        finishingTime={finishingTime}
+        onTimes={time => {
+          if (time === 0) {
+            finishTest();
+          } else if (time < totalSeconds / 5) {
+            setBackgroundColor('red');
+          } else if (time < totalSeconds / 2) {
+            setBackgroundColor('#FACC56');
           }
         }}
       />
     </RowView>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {},
   timerContainer: {
     padding: 4,
-    borderRadius: 4
-  }
+    borderRadius: 4,
+  },
 });
 
 export default ModuleTestScreen;
