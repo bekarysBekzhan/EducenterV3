@@ -13,16 +13,19 @@ import {storeObject} from '../../storage/AsyncStorage';
 import HtmlView from '../../components/HtmlView';
 
 const SplashScreen = ({navigation}) => {
+  
   const {settings, initialStart, isAuth} = useSettings();
 
   useEffect(() => {
-    setTimeout(() => {
-      if (settings?.marketplace_enabled && !isAuth) {
-        keepGoingPressed(ROUTE_NAMES.login);
-      } else {
-        keepGoingPressed(ROUTE_NAMES.bottomTab);
-      }
-    }, 3000);
+    if (!initialStart) {
+      setTimeout(() => {
+        if (settings?.marketplace_enabled && !isAuth) {
+          keepGoingPressed(ROUTE_NAMES.login);
+        } else {
+          keepGoingPressed(ROUTE_NAMES.bottomTab);
+        }
+      }, 3000);
+    }
   }, []);
 
   const keepGoingPressed = async (route = ROUTE_NAMES.bottomTab) => {
@@ -50,7 +53,7 @@ const SplashScreen = ({navigation}) => {
         <View style={styles.bottom}>
           <SimpleButton
             text={strings['Продолжить на русском']}
-            onPress={keepGoingPressed}
+            onPress={() => keepGoingPressed(ROUTE_NAMES.bottomTab)}
           />
           <OutlineButton
             text={strings['Поменять язык']}
