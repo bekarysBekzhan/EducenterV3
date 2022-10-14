@@ -49,6 +49,7 @@ const MyCourses = () => {
                             {
                                 headerTitle: screen?.title,
                                 headerBackTitleVisible: false,
+                                headerTitleAlign:'center'
                             }
                         }
                     />

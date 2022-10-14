@@ -43,7 +43,7 @@ import NotificationsScreen from '../../screens/NotificationsScreen';
 import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
 import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
 import PolicyScreen from '../../screens/privacy/PolicyScreen';
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 
 const MainStack = createNativeStackNavigator();
 
@@ -256,6 +256,7 @@ const Navigation = () => {
       <MainStack.Navigator
         screenOptions={{
           headerShown: false,
+          headerTitleAlign: 'center',
         }}>
         {GENERAL.map((route, index) => (
           <MainStack.Screen

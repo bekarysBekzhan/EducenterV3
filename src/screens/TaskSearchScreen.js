@@ -45,7 +45,7 @@ const TaskSearchScreen = props => {
   const [category, setCategory] = useState(null);
   const [history, setHistory] = useState([]);
   const bottomSheetRef = useRef(null);
-  const snapPoints = useMemo(() => ['70%', '80%'], []);
+  const snapPoints = useMemo(() => ['80%', '90%'], []);
 
   const [fetchInitial, isFetchingInitial, fetchingInitialError] = useFetching(
     async () => {

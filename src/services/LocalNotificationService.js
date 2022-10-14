@@ -37,6 +37,7 @@ export class LocalNotificationService {
           id: 'default',
         },
         color: APP_COLORS.primary,
+        smallIcon:'ic_stat_edu',
       },
     });
   };
