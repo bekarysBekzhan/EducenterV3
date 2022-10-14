@@ -41,7 +41,8 @@ const Courses = () => {
                             :
                             {
                                 headerTitle: "Курс",
-                                headerBackTitleVisible: false
+                                headerBackTitleVisible: false,
+                                headerTitleAlign:'center'
                             }
                         }
                     />

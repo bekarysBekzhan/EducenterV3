@@ -75,6 +75,7 @@ const LessonScreen = props => {
   useLayoutEffect(() => {
     props.navigation.setOptions({
       title: chapterTitle ? chapterTitle : strings.урок,
+      headerTitleAlign:'center'
     });
   }, []);
 

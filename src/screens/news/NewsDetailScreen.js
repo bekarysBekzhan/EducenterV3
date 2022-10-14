@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
 import HtmlView from '../../components/HtmlView';
@@ -7,12 +7,14 @@ import {NewsService} from '../../services/API';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../utils/utils';
 import DateFormat from '../../components/DateFormat';
-import { storeObject } from '../../storage/AsyncStorage';
-import { STORAGE } from '../../constans/constants';
+import {storeObject} from '../../storage/AsyncStorage';
+import {STORAGE} from '../../constans/constants';
+import {useSettings} from '../../components/context/Provider';
 
-const NewsDetailScreen = ({route}) => {
+const NewsDetailScreen = ({navigation, route}) => {
+  const {onNotification, newsId} = route?.params;
 
-  const { onNotification, newsId } = route?.params;
+  const {settings} = useSettings();
 
   const [dataSource, setDataSource] = useState({
     data: '',
@@ -26,12 +28,19 @@ const NewsDetailScreen = ({route}) => {
     }));
   });
 
-  const markRead = async() => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: settings?.modules_enabled_news_title,
+      headerTitleAlign: 'center',
+    });
+  }, []);
+
+  const markRead = async () => {
     await storeObject(STORAGE.isRead, true);
     if (global.setIsRead) {
       global.setIsRead(true);
     }
-  }
+  };
 
   useEffect(() => {
     fetchNewsDetail();
