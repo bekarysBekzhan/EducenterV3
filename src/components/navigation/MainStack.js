@@ -197,7 +197,7 @@ const PRIVATE = [
 ];
 
 const Navigation = () => {
-  const {setSettings, setIsAuth, isAuth, setInitialStart, setIsRead, setNstatus} =
+  const {setSettings, setIsAuth, isAuth, setInitialStart, setIsRead, setNstatus, setLanguage} =
     useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
@@ -214,10 +214,11 @@ const Navigation = () => {
         'Bearer ' + userToken;
     }
 
-    const language = await getString(STORAGE.language);
-    if (language) {
-      strings.setLanguage(language);
-      API_V2.defaults.headers[REQUEST_HEADERS.lang] = language;
+    const lang = await getString(STORAGE.language);
+    if (lang) {
+      strings.setLanguage(lang);
+      setLanguage(lang);
+      API_V2.defaults.headers[REQUEST_HEADERS.lang] = lang;
     } else {
       strings.setLanguage('ru');
       API_V2.defaults.headers[REQUEST_HEADERS.lang] = 'ru';

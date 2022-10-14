@@ -28,10 +28,6 @@ const Splash = props => {
           key={index}
           options={{
             headerShown: screen.name === ROUTE_NAMES.language,
-            headerTitle:
-              screen.name === ROUTE_NAMES.language
-                ? strings['Поменять язык']
-                : undefined,
           }}
         />
       ))}

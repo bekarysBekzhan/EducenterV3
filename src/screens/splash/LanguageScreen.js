@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {APP_COLORS, STORAGE} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
@@ -8,6 +8,7 @@ import {useFetching} from '../../hooks/useFetching';
 import SelectOption from '../../components/SelectOption';
 import SectionView from '../../components/view/SectionView';
 import {strings} from '../../localization';
+import { useSettings } from '../../components/context/Provider';
 
 const languages = [
   {label: 'Русский', key: 'ru'},
@@ -16,15 +17,23 @@ const languages = [
 ];
 
 const LanguageScreen = ({navigation, route}) => {
+
+  const {setLanguage, language} = useSettings();
   const [currentKey, setCurrentKey] = useState(strings.getLanguage());
   const [selectKeyPressed, isLoading, keyError] = useFetching(async key => {
-    console.log('key : ', key);
     if (currentKey !== key) {
       await storeString(STORAGE.language, key);
       strings.setLanguage(key);
       setCurrentKey(key);
+      setLanguage(key);
     }
   });
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: strings['Поменять язык'],
+    })
+  }, [language])
 
   return (
     <UniversalView style={styles.container}>

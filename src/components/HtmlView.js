@@ -77,7 +77,7 @@ const HtmlView = ({
     () => ({
       html: html,
     }),
-    [],
+    [html],
   );
 
   const memoIgnoredDomTags = useMemo(() => ['audio'], []);

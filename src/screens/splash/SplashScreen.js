@@ -14,7 +14,7 @@ import HtmlView from '../../components/HtmlView';
 
 const SplashScreen = ({navigation}) => {
   
-  const {settings, initialStart, isAuth} = useSettings();
+  const {settings, initialStart, isAuth, language} = useSettings();
 
   useEffect(() => {
     if (!initialStart) {

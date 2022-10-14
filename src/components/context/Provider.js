@@ -16,10 +16,11 @@ const Provider = ({children}) => {
   const [isRead, setIsRead] = useState(true);
   const [nstatus, setNstatus] = useState(N_STATUS);
   const [color, setColor] = useState(APP_COLORS.primary);
+  const [language, setLanguage] = useState('ru');
 
   return (
     <Settings.Provider
-      value={{settings, setSettings, isAuth, setIsAuth, initialStart, setInitialStart, isRead, setIsRead, nstatus, setNstatus, color, setColor}}>
+      value={{settings, setSettings, isAuth, setIsAuth, initialStart, setInitialStart, isRead, setIsRead, nstatus, setNstatus, color, setColor, language, setLanguage}}>
       {children}
     </Settings.Provider>
   );

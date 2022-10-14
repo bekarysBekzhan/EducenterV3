@@ -146,6 +146,7 @@ export const getTimeString = seconds => {
 };
 
 export const wordLocalization = (word, args = {}, type = false) => {
+  console.log("wordLocalization", word);
   if (typeof strings[word] !== 'undefined') {
     if (!type) {
       word = strings[word];
