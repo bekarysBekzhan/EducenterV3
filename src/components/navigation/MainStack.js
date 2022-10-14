@@ -130,6 +130,10 @@ const PRIVATE = [
   {
     name: ROUTE_NAMES.newsDetail,
     component: NewsDetailScreen,
+    initialParams: {
+      onNotification: false,
+      newsId: null
+    }
   },
   {
     name: ROUTE_NAMES.myTestPass,
@@ -243,7 +247,7 @@ const Navigation = () => {
     }
   }, [settingsError]);
 
-  if (isLoading) {
+  if (isLoading || settingsError) {
     return <LoadingScreen />;
   }
   return (

@@ -13,7 +13,7 @@ import {useEffect} from 'react';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
 import {useState} from 'react';
-import {APP_COLORS, N_STATUS, WIDTH} from '../constans/constants';
+import {APP_COLORS, N_STATUS, SHOW_TYPE, WIDTH} from '../constans/constants';
 import HtmlView from '../components/HtmlView';
 import {
   generateHash,
@@ -41,6 +41,7 @@ import MyCourseChapter from '../components/course/MyCourseChapter';
 import CourseChapter from '../components/course/CourseChapter';
 import {useHeaderHeight} from '@react-navigation/elements';
 import {useSettings} from '../components/context/Provider';
+import ShowType from '../components/test/ShowType';
 
 const LessonScreen = props => {
   const id = props.route?.params?.id;
@@ -54,6 +55,7 @@ const LessonScreen = props => {
   const [isModal, setIsModal] = useState(false);
   const [isCourseProgram, setIsCourseProgram] = useState(false);
   const [padding, setPadding] = useState(0);
+  const [isShowType, setIsShowType] = useState(false);
   const isCaptured = Platform.OS == 'ios' ? useIsCaptured() : false;
 
   const navigationHeight = useHeaderHeight();
@@ -156,6 +158,29 @@ const LessonScreen = props => {
   };
 
   const onExitCourseProgram = () => setIsCourseProgram(false);
+  const onShowTypeBackDrop = () => setIsShowType(false);
+  const onShowTypeSelect = (showType) => {
+    switch(showType) {
+      case SHOW_TYPE.test:
+        props.navigation.navigate(ROUTE_NAMES.testPreview, { id: data?.id, title: data?.title, again: true });
+        break;
+      case SHOW_TYPE.result:
+        props.navigation.navigate(ROUTE_NAMES.testResult, { id: data?.show_id, resultType: data?.result_type });
+        break;
+      default:
+        return
+    }
+  }
+  const onPressTest = () => {
+    if (data?.show_type === SHOW_TYPE.result) {
+      setIsShowType(true);
+    } else {
+      props.navigation.navigate(ROUTE_NAMES.testPreview, {
+        id: data?.id,
+        title: data?.title,
+      })
+    }
+  }
 
   const renderHeader = () => {
     return (
@@ -195,12 +220,7 @@ const LessonScreen = props => {
         {data?.test_enabled ? (
           <OutlineButton
             text={strings['Пройти тест']}
-            onPress={() =>
-              props.navigation.navigate(ROUTE_NAMES.testPreview, {
-                id: data?.id,
-                title: data?.title,
-              })
-            }
+            onPress={onPressTest}
             style={styles.testButton}
           />
         ) : null}
@@ -354,6 +374,7 @@ const LessonScreen = props => {
           </View>
         </View>
       </Modal>
+      <ShowType visible={isShowType} onHide={onShowTypeBackDrop} onSelect={onShowTypeSelect}/>
     </UniversalView>
   );
 };

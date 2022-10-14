@@ -139,4 +139,9 @@ export const AUTH_TYPE = {
   phone: "phone"
 }
 
+export const SHOW_TYPE = {
+  test: "test",
+  result: "result"
+}
+
 export const N_STATUS = '6';
