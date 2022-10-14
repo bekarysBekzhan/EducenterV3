@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   },
   title: {
     margin: 10,
-    ...setFontStyle(18, '700'),
+    ...setFontStyle(18, '700', APP_COLORS.font),
   },
   category: {
     textTransform: 'uppercase',
