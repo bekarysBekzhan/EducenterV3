@@ -17,7 +17,7 @@ export class LocalNotificationService {
       global?.setIsRead(false);
     }
 
-    await notifee.requestPermission();
+    // await notifee.requestPermission();
 
     await notifee.createChannel({
       id: 'default',
