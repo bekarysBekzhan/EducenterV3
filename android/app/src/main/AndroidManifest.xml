@@ -16,7 +16,7 @@
         android:resource="@drawable/ic_stat_edu" />
       <meta-data
         android:name="com.google.firebase.messaging.default_notification_color"
-        android:resource="@color/colorAccent" />
+        android:resource="@colors/colorAccent" />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
