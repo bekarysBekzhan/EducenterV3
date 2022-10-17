@@ -111,6 +111,7 @@ export const TYPE_SUBCRIBES = {
 
 export const RESULT_TYPES = {
   WITH_WRONGS: "with_wrongs",
+  WITH_RIGHTS: "with_rights",
   DEFAULT: "default",
   NONE: "none"
 }

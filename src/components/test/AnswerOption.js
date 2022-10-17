@@ -42,7 +42,7 @@ const AnswerOption = ({
 
   const initialState = () => {
 
-    if (resultType === RESULT_TYPES.DEFAULT) {
+    if (resultType === RESULT_TYPES.DEFAULT || resultType === RESULT_TYPES.WITH_RIGHTS) {
 
       if (correct) {
         return ANSWER_STATES.CORRECT
