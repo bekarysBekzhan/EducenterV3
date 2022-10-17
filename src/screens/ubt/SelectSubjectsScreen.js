@@ -191,6 +191,13 @@ const SelectSubjectsScreen = props => {
     return <View />;
   };
 
+  const renderEmptyComponent = () => {
+    if (category.current && category2.current) {
+      return <Empty/>
+    }
+    return null;
+  }
+
   if (isFetchingCategories) {
     return <LoadingScreen />;
   }
@@ -200,7 +207,7 @@ const SelectSubjectsScreen = props => {
         data={category2.current ? dataSource.tests : []}
         ListHeaderComponent={renderHeader()}
         renderItem={renderItem}
-        ListEmptyComponent={() => <Empty />}
+        ListEmptyComponent={renderEmptyComponent}
         ListFooterComponent={renderFooter}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
