@@ -132,8 +132,8 @@ const PRIVATE = [
     component: NewsDetailScreen,
     initialParams: {
       onNotification: false,
-      newsId: null
-    }
+      newsId: null,
+    },
   },
   {
     name: ROUTE_NAMES.myTestPass,
@@ -197,8 +197,15 @@ const PRIVATE = [
 ];
 
 const Navigation = () => {
-  const {setSettings, setIsAuth, isAuth, setInitialStart, setIsRead, setNstatus, setLanguage} =
-    useSettings();
+  const {
+    setSettings,
+    setIsAuth,
+    isAuth,
+    setInitialStart,
+    setIsRead,
+    setNstatus,
+    setLanguage,
+  } = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
     const response = await MobileSettingsService.fetchSettings();
@@ -257,6 +264,7 @@ const Navigation = () => {
         screenOptions={{
           headerShown: false,
           headerTitleAlign: 'center',
+          headerBackTitleVisible: false,
         }}>
         {GENERAL.map((route, index) => (
           <MainStack.Screen

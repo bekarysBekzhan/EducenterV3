@@ -28,6 +28,8 @@ const Splash = props => {
           key={index}
           options={{
             headerShown: screen.name === ROUTE_NAMES.language,
+            headerTitleAlign: 'center',
+            headerBackTitleVisible: false,
           }}
         />
       ))}

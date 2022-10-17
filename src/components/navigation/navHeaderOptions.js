@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../utils/utils';
 
@@ -7,7 +7,7 @@ export const navHeaderOptions = (image, title) => {
   return {
     headerLeft: () => <FastImage source={{uri: image}} style={styles.logo} />,
     headerTitle: title,
-    headerTitleAlign: Platform.OS === "ios" ? "center" : 'left',
+    headerTitleAlign: 'center',
     headerTitleStyle: styles.navigationTitle,
     headerLeftContainerStyle: styles.navigationHeader,
   };
