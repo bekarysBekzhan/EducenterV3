@@ -7,7 +7,7 @@ export const navHeaderOptions = (image, title) => {
   return {
     headerLeft: () => <FastImage source={{uri: image}} style={styles.logo} />,
     headerTitle: title,
-    headerTitleAlign: 'left',
+    headerTitleAlign: 'center',
     headerTitleStyle: styles.navigationTitle,
     headerLeftContainerStyle: styles.navigationHeader,
   };
