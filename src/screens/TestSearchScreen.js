@@ -29,11 +29,13 @@ import {useEffect} from 'react';
 import ModuleTestItem from '../components/test/ModuleTestItem';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {getObject, storeObject} from '../storage/AsyncStorage';
+import {useSettings} from '../components/context/Provider';
 
 const MAX_HISTORY_SIZE = 7;
 
 const TestSearchScreen = props => {
   const filters = props.route?.params?.filters;
+  const {settings} = useSettings();
 
   const [focus, setFocus] = useState(true);
   const [value, setValue] = useState('');
@@ -224,14 +226,16 @@ const TestSearchScreen = props => {
             extraStyle={styles.inputContainer}
             extraInputStyle={styles.input}
           />
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => {
-              setIsFilter(true);
-              Keyboard.dismiss();
-            }}>
-            {category || sort ? filterON : filter}
-          </TouchableOpacity>
+          {settings?.show_filter ? (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => {
+                setIsFilter(true);
+                Keyboard.dismiss();
+              }}>
+              {category || sort ? filterON : filter}
+            </TouchableOpacity>
+          ) : null}
         </RowView>
         <SectionView
           label={
