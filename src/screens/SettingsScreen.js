@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import RNRestart from 'react-native-restart';
 import UniversalView from '../components/view/UniversalView';
 import SectionView from '../components/view/SectionView';
 import SettingItem from '../components/item/SettingItem';
@@ -11,19 +10,27 @@ import RowView from '../components/view/RowView';
 import {setFontStyle} from '../utils/utils';
 import {API_V2} from '../services/axios';
 import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../constans/constants';
-import {removeStorage, storeString} from '../storage/AsyncStorage';
+import {
+  getObject,
+  removeStorage,
+  storeObject,
+  storeString,
+} from '../storage/AsyncStorage';
 import {useFetching} from '../hooks/useFetching';
-import {SettingsService} from '../services/API';
+import {ProfileService, SettingsService} from '../services/API';
 import SelectOption from '../components/SelectOption';
 import {useSettings} from '../components/context/Provider';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {CommonActions} from '@react-navigation/native';
 
-const SettingsScreen = ({navigation}) => {
+const SettingsScreen = ({navigation, route}) => {
+  const userEmail = route?.params?.userEmail;
+  const notification_push_enable = route?.params?.notification_push_enable;
+
   const [dataSource, setDataSource] = useState({
     refreshing: false,
     list: [],
-    isPushAction: false,
+    isPushAction: notification_push_enable,
     isReminderCourse: false,
     currentKey: strings.getLanguage(),
   });
@@ -42,9 +49,31 @@ const SettingsScreen = ({navigation}) => {
     }));
   });
 
+  const [fetchSettingsPush] = useFetching(async () => {
+    let params = {
+      notification_push_enable: Number(dataSource?.isPushAction),
+      email: userEmail,
+    };
+    const res = await ProfileService.fetchProfileUpdate(params);
+    if (global?.reloadProfile) {
+      global.reloadProfile();
+    }
+    console.log('fetchSettingsPush: ', res);
+  });
+
   useEffect(() => {
     fetchSettings();
+    (async () => {
+      let value = await getObject(STORAGE.pushEnabled);
+      setDataSource(prev => ({...prev, isPushAction: value}));
+    })();
   }, []);
+
+  useEffect(() => {
+    fetchSettingsPush();
+    (async () =>
+      await storeObject(STORAGE.pushEnabled, dataSource?.isPushAction))();
+  }, [dataSource?.isPushAction]);
 
   const onExit = async () => {
     await removeStorage(STORAGE.userToken);
@@ -102,22 +131,18 @@ const SettingsScreen = ({navigation}) => {
 
   const renderFooter = (
     <View>
-      {
-        nstatus === N_STATUS ? null : (
-          <SectionView label={strings.Уведомление} />
-        )
-      }
-      {
-        nstatus === N_STATUS ? null : (
-          <SettingItem
-            text={strings['Уведомления о действиях']}
-            value={dataSource?.isPushAction}
-            onValueChange={isPushAction =>
-              setDataSource(prev => ({...prev, isPushAction}))
-            }
-          />
-        )
-      }
+      {nstatus === N_STATUS ? null : (
+        <SectionView label={strings.Уведомление} />
+      )}
+      {nstatus === N_STATUS ? null : (
+        <SettingItem
+          text={strings['Уведомления о действиях']}
+          value={dataSource?.isPushAction}
+          onValueChange={isPushAction =>
+            setDataSource(prev => ({...prev, isPushAction}))
+          }
+        />
+      )}
       {/* <SettingItem
         text={strings['Напоминание о прохождении курса']}
         label={strings['Еженедельные напоминание о прохождения курса']}
@@ -152,7 +177,7 @@ const SettingsScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
   row: {
-    margin: 16
+    margin: 16,
   },
   exit: {
     ...setFontStyle(17, '400', '#FF3B30'),

@@ -99,7 +99,8 @@ export const STORAGE = {
   firebaseToken: "firebaseToken",
   initialStart: "initialStart",
   isRead: 'isRead',
-  track:'track'
+  track:'track',
+  pushEnabled:'pushEnabled'
 };
 
 export const TYPE_SUBCRIBES = {
