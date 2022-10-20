@@ -36,6 +36,7 @@ const TaskDetailScreen = (props) => {
         if (data?.task?.has_subscribed) {
           props.navigation.navigate(ROUTE_NAMES.moduleTask, { id: data?.task?.id, title: data?.task?.title })
         } else {
+          data.id = data?.task?.id
           props.navigation.navigate(ROUTE_NAMES.operation, { operation: data, type: TYPE_SUBCRIBES.TASK_SUBSCRIBE })
         }
       } else {
@@ -65,11 +66,11 @@ const TaskDetailScreen = (props) => {
       <UniversalView>
         <UniversalView haveScroll>
           <DetailView
-            title={data?.title}
-            poster={data?.poster}
-            category={data?.category?.name}
-            duration={data?.timer}
-            description={data?.description}
+            title={data?.task?.title}
+            poster={data?.task?.poster}
+            category={data?.task?.category?.name}
+            duration={data?.task?.timer}
+            description={data?.task?.description}
           />
           <Person
             name={(data?.author?.name ? data?.author?.name : "") + " " + (data?.author?.surname ? data?.author?.surname : "")}
