@@ -11,7 +11,6 @@ import {containsHTML, getHTML, setFontStyle} from '../utils/utils';
 import {APP_COLORS, NOTIFICATION_TYPE} from '../constans/constants';
 import Loader from '../components/Loader';
 import Divider from '../components/Divider';
-import Empty from '../components/Empty';
 import HtmlView from '../components/HtmlView';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 
@@ -105,6 +104,7 @@ const NotificationsScreen = ({navigation}) => {
 };
 
 const NotificationItem = ({message, date, type, modelID, navigation}) => {
+
   const onPress = () => {
     switch (type) {
       case NOTIFICATION_TYPE.course:
@@ -126,7 +126,7 @@ const NotificationItem = ({message, date, type, modelID, navigation}) => {
 
   const renderButton = ({TDefaultRenderer, ...props}) => {
     return (
-      <Text style={notification.highlight} onPress={onPress}>
+      <Text style={notification.highlight}>
         {props.tnode?.data}
       </Text>
     );
@@ -147,10 +147,10 @@ const NotificationItem = ({message, date, type, modelID, navigation}) => {
   return (
     <RowView style={notification.container}>
       <NotificationItemIcon type={type} />
-      <View style={notification.view}>
+      <TouchableOpacity style={notification.view} activeOpacity={0.7} onPress={onPress}>
         {messageComponent}
         <Text style={notification.date}>{date}</Text>
-      </View>
+      </TouchableOpacity>
     </RowView>
   );
 };
