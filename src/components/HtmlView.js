@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {useWindowDimensions} from 'react-native';
 import RenderHTML from 'react-native-render-html';
 import {WebView} from 'react-native-webview';
@@ -15,10 +15,6 @@ const HtmlView = ({
   renderers = {},
   ...props
 }) => {
-  useEffect(() => {
-    // console.log("HTML View")
-  }, []);
-
   const memoTagsStyles = useMemo(
     () => ({
       p: {color: APP_COLORS.font, ...tagsStyles?.p},

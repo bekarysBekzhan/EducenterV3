@@ -77,7 +77,7 @@ const LessonScreen = props => {
   useLayoutEffect(() => {
     props.navigation.setOptions({
       title: chapterTitle ? chapterTitle : strings.урок,
-      headerTitleAlign:'center'
+      headerTitleAlign: 'center',
     });
   }, []);
 
@@ -160,18 +160,25 @@ const LessonScreen = props => {
 
   const onExitCourseProgram = () => setIsCourseProgram(false);
   const onShowTypeBackDrop = () => setIsShowType(false);
-  const onShowTypeSelect = (showType) => {
-    switch(showType) {
+  const onShowTypeSelect = showType => {
+    switch (showType) {
       case SHOW_TYPE.test:
-        props.navigation.navigate(ROUTE_NAMES.testPreview, { id: data?.id, title: data?.title, again: true });
+        props.navigation.navigate(ROUTE_NAMES.testPreview, {
+          id: data?.id,
+          title: data?.title,
+          again: true,
+        });
         break;
       case SHOW_TYPE.result:
-        props.navigation.navigate(ROUTE_NAMES.testResult, { id: data?.show_id, resultType: data?.result_type });
+        props.navigation.navigate(ROUTE_NAMES.testResult, {
+          id: data?.show_id,
+          resultType: data?.result_type,
+        });
         break;
       default:
-        return
+        return;
     }
-  }
+  };
   const onPressTest = () => {
     if (data?.show_type === SHOW_TYPE.result) {
       setIsShowType(true);
@@ -179,9 +186,9 @@ const LessonScreen = props => {
       props.navigation.navigate(ROUTE_NAMES.testPreview, {
         id: data?.id,
         title: data?.title,
-      })
+      });
     }
-  }
+  };
 
   const renderHeader = () => {
     return (
@@ -340,6 +347,8 @@ const LessonScreen = props => {
         ListFooterComponent={renderBottomPadding}
         ListEmptyComponent={renderEmptyComponent}
         contentContainerStyle={styles.listContent}
+        removeClippedSubviews={true}
+        overScrollMode="never"
       />
       <View style={styles.switchBar} onLayout={onSwitchBarLayout}>
         {data?.isFirst ? (
@@ -375,7 +384,11 @@ const LessonScreen = props => {
           </View>
         </View>
       </Modal>
-      <ShowType visible={isShowType} onHide={onShowTypeBackDrop} onSelect={onShowTypeSelect}/>
+      <ShowType
+        visible={isShowType}
+        onHide={onShowTypeBackDrop}
+        onSelect={onShowTypeSelect}
+      />
     </UniversalView>
   );
 };
@@ -551,8 +564,8 @@ const Comment = ({
 };
 
 const styles = StyleSheet.create({
-  listContent:{
-    paddingBottom:50
+  listContent: {
+    paddingBottom: 50,
   },
   container: {
     padding: 16,
