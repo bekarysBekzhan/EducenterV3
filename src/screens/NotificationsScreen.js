@@ -117,7 +117,7 @@ const NotificationItem = ({message, date, type, modelID, navigation}) => {
         navigation.navigate(ROUTE_NAMES.moduleTask, {id: modelID});
         break;
       case NOTIFICATION_TYPE.test:
-        navigation.navigate(ROUTE_NAMES.testPreview, {id: modelID});
+        navigation.navigate(ROUTE_NAMES.testResult, {id: modelID});
         break;
       default:
         break;
