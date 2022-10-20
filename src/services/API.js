@@ -11,9 +11,9 @@ class MobileSettingsService {
 
   static getStatus = async () => {
     const response = await API_V2.get(URLS.getStatus);
-    console.log("status: " , response.data);
+    console.log('status: ', response.data);
     return response;
-  }
+  };
 
   static fetchLanguages = async () => {
     const response = await API_V2.get(URLS.languages);
@@ -85,7 +85,7 @@ class CourseService {
   };
 
   static fetchCourseByID = async (id, params) => {
-    const response = await API_V2.get(URLS.courseByID + id, { params });
+    const response = await API_V2.get(URLS.courseByID + id, {params});
     console.log('Course with id ' + id + ':', response);
     return response;
   };
@@ -129,7 +129,7 @@ class CourseService {
   };
 
   static fetchLesson = async (id, params) => {
-    const response = await API_V2.get(URLS.lesson + id, { params });
+    const response = await API_V2.get(URLS.lesson + id, {params});
     console.log('Lesson with id ' + id + ':', response);
     return response;
   };
@@ -587,6 +587,18 @@ class NotificationService {
     let params = {page};
     const response = await API_V2.get(URLS.notifications, {params});
     console.log('notifications: ', response);
+    return response;
+  };
+
+  static read = async (ids = []) => {
+
+    if (ids.length === 0) {
+      return
+    }
+
+    let params = {id: ids};
+    const response = await API_V2.get(URLS.notifications + '/read', {params});
+    console.log('Notifications read: ', response);
     return response;
   };
 }

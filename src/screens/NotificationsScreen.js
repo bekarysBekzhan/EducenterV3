@@ -15,20 +15,32 @@ import HtmlView from '../components/HtmlView';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 
 const NotificationsScreen = ({navigation}) => {
+
   const [notifications, setNotifications] = useState(null);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+
+  const [readNotifications, isReading, readingError] = useFetching(async (ids) => {
+    await NotificationService.read(ids);
+  })
+
   const [fetchNotifications, isFetching, error] = useFetching(async () => {
     const response = await NotificationService.fetch();
-    setNotifications(response.data?.data?.notifications?.data);
+    const notificationList = response.data?.data?.notifications?.data;
+    setNotifications(notificationList);
     setLastPage(response.data?.data?.notifications?.last_page);
+
+    await readNotifications(notificationList.filter((notification) => !notification?.readed_at).map(notification => notification?.id));
   });
 
   const [fetchNextPage, isFetchingNext, errorNext] = useFetching(async () => {
     const response = await NotificationService.fetch(page);
+    const notificationList = response.data?.data?.notifications?.data;
     setNotifications(prev =>
-      prev.concat(response.data?.data?.notifications?.data),
+      prev.concat(notificationList),
     );
+
+    await readNotifications(notificationList.filter((notification) => !notification?.readed_at).map(notification => notification?.id));
   });
 
   useEffect(() => {
