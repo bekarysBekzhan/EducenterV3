@@ -48,8 +48,8 @@ const AudioPlayer = ({
     console.log(event);
     if (event.type === Event.PlaybackState) {
       setPlaying(event.state === State.Playing);
-      setDuration(progress.duration);
-      setPosition(progress.position);
+      setDuration(progress?.duration);
+      setPosition(progress?.position);
     }
   });
 
@@ -65,11 +65,11 @@ const AudioPlayer = ({
   }, []);
 
   useEffect(() => {
-    if (progress.position === progress.duration) {
+    if (progress?.position === progress?.duration) {
       console.log('Audio finished.');
       audioFinished();
     }
-  }, [progress.position]);
+  }, [progress?.position]);
 
   const add = async () => {
     const track = {
@@ -106,7 +106,7 @@ const AudioPlayer = ({
     }
 
     if (currentIndex !== index) {
-      onTrackChange(progress.duration, setDuration, setPosition, setPlaying);
+      onTrackChange(progress?.duration, setDuration, setPosition, setPlaying);
     }
 
     setPlaying(true);
@@ -131,8 +131,8 @@ const AudioPlayer = ({
       await TrackPlayer.pause();
     }
 
-    setPosition(progress.position);
-    setDuration(progress.duration);
+    setPosition(progress?.position);
+    setDuration(progress?.duration);
     setPlaying(false);
   };
 
@@ -174,15 +174,15 @@ const AudioPlayer = ({
       <View style={styles.playerView}>
         <RowView style={styles.infoPlayerView}>
           <Text style={memoPositionStyle}>
-            {getFormattedTime(playing ? progress.position : position)}
+            {getFormattedTime(playing ? progress?.position : position)}
           </Text>
           <Text style={memoDurationStyle}>
-            {getFormattedTime(playing ? progress.duration : duration)}
+            {getFormattedTime(playing ? progress?.duration : duration)}
           </Text>
         </RowView>
         <Slider
-          maximumValue={playing ? progress.duration : duration}
-          value={playing ? progress.position : position}
+          maximumValue={playing ? progress?.duration : duration}
+          value={playing ? progress?.position : position}
           style={memoSliderStyle}
           onSlidingComplete={onSlidingComplete}
           thumbTintColor={APP_COLORS.primary}

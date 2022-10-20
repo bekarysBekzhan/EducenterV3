@@ -3,7 +3,7 @@ import {Platform} from 'react-native';
 import {navigate} from '../components/navigation/RootNavigation';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {NOTIFICATION_TYPE, STORAGE} from '../constans/constants';
-import {getString, storeString} from '../storage/AsyncStorage';
+import {getString, storeObject, storeString} from '../storage/AsyncStorage';
 import {MobileSettingsService} from './API';
 import {LocalNotificationService} from './LocalNotificationService';
 
@@ -39,6 +39,7 @@ class FirebaseService {
 
     if (enabled) {
       console.log('Authorization status:', authStatus);
+      (async () => storeObject(STORAGE.pushEnabled, true))();
       this.getToken();
     } else {
       console.log('Requested permission rejected!');
@@ -49,6 +50,9 @@ class FirebaseService {
     const isAllowed = await messaging().hasPermission();
 
     if (isAllowed) {
+      if (Platform.OS == 'android') {
+        (async () => storeObject(STORAGE.pushEnabled, true))();
+      }
       this.getToken();
     } else {
       this.requestUserPermission();

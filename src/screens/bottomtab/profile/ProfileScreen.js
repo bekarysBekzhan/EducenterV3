@@ -155,7 +155,8 @@ const ProfileScreen = ({navigation, route}) => {
           text: settings?.modules_enabled_offline_courses_title,
           iconLeft: <ReclamentIcon />,
           action: 'navigation',
-          enabled: nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
+          enabled:
+            nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCourses,
         },
         {
@@ -163,7 +164,8 @@ const ProfileScreen = ({navigation, route}) => {
           text: strings.Календарь,
           iconLeft: <CalendarIcon />,
           action: 'navigation',
-          enabled:  nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
+          enabled:
+            nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
           route: ROUTE_NAMES.offlineCalendar,
         },
       ],
@@ -187,7 +189,17 @@ const ProfileScreen = ({navigation, route}) => {
     const {navigate} = navigation;
     switch (item?.action) {
       case 'navigation':
-        navigate(item?.route);
+        if (item?.route == ROUTE_NAMES.settings) {
+          global.reloadProfile = fetchProfile;
+          navigate(item?.route, {
+            userEmail: dataSource?.data?.email,
+            notification_push_enable:
+              dataSource?.data?.notification_push_enable,
+          });
+        } else {
+          navigate(item?.route);
+        }
+
         break;
       case 'call':
         if (item?.text?.length) {
@@ -306,7 +318,9 @@ const ProfileScreen = ({navigation, route}) => {
             })}
         </Fragment>
       ))}
-      {nstatus !== N_STATUS && settings?.field_enabled_logo_buginsoft ? <DevView /> : null}
+      {nstatus !== N_STATUS && settings?.field_enabled_logo_buginsoft ? (
+        <DevView />
+      ) : null}
     </UniversalView>
   );
 };
