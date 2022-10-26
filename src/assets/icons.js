@@ -470,239 +470,260 @@ export const pdf = (
   </Svg>
 );
 
-/// BOTTOM TAB ICONS
+/// BOTTOM TAB ICONS -->
 
-export const coursesON = (
-  <Svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M23 25C23.5523 25 24 24.5523 24 24V7.82499C24 7.82499 24 7.82499 24 7.82499H8.99995C8.54432 7.82499 8.17495 7.45562 8.17495 6.99999C8.17495 6.54435 8.54432 6.17499 8.99995 6.17499H24C24 6.17499 24 6.17499 24 6.17499V4C24 3.44772 23.5523 3 23 3H7C5.343 3 4 4.343 4 6V22C4 23.657 5.343 25 7 25H23Z"
-      fill="#5559F4"
-    />
-  </Svg>
-);
+export const coursesTabIcon = (focused = false, activeColor = APP_COLORS.primary) => {
+  if (focused) {
+    return (
+      <Svg
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M23 25C23.5523 25 24 24.5523 24 24V7.82499C24 7.82499 24 7.82499 24 7.82499H8.99995C8.54432 7.82499 8.17495 7.45562 8.17495 6.99999C8.17495 6.54435 8.54432 6.17499 8.99995 6.17499H24C24 6.17499 24 6.17499 24 6.17499V4C24 3.44772 23.5523 3 23 3H7C5.343 3 4 4.343 4 6V22C4 23.657 5.343 25 7 25H23Z"
+        fill={activeColor}
+      />
+    </Svg>
+    )
+  } 
+  return (
+    <Svg
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M23.1818 7.63672H9.54541"
+        stroke="#111621"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M23.1818 23C23.1818 23.5523 22.7341 24 22.1818 24H7.72727C6.22091 24 5 22.7791 5 21.2727V6.72727C5 5.22091 6.22091 4 7.72727 4H22.1818C22.7341 4 23.1818 4.44772 23.1818 5V23Z"
+        stroke="#111621"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+} 
 
-export const coursesOFF = (
-  <Svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      d="M23.1818 7.63672H9.54541"
-      stroke="#111621"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M23.1818 23C23.1818 23.5523 22.7341 24 22.1818 24H7.72727C6.22091 24 5 22.7791 5 21.2727V6.72727C5 5.22091 6.22091 4 7.72727 4H22.1818C22.7341 4 23.1818 4.44772 23.1818 5V23Z"
-      stroke="#111621"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
+export const testsTabIcon = (focused = false, activeColor = APP_COLORS.primary) => {
+  if (focused) {
+    return (
+      <Svg
+        width="28"
+        height="28"
+        viewBox="0 0 28 28"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <Path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M8.84571 3H19.1543C22.7581 3 25 5.54329 25 9.14367V18.8563C25 22.4567 22.7581 25 19.1543 25H8.84571C5.2419 25 3 22.4567 3 18.8563V9.14367C3 5.54329 5.25238 3 8.84571 3ZM9.73347 12.0219C9.73347 11.5663 9.36411 11.1969 8.90847 11.1969C8.45284 11.1969 8.08347 11.5663 8.08347 12.0219V19.568C8.08347 20.0237 8.45284 20.393 8.90847 20.393C9.36411 20.393 9.73347 20.0237 9.73347 19.568V12.0219ZM14.0419 7.58604C14.4975 7.58604 14.8669 7.95541 14.8669 8.41104V19.568C14.8669 20.0237 14.4975 20.393 14.0419 20.393C13.5863 20.393 13.2169 20.0237 13.2169 19.568V8.41104C13.2169 7.95541 13.5863 7.58604 14.0419 7.58604ZM19.9165 16.0095C19.9165 15.5539 19.5472 15.1845 19.0915 15.1845C18.6359 15.1845 18.2665 15.5539 18.2665 16.0095V19.568C18.2665 20.0237 18.6359 20.393 19.0915 20.393C19.5472 20.393 19.9165 20.0237 19.9165 19.568V16.0095Z"
+          fill={activeColor}
+        />
+      </Svg>
+    );
+  }
 
-export const testsON = (
-  <Svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M8.84571 3H19.1543C22.7581 3 25 5.54329 25 9.14367V18.8563C25 22.4567 22.7581 25 19.1543 25H8.84571C5.2419 25 3 22.4567 3 18.8563V9.14367C3 5.54329 5.25238 3 8.84571 3ZM9.73347 12.0219C9.73347 11.5663 9.36411 11.1969 8.90847 11.1969C8.45284 11.1969 8.08347 11.5663 8.08347 12.0219V19.568C8.08347 20.0237 8.45284 20.393 8.90847 20.393C9.36411 20.393 9.73347 20.0237 9.73347 19.568V12.0219ZM14.0419 7.58604C14.4975 7.58604 14.8669 7.95541 14.8669 8.41104V19.568C14.8669 20.0237 14.4975 20.393 14.0419 20.393C13.5863 20.393 13.2169 20.0237 13.2169 19.568V8.41104C13.2169 7.95541 13.5863 7.58604 14.0419 7.58604ZM19.9165 16.0095C19.9165 15.5539 19.5472 15.1845 19.0915 15.1845C18.6359 15.1845 18.2665 15.5539 18.2665 16.0095V19.568C18.2665 20.0237 18.6359 20.393 19.0915 20.393C19.5472 20.393 19.9165 20.0237 19.9165 19.568V16.0095Z"
-      fill="#5559F4"
-    />
-  </Svg>
-);
+  return (
+    <Svg
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M9.37121 12.2021V19.0623"
+        stroke="#111621"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M14.0382 8.91895V19.0617"
+        stroke="#111621"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M18.6285 15.8271V19.0622"
+        stroke="#111621"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M18.6857 4H9.31429C6.04762 4 4 6.31208 4 9.58516V18.4148C4 21.6879 6.0381 24 9.31429 24H18.6857C21.9619 24 24 21.6879 24 18.4148V9.58516C24 6.31208 21.9619 4 18.6857 4Z"
+        stroke="#111621"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
 
-export const testsOFF = (
-  <Svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      d="M9.37121 12.2021V19.0623"
-      stroke="#111621"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M14.0382 8.91895V19.0617"
-      stroke="#111621"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M18.6285 15.8271V19.0622"
-      stroke="#111621"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M18.6857 4H9.31429C6.04762 4 4 6.31208 4 9.58516V18.4148C4 21.6879 6.0381 24 9.31429 24H18.6857C21.9619 24 24 21.6879 24 18.4148V9.58516C24 6.31208 21.9619 4 18.6857 4Z"
-      stroke="#111621"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
+export const myCoursesTabIcon = (focused = false, activeColor = APP_COLORS.primary) => {
+  if (focused) {
+    return (
+      <Svg
+        width="28"
+        height="28"
+        viewBox="0 0 28 28"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <Path
+          d="M18.5 6.49999C18.5 4.01468 16.4853 2 14 2C11.5147 2 9.49998 4.01468 9.49998 6.49999C9.49998 8.98529 11.5147 11 14 11C16.4853 11 18.5 8.98529 18.5 6.49999ZM12.9495 13.3015C10.1684 11.599 5.66374 11.1312 3.39687 11.0023C2.63515 10.9592 2 11.5395 2 12.2722V22.7159C2 23.3876 2.54328 23.9478 3.24172 23.9838C5.28827 24.0912 9.42873 24.4845 12.2904 25.9259C12.7297 26.1471 13.2504 25.8457 13.2504 25.3695V13.8387C13.25 13.6198 13.1417 13.4192 12.9495 13.3015ZM24.6031 11.0023C22.3367 11.1308 17.8315 11.599 15.0509 13.3015C14.8587 13.4192 14.7504 13.6278 14.7504 13.8467V25.3681C14.7504 25.8457 15.2726 26.1476 15.7132 25.9259C18.5745 24.4859 22.7126 24.0926 24.7587 23.9853C25.4571 23.9487 26.0004 23.3885 26.0004 22.7168V12.2722C25.9999 11.5395 25.3648 10.9592 24.6031 11.0023Z"
+          fill={activeColor}
+        />
+      </Svg>
+    );
+  }
 
-export const myCoursesON = (
-  <Svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      d="M18.5 6.49999C18.5 4.01468 16.4853 2 14 2C11.5147 2 9.49998 4.01468 9.49998 6.49999C9.49998 8.98529 11.5147 11 14 11C16.4853 11 18.5 8.98529 18.5 6.49999ZM12.9495 13.3015C10.1684 11.599 5.66374 11.1312 3.39687 11.0023C2.63515 10.9592 2 11.5395 2 12.2722V22.7159C2 23.3876 2.54328 23.9478 3.24172 23.9838C5.28827 24.0912 9.42873 24.4845 12.2904 25.9259C12.7297 26.1471 13.2504 25.8457 13.2504 25.3695V13.8387C13.25 13.6198 13.1417 13.4192 12.9495 13.3015ZM24.6031 11.0023C22.3367 11.1308 17.8315 11.599 15.0509 13.3015C14.8587 13.4192 14.7504 13.6278 14.7504 13.8467V25.3681C14.7504 25.8457 15.2726 26.1476 15.7132 25.9259C18.5745 24.4859 22.7126 24.0926 24.7587 23.9853C25.4571 23.9487 26.0004 23.3885 26.0004 22.7168V12.2722C25.9999 11.5395 25.3648 10.9592 24.6031 11.0023Z"
-      fill="#5559F4"
-    />
-  </Svg>
-);
+  return (
+    <Svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M9.50037 3.75C9.50037 2.50721 10.5076 1.5 11.7504 1.5C12.9932 1.5 14.0004 2.50721 14.0004 3.75C14.0004 4.99279 12.9932 6 11.7504 6C10.5076 6 9.50037 4.99279 9.50037 3.75ZM11.7504 0C9.67915 0 8.00037 1.67879 8.00037 3.75C8.00037 5.82121 9.67915 7.5 11.7504 7.5C13.8216 7.5 15.5004 5.82121 15.5004 3.75C15.5004 1.67879 13.8216 0 11.7504 0ZM20.2571 8.04477C21.9462 7.73829 23.5 9.03466 23.5 10.7517V19.0807C23.5 20.4098 22.5501 21.5498 21.2411 21.7876L11.9113 23.4827C11.8595 23.494 11.8056 23.5 11.7504 23.5C11.6965 23.5 11.6439 23.4943 11.5933 23.4835L2.25992 21.7876C0.951441 21.5499 0 20.4104 0 19.0807V10.7517C0 9.03422 1.55526 7.73837 3.2439 8.04477L11.4942 9.5449C11.5741 9.51585 11.6604 9.5 11.7504 9.5C11.8403 9.5 11.9265 9.51582 12.0063 9.54482L20.2571 8.04477ZM20.9729 20.3118L12.5004 21.8511V10.9796L20.5249 9.52067C21.2937 9.38133 22 9.97086 22 10.7517V19.0807C22 19.6856 21.5679 20.2037 20.9729 20.3118ZM2.9761 9.52067L11.0004 10.9797V21.8512L2.52808 20.3118C1.93257 20.2036 1.5 19.685 1.5 19.0807V10.7517C1.5 9.97131 2.20684 9.38126 2.9761 9.52067Z"
+        fill="#111621"
+      />
+    </Svg>
+  );
+} 
 
-export const myCoursesOFF = (
-  <Svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M9.50037 3.75C9.50037 2.50721 10.5076 1.5 11.7504 1.5C12.9932 1.5 14.0004 2.50721 14.0004 3.75C14.0004 4.99279 12.9932 6 11.7504 6C10.5076 6 9.50037 4.99279 9.50037 3.75ZM11.7504 0C9.67915 0 8.00037 1.67879 8.00037 3.75C8.00037 5.82121 9.67915 7.5 11.7504 7.5C13.8216 7.5 15.5004 5.82121 15.5004 3.75C15.5004 1.67879 13.8216 0 11.7504 0ZM20.2571 8.04477C21.9462 7.73829 23.5 9.03466 23.5 10.7517V19.0807C23.5 20.4098 22.5501 21.5498 21.2411 21.7876L11.9113 23.4827C11.8595 23.494 11.8056 23.5 11.7504 23.5C11.6965 23.5 11.6439 23.4943 11.5933 23.4835L2.25992 21.7876C0.951441 21.5499 0 20.4104 0 19.0807V10.7517C0 9.03422 1.55526 7.73837 3.2439 8.04477L11.4942 9.5449C11.5741 9.51585 11.6604 9.5 11.7504 9.5C11.8403 9.5 11.9265 9.51582 12.0063 9.54482L20.2571 8.04477ZM20.9729 20.3118L12.5004 21.8511V10.9796L20.5249 9.52067C21.2937 9.38133 22 9.97086 22 10.7517V19.0807C22 19.6856 21.5679 20.2037 20.9729 20.3118ZM2.9761 9.52067L11.0004 10.9797V21.8512L2.52808 20.3118C1.93257 20.2036 1.5 19.685 1.5 19.0807V10.7517C1.5 9.97131 2.20684 9.38126 2.9761 9.52067Z"
-      fill="#111621"
-    />
-  </Svg>
-);
+export const tasksTabIcon = (focused = false, activeColor = APP_COLORS.primary) => {
+  if (focused) {
+    return (
+      <Svg
+        width="28"
+        height="28"
+        viewBox="0 0 28 28"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <Path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M7.4 25H20.6C23.0299 25 25 23.0299 25 20.6V7.4C25 4.9701 23.0299 3 20.6 3H7.4C4.9701 3 3 4.9701 3 7.4V20.6C3 23.0299 4.9701 25 7.4 25ZM18.3741 11.1661C18.6039 10.8215 18.5108 10.3558 18.1661 10.126C17.8215 9.89628 17.3558 9.98941 17.126 10.3341L13.5421 15.71L11.1661 14.126C10.8215 13.8963 10.3558 13.9894 10.126 14.3341C9.89628 14.6787 9.98941 15.1444 10.3341 15.3741L13.3341 17.3741C13.6787 17.6039 14.1444 17.5108 14.3741 17.1661L18.3741 11.1661Z"
+          fill={activeColor}
+        />
+      </Svg>
+    );
+  }
 
-export const tasksON = (
-  <Svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M7.4 25H20.6C23.0299 25 25 23.0299 25 20.6V7.4C25 4.9701 23.0299 3 20.6 3H7.4C4.9701 3 3 4.9701 3 7.4V20.6C3 23.0299 4.9701 25 7.4 25ZM18.3741 11.1661C18.6039 10.8215 18.5108 10.3558 18.1661 10.126C17.8215 9.89628 17.3558 9.98941 17.126 10.3341L13.5421 15.71L11.1661 14.126C10.8215 13.8963 10.3558 13.9894 10.126 14.3341C9.89628 14.6787 9.98941 15.1444 10.3341 15.3741L13.3341 17.3741C13.6787 17.6039 14.1444 17.5108 14.3741 17.1661L18.3741 11.1661Z"
-      fill="#5559F4"
-    />
-  </Svg>
-);
+  return (
+    <Svg
+      width="28"
+      height="28"
+      viewBox="0 0 28 28"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M10.5 14.9453L13.5 16.9453L17.5 10.9453"
+        stroke="#111621"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M20 23.9453H8C5.791 23.9453 4 22.1543 4 19.9453V7.94531C4 5.73631 5.791 3.94531 8 3.94531H20C22.209 3.94531 24 5.73631 24 7.94531V19.9453C24 22.1543 22.209 23.9453 20 23.9453Z"
+        stroke="#111621"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+}
 
-export const tasksOFF = (
-  <Svg
-    width="28"
-    height="28"
-    viewBox="0 0 28 28"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      d="M10.5 14.9453L13.5 16.9453L17.5 10.9453"
-      stroke="#111621"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      fillRule="evenodd"
-      clipRule="evenodd"
-      d="M20 23.9453H8C5.791 23.9453 4 22.1543 4 19.9453V7.94531C4 5.73631 5.791 3.94531 8 3.94531H20C22.209 3.94531 24 5.73631 24 7.94531V19.9453C24 22.1543 22.209 23.9453 20 23.9453Z"
-      stroke="#111621"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
+export const profileTabIcon = (focused = false, activeColor = APP_COLORS.primary) => {
+  if (focused) {
+    return (
+      <Svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <Path
+          d="M3 6H21"
+          stroke={activeColor}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M3 18H21"
+          stroke={activeColor}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <Path
+          d="M3 12H21"
+          stroke={activeColor}
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </Svg>
+    ); 
+  }
 
-export const profileON = (
-  <Svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      d="M3 6H21"
-      stroke="#5559F4"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M3 18H21"
-      stroke="#5559F4"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M3 12H21"
-      stroke="#5559F4"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
+  return (
+    <Svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <Path
+        d="M3 6H21"
+        stroke="#111621"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M3 18H21"
+        stroke="#111621"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <Path
+        d="M3 12H21"
+        stroke="#111621"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </Svg>
+  );
+} 
 
-export const profileOFF = (
-  <Svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg">
-    <Path
-      d="M3 6H21"
-      stroke="#111621"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M3 18H21"
-      stroke="#111621"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <Path
-      d="M3 12H21"
-      stroke="#111621"
-      strokeWidth="1.6"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </Svg>
-);
+/// BOTTOM TAB ICONS <--
 
 export const History = () => (
   <Svg

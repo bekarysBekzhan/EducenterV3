@@ -4,14 +4,20 @@ import {ROUTE_NAMES} from './routes';
 import {
   coursesOFF,
   coursesON,
+  coursesTabIcon,
+  CoursesTabIcon,
   myCoursesOFF,
   myCoursesON,
+  myCoursesTabIcon,
   profileOFF,
   profileON,
+  profileTabIcon,
   tasksOFF,
   tasksON,
+  tasksTabIcon,
   testsOFF,
   testsON,
+  testsTabIcon,
 } from '../../assets/icons';
 import {strings} from '../../localization';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -38,47 +44,32 @@ const BottomTab = props => {
   const BOTTOM_TAB = [
     {
       name: ROUTE_NAMES.coursesStack,
-      icon: {
-        active: coursesON,
-        inactive: coursesOFF,
-      },
+      icon: coursesTabIcon,
       label: strings.Курсы,
       component: Courses,
     },
     {
       name: ROUTE_NAMES.testsStack,
       component: Tests,
-      icon: {
-        active: testsON,
-        inactive: testsOFF,
-      },
+      icon: testsTabIcon,
       label: strings.Тесты,
     },
     {
       name: ROUTE_NAMES.myCoursesStack,
       component: MyCourses,
-      icon: {
-        active: myCoursesON,
-        inactive: myCoursesOFF,
-      },
+      icon: myCoursesTabIcon,
       label: strings['Мои курсы'],
     },
     {
       name: ROUTE_NAMES.tasksStack,
       component: Tasks,
-      icon: {
-        active: tasksON,
-        inactive: tasksOFF,
-      },
+      icon: tasksTabIcon,
       label: strings.Задания,
     },
     {
       name: ROUTE_NAMES.menuStack,
       component: MenuStack,
-      icon: {
-        active: profileON,
-        inactive: profileOFF,
-      },
+      icon: profileTabIcon,
       label: strings.Меню,
     },
   ];
@@ -115,7 +106,7 @@ const BottomTab = props => {
     <BottomTabStack.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: APP_COLORS.primary,
+        tabBarActiveTintColor: settings.color_app,
         tabBarInactiveTintColor: APP_COLORS.placeholder,
       }}
       initialRouteName={getInitialRouteName()}>
@@ -126,9 +117,7 @@ const BottomTab = props => {
             component={route.component}
             key={index}
             options={{
-              tabBarIcon: ({focused}) => {
-                return focused ? route.icon.active : route.icon.inactive;
-              },
+              tabBarIcon: ({focused}) => route.icon(focused, settings?.color_app),
               tabBarLabel: route.label,
             }}
           />
