@@ -52,7 +52,11 @@ const WebViewerScreen = ({navigation, route}) => {
     setDataSource(prev => ({
       ...prev,
       data:
-        type?.type == 'kaspi_ur' ? {uri: res?.data?.link} : {html: res?.data},
+        type?.type == 'kaspi_ur'
+          ? {uri: res?.data?.link}
+          : type?.type == 'robokassa'
+          ? {uri: res?.request?.responseURL}
+          : {html: res?.data},
     }));
   });
 

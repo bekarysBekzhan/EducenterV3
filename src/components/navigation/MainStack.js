@@ -232,7 +232,7 @@ const Navigation = () => {
     }
 
     const isInitialStart = await getObject(STORAGE.initialStart);
-    if (isInitialStart === false) {
+    if (!isInitialStart) {
       setInitialStart(isInitialStart);
     }
 

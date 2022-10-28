@@ -2,7 +2,6 @@ import React from 'react';
 import {ROUTE_NAMES} from './routes';
 import SplashScreen from '../../screens/splash/SplashScreen';
 import LanguageScreen from '../../screens/splash/LanguageScreen';
-import {strings} from '../../localization';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 const SplashStack = createNativeStackNavigator();
