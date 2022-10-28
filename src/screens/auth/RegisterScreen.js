@@ -9,26 +9,25 @@ import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
 import {getString, storeString} from '../../storage/AsyncStorage';
 import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constans/constants';
-import { API_V2 } from '../../services/axios';
-import { useSettings } from '../../components/context/Provider';
-import { CommonActions } from '@react-navigation/native';
-import { ROUTE_NAMES } from '../../components/navigation/routes';
-import CountryPicker from "react-native-country-picker-modal"
+import {API_V2} from '../../services/axios';
+import {useSettings} from '../../components/context/Provider';
+import {CommonActions} from '@react-navigation/native';
+import {ROUTE_NAMES} from '../../components/navigation/routes';
+import CountryPicker from 'react-native-country-picker-modal';
 import RowView from '../../components/view/RowView';
-import { firebaseService } from '../../services/FirebaseService';
+import {firebaseService} from '../../services/FirebaseService';
 
 const RegisterScreen = ({navigation}) => {
-
   const [dataSource, setDataSource] = useState({
     name: '',
     email: '',
-    countryCode: "KZ",
-    callingCode: "+7",
+    countryCode: 'KZ',
+    callingCode: '+7',
     phone: '',
     password: '',
   });
 
-  const { setIsAuth, settings, nstatus } = useSettings()
+  const {setIsAuth, settings, nstatus} = useSettings();
 
   const setName = name => setDataSource(prev => ({...prev, name}));
   const setEmail = email => setDataSource(prev => ({...prev, email}));
@@ -37,21 +36,13 @@ const RegisterScreen = ({navigation}) => {
 
   const [fetchRegister, isLoading, error] = useFetching(async params => {
     const response = await AuthService.fetchRegister(params);
-    const token = response.data?.data?.api_token
-    await storeString(STORAGE.userToken, token)
-    API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = "Bearer " + token
-    setIsAuth(true)
-    if (settings?.marketplace_enabled) {
-      navigation.replace(ROUTE_NAMES.bottomTab)
-    } else {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [
-            {name: ROUTE_NAMES.bottomTab }
-          ]
-      }))
-    }
+    const token = response.data?.data?.api_token;
+    await storeString(STORAGE.userToken, token);
+    API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = 'Bearer ' + token;
+    setIsAuth(true);
+
+    navigation.reset({index: 0, routes: [{name: ROUTE_NAMES.bottomTab}]});
+
     if (nstatus !== N_STATUS) {
       const fcmToken = await getString(STORAGE.firebaseToken);
       firebaseService.setFCMToken(fcmToken, token);
@@ -66,14 +57,14 @@ const RegisterScreen = ({navigation}) => {
     });
   });
 
-  const onCountrySelect = (country) => {
-    console.log("country : " , country)
+  const onCountrySelect = country => {
+    console.log('country : ', country);
     setDataSource(prev => ({
       ...prev,
       countryCode: country.cca2,
-      callingCode: country?.callingCode[0]
-    }))
-  }
+      callingCode: country?.callingCode[0],
+    }));
+  };
 
   return (
     <UniversalView haveScroll contentContainerStyle={styles.view}>
@@ -103,7 +94,7 @@ const RegisterScreen = ({navigation}) => {
           }}
           // visible
         />
-        <View style={{ width: 16 }}/>
+        <View style={{width: 16}} />
         <Input
           placeholder={strings['Номер телефона']}
           extraStyle={styles.input}
@@ -136,9 +127,9 @@ const RegisterScreen = ({navigation}) => {
         onPress={() => {
           setDataSource(prev => ({
             ...prev,
-            phone: dataSource.callingCode + prev.phone
-          }))
-          fetchRegister(dataSource)
+            phone: dataSource.callingCode + prev.phone,
+          }));
+          fetchRegister(dataSource);
         }}
       />
     </UniversalView>
@@ -163,6 +154,6 @@ const styles = StyleSheet.create({
   },
   phone: {
     flex: 1,
-    alignItems: "center"
+    alignItems: 'center',
   },
 });

@@ -7,7 +7,7 @@ import {APP_COLORS} from '../../constans/constants';
 const PacketItem = ({style, name, nameStyle, selected = false, onPress}) => (
   <TouchableOpacity activeOpacity={0.9} onPress={onPress}>
     <View style={{...styles.view, ...style}}>
-      {selected ? check() : x()}
+      {selected ? check(1, APP_COLORS.primary) : x(1, APP_COLORS.primary)}
       {name ? <Text style={{...styles.name, ...nameStyle}}>{name}</Text> : null}
     </View>
   </TouchableOpacity>

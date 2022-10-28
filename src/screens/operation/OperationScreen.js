@@ -381,7 +381,13 @@ const OperationScreen = ({navigation, route}) => {
   const renderItemPackets = ({item, index}) => (
     <PacketItem
       style={item?.selected ? styles.packetItemSelected : styles.packetItem}
-      name={item?.period ? item?.period : item?.packet?.name}
+      name={
+        item?.period
+          ? item?.name
+            ? item?.name + ' ' + `(${item?.period})`
+            : item?.period
+          : item?.packet?.name
+      }
       selected={item?.selected}
       onPress={() => selectedPaket(item)}
     />
@@ -398,6 +404,7 @@ const OperationScreen = ({navigation, route}) => {
           reviews: dataSource?.data?.entity?.reviews_count,
         }}
         title={dataSource?.data?.entity?.title}
+        price={dataSource?.data?.cost}
       />
       <Divider isAbsolute={false} style={styles.divider} />
 

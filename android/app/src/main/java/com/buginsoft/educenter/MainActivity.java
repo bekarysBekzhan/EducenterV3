@@ -3,6 +3,7 @@ package com.buginsoft.educenter;
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
+import android.view.WindowManager;
 import android.os.Bundle;
 
 public class MainActivity extends ReactActivity {
@@ -42,6 +43,10 @@ public class MainActivity extends ReactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(null);
+    getWindow().setFlags(
+      WindowManager.LayoutParams.FLAG_SECURE,
+      WindowManager.LayoutParams.FLAG_SECURE
+      );
     }
 
 }
