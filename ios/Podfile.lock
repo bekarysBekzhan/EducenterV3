@@ -303,7 +303,7 @@ PODS:
     - React-Core
   - react-native-is-screen-captured-ios (0.1.0):
     - React-Core
-  - react-native-netinfo (9.3.5):
+  - react-native-netinfo (9.3.6):
     - React-Core
   - react-native-pager-view (6.0.1):
     - React-Core
@@ -395,7 +395,7 @@ PODS:
     - React-Core
   - RNCClipboard (1.11.1):
     - React-Core
-  - RNDeviceInfo (10.2.1):
+  - RNDeviceInfo (10.3.0):
     - React-Core
   - RNFastImage (8.6.1):
     - React-Core
@@ -413,14 +413,14 @@ PODS:
     - React-Core
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.7.1):
+  - RNGestureHandler (2.8.0):
     - React-Core
   - RNNotifee (7.0.4):
     - React-Core
     - RNNotifee/NotifeeCore (= 7.0.4)
   - RNNotifee/NotifeeCore (7.0.4):
     - React-Core
-  - RNReanimated (2.11.0):
+  - RNReanimated (2.12.0):
     - DoubleConversion
     - FBLazyVector
     - FBReactNativeSpec
@@ -713,7 +713,7 @@ SPEC CHECKSUMS:
   react-native-document-picker: f5ec1a712ca2a975c233117f044817bb8393cad4
   react-native-image-picker: 4bc9ed38c8be255b515d8c88babbaf74973f91a8
   react-native-is-screen-captured-ios: 3f893eae620b42cec2af39e326247604f2860033
-  react-native-netinfo: 85b2a435c4d3705c08b0c42ff2d6ef6b9622ea0a
+  react-native-netinfo: f80db8cac2151405633324cb645c60af098ee461
   react-native-pager-view: 3051346698a0ba0c4e13e40097cc11b00ee03cca
   react-native-pdf: 33c622cbdf776a649929e8b9d1ce2d313347c4fa
   react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
@@ -736,15 +736,15 @@ SPEC CHECKSUMS:
   ReactNativeLocalization: 076497d7ca70341c751cd3b3e7c86187332a182d
   RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
-  RNDeviceInfo: c31137f22ee779fe3931d1a8d60cc1af80ef4077
+  RNDeviceInfo: 4701f0bf2a06b34654745053db0ce4cb0c53ada7
   RNFastImage: 3207b9eb17c2425d574ca40db35185db6e324f4e
   RNFBApp: ad6ad2dd37ccf10e737ec8688208761026331d64
   RNFBMessaging: f75d2d54bbf6ddc29304e2f45152bc397a8b5b3f
   RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: b7a872907ee289ada902127f2554fa1d2c076122
+  RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
   RNNotifee: dcb2593127f40945c4ee5fc09f61d71bbd00b9cf
-  RNReanimated: 51552965cd9229e3a3c9db7eebacdc9f455dcfef
+  RNReanimated: 0ff5e7f619a7524d237848ecb4c47650c4946f71
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSha256: 80bea5b2e7005f813f6438cb41e573b3d531146c
   RNShare: a5dc3b9c53ddc73e155b8cd9a94c70c91913c43c
