@@ -88,6 +88,7 @@ export const URLS = {
   rating: 'modules/tests/my/rating',
   getStatus: 'get',
   pages: 'pages',
+  userDelete: 'user/delete',
 };
 
 export const STORAGE = {

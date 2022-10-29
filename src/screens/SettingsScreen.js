@@ -22,6 +22,7 @@ import SelectOption from '../components/SelectOption';
 import {useSettings} from '../components/context/Provider';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {CommonActions} from '@react-navigation/native';
+import SimpleButton from '../components/button/SimpleButton';
 
 const SettingsScreen = ({navigation, route}) => {
   const userEmail = route?.params?.userEmail;
@@ -129,6 +130,10 @@ const SettingsScreen = ({navigation, route}) => {
     <SectionView label={strings['Выберите язык']} />
   ) : null;
 
+  const navigationDeleteAccountScreen = () => {
+    navigation.navigate(ROUTE_NAMES.deleteAccount);
+  };
+
   const renderFooter = (
     <View>
       {nstatus === N_STATUS ? null : (
@@ -143,6 +148,11 @@ const SettingsScreen = ({navigation, route}) => {
           }
         />
       )}
+      <SimpleButton
+        style={styles.navButton}
+        text={strings['Удалить аккаунт']}
+        onPress={navigationDeleteAccountScreen}></SimpleButton>
+
       {/* <SettingItem
         text={strings['Напоминание о прохождении курса']}
         label={strings['Еженедельные напоминание о прохождения курса']}
@@ -185,6 +195,10 @@ const styles = StyleSheet.create({
   },
   empty: {
     marginBottom: 16,
+  },
+  navButton: {
+    paddingVertical: 16,
+    marginHorizontal: 16,
   },
 });
 

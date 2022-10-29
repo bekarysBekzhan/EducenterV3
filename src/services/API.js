@@ -451,6 +451,12 @@ class ProfileService {
     console.log('ChangePassword.js: ', response);
     return response;
   };
+
+  static fetchDeleteAccount = async params => {
+    const response = await API_V2.post(URLS.userDelete, params);
+    console.log('DeleteAccountScreen.js: ', response);
+    return response;
+  };
 }
 
 class HistoryService {
@@ -591,9 +597,8 @@ class NotificationService {
   };
 
   static read = async (ids = []) => {
-
     if (ids.length === 0) {
-      return
+      return;
     }
 
     let params = {id: ids};

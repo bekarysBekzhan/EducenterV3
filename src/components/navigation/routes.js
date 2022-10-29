@@ -73,6 +73,7 @@ export const ROUTE_NAMES = {
   scheduleLessons: 'ScheduleLessons',
   scheduleVisitis: 'ScheduleVisits',
   settings: 'Settings',
+  deleteAccount: 'DeleteAccount',
   operation: 'Operation',
   kaspiBank: 'KaspiBank',
   webViewer: 'WebViewer',

@@ -22,6 +22,7 @@ import SelectSubjectsScreen from '../../screens/ubt/SelectSubjectsScreen';
 import RatingScreen from '../../screens/RatingScreen';
 import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
 import PolicyScreen from '../../screens/privacy/PolicyScreen';
+import DeleteAccountScreen from '../../screens/deleteAccount/DeleteAccountScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -151,6 +152,13 @@ const MenuStack = ({navigation}) => {
       component: PolicyScreen,
       options: {
         title: strings['Правила и соглашения'],
+      },
+    },
+    {
+      name: ROUTE_NAMES.deleteAccount,
+      component: DeleteAccountScreen,
+      options: {
+        title: strings["Удалить аккаунт"],
       },
     },
   ];
