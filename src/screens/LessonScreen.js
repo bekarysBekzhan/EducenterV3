@@ -123,7 +123,11 @@ const LessonScreen = props => {
     setIsModal(true);
 
     try {
-      const response = await CourseService.fetchLesson(data?.next_lesson_id);
+      let params={};
+      if (nstatus === N_STATUS) {
+        params.publication_app = await generateHash();
+      }
+      const response = await CourseService.fetchLesson(data?.next_lesson_id, params);
       if (response.status === 200) {
         if (data?.isLast) {
           props.navigation.navigate('');
