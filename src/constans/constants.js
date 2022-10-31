@@ -148,4 +148,4 @@ export const SHOW_TYPE = {
   result: 'result',
 };
 
-export const N_STATUS = '6';
+export const N_STATUS = '0';
