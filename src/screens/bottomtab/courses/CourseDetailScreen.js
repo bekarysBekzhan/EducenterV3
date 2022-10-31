@@ -115,12 +115,7 @@ const CourseDetailScreen = props => {
   const renderTransactionButton = () => {
 
     if (nstatus === N_STATUS) {
-      return (
-        <TransactionButton
-          text={strings['Продолжить урок']}
-          onPress={onTransaction}
-        />
-      );
+      return null
     }
 
     return (
