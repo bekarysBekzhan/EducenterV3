@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import React, { useState } from 'react'
 import { useSettings } from '../context/Provider';
 import { ROUTE_NAMES } from '../navigation/routes';
-import { APP_COLORS } from '../../constans/constants';
+import { APP_COLORS, N_STATUS } from '../../constans/constants';
 import { strings } from '../../localization';
 import { down, iconPlay, lock, PlayIcon, time, up } from '../../assets/icons';
 import RowView from '../view/RowView';
@@ -13,7 +13,7 @@ import { setFontStyle } from '../../utils/utils';
 const CourseChapter = ({item, index, hasSubscribed = false, navigation, from = "course", onPress = () => undefined}) => {
 
     const [isCollapsed, setIsCollapsed] = useState(true);
-    const {settings, isAuth} = useSettings();
+    const {settings, isAuth, nstatus} = useSettings();
   
     const onLesson = (id, title) => {
       if (!isAuth) {
@@ -27,6 +27,21 @@ const CourseChapter = ({item, index, hasSubscribed = false, navigation, from = "
         }
       }
     };
+
+    const buyKursText = () => {
+      if(nstatus === N_STATUS){
+        return null
+      } else {
+        return (
+        <RowView>
+          {lock()}
+          <Text style={styles.subscribeToCourseText}>
+            {strings['Купите курс чтобы смотреть']}
+          </Text>
+        </RowView>
+        )
+      }
+    }
   
     const renderStatus = () => {
   
@@ -45,12 +60,7 @@ const CourseChapter = ({item, index, hasSubscribed = false, navigation, from = "
       }
   
       return (
-        <RowView>
-          {lock()}
-          <Text style={styles.subscribeToCourseText}>
-            {strings['Купите курс чтобы смотреть']}
-          </Text>
-        </RowView>
+          buyKursText()
       );
     };
   
