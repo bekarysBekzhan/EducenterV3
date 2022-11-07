@@ -66,7 +66,7 @@ const LessonScreen = props => {
       params.publication_app = await generateHash();
     }
     const response = await CourseService.fetchLesson(id, params);
-    const courseID = response.data?.data?.course.id;
+    const courseID = response.data?.data?.chapter?.course.id;
     const courseData = (await CourseService.fetchCourseByID(courseID)).data
       ?.data;
     setCourse(courseData);
