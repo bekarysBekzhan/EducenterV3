@@ -295,7 +295,7 @@ PODS:
   - React-jsinspector (0.68.2)
   - React-logger (0.68.2):
     - glog
-  - react-native-blob-util (0.16.3):
+  - react-native-blob-util (0.16.4):
     - React-Core
   - react-native-document-picker (8.1.2):
     - React-Core
@@ -305,7 +305,7 @@ PODS:
     - React-Core
   - react-native-netinfo (9.3.6):
     - React-Core
-  - react-native-pager-view (6.0.1):
+  - react-native-pager-view (6.1.0):
     - React-Core
   - react-native-pdf (6.6.2):
     - React-Core
@@ -317,7 +317,7 @@ PODS:
     - RCTTypeSafety
     - React-Core
     - ReactCommon/turbomodule/core
-  - react-native-slider (4.3.2):
+  - react-native-slider (4.3.3):
     - React-Core
   - react-native-track-player (3.2.0):
     - React-Core
@@ -397,7 +397,7 @@ PODS:
     - React-Core
   - RNDeviceInfo (10.3.0):
     - React-Core
-  - RNFastImage (8.6.1):
+  - RNFastImage (8.6.3):
     - React-Core
     - SDWebImage (~> 5.11.1)
     - SDWebImageWebPCoder (~> 0.8.4)
@@ -415,10 +415,10 @@ PODS:
     - React-Core
   - RNGestureHandler (2.8.0):
     - React-Core
-  - RNNotifee (7.0.4):
+  - RNNotifee (7.1.0):
     - React-Core
-    - RNNotifee/NotifeeCore (= 7.0.4)
-  - RNNotifee/NotifeeCore (7.0.4):
+    - RNNotifee/NotifeeCore (= 7.1.0)
+  - RNNotifee/NotifeeCore (7.1.0):
     - React-Core
   - RNReanimated (2.12.0):
     - DoubleConversion
@@ -454,7 +454,7 @@ PODS:
     - React-Core
   - RNShare (7.9.1):
     - React-Core
-  - RNSVG (13.4.0):
+  - RNSVG (13.5.0):
     - React-Core
   - SDWebImage (5.11.1):
     - SDWebImage/Core (= 5.11.1)
@@ -709,16 +709,16 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b7b553412f2ec768fe6c8f27cd6bafdb9d8719e6
   React-jsinspector: c5989c77cb89ae6a69561095a61cce56a44ae8e8
   React-logger: a0833912d93b36b791b7a521672d8ee89107aff1
-  react-native-blob-util: 4ec16cc21bfc8de8f0ddfd2c81ada00f8c34b646
+  react-native-blob-util: 60453b777610c87a22b3524032c0214e8db555db
   react-native-document-picker: f5ec1a712ca2a975c233117f044817bb8393cad4
   react-native-image-picker: 4bc9ed38c8be255b515d8c88babbaf74973f91a8
   react-native-is-screen-captured-ios: 3f893eae620b42cec2af39e326247604f2860033
   react-native-netinfo: f80db8cac2151405633324cb645c60af098ee461
-  react-native-pager-view: 3051346698a0ba0c4e13e40097cc11b00ee03cca
+  react-native-pager-view: 7abf89f9834d9a4021b2fb6a5ef2abff570b46fb
   react-native-pdf: 33c622cbdf776a649929e8b9d1ce2d313347c4fa
   react-native-restart: 45c8dca02491980f2958595333cbccd6877cb57e
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
-  react-native-slider: e540525ea731783850802b7af457d8551edb0711
+  react-native-slider: 7d19220da2f2ae7cbb9aa80127cb73c597fa221f
   react-native-track-player: 0c26d981b5097910486cbbeb6d8f5352d41be069
   react-native-webview: d33e2db8925d090871ffeb232dfa50cb3a727581
   React-perflogger: a18b4f0bd933b8b24ecf9f3c54f9bf65180f3fe6
@@ -737,18 +737,18 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 0c357f3156fcb16c8589ede67cc036330b6698ca
   RNCClipboard: 2834e1c4af68697089cdd455ee4a4cdd198fa7dd
   RNDeviceInfo: 4701f0bf2a06b34654745053db0ce4cb0c53ada7
-  RNFastImage: 3207b9eb17c2425d574ca40db35185db6e324f4e
+  RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBApp: ad6ad2dd37ccf10e737ec8688208761026331d64
   RNFBMessaging: f75d2d54bbf6ddc29304e2f45152bc397a8b5b3f
   RNFileViewer: ce7ca3ac370e18554d35d6355cffd7c30437c592
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
   RNGestureHandler: 62232ba8f562f7dea5ba1b3383494eb5bf97a4d3
-  RNNotifee: dcb2593127f40945c4ee5fc09f61d71bbd00b9cf
+  RNNotifee: 8527a2b9ffc6d0abfd907027e22962a809e39eee
   RNReanimated: 0ff5e7f619a7524d237848ecb4c47650c4946f71
   RNScreens: 34cc502acf1b916c582c60003dc3089fa01dc66d
   RNSha256: 80bea5b2e7005f813f6438cb41e573b3d531146c
   RNShare: a5dc3b9c53ddc73e155b8cd9a94c70c91913c43c
-  RNSVG: 07dbd870b0dcdecc99b3a202fa37c8ca163caec2
+  RNSVG: 38ca962c970dbce1ca38991a5aebf26d163f9efb
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
   SSZipArchive: 62d4947b08730e4cda640473b0066d209ff033c9
