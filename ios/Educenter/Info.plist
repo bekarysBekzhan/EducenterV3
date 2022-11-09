@@ -39,6 +39,8 @@
 	<string>AgMr2qUoNU9IHNPRa5CbAflxqMPuinJaLeKCP</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app uses photo library to let users to upload and send to other users and customize user profile.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Give $(PRODUCT_NAME) permission to use your microphone. Your record wont be shared without your permission.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
