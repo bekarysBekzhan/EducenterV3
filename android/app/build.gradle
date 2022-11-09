@@ -142,8 +142,8 @@ android {
         applicationId "com.buginsoft.educenter"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName '1.1.0'
+        versionCode 5 //build
+        versionName '2.0.0' //version
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 
         if (isNewArchitectureEnabled()) {
