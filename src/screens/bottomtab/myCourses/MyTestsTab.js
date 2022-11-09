@@ -121,6 +121,7 @@ const MyTestsTab = props => {
         attempts={item?.attempts}
         attemptHistory={item?.all_passings}
         certificate={item?.user_certificate}
+        resultType={item?.result_type}
         onStartTest={onStartTest}
         onShowResult={onShowResult}
         onDownload={downloader}
@@ -184,6 +185,7 @@ const ModuleMyTestItem = ({
   attempts,
   certificate,
   attemptHistory,
+  resultType,
   onStartTest = () => undefined,
   onShowResult = () => undefined,
   onDownload = () => undefined,
@@ -283,7 +285,7 @@ const ModuleMyTestItem = ({
         style={[testItem.attempt, {
           borderTopWidth: index ? 0.35 : 0,
         }]}
-        onPress={() => onShowResult(item?.id)}
+        onPress={() => onShowResult(item?.id, resultType)}
         activeOpacity={0.88}
       >
         <RowView style={[ testItem.attemptRow, { marginBottom: 10 } ]}>
