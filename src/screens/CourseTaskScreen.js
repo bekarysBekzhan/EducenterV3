@@ -19,7 +19,13 @@ import {isValidText, setFontStyle} from '../utils/utils';
 import HtmlView from '../components/HtmlView';
 import Person from '../components/Person';
 import RowView from '../components/view/RowView';
-import {AttachIcon, SendIcon, x} from '../assets/icons';
+import {
+  AttachIcon,
+  Microphone,
+  MicrophoneIcon,
+  SendIcon,
+  x,
+} from '../assets/icons';
 import Input from '../components/Input';
 import {APP_COLORS, WIDTH} from '../constans/constants';
 import Divider from '../components/Divider';
@@ -29,13 +35,22 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useRef} from 'react';
 import FileItem from '../components/FileItem';
 import Overlay from '../components/view/Overlay';
+import AudioRecorderPlayer from 'react-native-audio-recorder-player';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import AudioPlayer from '../components/AudioPlayer';
+import TrackPlayer from 'react-native-track-player';
+
+const audioRecorder = new AudioRecorderPlayer();
 
 const CourseTaskScreen = props => {
+
+  // props passed down from parent
   const lessonTitle = props.route?.params?.title;
   const id = props.route?.params?.id;
 
   const controller = useRef(new AbortController());
 
+  // screen states
   const [keyboardOffset, setKeyboardOffset] = useState(0);
   const [data, setData] = useState(null);
   const [attachedFile, setAttachedFile] = useState(null);
@@ -43,12 +58,29 @@ const CourseTaskScreen = props => {
   const [progress, setProgress] = useState(0);
   const [height, setHeight] = useState(48);
   const [inputHeight, setInputHeight] = useState(0);
+  const [audioPath, setAudioPath] = useState(null);
 
+  /*
+    Below animation properties of react-native-reanimted library
+  */
+  // shared values for animating audio recording button
+  const recordButtonWidth = useSharedValue(styles.sendIcon.width);
+  const recordButtonHeight = useSharedValue(styles.sendIcon.height);
+  // animated style for audio recording button container
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      width: recordButtonWidth.value,
+      height: recordButtonHeight.value,
+    };
+  });
+
+  // service for fetching task from server
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
     const response = await CourseService.fetchTask(id);
     setData(response.data?.data);
   });
 
+  // service for sending task results to server
   const [sendAnswer, isSending, sendingError] = useFetching(async () => {
     await CourseService.sendTaskAnswer(
       data?.id,
@@ -75,6 +107,7 @@ const CourseTaskScreen = props => {
       if (controller.current) {
         controller.current.abort();
       }
+      TrackPlayer.reset();
     };
   }, []);
 
@@ -94,6 +127,10 @@ const CourseTaskScreen = props => {
       setAnswer('');
     }
   }, [sendingError]);
+
+  useEffect(() => {
+    console.log(audioPath);
+  }, [audioPath]);
 
   const selectFile = async () => {
     Keyboard.dismiss();
@@ -194,6 +231,24 @@ const CourseTaskScreen = props => {
     }
   };
 
+  const onStartRecord = async () => {
+    recordButtonWidth.value = withSpring(recordButtonWidth.value * 1.5); // increasing record button width with spring animation
+    recordButtonHeight.value = withSpring(recordButtonHeight.value * 1.5); // increasing record button height with spring animation
+    const result = await audioRecorder.startRecorder();
+    audioRecorder.addRecordBackListener(e => {
+      console.log('addRecordBackListener', e);
+      return;
+    });
+  };
+
+  const onStopRecord = async () => {
+    recordButtonWidth.value = withSpring(styles.sendIcon.width); // decreasing record button width to initial value
+    recordButtonHeight.value = withSpring(styles.sendIcon.height); // decreasing record button height to initial value
+    const result = await audioRecorder.stopRecorder(); 
+    audioRecorder.removeRecordBackListener();
+    setAudioPath(result);
+  };
+
   const renderHeader = () => <ListHeader data={data} />;
 
   const renderItem = ({item, index}) => {
@@ -229,6 +284,13 @@ const CourseTaskScreen = props => {
           </TouchableOpacity>
         </RowView>
       ) : null}
+      {
+        audioPath ? (
+          <Animated.View entering={"FadeIn"} style={styles.audioRecorded}>
+            <AudioPlayer url={audioPath}/>
+          </Animated.View>
+        ) : null
+      }
       <View
         style={styles.replySection}
         onLayout={({
@@ -236,7 +298,6 @@ const CourseTaskScreen = props => {
             layout: {width, height},
           },
         }) => {
-          console.log('height: ', height);
           setKeyboardOffset(height);
         }}>
         <TouchableOpacity
@@ -260,6 +321,14 @@ const CourseTaskScreen = props => {
           activeOpacity={0.9}>
           <SendIcon />
         </TouchableOpacity>
+        <Animated.View style={[ styles.sendIcon , { marginLeft: 10 }, animatedStyle ]}>
+          <TouchableOpacity
+            onPressIn={onStartRecord}
+            onPressOut={onStopRecord}
+            activeOpacity={0.9}>
+            <MicrophoneIcon width={20} height={20} />
+          </TouchableOpacity>
+        </Animated.View>
       </View>
       <Overlay visible={isSending} />
     </KeyboardAvoidingView>
@@ -311,8 +380,8 @@ const TaskResult = ({item, index}) => {
 };
 
 const styles = StyleSheet.create({
-  listContent:{
-    paddingBottom:50
+  listContent: {
+    paddingBottom: 50,
   },
   container: {
     flex: 1,
@@ -385,6 +454,12 @@ const styles = StyleSheet.create({
     marginRight: 8,
     width: WIDTH / 3,
   },
+  audioRecorded: {
+    backgroundColor: APP_COLORS.white,
+    width: WIDTH,
+    padding: 8,
+    paddingHorizontal: 16
+  }
 });
 
 const taskResult = StyleSheet.create({
