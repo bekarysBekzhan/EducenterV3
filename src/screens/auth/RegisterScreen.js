@@ -17,13 +17,17 @@ import RowView from '../../components/view/RowView';
 import {firebaseService} from '../../services/FirebaseService';
 
 const RegisterScreen = ({navigation}) => {
+
   const [dataSource, setDataSource] = useState({
     name: '',
     email: '',
-    countryCode: 'KZ',
-    callingCode: '+7',
     phone: '',
     password: '',
+  });
+
+  const [country, setCountry] = useState({
+    countryCode: "KZ",
+    callingCode: "+7",
   });
 
   const {setIsAuth, settings, nstatus} = useSettings();
@@ -34,6 +38,7 @@ const RegisterScreen = ({navigation}) => {
   const setPassword = password => setDataSource(prev => ({...prev, password}));
 
   const [fetchRegister, isLoading, error] = useFetching(async params => {
+
     const response = await AuthService.fetchRegister(params);
     const token = response.data?.data?.api_token;
     await storeString(STORAGE.userToken, token);
@@ -57,12 +62,33 @@ const RegisterScreen = ({navigation}) => {
   });
 
   const onCountrySelect = country => {
-    console.log('country : ', country);
-    setDataSource(prev => ({
-      ...prev,
+    setCountry({
       countryCode: country.cca2,
-      callingCode: country?.callingCode[0],
-    }));
+      callingCode: country?.callingCode?.[0],
+    });
+  };
+
+  const onSignUp = () => {
+
+    let phone = country.callingCode;
+
+    if (dataSource.phone.length > 0) {
+      phone += dataSource.phone;
+    } else {
+      phone = "";
+    }
+
+    let params = {
+      name: dataSource.name,
+      phone: phone,
+      email: dataSource.email,
+      password: dataSource.password
+    };
+
+    console.log('params' , params);
+
+    fetchRegister(params);
+
   };
 
   return (
@@ -88,10 +114,9 @@ const RegisterScreen = ({navigation}) => {
             withCallingCodeButton: true,
             withEmoji: true,
             withCloseButton: true,
-            countryCode: dataSource.countryCode,
+            countryCode: country.countryCode,
             onSelect: onCountrySelect,
           }}
-          // visible
         />
         <View style={{width: 16}} />
         <Input
@@ -123,13 +148,7 @@ const RegisterScreen = ({navigation}) => {
         text={strings.Зарегистрироваться}
         style={styles.button}
         loading={isLoading}
-        onPress={() => {
-          setDataSource(prev => ({
-            ...prev,
-            phone: dataSource.callingCode + prev.phone,
-          }));
-          fetchRegister(dataSource);
-        }}
+        onPress={onSignUp}
       />
     </UniversalView>
   );
