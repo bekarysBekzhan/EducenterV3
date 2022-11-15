@@ -47,7 +47,7 @@ const handlerErrorRequest = (data, onHide) => {
 
   const restartApp = async () => {
     delete API_V2.defaults.headers[REQUEST_HEADERS.Authorization];
-    await removeStorage(STORAGE.token);
+    await removeStorage(STORAGE.userToken);
     RNRestart.Restart();
   };
 
