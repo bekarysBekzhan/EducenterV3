@@ -1,5 +1,5 @@
-import {View, Text, StyleSheet, FlatList} from 'react-native';
-import React, {useEffect, useMemo, useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import React, { useMemo, useState} from 'react';
 import AudioPlayer from '../AudioPlayer';
 import MathView from './MathView';
 import {selectComponent, setFontStyle} from '../../utils/utils';
@@ -7,7 +7,6 @@ import {APP_COLORS} from '../../constans/constants';
 import HtmlView from '../HtmlView';
 import {getAudioUrl} from '../../utils/utils';
 import AnswerOption from './AnswerOption';
-import {useRef} from 'react';
 
 const Question = ({
   questionItem,

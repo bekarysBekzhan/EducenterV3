@@ -10,8 +10,6 @@ import {APP_COLORS, N_STATUS} from '../../constans/constants';
 import { useSettings } from '../context/Provider';
 
 const ModuleTestItem = ({
-  id,
-  index,
   categoryName,
   type = 'test',
   time,

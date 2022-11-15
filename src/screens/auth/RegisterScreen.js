@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
 import {strings} from '../../localization';
@@ -11,7 +11,6 @@ import {getString, storeString} from '../../storage/AsyncStorage';
 import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import {API_V2} from '../../services/axios';
 import {useSettings} from '../../components/context/Provider';
-import {CommonActions} from '@react-navigation/native';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import CountryPicker from 'react-native-country-picker-modal';
 import RowView from '../../components/view/RowView';

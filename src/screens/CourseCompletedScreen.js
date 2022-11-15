@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {useFetching} from '../hooks/useFetching';

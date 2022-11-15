@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import { MathJaxSvg } from 'react-native-mathjax-html-to-svg';
 import { APP_COLORS } from '../../constans/constants';
 

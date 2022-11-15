@@ -5,6 +5,7 @@ import {useFetching} from '../hooks/useFetching';
 import HistoryItem from '../components/HistoryItem';
 import {HistoryService} from '../services/API';
 import Loader from '../components/Loader';
+import Empty from '../components/Empty';
 
 const HistoryScreen = () => {
   const [dataSource, setDataSource] = useState({
@@ -104,6 +105,7 @@ const HistoryScreen = () => {
         data={dataSource?.data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        ListEmptyComponent={() => <Empty />}
         refreshing={dataSource?.refreshing}
         onRefresh={onRefresh}
         onEndReached={onEndReached}

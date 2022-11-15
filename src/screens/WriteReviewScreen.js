@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, KeyboardAvoidingView, ScrollView, Alert, TextInput, Platform } from 'react-native'
+import { View, StyleSheet, KeyboardAvoidingView, ScrollView, Alert, TextInput, Platform } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useFetching } from '../hooks/useFetching'
 import { CourseService } from '../services/API'

@@ -6,6 +6,7 @@ import {NewsService} from '../../services/API';
 import NewsCard from '../../components/news/NewsCard';
 import Loader from '../../components/Loader';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
+import Empty from '../../components/Empty';
 
 const NewsScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -109,6 +110,7 @@ const NewsScreen = ({navigation}) => {
         data={dataSource?.data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        ListEmptyComponent={() => <Empty />}
         contentContainerStyle={styles.list}
         refreshing={dataSource?.refreshing}
         onRefresh={onRefresh}

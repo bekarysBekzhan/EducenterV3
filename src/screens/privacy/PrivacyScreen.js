@@ -6,6 +6,7 @@ import {ROUTE_NAMES} from '../../components/navigation/routes';
 import {useFetching} from '../../hooks/useFetching';
 import {PolicyService} from '../../services/API';
 import {strings} from '../../localization';
+import Empty from '../../components/Empty';
 
 const PrivacyScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -53,7 +54,9 @@ const PrivacyScreen = ({navigation}) => {
         data={dataSource?.data}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        ListEmptyComponent={() => <Empty />}
         contentContainerStyle={styles.list}
+        initialNumToRender={20}
       />
     </UniversalView>
   );

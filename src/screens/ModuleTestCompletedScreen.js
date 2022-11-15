@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native';
+import {Text, StyleSheet} from 'react-native';
 import React, { useLayoutEffect } from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {setFontStyle, wordLocalization} from '../utils/utils';

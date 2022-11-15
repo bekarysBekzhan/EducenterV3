@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  TouchableOpacity,
-  TouchableWithoutFeedback,
+  TouchableOpacity
 } from 'react-native';
 import { emptyStar, halfStar, starIcon } from '../assets/icons';
 

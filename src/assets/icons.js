@@ -7,12 +7,10 @@ import Svg, {
   ClipPath,
   Circle,
   Line,
-  Mask,
   LinearGradient,
-  Image,
   Stop,
 } from 'react-native-svg';
-import {APP_COLORS, NOTIFICATION_TYPE, WIDTH} from '../constans/constants';
+import {APP_COLORS, NOTIFICATION_TYPE} from '../constans/constants';
 
 export const Logo = (size = 1) => (
   <Svg

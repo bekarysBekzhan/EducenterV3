@@ -106,7 +106,7 @@ const ProfieEditScreen = ({route, navigation}) => {
 
       <InputLabel
         autoCapitalize="none"
-        label={strings['E-mail']}
+        label={strings.Email}
         onChangeText={email => setDataSource(prev => ({...prev, email}))}
         value={dataSource?.email}
         editable={!isLoading}

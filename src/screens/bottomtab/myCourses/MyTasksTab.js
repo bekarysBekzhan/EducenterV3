@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import UniversalView from '../../../components/view/UniversalView'
 import { useFetching } from '../../../hooks/useFetching'

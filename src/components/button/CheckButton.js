@@ -3,7 +3,7 @@ import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {APP_COLORS} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
 import RowView from '../view/RowView';
-import {check, x} from '../../assets/icons';
+import {check} from '../../assets/icons';
 import { useSettings } from '../context/Provider';
 
 const CheckButton = ({checked = false, onPress, text, textStyle, style}) => {
