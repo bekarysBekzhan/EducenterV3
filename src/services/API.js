@@ -342,6 +342,7 @@ class MyCourseService {
       params.category_id = categoryID;
     }
     const response = await API_V2.get(URLS.myCourses, {params: params});
+    console.log("My courses" , response.data);
     return response;
   };
   static fetchMyTests = async (

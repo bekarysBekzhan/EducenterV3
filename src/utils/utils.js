@@ -163,9 +163,11 @@ export const fileDownloader = async (url, fileName, onDone, onProgress) => {
   console.log('url: ', url);
   console.log('fileName: ', fileName);
 
+  const _fileName = url?.split("/")?.[url?.split("/")?.length - 1];
+
   if (url) {
     try {
-      let localFile = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+      let localFile = `${RNFS.DocumentDirectoryPath}/${_fileName}`;
 
       let options = {
         fromUrl: encodeURI(url),
