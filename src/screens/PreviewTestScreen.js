@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import React, { useLayoutEffect, useState } from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {strings} from '../localization';
@@ -66,7 +66,7 @@ const PreviewTestScreen = props => {
         <View style={styles.dot} />
         <Text style={styles.label}>
           {wordLocalization(strings['Прохождения теста занимает :num минут.'], {
-            num: data?.minutes,
+            num: Number(data?.minutes) ,
           })}
         </Text>
       </RowView>
@@ -74,7 +74,7 @@ const PreviewTestScreen = props => {
         <View style={styles.dot} />
         <Text style={styles.label}>
           {wordLocalization(strings['Тест состоит из :num вопросов'], {
-            num: data?.tests_count,
+            num: Number(data?.tests_count) ,
           })}
         </Text>
       </RowView>
