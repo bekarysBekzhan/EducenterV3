@@ -1,4 +1,4 @@
-import {View, Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import { Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {strings} from '../localization';
@@ -7,12 +7,13 @@ import LoadingScreen from '../components/LoadingScreen';
 import {NotificationService} from '../services/API';
 import RowView from '../components/view/RowView';
 import {NotificationItemIcon} from '../assets/icons';
-import {containsHTML, getHTML, setFontStyle} from '../utils/utils';
+import {containsHTML,  setFontStyle} from '../utils/utils';
 import {APP_COLORS, NOTIFICATION_TYPE} from '../constans/constants';
 import Loader from '../components/Loader';
 import Divider from '../components/Divider';
 import HtmlView from '../components/HtmlView';
 import {ROUTE_NAMES} from '../components/navigation/routes';
+import Empty from '../components/Empty';
 
 const NotificationsScreen = ({navigation}) => {
 
@@ -102,6 +103,7 @@ const NotificationsScreen = ({navigation}) => {
         data={notifications}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
+        ListEmptyComponent={() => <Empty/>}
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.2}
         ItemSeparatorComponent={() => <Divider />}
