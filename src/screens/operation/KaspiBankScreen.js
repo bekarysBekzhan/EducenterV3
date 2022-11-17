@@ -17,6 +17,7 @@ import {shadowStyle} from '../../utils/shadowStyle';
 import {checkPrice} from '../../utils/checkPrice';
 import CardDetail from '../../components/view/CardDetail';
 import {ClipCheckIcon} from '../../assets/icons';
+import {URLS} from '../../constans/constants';
 
 const KaspiBankScreen = ({route}) => {
   const {kaspiBank, type, mode} = route?.params;
@@ -129,10 +130,9 @@ const KaspiBankScreen = ({route}) => {
       try {
         let params = {type: type};
 
-        const res = await API_V2.get(
-          `${SUBSCRIBES_REMOVE_CHECK_URL}/${kaspiBank?.id}`,
-          {params},
-        );
+        const res = await API_V2.get(`${URLS.kaspi_remove}/${kaspiBank?.id}`, {
+          params,
+        });
         console.log('res remove: ', res);
 
         setSource(null);
@@ -181,11 +181,11 @@ const KaspiBankScreen = ({route}) => {
       formData.append('type', type);
 
       const res = await API_V2.post(
-        `${SUBSCRIBES_UPLOAD_CHECK_URL}/${kaspiBank?.id}`,
+        `${URLS.kaspi_check}/${kaspiBank?.id}`,
         formData,
         {
           headers: {
-            [CONTENT_TYPE]: MULTIPART_FORM_DATA,
+            'Content-Type': 'multipart/form-data',
           },
         },
       );

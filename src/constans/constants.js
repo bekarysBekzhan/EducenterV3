@@ -89,6 +89,8 @@ export const URLS = {
   getStatus: 'get',
   pages: 'pages',
   userDelete: 'user/delete',
+  kaspi_check: 'subscribes/upload_check',
+  kaspi_remove: 'subscribes/remove_check',
 };
 
 export const STORAGE = {
