@@ -11,6 +11,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import {firebaseService} from './src/services/FirebaseService';
 import {LocalNotificationService} from './src/services/LocalNotificationService';
+import codePush from 'react-native-code-push';
 
 const events = [
   Event.PlaybackError,
@@ -78,4 +79,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default codePush(App);
