@@ -79,4 +79,9 @@ const App = () => {
   );
 };
 
-export default codePush(App);
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
+  installMode: codePush.InstallMode.ON_NEXT_RESUME,
+};
+
+export default codePush(codePushOptions)(App);
