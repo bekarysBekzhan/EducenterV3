@@ -39,7 +39,6 @@ const TaskDetailScreen = props => {
           title: data?.task?.title,
         });
       } else {
-        data.id = data?.task?.id;
         props.navigation.navigate(ROUTE_NAMES.operation, {
           operation: data,
           type: TYPE_SUBCRIBES.TASK_SUBSCRIBE,
