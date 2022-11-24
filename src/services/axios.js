@@ -27,7 +27,10 @@ const handlerErrorRequest = (data, onHide) => {
 
   let text2 = '';
 
-  if (data?.message != 'Network Error' && data?.response?.data?.code == 303) {
+  if (
+    (data?.message != 'Network Error' && data?.response?.data?.code == 303) ||
+    (data?.message != 'Network Error' && data?.response?.status == 422)
+  ) {
     Object.values(data?.response?.data?.errors)?.forEach(
       (element, index, _array) => {
         index != _array.length - 1

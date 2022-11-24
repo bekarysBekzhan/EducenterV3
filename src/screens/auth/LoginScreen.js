@@ -30,7 +30,7 @@ const LoginScreen = ({navigation}) => {
     password: '',
   });
 
-  const [fetchLogin, isLoading, authError] = useFetching(async params => {
+  const [fetchLogin, isLoading] = useFetching(async params => {
     const response = await AuthService.fetchLogin(params);
     const token = response?.data?.data?.token;
     await storeString(STORAGE.userToken, token);
