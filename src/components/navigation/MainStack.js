@@ -88,6 +88,14 @@ const GENERAL = [
     name: ROUTE_NAMES.reviews,
     component: ReviewsScreen,
   },
+  {
+    name: ROUTE_NAMES.privacy,
+    component: PrivacyScreen,
+  },
+  {
+    name: ROUTE_NAMES.privacyPolicy,
+    component: PolicyScreen,
+  },
 ];
 const PRIVATE = [
   {
@@ -186,14 +194,6 @@ const PRIVATE = [
     name: ROUTE_NAMES.notifications,
     component: NotificationsScreen,
   },
-  {
-    name: ROUTE_NAMES.privacy,
-    component: PrivacyScreen,
-  },
-  {
-    name: ROUTE_NAMES.privacyPolicy,
-    component: PolicyScreen,
-  },
 ];
 
 const Navigation = () => {
@@ -284,7 +284,9 @@ const Navigation = () => {
                 route.name === ROUTE_NAMES.login ||
                 route.name === ROUTE_NAMES.register ||
                 route.name === ROUTE_NAMES.recovery ||
-                route.name === ROUTE_NAMES.reviews
+                route.name === ROUTE_NAMES.reviews ||
+                route.name === ROUTE_NAMES.privacy ||
+                route.name === ROUTE_NAMES.privacyPolicy
                   ? true
                   : false,
             }}
