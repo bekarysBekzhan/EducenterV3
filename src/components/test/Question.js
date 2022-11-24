@@ -7,7 +7,6 @@ import {APP_COLORS} from '../../constans/constants';
 import HtmlView from '../HtmlView';
 import {getAudioUrl} from '../../utils/utils';
 import AnswerOption from './AnswerOption';
-import {useRef} from 'react';
 
 const Question = ({
   questionItem,
@@ -19,9 +18,8 @@ const Question = ({
   extraStyle,
   extraTextStyle,
   resultType,
-  disabledAnswer=false
+  disabledAnswer = false,
 }) => {
-
   const memoStylesContainer = useMemo(() => [styles.container, extraStyle], []);
   const memoStylesText = useMemo(
     () => [setFontStyle(18, '500', APP_COLORS.primary), {}, extraTextStyle],
@@ -30,40 +28,57 @@ const Question = ({
 
   const [selectedIndex, setSelectedIndex] = useState(null);
 
-  const onSelect = (newIndex) => {
+  const onSelect = newIndex => {
     if (selectedIndex !== newIndex) {
       setSelectedIndex(newIndex);
     } else {
-      setSelectedIndex(null)
+      setSelectedIndex(null);
     }
   };
 
   const getSelected = (item, i) => {
-
     if (selectedIndex !== null) {
-      return selectedIndex === i
+      return selectedIndex === i;
     }
 
     if (item?.selected !== undefined && item?.selected !== null) {
-      return item?.selected
+      return item?.selected;
     }
-      
-    if (selectedIndex === null) {
-      return passing_answers?.[questionItem?.id]?.[item?.id]?.selected
-    } 
 
-  }
+    if (selectedIndex === null) {
+      return passing_answers?.[questionItem?.id]?.[item?.id]?.selected;
+    }
+  };
 
   const views = {
-    audio: <AudioPlayer url={getAudioUrl(questionItem?.question)} _index={index} onTrackChange={onTrackChange}/>,
-    html: <HtmlView html={questionItem?.question} baseStyle={styles.baseStyle} tagsStyles={tagsStyles}/>,
-    formula: <MathView text={questionItem?.question} mathStyle={{padding: 14}}/>
-  }
+    audio: (
+      <AudioPlayer
+        url={getAudioUrl(questionItem?.question)}
+        _index={index}
+        onTrackChange={onTrackChange}
+      />
+    ),
+    html: (
+      <HtmlView
+        html={questionItem?.question}
+        baseStyle={styles.baseStyle}
+        tagsStyles={tagsStyles}
+      />
+    ),
+    formula: (
+      <MathView text={questionItem?.question} mathStyle={{padding: 14}} />
+    ),
+  };
 
   return (
     <View style={memoStylesContainer}>
       <Text style={memoStylesText}>{index + 1} - вопрос</Text>
-      {selectComponent(questionItem?.question, views.audio, views.formula, views.html)}
+      {selectComponent(
+        questionItem?.question,
+        views.audio,
+        views.formula,
+        views.html,
+      )}
       {items.map((item, i) => {
         return (
           <AnswerOption
@@ -79,7 +94,7 @@ const Question = ({
             key={i}
             disabled={disabledAnswer}
           />
-        )
+        );
       })}
     </View>
   );

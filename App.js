@@ -5,8 +5,10 @@ import Navigation from './src/components/navigation/MainStack';
 import ToastView from './src/components/view/ToastView';
 import Toast from 'react-native-toast-message';
 import TrackPlayer, {
+  AppKilledPlaybackBehavior,
   Capability,
   Event,
+  RepeatMode,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
 import {firebaseService} from './src/services/FirebaseService';
@@ -46,8 +48,11 @@ const App = () => {
       await TrackPlayer.updateOptions({
         capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
         compactCapabilities: [Capability.Play, Capability.Pause],
-        stoppingAppPausesPlayback: true,
+        android: {
+          appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback
+        }
       });
+      await TrackPlayer.setRepeatMode(RepeatMode.Track);
     } catch (e) {
       if (
         e?.message?.includes(

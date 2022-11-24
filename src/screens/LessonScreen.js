@@ -92,7 +92,6 @@ const LessonScreen = props => {
 
   useEffect(() => {
     fetchLesson();
-
     return async () => {
       await TrackPlayer.reset();
     };
@@ -112,27 +111,24 @@ const LessonScreen = props => {
     }
   };
 
-  const nextLessonTapped = async () => {
+  const onPressNextLesson = async () => {
     if (data?.isLast) {
       props.navigation.navigate(ROUTE_NAMES.courseFinish, {
         id: data?.course?.id,
       });
       return;
     }
-
     setIsModal(true);
-
     try {
-      let params={};
+      let params = {};
       if (nstatus === N_STATUS) {
         params.publication_app = await generateHash();
       }
-      const response = await CourseService.fetchLesson(data?.next_lesson_id, params);
+      const response = await CourseService.fetchLesson(
+        data?.next_lesson_id,
+        params,
+      );
       if (response.status === 200) {
-        if (data?.isLast) {
-          props.navigation.navigate('');
-          return;
-        }
         props.navigation.replace(ROUTE_NAMES.lesson, {
           id: data?.next_lesson_id,
         });
@@ -140,21 +136,17 @@ const LessonScreen = props => {
     } catch (e) {
       console.log(e);
     }
-
     setIsModal(false);
   };
 
-  const previousLessonTapped = () => {
-    if (data?.isFirst) {
-      return;
-    }
-
+  const onPressPreviousLesson = async () => {
+    await TrackPlayer.reset();
     props.navigation.replace(ROUTE_NAMES.lesson, {
       id: data?.previous_lesson_id,
     });
   };
 
-  const onSwitchBarLayout = ({
+  const onLayoutSwitchBar = ({
     nativeEvent: {
       layout: {height},
     },
@@ -163,7 +155,9 @@ const LessonScreen = props => {
   };
 
   const onExitCourseProgram = () => setIsCourseProgram(false);
+
   const onShowTypeBackDrop = () => setIsShowType(false);
+
   const onShowTypeSelect = showType => {
     switch (showType) {
       case SHOW_TYPE.test:
@@ -183,15 +177,25 @@ const LessonScreen = props => {
         return;
     }
   };
-  const onPressTest = () => {
+
+  const onPressTest = async () => {
     if (data?.show_type === SHOW_TYPE.result) {
       setIsShowType(true);
     } else {
+      await TrackPlayer.reset();
       props.navigation.navigate(ROUTE_NAMES.testPreview, {
         id: data?.id,
         title: data?.title,
       });
     }
+  };
+
+  const onPressTask = async () => {
+    await TrackPlayer.reset();
+    props.navigation.navigate(ROUTE_NAMES.courseTask, {
+      id: data?.id,
+      title: data?.title,
+    });
   };
 
   const renderHeader = () => {
@@ -239,12 +243,7 @@ const LessonScreen = props => {
         {data?.task_enabled ? (
           <OutlineButton
             text={strings['Пройти задание']}
-            onPress={() =>
-              props.navigation.navigate(ROUTE_NAMES.courseTask, {
-                id: data?.id,
-                title: data?.title,
-              })
-            }
+            onPress={onPressTask}
             style={styles.taskButton}
           />
         ) : null}
@@ -268,7 +267,6 @@ const LessonScreen = props => {
 
   const renderComment = ({item, index}) => {
     if (!settings?.modules_enable_comments_lesson) return null;
-
     return (
       <Comment
         id={item?.id}
@@ -286,7 +284,6 @@ const LessonScreen = props => {
 
   const renderEmptyComponent = () => {
     if (!settings?.modules_enable_comments_lesson) return null;
-
     return <Empty text={strings['Нет комментариев']} />;
   };
 
@@ -354,19 +351,19 @@ const LessonScreen = props => {
         removeClippedSubviews={true}
         overScrollMode="never"
       />
-      <View style={styles.switchBar} onLayout={onSwitchBarLayout}>
+      <View style={styles.switchBar} onLayout={onLayoutSwitchBar}>
         {data?.isFirst ? (
           <View />
         ) : (
           <TouchableOpacity
             style={styles.switchButton}
-            onPress={previousLessonTapped}>
+            onPress={onPressPreviousLesson}>
             <LeftIcon color={APP_COLORS.placeholder} />
           </TouchableOpacity>
         )}
         <TouchableOpacity
           style={styles.switchButton}
-          onPress={nextLessonTapped}
+          onPress={onPressNextLesson}
           disabled={isModal}>
           <RightIcon color={APP_COLORS.placeholder} />
         </TouchableOpacity>

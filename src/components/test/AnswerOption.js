@@ -1,13 +1,17 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useMemo, useState} from 'react';
-import {ANSWER_STATES, APP_COLORS, RESULT_TYPES} from '../../constans/constants';
+import {
+  ANSWER_STATES,
+  APP_COLORS,
+  RESULT_TYPES,
+} from '../../constans/constants';
 import {check, x} from '../../assets/icons';
 import {getAudioUrl, selectComponent} from '../../utils/utils';
 import MathView from './MathView';
 import HtmlView from '../HtmlView';
 import {useEffect} from 'react';
-import { useFetching } from '../../hooks/useFetching';
-import { CourseService } from '../../services/API';
+import {useFetching} from '../../hooks/useFetching';
+import {CourseService} from '../../services/API';
 import AnswerAudio from '../AnswerAudio';
 
 const dynamicContainerStyle = (state, component) => {
@@ -37,63 +41,59 @@ const AnswerOption = ({
   extraStyle,
   extraTextStyle,
   resultType,
-  disabled=false
+  disabled = false,
 }) => {
-
   const initialState = () => {
-
-    if (resultType === RESULT_TYPES.DEFAULT || resultType === RESULT_TYPES.WITH_RIGHTS) {
-
+    if (
+      resultType === RESULT_TYPES.DEFAULT ||
+      resultType === RESULT_TYPES.WITH_RIGHTS
+    ) {
       if (correct) {
-        return ANSWER_STATES.CORRECT
+        return ANSWER_STATES.CORRECT;
       }
 
       if (selected) {
-        return ANSWER_STATES.INCORRECT
+        return ANSWER_STATES.INCORRECT;
       }
 
-      return ANSWER_STATES.UNSELECTED
-    } 
-    else if (resultType === RESULT_TYPES.WITH_WRONGS) {
-
+      return ANSWER_STATES.UNSELECTED;
+    } else if (resultType === RESULT_TYPES.WITH_WRONGS) {
       if (selected) {
         if (correct) {
-          return ANSWER_STATES.CORRECT
+          return ANSWER_STATES.CORRECT;
         }
-        return ANSWER_STATES.INCORRECT
+        return ANSWER_STATES.INCORRECT;
       }
 
-      return ANSWER_STATES.UNSELECTED
-
+      return ANSWER_STATES.UNSELECTED;
     }
 
     if (selected) {
-      return ANSWER_STATES.SELECTED
+      return ANSWER_STATES.SELECTED;
     }
 
-    return ANSWER_STATES.UNSELECTED
-
-  }
+    return ANSWER_STATES.UNSELECTED;
+  };
 
   const [state, setState] = useState(initialState());
 
-  const [sendAnswer, isLoading, sendingError] = useFetching(async() => {
-    let params = {}
-    params.selected = !(state === ANSWER_STATES.SELECTED)
-    params.is_multiple = is_multiple
-    await CourseService.selectAnswer(passingID, { params: params})
-  })
+  const [sendAnswer, isLoading, sendingError] = useFetching(async () => {
+    let params = {};
+    params.selected = !(state === ANSWER_STATES.SELECTED);
+    params.is_multiple = is_multiple;
+    await CourseService.selectAnswer(passingID, {params: params});
+  });
 
   useEffect(() => {
     if (sendingError) {
-      console.log(sendingError)
-      setState(ANSWER_STATES.UNSELECTED)
+      console.log(sendingError);
+      setState(ANSWER_STATES.UNSELECTED);
     }
-  }, [sendingError])
+  }, [sendingError]);
 
   useEffect(() => {
-    setState(initialState())
-  }, [selected])
+    setState(initialState());
+  }, [selected]);
 
   const memoStylesContainer = useMemo(
     () => [
@@ -106,48 +106,61 @@ const AnswerOption = ({
   const memoStylesCheckbox = useMemo(
     () => [
       styles.checkbox,
-      dynamicContainerStyle(state, 'checkbox'), 
-      { borderRadius: is_multiple ? 4 : 50 },
+      dynamicContainerStyle(state, 'checkbox'),
+      {borderRadius: is_multiple ? 4 : 50},
     ],
     [state],
   );
 
   useEffect(() => {
-
     if (correct === null || correct === undefined) {
-      item.selected = state === ANSWER_STATES.SELECTED
+      item.selected = state === ANSWER_STATES.SELECTED;
     }
-
-  }, [state])
+  }, [state]);
 
   const selectTapped = () => {
     if (is_multiple) {
-      setState(prev => prev === ANSWER_STATES.SELECTED ? ANSWER_STATES.UNSELECTED : ANSWER_STATES.SELECTED)
+      setState(prev =>
+        prev === ANSWER_STATES.SELECTED
+          ? ANSWER_STATES.UNSELECTED
+          : ANSWER_STATES.SELECTED,
+      );
     } else {
       onSelect(index);
     }
-    sendAnswer()
-  }
+    sendAnswer();
+  };
 
   const renderIcon = () => {
     if (state === ANSWER_STATES.INCORRECT) {
-      return x()
-    } 
-    return check()
-  }
+      return x();
+    }
+    return check();
+  };
 
   const views = {
-    audio: <AnswerAudio url={getAudioUrl(item.answer)} _index={100} onTrackChange={onTrackChange} style={styles.audioContainer} sliderStyle={styles.slider} maximumTrackTintColor={state === ANSWER_STATES.SELECTED ? '#FFFFFF' : undefined} />,
+    audio: (
+      <AnswerAudio
+        url={getAudioUrl(item.answer)}
+        _index={100}
+        onTrackChange={onTrackChange}
+        style={styles.audioContainer}
+        sliderStyle={styles.slider}
+        maximumTrackTintColor={
+          state === ANSWER_STATES.SELECTED ? '#FFFFFF' : undefined
+        }
+      />
+    ),
     formula: <MathView text={item.answer} />,
-    html: <HtmlView html={item.answer} />
-  }
+    html: <HtmlView html={item.answer} />,
+  };
 
   const isSelectDisabled = () => {
     if (resultType || isLoading) {
-      return true
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   return (
     <TouchableOpacity
@@ -155,11 +168,8 @@ const AnswerOption = ({
       onPress={selectTapped}
       activeOpacity={0.7}
       // disabled={isSelectDisabled()}
-      disabled={disabled}
-    >
-      <View style={memoStylesCheckbox}>
-        {renderIcon()}
-      </View>
+      disabled={disabled}>
+      <View style={memoStylesCheckbox}>{renderIcon()}</View>
       <View style={styles.answer}>
         {selectComponent(item.answer, views.audio, views.formula, views.html)}
       </View>
@@ -184,7 +194,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
     borderWidth: 5 / 4,
-    padding: 6
+    padding: 6,
   },
   audioContainer: {
     backgroundColor: 'transparent',
@@ -195,7 +205,7 @@ const styles = StyleSheet.create({
   },
   answer: {
     flex: 1,
-  }
+  },
 });
 
 const selectedStyles = StyleSheet.create({
@@ -228,7 +238,7 @@ const correctStyles = StyleSheet.create({
   checkbox: {
     backgroundColor: 'green',
     borderColor: 'green',
-    padding: 6
+    padding: 6,
   },
 });
 
@@ -240,7 +250,7 @@ const incorrectStyles = StyleSheet.create({
   checkbox: {
     backgroundColor: 'red',
     borderColor: 'red',
-    padding: 7
+    padding: 7,
   },
 });
 
