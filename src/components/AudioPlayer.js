@@ -18,7 +18,7 @@ const events = [Event.PlaybackState, Event.PlaybackProgressUpdated];
 const AudioPlayer = ({
   _index,
   url,
-  onTrackChange,
+  onTrackChange = () => undefined,
   style,
   playStyle,
   playIconSize = 1,
@@ -29,6 +29,7 @@ const AudioPlayer = ({
   minimumTrackTintColor = APP_COLORS.primary,
   maximumTrackTintColor = '#F1F2FE',
 }) => {
+
   const memoStyle = useMemo(() => [styles.view, style], [style]);
   const memoPlayStyle = useMemo(() => [styles.play, playStyle], [playStyle]);
   const memoPositionStyle = useMemo(
@@ -47,9 +48,10 @@ const AudioPlayer = ({
   useTrackPlayerEvents(events, event => {
     console.log(event);
     if (event.type === Event.PlaybackState) {
-      setPlaying(event.state === State.Playing);
       setDuration(progress?.duration);
       setPosition(progress?.position);
+    } else if (event.type === Event.PlaybackProgressUpdated) {
+
     }
   });
 
@@ -88,9 +90,14 @@ const AudioPlayer = ({
     }
 
     let tracks = await TrackPlayer.getQueue();
+
+    console.log('tracks' , tracks);
   };
 
   const play = async () => {
+
+    setPlaying(true);
+
     if (playing || index === null) {
       return;
     }
@@ -108,8 +115,6 @@ const AudioPlayer = ({
     if (currentIndex !== index) {
       onTrackChange(progress?.duration, setDuration, setPosition, setPlaying);
     }
-
-    setPlaying(true);
   };
 
   const pause = async () => {
@@ -150,6 +155,7 @@ const AudioPlayer = ({
 
   const audioFinished = async () => {
     setPlaying(false);
+    setPosition(0);
     await TrackPlayer.seekTo(0);
   };
 

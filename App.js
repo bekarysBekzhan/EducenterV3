@@ -8,10 +8,12 @@ import TrackPlayer, {
   AppKilledPlaybackBehavior,
   Capability,
   Event,
+  RepeatMode,
   useTrackPlayerEvents,
 } from 'react-native-track-player';
 import {firebaseService} from './src/services/FirebaseService';
 import {LocalNotificationService} from './src/services/LocalNotificationService';
+import { PermissionsAndroid, Platform } from 'react-native';
 import codePush from 'react-native-code-push';
 
 const events = [
@@ -29,6 +31,11 @@ const App = () => {
     // Firebase Messaging Service
     firebaseService.register();
     firebaseService.registerAppWithFCM();
+
+    if (Platform.OS === 'android') {
+      requestAndroidPermissions();
+    }
+
     return () => {
       deinitPlayer();
       firebaseService.unsubscribe();
@@ -42,9 +49,11 @@ const App = () => {
       await TrackPlayer.updateOptions({
         capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
         compactCapabilities: [Capability.Play, Capability.Pause],
-        // stoppingAppPausesPlayback: true,
-        android: {appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback}
+        android: {
+          appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback
+        },
       });
+      TrackPlayer.setRepeatMode(RepeatMode.Track);
     } catch (e) {
       if (
         e?.message?.includes(
@@ -70,6 +79,35 @@ const App = () => {
   useTrackPlayerEvents(events, () => {
     console.log();
   });
+
+  const requestAndroidPermissions = async() => {
+    try {
+      const grants = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+      ]);
+
+      console.log('write external stroage', grants);
+
+      if (
+        grants['android.permission.WRITE_EXTERNAL_STORAGE'] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+        grants['android.permission.READ_EXTERNAL_STORAGE'] ===
+          PermissionsAndroid.RESULTS.GRANTED &&
+        grants['android.permission.RECORD_AUDIO'] ===
+          PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        console.log('Permissions granted');
+      } else {
+        console.log('All required permissions not granted');
+        return;
+      }
+    } catch (err) {
+      console.warn(err);
+      return;
+    }
+  }
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
