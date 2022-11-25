@@ -21,15 +21,16 @@ const RecoveryScreen = ({navigation}) => {
     });
   });
 
-  const [fetchingRecovery, isLoading, error] = useFetching(async param => {
-    if (dataSource?.email?.length) {
-      const response = await AuthService.fetchRecovery(param);
-      setDataSource(prev => ({
-        ...prev,
-        email: '',
-      }));
-      Alert.alert(strings['Внимание!'], response?.data?.message);
-    }
+  const [fetchingRecovery, isLoading] = useFetching(async () => {
+    let params = {
+      email: dataSource?.email,
+    };
+    const response = await AuthService.fetchRecovery(params);
+    setDataSource(prev => ({
+      ...prev,
+      email: '',
+    }));
+    Alert.alert(strings['Внимание!'], response?.data?.message);
   });
 
   const onBack = () => {
@@ -63,7 +64,7 @@ const RecoveryScreen = ({navigation}) => {
         style={styles.button}
         text={strings.Восстановить}
         loading={isLoading}
-        onPress={() => fetchingRecovery(dataSource)}
+        onPress={() => fetchingRecovery()}
       />
       <TextButton
         text={strings['Я вспомнил пароль']}
