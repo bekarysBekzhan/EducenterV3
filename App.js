@@ -50,9 +50,9 @@ const App = () => {
         compactCapabilities: [Capability.Play, Capability.Pause],
         android: {
           appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback
-        }
+        },
       });
-      await TrackPlayer.setRepeatMode(RepeatMode.Track);
+      TrackPlayer.setRepeatMode(RepeatMode.Track);
     } catch (e) {
       if (
         e?.message?.includes(

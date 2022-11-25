@@ -9,7 +9,7 @@ import {
   ActionSheetIOS,
   Keyboard,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect} from 'react';
+import React, {useEffect, useLayoutEffect, useMemo} from 'react';
 import {useState} from 'react';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
@@ -19,13 +19,7 @@ import {isValidText, setFontStyle} from '../utils/utils';
 import HtmlView from '../components/HtmlView';
 import Person from '../components/Person';
 import RowView from '../components/view/RowView';
-import {
-  AttachIcon,
-  Microphone,
-  MicrophoneIcon,
-  SendIcon,
-  x,
-} from '../assets/icons';
+import {AttachIcon, MicrophoneIcon, SendIcon, x} from '../assets/icons';
 import Input from '../components/Input';
 import {APP_COLORS, WIDTH} from '../constans/constants';
 import Divider from '../components/Divider';
@@ -35,20 +29,55 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useRef} from 'react';
 import FileItem from '../components/FileItem';
 import Overlay from '../components/view/Overlay';
-import AudioRecorderPlayer from 'react-native-audio-recorder-player';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import AudioPlayer from '../components/AudioPlayer';
-import TrackPlayer from 'react-native-track-player';
+import AudioRecorderPlayer, {
+  AudioEncoderAndroidType,
+  AudioSourceAndroidType,
+  AVEncoderAudioQualityIOSType,
+  AVEncodingOption,
+  AVModeIOSOption,
+  OutputFormatAndroidType,
+} from 'react-native-audio-recorder-player';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated';
+import TrackPlayer, {
+  Event,
+  State,
+  useProgress,
+} from 'react-native-track-player';
+import AnswerAudio from '../components/AnswerAudio';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const audioRecorder = new AudioRecorderPlayer();
 
-const CourseTaskScreen = props => {
+const audioFormats = {
+  m4a: true,
+  aac: true,
+  mp3: true,
+  amr: true,
+  flac: true,
+  wav: true,
+};
 
+const dirs = RNFetchBlob.fs.dirs;
+const AUDIO_PATH = Platform.select({
+  ios: 'audio.aac',
+  android: `${dirs.CacheDir}/audio.aac`,
+});
+
+const CourseTaskScreen = props => {
   // props passed down from parent
   const lessonTitle = props.route?.params?.title;
   const id = props.route?.params?.id;
 
   const controller = useRef(new AbortController());
+
+  // use refs
+  const currentSetPlaying = useRef(null);
+  const currentSetDuration = useRef(null);
+  const currentSetPosition = useRef(null);
 
   // screen states
   const [keyboardOffset, setKeyboardOffset] = useState(0);
@@ -58,7 +87,7 @@ const CourseTaskScreen = props => {
   const [progress, setProgress] = useState(0);
   const [height, setHeight] = useState(48);
   const [inputHeight, setInputHeight] = useState(0);
-  const [audioPath, setAudioPath] = useState(null);
+  const [audioObject, setAudioObject] = useState(null);
 
   /*
     Below animation properties of react-native-reanimted library
@@ -77,20 +106,39 @@ const CourseTaskScreen = props => {
   // service for fetching task from server
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
     const response = await CourseService.fetchTask(id);
+
+    let exe;
+
+    let counter = 0;
+
+    for (let i = 0; i < response.data?.data?.passing_answers?.length; i++) {
+      exe = response.data?.data?.passing_answers[i]?.file_name?.split('.');
+      if (audioFormats.hasOwnProperty(exe[exe.length - 1])) {
+        response.data.data.passing_answers[i].isAudio = true;
+        response.data.data.passing_answers[i].index = counter;
+        counter += 1;
+      } else {
+        response.data.data.passing_answers[i].isAudio = false;
+      }
+    }
+
     setData(response.data?.data);
   });
 
   // service for sending task results to server
   const [sendAnswer, isSending, sendingError] = useFetching(async () => {
+    const file = attachedFile ? attachedFile : audioObject;
+
     await CourseService.sendTaskAnswer(
       data?.id,
       answer,
-      attachedFile,
+      file,
       controller.current,
       setProgress,
     );
     setAnswer('');
     setAttachedFile(null);
+    onRemoveAudio();
     setProgress(0);
     fetchTask();
   });
@@ -103,11 +151,11 @@ const CourseTaskScreen = props => {
 
   useEffect(() => {
     fetchTask();
-    return () => {
+    return async () => {
       if (controller.current) {
         controller.current.abort();
       }
-      TrackPlayer.reset();
+      await TrackPlayer.reset();
     };
   }, []);
 
@@ -129,8 +177,8 @@ const CourseTaskScreen = props => {
   }, [sendingError]);
 
   useEffect(() => {
-    console.log(audioPath);
-  }, [audioPath]);
+    console.log('audio', audioObject);
+  }, [audioObject]);
 
   const selectFile = async () => {
     Keyboard.dismiss();
@@ -149,6 +197,10 @@ const CourseTaskScreen = props => {
         ],
         copyTo: 'documentDirectory',
       });
+
+      if (audioObject) {
+        setAudioObject(null);
+      }
       setAttachedFile(res);
     } catch (e) {
       if (DocumentPicker.isCancel()) {
@@ -181,6 +233,10 @@ const CourseTaskScreen = props => {
           name: response.assets[0].fileName,
         };
 
+        if (audioObject) {
+          setAudioObject(null);
+        }
+
         setAttachedFile(source);
       }
     });
@@ -206,11 +262,30 @@ const CourseTaskScreen = props => {
     }
   };
 
-  const sendAnswerTapped = () => {
-    if (isValidText(answer)) {
+  const sendAnswerTapped = async () => {
+    const audioState = await TrackPlayer.getState();
+    if (State.Playing == audioState) {
+      await TrackPlayer.pause();
+      currentSetPlaying.current(false);
+    }
+    if (isValidText(answer) || attachedFile || audioObject) {
       Keyboard.dismiss();
       sendAnswer();
     }
+  };
+
+  const onTrackChange = (duration, setDuration, setPosition, setPlaying) => {
+    if (currentSetDuration.current) {
+      currentSetDuration.current(duration);
+      currentSetPosition.current(0);
+    }
+    currentSetDuration.current = setDuration;
+    currentSetPosition.current = setPosition;
+
+    if (currentSetPlaying.current) {
+      currentSetPlaying.current(false);
+    }
+    currentSetPlaying.current = setPlaying;
   };
 
   const onRefresh = () => {
@@ -221,6 +296,7 @@ const CourseTaskScreen = props => {
   };
 
   const onContentSizeChange = ({nativeEvent: {contentSize}}) => {
+    console.log('onContentSizeChange');
     if (inputHeight === 0) {
       console.log('initial set ', contentSize.height);
       setInputHeight(contentSize.height);
@@ -231,28 +307,101 @@ const CourseTaskScreen = props => {
     }
   };
 
-  const onStartRecord = async () => {
-    recordButtonWidth.value = withSpring(recordButtonWidth.value * 1.5); // increasing record button width with spring animation
-    recordButtonHeight.value = withSpring(recordButtonHeight.value * 1.5); // increasing record button height with spring animation
-    const result = await audioRecorder.startRecorder();
-    audioRecorder.addRecordBackListener(e => {
-      console.log('addRecordBackListener', e);
-      return;
-    });
+  const pauseCurrentTrack = async () => {
+    const state = await TrackPlayer.getState();
+    console.log(state);
+    if (state === State.Playing) {
+      TrackPlayer.pause().then(() => {
+        currentSetPlaying.current(false);
+        onStartRecording();
+      }).catch((e) => {
+        console.log(e);
+      });
+    } else {
+      onStartRecording();
+    }
   };
 
-  const onStopRecord = async () => {
+  const onStartRecording = async () => {
+    if (attachedFile) {
+      setAttachedFile(null);
+    } else if (audioObject) {
+      setAudioObject(null);
+    }
+
+    recordButtonWidth.value = withSpring(recordButtonWidth.value * 1.5); // increasing record button width with spring animation
+    recordButtonHeight.value = withSpring(recordButtonHeight.value * 1.5); // increasing record button height with spring animation
+
+    try {
+      const result = await audioRecorder.startRecorder(AUDIO_PATH, {
+        AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
+        AudioSourceAndroid: AudioSourceAndroidType.MIC,
+        OutputFormatAndroid: OutputFormatAndroidType.AAC_ADTS,
+        AVFormatIDKeyIOS: AVEncodingOption.aac,
+        AVModeIOS: AVModeIOSOption.voicechat,
+        AVEncoderAudioQualityKeyIOS: AVEncoderAudioQualityIOSType.high,
+        AVModeIOS: AVModeIOSOption.measurement,
+        AVNumberOfChannelsKeyIOS: 2,
+      });
+      audioRecorder.addRecordBackListener(e => {
+        console.log('addRecordBackListener', e);
+        return;
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onStopRecording = async () => {
     recordButtonWidth.value = withSpring(styles.sendIcon.width); // decreasing record button width to initial value
     recordButtonHeight.value = withSpring(styles.sendIcon.height); // decreasing record button height to initial value
-    const result = await audioRecorder.stopRecorder(); 
-    audioRecorder.removeRecordBackListener();
-    setAudioPath(result);
+    try {
+      const result = await audioRecorder.stopRecorder();
+      audioRecorder.removeRecordBackListener();
+      console.log('recorded audio result', result);
+      setAudioObject({
+        uri: result,
+        name: 'audio.aac',
+        type: 'audio/aac',
+      });
+    } catch (e) {
+      console.log(e);
+    }
   };
+
+  const onRemoveAudio = async () => {
+    const audioIndex = (await TrackPlayer.getQueue()).length - 1;
+
+    TrackPlayer.pause()
+      .then(() => {
+        TrackPlayer.remove([audioIndex])
+          .then(async value => {
+            console.log(
+              'Audio ' + audioIndex + ' successfully removed from queue!',
+            );
+            let tracks = await TrackPlayer.getQueue();
+            console.log('tracks', tracks);
+          })
+          .catch(err => {
+            console.log(
+              'Error while removing audio ' + audioIndex + ' from queue.',
+            );
+          });
+        setAudioObject(null);
+      })
+      .catch(err => {
+        console.log('error while pausing recorded audio!', err);
+      });
+  };
+
+  const _renderHeader = useMemo(() => <ListHeader data={data} />, [isLoading]);
 
   const renderHeader = () => <ListHeader data={data} />;
 
   const renderItem = ({item, index}) => {
-    return <TaskResult item={item} index={index} />;
+    return (
+      <TaskResult item={item} index={index} onTrackChange={onTrackChange} />
+    );
   };
 
   if (data === null) {
@@ -266,13 +415,14 @@ const CourseTaskScreen = props => {
       <FlatList
         style={styles.listContainer}
         data={data?.passing_answers}
-        ListHeaderComponent={renderHeader}
+        ListHeaderComponent={_renderHeader}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         onRefresh={onRefresh}
         refreshing={isLoading}
         contentContainerStyle={styles.listContent}
+        overScrollMode="never"
       />
       {attachedFile ? (
         <RowView style={styles.attachedFile}>
@@ -284,18 +434,32 @@ const CourseTaskScreen = props => {
           </TouchableOpacity>
         </RowView>
       ) : null}
-      {
-        audioPath ? (
-          <Animated.View entering={"FadeIn"} style={styles.audioRecorded}>
-            <AudioPlayer url={audioPath}/>
-          </Animated.View>
-        ) : null
-      }
+      {audioObject ? (
+        // <Animated.View entering={"FadeIn"} style={styles.audioRecorded} exiting={"FadeOut"}>
+        //   <TouchableOpacity style={styles.removeAudioButton} activeOpacity={0.5} onPress={onRemoveAudio}>
+        //     {x(11, APP_COLORS.primary)}
+        //   </TouchableOpacity>
+        //   <AnswerAudio url={audioObject?.uri} _index={data?.passing_answers.filter(a => a.isAudio).length} onTrackChange={onTrackChange}/>
+        // </Animated.View>
+        <View style={styles.audioRecorded}>
+          <TouchableOpacity
+            style={styles.removeAudioButton}
+            activeOpacity={0.5}
+            onPress={onRemoveAudio}>
+            {x(11, APP_COLORS.primary)}
+          </TouchableOpacity>
+          <AnswerAudio
+            url={audioObject?.uri}
+            _index={data?.passing_answers.filter(a => a.isAudio).length}
+            onTrackChange={onTrackChange}
+          />
+        </View>
+      ) : null}
       <View
         style={styles.replySection}
         onLayout={({
           nativeEvent: {
-            layout: {width, height},
+            layout: {height},
           },
         }) => {
           setKeyboardOffset(height);
@@ -317,14 +481,14 @@ const CourseTaskScreen = props => {
         <TouchableOpacity
           style={styles.sendIcon}
           onPress={sendAnswerTapped}
-          disabled={!isValidText(answer)}
           activeOpacity={0.9}>
           <SendIcon />
         </TouchableOpacity>
-        <Animated.View style={[ styles.sendIcon , { marginLeft: 10 }, animatedStyle ]}>
+        <Animated.View
+          style={[styles.sendIcon, {marginLeft: 10}, animatedStyle]}>
           <TouchableOpacity
-            onPressIn={onStartRecord}
-            onPressOut={onStopRecord}
+            onPressIn={pauseCurrentTrack}
+            onPressOut={onStopRecording}
             activeOpacity={0.9}>
             <MicrophoneIcon width={20} height={20} />
           </TouchableOpacity>
@@ -359,7 +523,7 @@ const ListHeader = ({data}) => {
   );
 };
 
-const TaskResult = ({item, index}) => {
+const TaskResult = ({item, index, onTrackChange = () => undefined}) => {
   return (
     <RowView style={taskResult.container}>
       <FastImage source={{uri: item?.user?.avatar}} style={taskResult.image} />
@@ -369,7 +533,15 @@ const TaskResult = ({item, index}) => {
         </Text>
         <Text style={taskResult.answer}>{item?.answer}</Text>
         {item?.file ? (
-          <FileItem urlFile={item?.file} fileName={item?.file_name} />
+          item?.isAudio ? (
+            <AnswerAudio
+              url={item?.file}
+              _index={item?.index}
+              onTrackChange={onTrackChange}
+            />
+          ) : (
+            <FileItem urlFile={item?.file} fileName={item?.file_name} />
+          )
         ) : null}
         <Text style={taskResult.date}>
           {item?.created_time?.date} {item?.created_time?.time}
@@ -458,8 +630,16 @@ const styles = StyleSheet.create({
     backgroundColor: APP_COLORS.white,
     width: WIDTH,
     padding: 8,
-    paddingHorizontal: 16
-  }
+    paddingHorizontal: 16,
+    borderTopWidth: 1,
+    borderColor: APP_COLORS.border,
+  },
+  removeAudioButton: {
+    padding: 4,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+  },
 });
 
 const taskResult = StyleSheet.create({
