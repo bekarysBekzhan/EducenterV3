@@ -22,6 +22,8 @@
 	<string>7.0.1</string>
 	<key>CFBundleVersion</key>
 	<string>19</string>
+	<key>CodePushDeploymentKey</key>
+	<string>AgMr2qUoNU9IHNPRa5CbAflxqMPuinJaLeKCP</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -35,12 +37,11 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>CodePushDeploymentKey</key>
-	<string>AgMr2qUoNU9IHNPRa5CbAflxqMPuinJaLeKCP</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app uses photo library to let users to upload and send to other users and customize user profile.</string>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>audio</string>
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
