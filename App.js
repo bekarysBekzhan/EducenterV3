@@ -5,6 +5,7 @@ import Navigation from './src/components/navigation/MainStack';
 import ToastView from './src/components/view/ToastView';
 import Toast from 'react-native-toast-message';
 import TrackPlayer, {
+  AppKilledPlaybackBehavior,
   Capability,
   Event,
   useTrackPlayerEvents,
@@ -41,7 +42,8 @@ const App = () => {
       await TrackPlayer.updateOptions({
         capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
         compactCapabilities: [Capability.Play, Capability.Pause],
-        stoppingAppPausesPlayback: true,
+        // stoppingAppPausesPlayback: true,
+        android: {appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback}
       });
     } catch (e) {
       if (
