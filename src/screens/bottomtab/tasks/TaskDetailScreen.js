@@ -78,11 +78,7 @@ const TaskDetailScreen = props => {
           description={data?.task?.description}
         />
         <Person
-          name={
-            (data?.author?.name ? data?.author?.name : '') +
-            ' ' +
-            (data?.author?.surname ? data?.author?.surname : '')
-          }
+          name={data?.author?.name}
           image={data?.author?.avatar}
           status={strings['Автор задания']}
           description={data?.author?.description}
