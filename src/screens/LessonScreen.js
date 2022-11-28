@@ -44,9 +44,9 @@ import {useSettings} from '../components/context/Provider';
 import ShowType from '../components/test/ShowType';
 
 const LessonScreen = props => {
+
   const id = props.route?.params?.id;
   const chapterTitle = props.route?.params?.title;
-  const hasSubscribed = props.route?.params?.hasSubscribed;
 
   const {nstatus, settings} = useSettings();
   const [data, setData] = useState(null);
@@ -299,12 +299,12 @@ const LessonScreen = props => {
   };
 
   const renderChapter = ({item, index}) => {
-    if (hasSubscribed) {
+    if (course?.has_subscribed) {
       return (
         <MyCourseChapter
           item={item}
           index={index}
-          hasSubscribed={hasSubscribed}
+          hasSubscribed={course?.has_subscribed}
           navigation={props.navigation}
           passedLessonsCount={passedLessonCount(item, course)}
           totalLessonsCount={item?.lessons_count}
@@ -319,7 +319,7 @@ const LessonScreen = props => {
       <CourseChapter
         item={item}
         index={index}
-        hasSubscribed={hasSubscribed}
+        hasSubscribed={course?.has_subscribed}
         navigation={props.navigation}
         onPress={onExitCourseProgram}
         from="lesson"
