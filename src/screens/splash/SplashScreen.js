@@ -19,18 +19,26 @@ const SplashScreen = ({navigation}) => {
   useEffect(() => {
     if (!initialStart) {
       setTimeout(() => {
-        if (settings?.marketplace_enabled && !isAuth) {
-          keepGoingPressed(ROUTE_NAMES.login);
+        if (settings?.marketplace_enabled) {
+          if (isAuth) {
+            navigation.navigate(ROUTE_NAMES.bottomTab);
+          } else {
+            navigation.navigate(ROUTE_NAMES.login);
+          }
         } else {
-          keepGoingPressed(ROUTE_NAMES.bottomTab);
+          navigation.navigate(ROUTE_NAMES.bottomTab);
         }
       }, 3000);
     }
   }, []);
 
-  const keepGoingPressed = async (route = ROUTE_NAMES.bottomTab) => {
+  const onContinue = async () => {
     await storeObject(STORAGE.initialStart, false);
-    navigation.replace(route);
+    if (settings?.marketplace_enabled) {
+      navigation.navigate(ROUTE_NAMES.login);
+    } else {
+      navigation.navigate(ROUTE_NAMES.bottomTab);
+    }
   };
 
   const changeLanguagePressed = () => {
@@ -56,7 +64,7 @@ const SplashScreen = ({navigation}) => {
         <View style={styles.bottom}>
           <SimpleButton
             text={strings['Продолжить на русском']}
-            onPress={() => keepGoingPressed(ROUTE_NAMES.bottomTab)}
+            onPress={onContinue}
           />
           <OutlineButton
             text={strings['Поменять язык']}
