@@ -515,7 +515,7 @@ const ListHeader = ({data}) => {
       <Person
         status={strings.Преподаватель}
         image={data?.author?.avatar}
-        name={data?.author?.name + ' ' + data?.author?.surname}
+        name={data?.author?.name}
         description={data?.author?.description}
       />
       <Text style={styles.taskResult}>{strings['Результаты задания']}</Text>

@@ -41,7 +41,7 @@ const Footer = ({data, navigation, haveAuthor = true}) => {
           <Person
             status={strings['Автор курса']}
             image={data?.author?.avatar}
-            name={data?.author?.name + ' ' + data?.author?.surname}
+            name={data?.author?.name}
             description={data?.author?.description}
           />
         ) : null}
