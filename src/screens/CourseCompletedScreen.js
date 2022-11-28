@@ -105,15 +105,25 @@ const CourseCompletedScreen = props => {
         rating={data?.rating}
         disabled={true}
       />
-      <Text style={[styles.text, {textAlign: 'center'}]}>
-        {strings['Твой сертификат доступен в твоем личном кабинете']}
-      </Text>
-      <SimpleButton
-        text={strings['Скачать сертификат']}
-        style={styles.downloadButton}
-        textStyle={styles.downloadText}
-        onPress={downloader}
-      />
+      {
+        data?.certification ?
+        <Text style={[styles.text, {textAlign: 'center'}]}>
+          {strings['Твой сертификат доступен в твоем личном кабинете']}
+        </Text>
+        :
+        null
+      }
+      {
+        data?.certification ? 
+        <SimpleButton
+          text={strings['Скачать сертификат']}
+          style={styles.downloadButton}
+          textStyle={styles.downloadText}
+          onPress={downloader}
+        />
+        :
+        null
+      }
       <SimpleButton
         text={strings['Оставить отзыв']}
         style={styles.reviewButton}
