@@ -33,10 +33,10 @@ const TaskDetailScreen = props => {
 
   const onNavigation = () => {
     if (isAuth) {
-      if (data?.task?.has_subscribed) {
+      if (data?.has_subscribed) {
         props.navigation.navigate(ROUTE_NAMES.moduleTask, {
-          id: data?.task?.id,
-          title: data?.task?.title,
+          id: data?.id,
+          title: data?.title,
         });
       } else {
         props.navigation.navigate(ROUTE_NAMES.operation, {
@@ -54,10 +54,10 @@ const TaskDetailScreen = props => {
       return strings['Пройти задание'];
     }
 
-    if (data?.task?.has_subscribed) {
+    if (data?.has_subscribed) {
       return strings['Пройти задание'];
     }
-    if (data?.task?.price) {
+    if (data?.price) {
       return strings['Купить задание'];
     }
     return strings.Бесплатно;
@@ -71,11 +71,11 @@ const TaskDetailScreen = props => {
     <UniversalView>
       <UniversalView haveScroll>
         <DetailView
-          title={data?.task?.title}
-          poster={data?.task?.poster}
-          category={data?.task?.category?.name}
-          duration={data?.task?.timer}
-          description={data?.task?.description}
+          title={data?.title}
+          poster={data?.poster}
+          category={data?.category?.name}
+          duration={data?.timer}
+          description={data?.description}
         />
         <Person
           name={data?.author?.name}
