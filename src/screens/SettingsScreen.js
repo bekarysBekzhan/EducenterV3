@@ -57,7 +57,7 @@ const SettingsScreen = ({navigation, route}) => {
     };
     const res = await ProfileService.fetchProfileUpdate(params);
     if (global?.reloadProfile) {
-      global.reloadProfile();
+      global?.reloadProfile();
     }
     console.log('fetchSettingsPush: ', res);
   });

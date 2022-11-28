@@ -81,8 +81,8 @@ class FirebaseService {
       if (notificationData?.type === NOTIFICATION_TYPE.news) {
         navigate(ROUTE_NAMES.newsDetail, {newsId: notificationData?.id});
       } else {
-        if (global.setIsRead) {
-          global.setIsRead(false);
+        if (global?.setIsRead) {
+          global?.setIsRead(false);
         }
         navigate(ROUTE_NAMES.bottomTab, {onNotification: true});
       }

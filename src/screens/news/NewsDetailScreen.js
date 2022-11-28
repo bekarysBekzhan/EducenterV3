@@ -37,8 +37,8 @@ const NewsDetailScreen = ({navigation, route}) => {
 
   const markRead = async () => {
     await storeObject(STORAGE.isRead, true);
-    if (global.setIsRead) {
-      global.setIsRead(true);
+    if (global?.setIsRead) {
+      global?.setIsRead(true);
     }
   };
 
