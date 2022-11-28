@@ -13,6 +13,7 @@ import {storeObject} from '../../storage/AsyncStorage';
 import HtmlView from '../../components/HtmlView';
 
 const SplashScreen = ({navigation}) => {
+  
   const {settings, initialStart, isAuth} = useSettings();
 
   useEffect(() => {

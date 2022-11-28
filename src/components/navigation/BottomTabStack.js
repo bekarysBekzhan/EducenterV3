@@ -2,21 +2,10 @@ import React, {useEffect} from 'react';
 import {useSettings} from '../context/Provider';
 import {ROUTE_NAMES} from './routes';
 import {
-  coursesOFF,
-  coursesON,
   coursesTabIcon,
-  CoursesTabIcon,
-  myCoursesOFF,
-  myCoursesON,
   myCoursesTabIcon,
-  profileOFF,
-  profileON,
   profileTabIcon,
-  tasksOFF,
-  tasksON,
   tasksTabIcon,
-  testsOFF,
-  testsON,
   testsTabIcon,
 } from '../../assets/icons';
 import {strings} from '../../localization';
@@ -37,6 +26,7 @@ import {useNavigation} from '@react-navigation/native';
 const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
+  
   const onNotification = props.route?.params?.onNotification;
   const {settings, isAuth, nstatus} = useSettings();
   const {navigate} = useNavigation();

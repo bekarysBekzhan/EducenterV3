@@ -23,6 +23,7 @@ import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import Empty from '../../../components/Empty';
 
 const MyCoursesTab = props => {
+
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [data, setData] = useState([]);
@@ -94,6 +95,7 @@ const MyCoursesTab = props => {
 };
 
 const MyCourseCard = ({item, index, navigation}) => {
+  
   const onPressNextLesson = () => {
     navigation.navigate(ROUTE_NAMES.lesson, {
       id: item?.progress_information?.next_lesson?.id,
