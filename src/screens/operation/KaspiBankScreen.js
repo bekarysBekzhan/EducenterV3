@@ -18,11 +18,13 @@ import {checkPrice} from '../../utils/checkPrice';
 import CardDetail from '../../components/view/CardDetail';
 import {ClipCheckIcon} from '../../assets/icons';
 import {URLS} from '../../constans/constants';
+import { useSettings } from '../../components/context/Provider';
 
 const KaspiBankScreen = ({route}) => {
   const {kaspiBank, type, mode} = route?.params;
   console.log('kaspiBank param: ', kaspiBank, type);
 
+  const { settings } = useSettings();
   const [dataSource, setDataSource] = useState({
     data: null,
     visible: false,
@@ -227,7 +229,7 @@ const KaspiBankScreen = ({route}) => {
             strings[
               'Переведите :sum по реквизитам указанный ниже и прикрепите чек.'
             ],
-            {sum: checkPrice(dataSource?.data?.price)},
+            {sum: checkPrice(dataSource?.data?.price, false, settings?.currency_symbol)},
           )}
         </Text>
         <FastImage
