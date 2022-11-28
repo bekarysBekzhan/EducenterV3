@@ -18,7 +18,7 @@ import RatingStar from '../components/RatingStar';
 import {APP_COLORS} from '../constans/constants';
 
 const WriteReviewScreen = props => {
-  
+
   const id = props.route?.params?.id;
 
   const [buttonHeight, setButtonHeight] = useState(0);
@@ -50,7 +50,6 @@ const WriteReviewScreen = props => {
   const onChangeText = value => {
     setText(value);
   };
-
   const onAlertButton = () => {
     props.navigation.popToTop();
   };

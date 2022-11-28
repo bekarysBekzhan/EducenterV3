@@ -320,6 +320,12 @@ class TaskService {
     console.log('Task with id ' + id + ':', response);
     return response;
   };
+
+  static showTaskByID = async id => {
+    const response = await API_V2.get(URLS.moduleTask + id);
+    console.log("task", response);
+    return response;
+  }
 }
 
 class MyCourseService {

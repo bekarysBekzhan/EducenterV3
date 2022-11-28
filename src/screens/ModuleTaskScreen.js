@@ -105,7 +105,7 @@ const ModuleTaskScreen = props => {
 
   // service for fetching task from server
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
-    const response = await TaskService.fetchTaskByID(id);
+    const response = await TaskService.showTaskByID(id);
 
     let exe;
 
@@ -448,7 +448,7 @@ const ModuleTaskScreen = props => {
           </TouchableOpacity>
           <AnswerAudio
             url={audioObject?.uri}
-            _index={data?.passing_answers.filter(a => a.isAudio).length}
+            _index={data?.passing_answers?.filter(a => a.isAudio).length}
             onTrackChange={onTrackChange}
           />
         </View>
