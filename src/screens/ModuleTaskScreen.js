@@ -335,6 +335,9 @@ const ModuleTaskScreen = props => {
     recordButtonHeight.value = withSpring(recordButtonHeight.value * 1.5); // increasing record button height with spring animation
 
     try {
+
+      console.log("audio recorder", audioRecorder);
+
       const result = await audioRecorder.startRecorder(AUDIO_PATH, {
         AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
         AudioSourceAndroid: AudioSourceAndroidType.MIC,
