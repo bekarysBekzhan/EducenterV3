@@ -49,6 +49,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import AnswerAudio from '../components/AnswerAudio';
 import RNFetchBlob from 'rn-fetch-blob';
+import {useSettings} from '../components/context/Provider';
 
 const audioRecorder = new AudioRecorderPlayer();
 
@@ -72,6 +73,7 @@ const CourseTaskScreen = props => {
   const lessonTitle = props.route?.params?.title;
   const id = props.route?.params?.id;
 
+  const {settings} = useSettings();
   const controller = useRef(new AbortController());
 
   // use refs
@@ -105,6 +107,7 @@ const CourseTaskScreen = props => {
 
   // service for fetching task from server
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
+
     const response = await CourseService.fetchTask(id);
 
     let exe;
@@ -127,6 +130,7 @@ const CourseTaskScreen = props => {
 
   // service for sending task results to server
   const [sendAnswer, isSending, sendingError] = useFetching(async () => {
+    
     const file = attachedFile ? attachedFile : audioObject;
 
     await CourseService.sendTaskAnswer(
@@ -311,12 +315,14 @@ const CourseTaskScreen = props => {
     const state = await TrackPlayer.getState();
     console.log(state);
     if (state === State.Playing) {
-      TrackPlayer.pause().then(() => {
-        currentSetPlaying.current(false);
-        onStartRecording();
-      }).catch((e) => {
-        console.log(e);
-      });
+      TrackPlayer.pause()
+        .then(() => {
+          currentSetPlaying.current(false);
+          onStartRecording();
+        })
+        .catch(e => {
+          console.log(e);
+        });
     } else {
       onStartRecording();
     }
@@ -484,15 +490,17 @@ const CourseTaskScreen = props => {
           activeOpacity={0.9}>
           <SendIcon />
         </TouchableOpacity>
-        <Animated.View
-          style={[styles.sendIcon, {marginLeft: 10}, animatedStyle]}>
-          <TouchableOpacity
-            onPressIn={pauseCurrentTrack}
-            onPressOut={onStopRecording}
-            activeOpacity={0.9}>
-            <MicrophoneIcon width={20} height={20} />
-          </TouchableOpacity>
-        </Animated.View>
+        {settings?.audio_record ? (
+          <Animated.View
+            style={[styles.sendIcon, {marginLeft: 10}, animatedStyle]}>
+            <TouchableOpacity
+              onPressIn={pauseCurrentTrack}
+              onPressOut={onStopRecording}
+              activeOpacity={0.9}>
+              <MicrophoneIcon width={20} height={20} />
+            </TouchableOpacity>
+          </Animated.View>
+        ) : null}
       </View>
       <Overlay visible={isSending} />
     </KeyboardAvoidingView>

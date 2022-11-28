@@ -49,6 +49,7 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import AnswerAudio from '../components/AnswerAudio';
 import RNFetchBlob from 'rn-fetch-blob';
+import {useSettings} from '../components/context/Provider';
 
 const audioRecorder = new AudioRecorderPlayer();
 
@@ -71,7 +72,7 @@ const ModuleTaskScreen = props => {
   // props passed down from parent
   const id = props.route?.params?.id;
 
-
+  const {settings} = useSettings();
   const controller = useRef(new AbortController());
 
   // use refs
@@ -151,7 +152,7 @@ const ModuleTaskScreen = props => {
 
   useEffect(() => {
     fetchTask();
-    return async() => {
+    return async () => {
       if (controller.current) {
         controller.current.abort();
       }
@@ -306,17 +307,18 @@ const ModuleTaskScreen = props => {
     }
   };
 
-
   const pauseCurrentTrack = async () => {
     const state = await TrackPlayer.getState();
     console.log(state);
     if (state === State.Playing) {
-      TrackPlayer.pause().then(() => {
-        currentSetPlaying.current(false);
-        onStartRecording();
-      }).catch((e) => {
-        console.log(e);
-      });
+      TrackPlayer.pause()
+        .then(() => {
+          currentSetPlaying.current(false);
+          onStartRecording();
+        })
+        .catch(e => {
+          console.log(e);
+        });
     } else {
       onStartRecording();
     }
@@ -399,7 +401,9 @@ const ModuleTaskScreen = props => {
   const renderHeader = () => <ListHeader data={data} />;
 
   const renderItem = ({item, index}) => {
-    return <TaskResult item={item} index={index} onTrackChange={onTrackChange}/>;
+    return (
+      <TaskResult item={item} index={index} onTrackChange={onTrackChange} />
+    );
   };
 
   if (data === null) {
@@ -432,7 +436,7 @@ const ModuleTaskScreen = props => {
           </TouchableOpacity>
         </RowView>
       ) : null}
-            {audioObject ? (
+      {audioObject ? (
         // <Animated.View entering={"FadeIn"} style={styles.audioRecorded} exiting={"FadeOut"}>
         //   <TouchableOpacity style={styles.removeAudioButton} activeOpacity={0.5} onPress={onRemoveAudio}>
         //     {x(11, APP_COLORS.primary)}
@@ -483,15 +487,17 @@ const ModuleTaskScreen = props => {
           activeOpacity={0.9}>
           <SendIcon />
         </TouchableOpacity>
-        <Animated.View
-          style={[styles.sendIcon, {marginLeft: 10}, animatedStyle]}>
-          <TouchableOpacity
-            onPressIn={pauseCurrentTrack}
-            onPressOut={onStopRecording}
-            activeOpacity={0.9}>
-            <MicrophoneIcon width={20} height={20} />
-          </TouchableOpacity>
-        </Animated.View>
+        {settings?.audio_record ? (
+          <Animated.View
+            style={[styles.sendIcon, {marginLeft: 10}, animatedStyle]}>
+            <TouchableOpacity
+              onPressIn={pauseCurrentTrack}
+              onPressOut={onStopRecording}
+              activeOpacity={0.9}>
+              <MicrophoneIcon width={20} height={20} />
+            </TouchableOpacity>
+          </Animated.View>
+        ) : null}
       </View>
       <Overlay visible={isSending} />
     </KeyboardAvoidingView>
