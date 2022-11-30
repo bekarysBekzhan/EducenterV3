@@ -13,7 +13,6 @@ import {storeObject} from '../../storage/AsyncStorage';
 import HtmlView from '../../components/HtmlView';
 
 const SplashScreen = ({navigation}) => {
-  
   const {settings, initialStart, isAuth} = useSettings();
 
   useEffect(() => {
@@ -21,12 +20,12 @@ const SplashScreen = ({navigation}) => {
       setTimeout(() => {
         if (settings?.marketplace_enabled) {
           if (isAuth) {
-            navigation.navigate(ROUTE_NAMES.bottomTab);
+            navigation.replace(ROUTE_NAMES.bottomTab);
           } else {
-            navigation.navigate(ROUTE_NAMES.login);
+            navigation.replace(ROUTE_NAMES.login);
           }
         } else {
-          navigation.navigate(ROUTE_NAMES.bottomTab);
+          navigation.replace(ROUTE_NAMES.bottomTab);
         }
       }, 3000);
     }
@@ -35,9 +34,9 @@ const SplashScreen = ({navigation}) => {
   const onContinue = async () => {
     await storeObject(STORAGE.initialStart, false);
     if (settings?.marketplace_enabled) {
-      navigation.navigate(ROUTE_NAMES.login);
+      navigation.replace(ROUTE_NAMES.login);
     } else {
-      navigation.navigate(ROUTE_NAMES.bottomTab);
+      navigation.replace(ROUTE_NAMES.bottomTab);
     }
   };
 
