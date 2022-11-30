@@ -187,7 +187,7 @@ const ModuleMyTestItem = ({
   title,
   attempts,
   certificate,
-  attemptHistory,
+  attemptHistory=[],
   resultType,
   onStartTest = () => undefined,
   onShowResult = () => undefined,
@@ -197,7 +197,7 @@ const ModuleMyTestItem = ({
   const {settings} = useSettings();
 
   const usedAttempts = () => {
-    return attemptHistory[attemptHistory?.length - 1].attempts;
+    return attemptHistory[attemptHistory?.length - 1]?.attempts;
   };
 
   const getData = () => {

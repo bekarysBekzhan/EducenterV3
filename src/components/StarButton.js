@@ -1,9 +1,6 @@
-import React, { useEffect } from 'react';
-import {
-  TouchableOpacity
-} from 'react-native';
-import { emptyStar, halfStar, starIcon } from '../assets/icons';
-
+import React from 'react';
+import {TouchableOpacity} from 'react-native';
+import {emptyStar, halfStar, starIcon} from '../assets/icons';
 
 const StarButton = ({
   disabled,
@@ -12,23 +9,18 @@ const StarButton = ({
   starIconName,
   starSize,
   activeOpacity,
-  onStarButtonPress = () => console.log("No function passed"),
+  onStarButtonPress = () => undefined,
 }) => {
-
-  useEffect(() => {
-    // console.log("Star Button : " , rating)
-  }, [])
-
   const renderIcon = () => {
     return starIconName == 'emptyStar'
       ? emptyStar(starSize)
       : starIconName == 'halfStar'
-        ? halfStar(starSize)
-        : starIcon(starSize);
-  }
+      ? halfStar(starSize)
+      : starIcon(starSize);
+  };
 
-  const onButtonPress = (event) => {
-    console.log('aaaaa', 'aaaa')
+  const onButtonPress = event => {
+    console.log('aaaaa', 'aaaa');
 
     let addition = 0;
 
@@ -38,14 +30,13 @@ const StarButton = ({
     }
 
     onStarButtonPress(rating + addition);
-  }
+  };
 
   return (
     <TouchableOpacity
       disabled={disabled}
       activeOpacity={activeOpacity}
-      onPress={onButtonPress}
-    >
+      onPress={onButtonPress}>
       {renderIcon()}
     </TouchableOpacity>
   );
