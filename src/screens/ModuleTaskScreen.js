@@ -202,7 +202,16 @@ const ModuleTaskScreen = props => {
       if (audioObject) {
         setAudioObject(null);
       }
-      setAttachedFile(res);
+
+      const source = {
+        uri: res?.[0]?.uri,
+        type: res?.[0]?.type,
+        name: res?.[0]?.name,
+      };
+
+      console.log("file", res);
+
+      setAttachedFile(source);
     } catch (e) {
       if (DocumentPicker.isCancel()) {
         Keyboard.dismiss();
