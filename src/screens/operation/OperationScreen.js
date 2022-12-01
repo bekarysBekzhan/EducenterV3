@@ -38,6 +38,7 @@ const OperationScreen = ({navigation, route}) => {
   const {settings} = useSettings();
 
   const {operation, type} = route.params;
+  const previousScreen = route.params?.previousScreen;
   console.log('params operation: ', operation);
 
   const [dataSource, setDataSource] = useState({
@@ -70,7 +71,14 @@ const OperationScreen = ({navigation, route}) => {
       Alert.alert(strings['Внимание!'], res?.data?.data?.message?.warning, [
         {
           text: 'OK',
-          onPress: () => navigation.goBack(),
+          onPress: () => {
+            let params = {};
+            if (previousScreen === ROUTE_NAMES.taskDetail) {
+              params.reloadTask = true;
+              params.id = operation?.id;
+            }
+            navigation.navigate(previousScreen, params);
+          },
         },
       ]);
       return;

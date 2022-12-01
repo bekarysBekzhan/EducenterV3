@@ -13,23 +13,25 @@ import {N_STATUS, TYPE_SUBCRIBES} from '../../../constans/constants';
 
 const TaskDetailScreen = props => {
   const id = props.route?.params?.id;
-
   const {isAuth, nstatus} = useSettings();
   const [data, setData] = useState(null);
-  const [fetchTask, isFetching, fetchingError] = useFetching(async () => {
+  const [fetchTask, isFetching] = useFetching(async () => {
     const response = await TaskService.fetchTaskByID(id);
     setData(response.data?.data);
   });
 
   useEffect(() => {
-    fetchTask();
-  }, []);
+    if (props.route?.params?.reloadTask) {
+      fetchTask();
+      if (global?.fetchTasks) {
+        global.fetchTasks();
+      }
+    }
+  }, [props.route?.params?.reloadTask]);
 
   useEffect(() => {
-    if (fetchingError) {
-      console.log(fetchingError);
-    }
-  }, [fetchingError]);
+    fetchTask();
+  }, []);
 
   const onNavigation = () => {
     if (isAuth) {
@@ -42,6 +44,7 @@ const TaskDetailScreen = props => {
         props.navigation.navigate(ROUTE_NAMES.operation, {
           operation: data,
           type: TYPE_SUBCRIBES.TASK_SUBSCRIBE,
+          previousScreen: ROUTE_NAMES.taskDetail
         });
       }
     } else {

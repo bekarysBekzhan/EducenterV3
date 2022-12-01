@@ -24,32 +24,22 @@ const TasksScreen = props => {
   const [filters, setFilters] = useState(null);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [fetchTasks, isFetching, fetchingError] = useFetching(async () => {
+  const [fetchTasks, isFetching] = useFetching(async () => {
     const response = await TaskService.fetchTasks();
     setData(response.data?.data);
     setFilters(response.data?.filters);
     setLastPage(response.data?.last_page);
   });
-  const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(
+  const [fetchNext, isFetchingNext] = useFetching(
     async () => {
       const response = await TaskService.fetchTasks('', page);
       setData(prev => prev.concat(response.data?.data));
     },
   );
 
-  // fetchTest error handler
   useEffect(() => {
-    if (fetchingError) {
-      console.log(fetchingError);
-    }
-  }, [fetchingError]);
-
-  // fetchNext error handler
-  useEffect(() => {
-    if (fetchingNextError) {
-      console.log(fetchingNextError);
-    }
-  });
+    global.fetchTasks = fetchTasks;
+  }, []);
 
   useEffect(() => {
     if (page === 1) {
@@ -61,7 +51,7 @@ const TasksScreen = props => {
 
   const taskItemTapped = item => {
     if (isAuth) {
-      props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: item?.id});
+      props.navigation.navigate(ROUTE_NAMES.taskDetail, {id: item?.id, reloadTask: false});
     } else {
       props.navigation.navigate(ROUTE_NAMES.login);
     }

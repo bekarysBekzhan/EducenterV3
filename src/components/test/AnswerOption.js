@@ -77,19 +77,12 @@ const AnswerOption = ({
 
   const [state, setState] = useState(initialState());
 
-  const [sendAnswer, isLoading, sendingError] = useFetching(async () => {
+  const [sendAnswer, isLoading] = useFetching(async () => {
     let params = {};
     params.selected = !(state === ANSWER_STATES.SELECTED);
     params.is_multiple = is_multiple;
     await CourseService.selectAnswer(passingID, {params: params});
   });
-
-  useEffect(() => {
-    if (sendingError) {
-      console.log(sendingError);
-      setState(ANSWER_STATES.UNSELECTED);
-    }
-  }, [sendingError]);
 
   useEffect(() => {
     setState(initialState());
@@ -153,13 +146,6 @@ const AnswerOption = ({
     ),
     formula: <MathView text={item.answer} />,
     html: <HtmlView html={item.answer} />,
-  };
-
-  const isSelectDisabled = () => {
-    if (resultType || isLoading) {
-      return true;
-    }
-    return false;
   };
 
   return (
