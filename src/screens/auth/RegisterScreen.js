@@ -17,7 +17,6 @@ import RowView from '../../components/view/RowView';
 import {firebaseService} from '../../services/FirebaseService';
 
 const RegisterScreen = ({navigation}) => {
-
   const [dataSource, setDataSource] = useState({
     name: '',
     email: '',
@@ -26,8 +25,8 @@ const RegisterScreen = ({navigation}) => {
   });
 
   const [country, setCountry] = useState({
-    countryCode: "KZ",
-    callingCode: "+7",
+    countryCode: 'KZ',
+    callingCode: '+7',
   });
 
   const {setIsAuth, settings, nstatus} = useSettings();
@@ -38,7 +37,6 @@ const RegisterScreen = ({navigation}) => {
   const setPassword = password => setDataSource(prev => ({...prev, password}));
 
   const [fetchRegister, isLoading, error] = useFetching(async params => {
-
     const response = await AuthService.fetchRegister(params);
     const token = response.data?.data?.api_token;
     await storeString(STORAGE.userToken, token);
@@ -69,26 +67,24 @@ const RegisterScreen = ({navigation}) => {
   };
 
   const onSignUp = () => {
-
     let phone = country.callingCode;
 
     if (dataSource.phone.length > 0) {
       phone += dataSource.phone;
     } else {
-      phone = "";
+      phone = '';
     }
 
     let params = {
       name: dataSource.name,
       phone: phone,
       email: dataSource.email,
-      password: dataSource.password
+      password: dataSource.password,
     };
 
-    console.log('params' , params);
+    console.log('params', params);
 
     fetchRegister(params);
-
   };
 
   return (
@@ -105,19 +101,21 @@ const RegisterScreen = ({navigation}) => {
         editable={!isLoading}
       />
       <RowView style={styles.phone}>
-        <CountryPicker
-          {...{
-            withFilter: true,
-            withFlag: true,
-            withAlphaFilter: true,
-            withCallingCode: true,
-            withCallingCodeButton: true,
-            withEmoji: true,
-            withCloseButton: true,
-            countryCode: country.countryCode,
-            onSelect: onCountrySelect,
-          }}
-        />
+        <View pointerEvents={isLoading ? 'none' : 'auto'}>
+          <CountryPicker
+            {...{
+              withFilter: true,
+              withFlag: true,
+              withAlphaFilter: true,
+              withCallingCode: true,
+              withCallingCodeButton: true,
+              withEmoji: true,
+              withCloseButton: true,
+              countryCode: country.countryCode,
+              onSelect: onCountrySelect,
+            }}
+          />
+        </View>
         <View style={{width: 16}} />
         <Input
           placeholder={strings['Номер телефона']}
