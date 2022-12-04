@@ -23,32 +23,22 @@ const TestsScreen = props => {
   const [filters, setFilters] = useState(null);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
-  const [fetchTests, isFetching, fetchingError] = useFetching(async () => {
+  const [fetchTests, isFetching] = useFetching(async () => {
     const response = await TestService.fetchTests();
     setData(response.data?.data);
     setFilters(response.data?.filters);
     setLastPage(response.data?.last_page);
   });
-  const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(
+  const [fetchNext, isFetchingNext] = useFetching(
     async () => {
       const response = await TestService.fetchTests('', page);
       setData(prev => prev.concat(response.data?.data));
     },
   );
 
-  // fetchTest error handler
   useEffect(() => {
-    if (fetchingError) {
-      console.log(fetchingError);
-    }
-  }, [fetchingError]);
-
-  // fetchNext error handler
-  useEffect(() => {
-    if (fetchingNextError) {
-      console.log(fetchingNextError);
-    }
-  });
+    global.fetchTests = fetchTests;
+  }, []);
 
   useEffect(() => {
     if (page === 1) {

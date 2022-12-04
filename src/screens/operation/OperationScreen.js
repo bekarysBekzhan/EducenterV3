@@ -75,7 +75,11 @@ const OperationScreen = ({navigation, route}) => {
           onPress: () => {
             let params = {};
             let nextScreen;
-            if (previousScreen === ROUTE_NAMES.taskDetail) {
+            if (previousScreen === ROUTE_NAMES.testDetail) {
+              params.reloadTest = true;
+              params.id = operation?.id;
+              nextScreen = previousScreen;
+            } else if (previousScreen === ROUTE_NAMES.taskDetail) {
               params.reloadTask = true;
               params.id = operation?.id;
               nextScreen = previousScreen;
