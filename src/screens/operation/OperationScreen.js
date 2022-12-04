@@ -102,6 +102,10 @@ const OperationScreen = ({navigation, route}) => {
                 params.reloadOfflineCourse = true;
                 nextScreen = ROUTE_NAMES.offlineCourseDetailsScreen;
                 break;
+              case ROUTE_NAMES.selectSubjects:
+                params.reloadSubjects = true;
+                nextScreen = ROUTE_NAMES.selectSubjects;
+                break;
               default:
                 console.log("default switch");
             }

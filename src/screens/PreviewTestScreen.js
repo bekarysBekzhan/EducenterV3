@@ -19,7 +19,7 @@ const PreviewTestScreen = props => {
   const type = props.route?.params?.type
 
   const [data, setData] = useState(null)
-  const [fetchTestInfo, isLoading, fetchingError] = useFetching(async() => {
+  const [fetchTestInfo, isLoading] = useFetching(async() => {
     let response
     if (type === "module") {
       response = await TestService.fetchTestInfo(id)

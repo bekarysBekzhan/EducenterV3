@@ -39,7 +39,7 @@ const SelectSubjectsScreen = props => {
     tests: [],
   });
 
-  const [fetchCategories, isFetchingCategories, fetchingCategoriesError] =
+  const [fetchCategories, isFetchingCategories] =
     useFetching(async () => {
       const response = await UBTService.fetchCategories();
       setDataSource(prev => ({
@@ -48,7 +48,7 @@ const SelectSubjectsScreen = props => {
       }));
     });
 
-  const [fetchTests, isFetchingTests, fetchingTestsError] = useFetching(
+  const [fetchTests, isFetchingTests] = useFetching(
     async () => {
       const response = await UBTService.fetchTests(
         category.current?.id,
@@ -74,16 +74,10 @@ const SelectSubjectsScreen = props => {
   }, []);
 
   useEffect(() => {
-    if (fetchingTestsError) {
-      console.log(fetchingTestsError);
+    if (props.route?.params?.reloadSubjects) {
+      fetchTests();
     }
-  }, [fetchingTestsError]);
-
-  useEffect(() => {
-    if (fetchingCategoriesError) {
-      console.log(fetchingCategoriesError);
-    }
-  }, [fetchingCategoriesError]);
+  }, [props.route?.params?.reloadSubjects]);
 
   const getCategories2 = categories => {
     if (categories.length === 0) {
@@ -134,6 +128,7 @@ const SelectSubjectsScreen = props => {
         props.navigation.navigate(ROUTE_NAMES.operation, {
           operation: item,
           type: TYPE_SUBCRIBES.TEST_SUBCRIBE,
+          previousScreen: ROUTE_NAMES.selectSubjects
         });
       }
     } else {
