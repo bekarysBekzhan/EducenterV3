@@ -75,20 +75,29 @@ const OperationScreen = ({navigation, route}) => {
           onPress: () => {
             let params = {};
             let nextScreen;
-            if (previousScreen === ROUTE_NAMES.testDetail) {
-              params.reloadTest = true;
-              params.id = operation?.id;
-              nextScreen = previousScreen;
-            } else if (previousScreen === ROUTE_NAMES.taskDetail) {
-              params.reloadTask = true;
-              params.id = operation?.id;
-              nextScreen = previousScreen;
-            } else if (previousScreen === ROUTE_NAMES.courseDetail) {
-              params.courseID = operation?.id;
-              nextScreen = ROUTE_NAMES.myCourseDetail;
-              navigation.popToTop();
-              const jumpToAction = TabActions.jumpTo(ROUTE_NAMES.myCoursesStack);
-              navigation.dispatch(jumpToAction);
+            switch(previousScreen) {
+              case ROUTE_NAMES.testDetail:
+                params.reloadTest = true;
+                params.id = operation?.id;
+                nextScreen = previousScreen;
+                break;
+              case ROUTE_NAMES.taskDetail:
+                params.reloadTask = true;
+                params.id = operation?.id;
+                nextScreen = previousScreen;
+                break;
+              case ROUTE_NAMES.courseDetail:
+                params.courseID = operation?.id;
+                nextScreen = ROUTE_NAMES.myCourseDetail;
+                navigation.popToTop();
+                const jumpToAction = TabActions.jumpTo(ROUTE_NAMES.myCoursesStack);
+                navigation.dispatch(jumpToAction);
+                break;
+              case ROUTE_NAMES.journalNavigator:
+                params.readJournal = operation;
+                nextScreen = ROUTE_NAMES.readJournal;
+              default:
+                console.log("default switch");
             }
             navigation.navigate(nextScreen, params);
           },

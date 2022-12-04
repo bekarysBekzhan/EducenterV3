@@ -93,6 +93,7 @@ const JournalsScreen = ({navigation}) => {
       navigation.navigate(ROUTE_NAMES.operation, {
         operation: item,
         type: TYPE_SUBCRIBES.JOURNAL_SUBCRIBE,
+        previousScreen: ROUTE_NAMES.journalNavigator
       });
     } else {
       navigation.navigate(ROUTE_NAMES.login);
