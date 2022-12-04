@@ -65,7 +65,7 @@ const OperationScreen = ({navigation, route}) => {
     navigation.setOptions({title: strings.Купить, headerTitleAlign: 'center'});
   }, []);
 
-  const [fetchOperation, loading, operationError] = useFetching(async () => {
+  const [fetchOperation, loading] = useFetching(async () => {
     const res = await OperationService.fetchOperation(operation?.id, type);
 
     if (res?.data?.data?.message) {
@@ -96,6 +96,12 @@ const OperationScreen = ({navigation, route}) => {
               case ROUTE_NAMES.journalNavigator:
                 params.readJournal = operation;
                 nextScreen = ROUTE_NAMES.readJournal;
+                break;
+              case ROUTE_NAMES.offlineCourseDetailsScreen:
+                params.courseID = operation?.id;
+                params.reloadOfflineCourse = true;
+                nextScreen = ROUTE_NAMES.offlineCourseDetailsScreen;
+                break;
               default:
                 console.log("default switch");
             }

@@ -74,6 +74,12 @@ const OfflineCourseDetailsScreen = props => {
   ];
 
   useEffect(() => {
+    if (props.route?.params?.reloadOfflineCourse) {
+      fetchCourse();
+    }
+  }, [props.route?.params?.reloadOfflineCourse])
+
+  useEffect(() => {
     fetchCourse();
   }, []);
 
@@ -82,6 +88,7 @@ const OfflineCourseDetailsScreen = props => {
       props.navigation.navigate(ROUTE_NAMES.operation, {
         operation: data,
         type: TYPE_SUBCRIBES.COURSE_SUBCRIBE,
+        previousScreen: ROUTE_NAMES.offlineCourseDetailsScreen,
       });
     } else {
       props.navigation.navigate(ROUTE_NAMES.login);
