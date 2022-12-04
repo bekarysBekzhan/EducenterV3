@@ -44,6 +44,8 @@ const MyCourseDetailScreen = props => {
   });
 
   useEffect(() => {
+    const state = props.navigation.getState();
+    console.log("state",state);
     fetchCourse();
   }, []);
 

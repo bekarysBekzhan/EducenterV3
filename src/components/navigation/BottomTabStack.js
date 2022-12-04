@@ -37,6 +37,9 @@ const BottomTab = props => {
       icon: coursesTabIcon,
       label: strings.Курсы,
       component: Courses,
+      options: {
+        unmountOnBlur: true
+      }
     },
     {
       name: ROUTE_NAMES.testsStack,
@@ -107,8 +110,9 @@ const BottomTab = props => {
             component={route.component}
             key={index}
             options={{
+              ...route?.options,
               tabBarIcon: ({focused}) => route.icon(focused, settings?.color_app),
-              tabBarLabel: route.label,
+              tabBarLabel: route.label
             }}
           />
         );

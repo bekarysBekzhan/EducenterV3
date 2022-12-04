@@ -73,6 +73,7 @@ const CourseDetailScreen = props => {
         props.navigation.navigate(ROUTE_NAMES.operation, {
           operation: data,
           type: TYPE_SUBCRIBES.COURSE_SUBCRIBE,
+          previousScreen: ROUTE_NAMES.courseDetail
         });
       }
     } else {

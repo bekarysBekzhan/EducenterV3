@@ -31,6 +31,7 @@ import PacketItem from '../../components/item/PacketItem';
 import SearchItem from '../../components/item/SearchItem';
 import {strings} from '../../localization';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
+import { TabActions } from '@react-navigation/native';
 
 const {width} = Dimensions.get('screen');
 
@@ -73,11 +74,19 @@ const OperationScreen = ({navigation, route}) => {
           text: 'OK',
           onPress: () => {
             let params = {};
+            let nextScreen;
             if (previousScreen === ROUTE_NAMES.taskDetail) {
               params.reloadTask = true;
               params.id = operation?.id;
+              nextScreen = previousScreen;
+            } else if (previousScreen === ROUTE_NAMES.courseDetail) {
+              params.courseID = operation?.id;
+              nextScreen = ROUTE_NAMES.myCourseDetail;
+              navigation.popToTop();
+              const jumpToAction = TabActions.jumpTo(ROUTE_NAMES.myCoursesStack);
+              navigation.dispatch(jumpToAction);
             }
-            navigation.navigate(previousScreen, params);
+            navigation.navigate(nextScreen, params);
           },
         },
       ]);
