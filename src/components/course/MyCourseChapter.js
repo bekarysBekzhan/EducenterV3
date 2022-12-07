@@ -73,8 +73,8 @@ const MyCourseChapter = ({
             <View style={styles.courseStatus}>
               {renderProgressBar(percent)}
               <RowView style={{ justifyContent: "space-between" }}>
-                <Text style={styles.counts}>{wordLocalization(strings[':num из :count'], { num: passedLessonsCount, count: totalLessonsCount})}</Text>
-                <Text style={styles.counts}>{Math.round(percent)}%</Text>
+                <Text style={styles.counts}>{wordLocalization(strings[':num из :count'], { num: (typeof(passedLessonsCount) == 'undefined' ? 0 : passedLessonsCount), count: totalLessonsCount})}</Text>
+                <Text style={styles.counts}>{isNaN(percent) ? 0 :  Math.round(percent)}%</Text>
               </RowView>
             </View>
           </View>

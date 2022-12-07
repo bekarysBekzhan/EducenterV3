@@ -156,6 +156,7 @@ const MyCourseDetailScreen = props => {
     }
 
     return (
+      typeof(passedLessonCount(courseID, data)) == 'undefined' ? null :
       <TransactionButton
         text={strings['Продолжить урок']}
         onPress={() =>
