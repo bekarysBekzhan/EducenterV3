@@ -150,4 +150,4 @@ export const SHOW_TYPE = {
   result: 'result',
 };
 
-export const N_STATUS = '1';
+export const N_STATUS = '2';
