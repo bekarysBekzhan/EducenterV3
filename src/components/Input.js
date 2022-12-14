@@ -10,7 +10,7 @@ const Input = ({
   placeholder = '',
   _focus = false,
   mask,
-  keyboardType = 'phone-pad',
+  keyboardType = 'default',
   right,
   value = '',
   onLayout = () => undefined,
@@ -46,6 +46,7 @@ const Input = ({
           value={value}
           onLayout={onLayout}
           onChange={onChange}
+          keyboardType={keyboardType}
           onChangeText={onChangeText}
           onContentSizeChange={onContentSizeChange}
           autoFocus={focus}

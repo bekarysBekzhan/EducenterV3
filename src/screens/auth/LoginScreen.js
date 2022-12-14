@@ -21,6 +21,7 @@ import {ROUTE_NAMES} from '../../components/navigation/routes';
 import {useSettings} from '../../components/context/Provider';
 import {API_V2} from '../../services/axios';
 import {firebaseService} from '../../services/FirebaseService';
+import {HideIcon, ShowIcon} from '../../assets/icons';
 
 const LoginScreen = ({navigation}) => {
   const {setIsAuth, settings, nstatus} = useSettings();
@@ -28,6 +29,7 @@ const LoginScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
     email: '',
     password: '',
+    hidePassword: true,
   });
 
   const [fetchLogin, isLoading] = useFetching(async params => {
@@ -73,6 +75,9 @@ const LoginScreen = ({navigation}) => {
     navigation.navigate(ROUTE_NAMES.register);
   };
 
+  const onToggleSwitch = () =>
+    setDataSource(prev => ({...prev, hidePassword: !prev.hidePassword}));
+
   const renderLogin = () => {
     if (settings?.auth_type === AUTH_TYPE.email) {
       return (
@@ -81,6 +86,7 @@ const LoginScreen = ({navigation}) => {
           placeholder={strings.Email}
           onChangeText={onChangeEmailOrPhone}
           value={dataSource?.email}
+          keyboardType={'email-address'}
           autoCapitalize="none"
           editable={!isLoading}
         />
@@ -91,8 +97,8 @@ const LoginScreen = ({navigation}) => {
           extraStyle={styles.input}
           placeholder={strings['Номер телефона']}
           onChangeText={onChangeEmailOrPhone}
-          value={dataSource?.email}
           editable={!isLoading}
+          keyboardType={'phone-pad'}
           mask={'+9 (999) 999-99-99'}
         />
       );
@@ -123,7 +129,9 @@ const LoginScreen = ({navigation}) => {
         placeholder={strings.Пароль}
         onChangeText={onChangePassword}
         value={dataSource?.password}
-        secureTextEntry
+        secureTextEntry={dataSource?.hidePassword}
+        right={dataSource?.hidePassword ? <HideIcon /> : <ShowIcon />}
+        onPressRightIcon={onToggleSwitch}
         editable={!isLoading}
       />
       <SimpleButton

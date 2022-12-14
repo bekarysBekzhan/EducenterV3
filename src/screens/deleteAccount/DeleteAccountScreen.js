@@ -48,6 +48,7 @@ const DeleteAccountScreen = ({navigation}) => {
       <Input
         onChangeText={word => setWord(word)}
         value={word}
+        secureTextEntry
         placeholder={strings['Пароль']}
         extraStyle={{marginHorizontal: 16, marginVertical: 13}}></Input>
       <SimpleButton
