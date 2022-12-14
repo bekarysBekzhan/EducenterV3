@@ -22,6 +22,7 @@ import {useSettings} from '../../components/context/Provider';
 import {API_V2} from '../../services/axios';
 import {firebaseService} from '../../services/FirebaseService';
 import {HideIcon, ShowIcon} from '../../assets/icons';
+import {useToggle} from '../../hooks/useToggle';
 
 const LoginScreen = ({navigation}) => {
   const {setIsAuth, settings, nstatus} = useSettings();
@@ -29,8 +30,9 @@ const LoginScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
     email: '',
     password: '',
-    hidePassword: true,
   });
+
+  const [togglePassword, setTogglePassword] = useToggle(true);
 
   const [fetchLogin, isLoading] = useFetching(async params => {
     const response = await AuthService.fetchLogin(params);
@@ -74,9 +76,6 @@ const LoginScreen = ({navigation}) => {
   const onNavigationRegister = () => {
     navigation.navigate(ROUTE_NAMES.register);
   };
-
-  const onToggleSwitch = () =>
-    setDataSource(prev => ({...prev, hidePassword: !prev.hidePassword}));
 
   const renderLogin = () => {
     if (settings?.auth_type === AUTH_TYPE.email) {
@@ -129,9 +128,9 @@ const LoginScreen = ({navigation}) => {
         placeholder={strings.Пароль}
         onChangeText={onChangePassword}
         value={dataSource?.password}
-        secureTextEntry={dataSource?.hidePassword}
-        right={dataSource?.hidePassword ? <HideIcon /> : <ShowIcon />}
-        onPressRightIcon={onToggleSwitch}
+        secureTextEntry={togglePassword}
+        right={togglePassword ? <HideIcon /> : <ShowIcon />}
+        onPressRightIcon={setTogglePassword}
         editable={!isLoading}
       />
       <SimpleButton

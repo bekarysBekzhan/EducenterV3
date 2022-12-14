@@ -21,6 +21,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import RowView from '../../components/view/RowView';
 import {firebaseService} from '../../services/FirebaseService';
 import {check, HideIcon, ShowIcon} from '../../assets/icons';
+import {useToggle} from '../../hooks/useToggle';
 
 const RegisterScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -28,9 +29,10 @@ const RegisterScreen = ({navigation}) => {
     email: '',
     phone: '',
     password: '',
-    hidePassword: true,
-    checkMark: false,
   });
+
+  const [togglePassword, setTogglePassword] = useToggle(true);
+  const [toggleCheckMark, setToggleCheckMark] = useToggle(true);
 
   const [country, setCountry] = useState({
     countryCode: 'KZ',
@@ -99,12 +101,6 @@ const RegisterScreen = ({navigation}) => {
     fetchRegister(params);
   };
 
-  const onToggleSwitchPassword = () =>
-    setDataSource(prev => ({...prev, hidePassword: !prev.hidePassword}));
-
-  const onToggleSwitchChechMark = () =>
-    setDataSource(prev => ({...prev, checkMark: !prev.checkMark}));
-
   const licenseAgreement = () => {
     navigation.navigate(ROUTE_NAMES.privacyPolicy, {id: 3});
   };
@@ -163,16 +159,14 @@ const RegisterScreen = ({navigation}) => {
         onChangeText={setPassword}
         value={dataSource?.password}
         extraStyle={styles.input}
-        secureTextEntry={dataSource?.hidePassword}
-        right={dataSource?.hidePassword ? <HideIcon /> : <ShowIcon />}
-        onPressRightIcon={onToggleSwitchPassword}
+        secureTextEntry={togglePassword}
+        right={togglePassword ? <HideIcon /> : <ShowIcon />}
+        onPressRightIcon={setTogglePassword}
         editable={!isLoading}
       />
       <View style={styles.rowView}>
-        <TouchableOpacity
-          style={styles.square}
-          onPress={onToggleSwitchChechMark}>
-          {dataSource.checkMark ? check(1.5, APP_COLORS.primary) : null}
+        <TouchableOpacity style={styles.square} onPress={setToggleCheckMark}>
+          {toggleCheckMark ? check(1.5, APP_COLORS.primary) : null}
         </TouchableOpacity>
         <Text>{strings['Я принимаю']}</Text>
         <Text
@@ -185,7 +179,7 @@ const RegisterScreen = ({navigation}) => {
         text={strings.Зарегистрироваться}
         style={styles.button}
         loading={isLoading}
-        onPress={dataSource.checkMark ? onSignUp : null}
+        onPress={toggleCheckMark ? onSignUp : null}
       />
     </UniversalView>
   );
