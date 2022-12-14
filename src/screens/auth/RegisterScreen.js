@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
@@ -8,13 +8,19 @@ import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
 import {getString, storeString} from '../../storage/AsyncStorage';
-import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constans/constants';
+import {
+  APP_COLORS,
+  N_STATUS,
+  REQUEST_HEADERS,
+  STORAGE,
+} from '../../constans/constants';
 import {API_V2} from '../../services/axios';
 import {useSettings} from '../../components/context/Provider';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import CountryPicker from 'react-native-country-picker-modal';
 import RowView from '../../components/view/RowView';
 import {firebaseService} from '../../services/FirebaseService';
+import {check, HideIcon, ShowIcon} from '../../assets/icons';
 
 const RegisterScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -22,6 +28,8 @@ const RegisterScreen = ({navigation}) => {
     email: '',
     phone: '',
     password: '',
+    hidePassword: true,
+    checkMark: false,
   });
 
   const [country, setCountry] = useState({
@@ -38,6 +46,10 @@ const RegisterScreen = ({navigation}) => {
 
   const [fetchRegister, isLoading, error] = useFetching(async params => {
     const response = await AuthService.fetchRegister(params);
+    if (response?.data?.errors) {
+      Alert.alert(strings['Внимание!'], response?.data?.errors?.user_exist);
+      return;
+    }
     const token = response.data?.data?.api_token;
     await storeString(STORAGE.userToken, token);
     API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = 'Bearer ' + token;
@@ -87,6 +99,16 @@ const RegisterScreen = ({navigation}) => {
     fetchRegister(params);
   };
 
+  const onToggleSwitchPassword = () =>
+    setDataSource(prev => ({...prev, hidePassword: !prev.hidePassword}));
+
+  const onToggleSwitchChechMark = () =>
+    setDataSource(prev => ({...prev, checkMark: !prev.checkMark}));
+
+  const licenseAgreement = () => {
+    navigation.navigate(ROUTE_NAMES.privacyPolicy, {id: 3});
+  };
+
   return (
     <UniversalView haveScroll contentContainerStyle={styles.view}>
       <AuthDetailView
@@ -120,6 +142,7 @@ const RegisterScreen = ({navigation}) => {
         <Input
           placeholder={strings['Номер телефона']}
           extraStyle={styles.input}
+          keyboardType={'phone-pad'}
           mask={'(999) 999 99 99'}
           editable={!isLoading}
           value={dataSource?.phone}
@@ -130,6 +153,7 @@ const RegisterScreen = ({navigation}) => {
         placeholder={'E-mail'}
         onChangeText={setEmail}
         value={dataSource?.email}
+        keyboardType={'email-address'}
         extraStyle={styles.input}
         autoCapitalize={'none'}
         editable={!isLoading}
@@ -139,14 +163,29 @@ const RegisterScreen = ({navigation}) => {
         onChangeText={setPassword}
         value={dataSource?.password}
         extraStyle={styles.input}
-        secureTextEntry
+        secureTextEntry={dataSource?.hidePassword}
+        right={dataSource?.hidePassword ? <HideIcon /> : <ShowIcon />}
+        onPressRightIcon={onToggleSwitchPassword}
         editable={!isLoading}
       />
+      <View style={styles.rowView}>
+        <TouchableOpacity
+          style={styles.square}
+          onPress={onToggleSwitchChechMark}>
+          {dataSource.checkMark ? check(1.5, APP_COLORS.primary) : null}
+        </TouchableOpacity>
+        <Text>{strings['Я принимаю']}</Text>
+        <Text
+          style={styles.licenseAgreementTextStyle}
+          onPress={licenseAgreement}>
+          {strings['условия соглашения']}
+        </Text>
+      </View>
       <SimpleButton
         text={strings.Зарегистрироваться}
         style={styles.button}
         loading={isLoading}
-        onPress={onSignUp}
+        onPress={dataSource.checkMark ? onSignUp : null}
       />
     </UniversalView>
   );
@@ -171,5 +210,24 @@ const styles = StyleSheet.create({
   phone: {
     flex: 1,
     alignItems: 'center',
+  },
+  square: {
+    width: 24,
+    height: 24,
+    borderColor: APP_COLORS.primary,
+    borderWidth: 1.5,
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 8,
+  },
+  rowView: {
+    marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  licenseAgreementTextStyle: {
+    textDecorationLine: 'underline',
+    color: APP_COLORS.primary,
   },
 });
