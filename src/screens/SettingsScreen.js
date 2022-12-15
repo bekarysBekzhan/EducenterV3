@@ -23,6 +23,7 @@ import {useSettings} from '../components/context/Provider';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {CommonActions} from '@react-navigation/native';
 import SimpleButton from '../components/button/SimpleButton';
+import { useToggle } from '../hooks/useToggle';
 
 const SettingsScreen = ({navigation, route}) => {
   const userEmail = route?.params?.userEmail;
@@ -31,11 +32,11 @@ const SettingsScreen = ({navigation, route}) => {
   const [dataSource, setDataSource] = useState({
     refreshing: false,
     list: [],
-    isPushAction: notification_push_enable,
     isReminderCourse: false,
     currentKey: strings.getLanguage(),
   });
 
+  const [isTogglePushAction, setIsTogglePushAction] = useToggle(notification_push_enable)
   const {setIsAuth, settings, nstatus} = useSettings();
 
   const [fetchSettings, isLoading, error] = useFetching(async () => {
@@ -52,7 +53,7 @@ const SettingsScreen = ({navigation, route}) => {
 
   const [fetchSettingsPush] = useFetching(async () => {
     let params = {
-      notification_push_enable: Number(dataSource?.isPushAction),
+      notification_push_enable: Number(isTogglePushAction),
       email: userEmail,
     };
     const res = await ProfileService.fetchProfileUpdate(params);
@@ -66,15 +67,15 @@ const SettingsScreen = ({navigation, route}) => {
     fetchSettings();
     (async () => {
       let value = await getObject(STORAGE.pushEnabled);
-      setDataSource(prev => ({...prev, isPushAction: value}));
+      setDataSource(prev => ({...prev, isTogglePushAction: value}));
     })();
   }, []);
 
   useEffect(() => {
     fetchSettingsPush();
     (async () =>
-      await storeObject(STORAGE.pushEnabled, dataSource?.isPushAction))();
-  }, [dataSource?.isPushAction]);
+      await storeObject(STORAGE.pushEnabled, isTogglePushAction))();
+  }, [isTogglePushAction]);
 
   const onExit = async () => {
     await removeStorage(STORAGE.userToken);
@@ -142,10 +143,8 @@ const SettingsScreen = ({navigation, route}) => {
       {nstatus === N_STATUS ? null : (
         <SettingItem
           text={strings['Уведомления о действиях']}
-          value={dataSource?.isPushAction}
-          onValueChange={isPushAction =>
-            setDataSource(prev => ({...prev, isPushAction}))
-          }
+          value={isTogglePushAction}
+          onValueChange={setIsTogglePushAction}
         />
       )}
       <SimpleButton
