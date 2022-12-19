@@ -18,9 +18,9 @@ const ChangePassword = () => {
     confirm_password: '',
   });
 
-  const [toggleOldPassword, setToggleOldPassword] = useToggle(true);
-  const [toggleNewPassword, setToggleNewPassword] = useToggle(true);
-  const [toggleCfmPassword, setToggleCfmPassword] = useToggle(true);
+  const [toggleOldPassword, setToggleOldPassword] = useToggle(false);
+  const [toggleNewPassword, setToggleNewPassword] = useToggle(false);
+  const [toggleCfmPassword, setToggleCfmPassword] = useToggle(false);
 
   const [fetchChangePassword, isLoading, error] = useFetching(async () => {
     if (
@@ -57,7 +57,7 @@ const ChangePassword = () => {
         placeholder={strings['Старый пароль']}
         right={toggleOldPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
-        secureTextEntry={toggleOldPassword}
+        secureTextEntry={!toggleOldPassword}
         onPressRightIcon={setToggleOldPassword}
         onChangeText={old_password =>
           setDataSource(prev => ({...prev, old_password}))
@@ -69,7 +69,7 @@ const ChangePassword = () => {
         placeholder={strings['Новый пароль']}
         right={toggleNewPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
-        secureTextEntry={toggleNewPassword}
+        secureTextEntry={!toggleNewPassword}
         onPressRightIcon={setToggleNewPassword}
         onChangeText={password => setDataSource(prev => ({...prev, password}))}
         value={dataSource?.password}
@@ -79,7 +79,7 @@ const ChangePassword = () => {
         placeholder={strings['Повторите пароль']}
         right={toggleCfmPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
-        secureTextEntry={toggleCfmPassword}
+        secureTextEntry={!toggleCfmPassword}
         onPressRightIcon={setToggleCfmPassword}
         onChangeText={confirm_password =>
           setDataSource(prev => ({...prev, confirm_password}))
