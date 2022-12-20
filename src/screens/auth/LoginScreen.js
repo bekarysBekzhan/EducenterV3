@@ -85,7 +85,6 @@ const LoginScreen = ({navigation}) => {
           placeholder={strings.Email}
           onChangeText={onChangeEmailOrPhone}
           value={dataSource?.email}
-          keyboardType={'email-address'}
           autoCapitalize="none"
           editable={!isLoading}
         />
