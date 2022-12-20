@@ -27,6 +27,26 @@ const FilterScreen = ({navigation, route}) => {
     route.params?.category?.name,
   );
 
+  const [currentKey, setCurrentKey] = useState(sort);
+
+  const selectKeyPressed = key => {
+    console.log('setSort : ', setSort);
+    setCurrentKey(key);
+    setSort(key);
+  };
+
+  const clearFilterTapped = () => {
+    setCurrentKey(null);
+    setSort(null);
+    setCategory(null);
+    setSelectedCategory(null);
+  };
+
+  const applyFilterTapped = async () => {
+    // close();
+    return;
+  };
+
   const renderFilter = ({item, index}) => {
     return (
       <NavButtonRow
@@ -45,15 +65,33 @@ const FilterScreen = ({navigation, route}) => {
 
   const renderFooter = () => {
     return (
-      <Footer
-        filters={filters}
-        sort={sort}
-        selectCategory={selectedCategory}
-        setSort={setSort}
-        setCategory={setCategory}
-        setSelectedCategory={setSelectedCategory}
-        close={route.params.close}
-      />
+      <View>
+        <SectionView label={strings.Сортировка} />
+        {convertToIterable(filters.sorts).map((sort, index) => (
+          <SelectOption
+            value={sort.key}
+            _key={sort.key}
+            label={sort.value}
+            key={index}
+            currentKey={currentKey}
+            selectKeyPressed={selectKeyPressed}
+          />
+        ))}
+        {selectedCategory || currentKey ? (
+          <View>
+            <SimpleButton
+              text={strings.Применить}
+              onPress={applyFilterTapped}
+              style={styles.button}
+            />
+            <SimpleButton
+              text={strings.Сбросить}
+              onPress={clearFilterTapped}
+              style={styles.button}
+            />
+          </View>
+        ) : null}
+      </View>
     );
   };
 
@@ -78,64 +116,6 @@ const FilterScreen = ({navigation, route}) => {
   );
 };
 
-const Footer = ({
-  filters,
-  sort,
-  selectedCategory,
-  setSort,
-  setCategory,
-  setSelectedCategory,
-  close,
-}) => {
-  const [currentKey, setCurrentKey] = useState(sort);
-
-  const selectKeyPressed = key => {
-    console.log('setSort : ', setSort);
-    setCurrentKey(key);
-    setSort(key);
-  };
-
-  const clearFilterTapped = () => {
-    setCurrentKey(null);
-    setSort(null);
-    setCategory(null);
-    setSelectedCategory(null);
-  };
-
-  const applyFilterTapped = async () => {
-    close();
-  };
-
-  return (
-    <View>
-      <SectionView label={strings.Сортировка} />
-      {convertToIterable(filters.sorts).map((sort, index) => (
-        <SelectOption
-          value={sort.key}
-          _key={sort.key}
-          label={sort.value}
-          key={index}
-          currentKey={currentKey}
-          selectKeyPressed={selectKeyPressed}
-        />
-      ))}
-      {selectedCategory || currentKey ? (
-        <SimpleButton
-          text={strings.Применить}
-          onPress={applyFilterTapped}
-          style={styles.button}
-        />
-      ) : (
-        <SimpleButton
-          text={strings.Отменить}
-          onPress={clearFilterTapped}
-          style={styles.button}
-        />
-      )}
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -143,7 +123,7 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 16,
-    marginTop: 30,
+    marginBottom: 0,
   },
   navButton: {
     marginVertical: 16,

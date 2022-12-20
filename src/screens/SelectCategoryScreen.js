@@ -1,23 +1,22 @@
-import React from 'react'
-import UniversalView from '../components/view/UniversalView'
-import { useState } from 'react'
-import SelectOption from '../components/SelectOption'
-import { FlatList } from 'react-native'
+import React from 'react';
+import UniversalView from '../components/view/UniversalView';
+import {useState} from 'react';
+import SelectOption from '../components/SelectOption';
+import {FlatList} from 'react-native';
 
-const SelectCategoryScreen = ({ navigation, route }) => {
+const SelectCategoryScreen = ({navigation, route}) => {
+  const [currentKey, setCurrentKey] = useState(route.params.category);
 
-  const [currentKey, setCurrentKey] = useState(route.params.category)
-
-  const selectKeyPressed = (value) => {
-    if(currentKey !== value) {
-      setCurrentKey(value)
-      route.params.setCategory(value)
-      route.params.setSelectedCategory(value.name)
+  const selectKeyPressed = value => {
+    if (currentKey !== value) {
+      setCurrentKey(value);
+      route.params.setCategory(value);
+      route.params.setSelectedCategory(value.name);
     }
-  }
+  };
 
-  const renderItem = ({ item, index }) => {
-    return(
+  const renderItem = ({item, index}) => {
+    return (
       <SelectOption
         value={item}
         _key={item?.id}
@@ -25,8 +24,8 @@ const SelectCategoryScreen = ({ navigation, route }) => {
         currentKey={currentKey}
         selectKeyPressed={selectKeyPressed}
       />
-    )
-  }
+    );
+  };
 
   return (
     <UniversalView>
@@ -36,7 +35,7 @@ const SelectCategoryScreen = ({ navigation, route }) => {
         keyExtractor={(_, index) => index.toString()}
       />
     </UniversalView>
-  )
-}
+  );
+};
 
-export default SelectCategoryScreen
+export default SelectCategoryScreen;
