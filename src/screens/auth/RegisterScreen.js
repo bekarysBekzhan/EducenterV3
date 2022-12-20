@@ -32,7 +32,7 @@ const RegisterScreen = ({navigation}) => {
   });
 
   const [togglePassword, setTogglePassword] = useToggle(true);
-  const [toggleCheckMark, setToggleCheckMark] = useToggle(true);
+  const [toggleCheckMark, setToggleCheckMark] = useToggle(false);
 
   const [country, setCountry] = useState({
     countryCode: 'KZ',
@@ -149,7 +149,6 @@ const RegisterScreen = ({navigation}) => {
         placeholder={'E-mail'}
         onChangeText={setEmail}
         value={dataSource?.email}
-        keyboardType={'email-address'}
         extraStyle={styles.input}
         autoCapitalize={'none'}
         editable={!isLoading}
