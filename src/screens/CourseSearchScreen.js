@@ -219,9 +219,11 @@ const CourseSearchScreen = props => {
             placeholder={strings['Поиск курсов']}
             left={<View style={styles.searchIcon}>{search('#000')}</View>}
             right={
-              <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
-                {clear()}
-              </TouchableOpacity>
+              value ? (
+                <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
+                  {clear()}
+                </TouchableOpacity>
+              ) : null
             }
             value={value}
             onChangeText={onChangeText}

@@ -15,12 +15,36 @@ const FilterRatingScreen = ({navigation, route}) => {
   const setCategory = route.params?.setCategory;
   const setTest = route?.params?.setTest;
   const filters = route?.params?.filters;
+  const close = route?.params?.close;
+
   const [selectedCategory, setSelectedCategory] = useState(
     route.params?.category?.name,
   );
   const [selectedTest, setSelectedTest] = useState(route?.params?.test?.title);
 
   const keyExtractor = useCallback((_, index) => index, []);
+
+  const [currentKey, setCurrentKey] = useState(sort);
+
+  const selectKeyPressed = key => {
+    console.log('setSort : ', setSort);
+    setCurrentKey(key);
+    setSort(key);
+  };
+
+  const clearFilterTapped = () => {
+    setCurrentKey(null);
+    setSort(null);
+    setCategory(null);
+    setTest(null);
+    setSelectedCategory(null);
+    setSelectedTest(null);
+  };
+
+  const applyFilterTapped = async () => {
+    console.log('close stack');
+    close();
+  };
 
   const renderFilter = ({item, index}) => {
     return (
@@ -43,19 +67,37 @@ const FilterRatingScreen = ({navigation, route}) => {
     );
   };
 
-  const renderFooter = () => (
-    <Footer
-      filters={filters}
-      sort={sort}
-      selectCategory={selectedCategory}
-      setSort={setSort}
-      setCategory={setCategory}
-      setTest={setTest}
-      setSelectedCategory={setSelectedCategory}
-      setSelectedTest={setSelectedTest}
-      close={route.params.close}
-    />
-  );
+  const renderFooter = () => {
+    return (
+      <View>
+        <SectionView label={strings.Сортировка} />
+        {convertToIterable(filters?.sorts).map((sort, index) => (
+          <SelectOption
+            value={sort.key}
+            _key={sort.key}
+            label={sort.value}
+            key={index}
+            currentKey={currentKey}
+            selectKeyPressed={selectKeyPressed}
+          />
+        ))}
+        {selectedCategory || currentKey || selectedTest ? (
+          <View>
+            <SimpleButton
+              text={strings.Применить}
+              onPress={applyFilterTapped}
+              style={styles.button}
+            />
+            <SimpleButton
+              text={strings.Сбросить}
+              onPress={clearFilterTapped}
+              style={styles.button}
+            />
+          </View>
+        ) : null}
+      </View>
+    );
+  };
 
   return (
     <BottomSheetView style={styles.container}>
@@ -80,68 +122,6 @@ const FilterRatingScreen = ({navigation, route}) => {
   );
 };
 
-const Footer = ({
-  filters,
-  sort,
-  selectedCategory,
-  setSort,
-  setCategory,
-  setTest,
-  setSelectedCategory,
-  setSelectedTest,
-  close,
-}) => {
-  const [currentKey, setCurrentKey] = useState(sort);
-
-  const selectKeyPressed = key => {
-    console.log('setSort : ', setSort);
-    setCurrentKey(key);
-    setSort(key);
-  };
-
-  const clearFilterTapped = () => {
-    setCurrentKey(null);
-    setSort(null);
-    setCategory(null);
-    setTest(null);
-    setSelectedCategory(null);
-    setSelectedTest(null);
-  };
-
-  const applyFilterTapped = async () => {
-    close();
-  };
-
-  return (
-    <View>
-      <SectionView label={strings.Сортировка} />
-      {convertToIterable(filters?.sorts).map((sort, index) => (
-        <SelectOption
-          value={sort.key}
-          _key={sort.key}
-          label={sort.value}
-          key={index}
-          currentKey={currentKey}
-          selectKeyPressed={selectKeyPressed}
-        />
-      ))}
-      {selectedCategory || currentKey ? (
-        <SimpleButton
-          text={strings.Применить}
-          onPress={applyFilterTapped}
-          style={styles.button}
-        />
-      ) : (
-        <SimpleButton
-          text={strings.Отменить}
-          onPress={clearFilterTapped}
-          style={styles.button}
-        />
-      )}
-    </View>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -149,7 +129,7 @@ const styles = StyleSheet.create({
   },
   button: {
     margin: 16,
-    marginTop: 30,
+    marginBottom: 0,
   },
   navButton: {
     marginVertical: 16,
