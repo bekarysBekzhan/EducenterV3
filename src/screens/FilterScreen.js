@@ -23,9 +23,12 @@ const FilterScreen = ({navigation, route}) => {
   const setSort = route.params?.setSort;
   const setCategory = route.params?.setCategory;
   const filters = route?.params?.filters;
+  const close = route?.params?.close;
   const [selectedCategory, setSelectedCategory] = useState(
     route.params?.category?.name,
   );
+
+  console.log('filters', filters);
 
   const [currentKey, setCurrentKey] = useState(sort);
 
@@ -42,9 +45,9 @@ const FilterScreen = ({navigation, route}) => {
     setSelectedCategory(null);
   };
 
-  const applyFilterTapped = async () => {
-    // close();
-    return;
+  const applyFilterTapped = () => {
+    console.log('close stack');
+    close();
   };
 
   const renderFilter = ({item, index}) => {
