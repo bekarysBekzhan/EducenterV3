@@ -220,10 +220,10 @@ const OfflineCourseSearchScreen = props => {
             _focus={focus}
             placeholder={strings['Поиск курсов']}
             left={<View style={styles.searchIcon}>{search('#000')}</View>}
-            right={
+            right={ value ? 
               <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
                 {clear()}
-              </TouchableOpacity>
+              </TouchableOpacity> : null
             }
             value={value}
             onChangeText={onChangeText}

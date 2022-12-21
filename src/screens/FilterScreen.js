@@ -28,8 +28,6 @@ const FilterScreen = ({navigation, route}) => {
     route.params?.category?.name,
   );
 
-  console.log('filters', filters);
-
   const [currentKey, setCurrentKey] = useState(sort);
 
   const selectKeyPressed = key => {
