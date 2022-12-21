@@ -30,6 +30,9 @@ const ChangePassword = () => {
     ) {
       Alert.alert(strings['Внимание!'], strings['Заполните все поля']);
       return;
+    } else if (dataSource.password.length < 8 && dataSource?.confirm_password.length < 8) {
+      Alert.alert(strings['Внимание!'], strings['Новый пароль не может быть менее 8 символов']);
+      return;
     } else if (dataSource?.password != dataSource?.confirm_password) {
       Alert.alert(strings['Внимание!'], strings['Пароли не совпадают']);
       return;
