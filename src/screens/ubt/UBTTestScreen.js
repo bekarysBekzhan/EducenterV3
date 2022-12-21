@@ -225,6 +225,7 @@ const UBTTestScreen = props => {
       />
       <SubjectsModal
         visible={visible}
+        setVisible={visible => setVisible(visible)}
         subjects={getSubjects()}
         onSelect={onSelectSubject}
       />
@@ -265,10 +266,10 @@ const TestTimer = ({finishingTime, finishTest, totalSeconds}) => {
 
 const SubjectsModal = ({
   visible,
+  setVisible = () => undefined,
   subjects = [],
   onSelect = () => undefined,
 }) => {
-  console.log('subjects : ', subjects);
 
   const headerHeight = useHeaderHeight();
 
@@ -276,12 +277,10 @@ const SubjectsModal = ({
     onSelect(s?.entity?.name, index);
   };
 
-  const onBackDrop = () => {};
-
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
-      <SafeAreaView style={styles.modal}>
-        <View style={{height: headerHeight}} />
+      <View style={styles.modal}>
+        <View style={{height: 86}}/>
         {subjects.map((s, i) => (
           <TouchableOpacity
             key={i}
@@ -291,8 +290,8 @@ const SubjectsModal = ({
             <Text style={styles.subjectText}>{s?.entity?.name}</Text>
           </TouchableOpacity>
         ))}
-        <View style={styles.backDrop} onPress={onBackDrop} />
-      </SafeAreaView>
+        <TouchableOpacity style={styles.backDrop} onPress={() => setVisible(false)} />
+      </View>
     </Modal>
   );
 };
