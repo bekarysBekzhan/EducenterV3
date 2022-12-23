@@ -5,7 +5,7 @@ import HtmlView from '../../components/HtmlView';
 import {useFetching} from '../../hooks/useFetching';
 import {PolicyService} from '../../services/API';
 import {strings} from '../../localization';
-import { APP_COLORS } from '../../constans/constants';
+import {APP_COLORS} from '../../constans/constants';
 
 const PolicyScreen = ({navigation, route}) => {
   const id = route?.params?.id;
@@ -38,8 +38,15 @@ const PolicyScreen = ({navigation, route}) => {
     <UniversalView
       haveScroll
       haveLoader={loading}
-      contentContainerStyle={styles.content}>
-      <HtmlView html={dataSource?.data?.description} tagsStyles={{ p: { color: APP_COLORS.font }, span: { color: APP_COLORS.font } }}/>
+      contentContainerStyle={styles.content}
+      overScrollMode={'never'}>
+      <HtmlView
+        html={dataSource?.data?.description}
+        tagsStyles={{
+          p: {color: APP_COLORS.font},
+          span: {color: APP_COLORS.font},
+        }}
+      />
     </UniversalView>
   );
 };

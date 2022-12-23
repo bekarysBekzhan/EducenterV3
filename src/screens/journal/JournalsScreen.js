@@ -90,11 +90,14 @@ const JournalsScreen = ({navigation}) => {
 
   const onNav = item => {
     if (isAuth) {
-      navigation.navigate(ROUTE_NAMES.operation, {
-        operation: item,
-        type: TYPE_SUBCRIBES.JOURNAL_SUBCRIBE,
-        previousScreen: ROUTE_NAMES.journalNavigator
-      });
+      item?.has_subscribed
+        ? navigation.navigate(ROUTE_NAMES.readJournal, {readJournal: item})
+        : navigation.navigate(ROUTE_NAMES.operation, {
+            operation: item,
+            type: TYPE_SUBCRIBES.JOURNAL_SUBCRIBE,
+            previousScreen: ROUTE_NAMES.journalNavigator,
+            onRefresh: onRefresh
+          });
     } else {
       navigation.navigate(ROUTE_NAMES.login);
     }

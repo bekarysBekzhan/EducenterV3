@@ -8,6 +8,7 @@ import {
   Platform,
   ActionSheetIOS,
   Keyboard,
+  SafeAreaView,
 } from 'react-native';
 import React, {useEffect, useLayoutEffect, useMemo} from 'react';
 import {useState} from 'react';
@@ -209,7 +210,7 @@ const ModuleTaskScreen = props => {
         name: res?.[0]?.name,
       };
 
-      console.log("file", res);
+      console.log('file', res);
 
       setAttachedFile(source);
     } catch (e) {
@@ -344,8 +345,7 @@ const ModuleTaskScreen = props => {
     recordButtonHeight.value = withSpring(recordButtonHeight.value * 1.5); // increasing record button height with spring animation
 
     try {
-
-      console.log("audio recorder", audioRecorder);
+      console.log('audio recorder', audioRecorder);
 
       const result = await audioRecorder.startRecorder(AUDIO_PATH, {
         AudioEncoderAndroid: AudioEncoderAndroidType.AAC,
@@ -469,7 +469,8 @@ const ModuleTaskScreen = props => {
           />
         </View>
       ) : null}
-      <View
+      <View style={styles.replySectionBorder} />
+      <SafeAreaView
         style={styles.replySection}
         onLayout={({
           nativeEvent: {
@@ -510,7 +511,7 @@ const ModuleTaskScreen = props => {
             </TouchableOpacity>
           </Animated.View>
         ) : null}
-      </View>
+      </SafeAreaView>
       <Overlay visible={isSending} />
     </KeyboardAvoidingView>
   );
@@ -591,10 +592,11 @@ const styles = StyleSheet.create({
   replySection: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 16,
-    paddingBottom: 32,
-    paddingTop: 8,
+    marginHorizontal: 16,
+    marginVertical: 8,
     justifyContent: 'space-between',
+  },
+  replySectionBorder: {
     borderTopWidth: 0.75,
     borderColor: APP_COLORS.border,
   },
