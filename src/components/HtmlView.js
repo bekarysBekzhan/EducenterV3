@@ -56,6 +56,7 @@ const HtmlView = ({
       },
       mediaPlaybackRequiresUserAction: false,
       allowsFullscreenVideo: true,
+      androidHardwareAccelerationDisabled: true,
     }),
     [],
   );
