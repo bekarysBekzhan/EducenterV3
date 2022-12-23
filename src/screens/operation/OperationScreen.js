@@ -38,7 +38,7 @@ const {width} = Dimensions.get('screen');
 const OperationScreen = ({navigation, route}) => {
   const {settings} = useSettings();
 
-  const {operation, type} = route.params;
+  const {operation, type, onRefresh} = route.params;
   const previousScreen = route.params?.previousScreen;
   console.log('params operation: ', operation);
 
@@ -96,6 +96,7 @@ const OperationScreen = ({navigation, route}) => {
               case ROUTE_NAMES.journalNavigator:
                 params.readJournal = operation;
                 nextScreen = ROUTE_NAMES.readJournal;
+                onRefresh()
                 break;
               case ROUTE_NAMES.offlineCourseDetailsScreen:
                 params.courseID = operation?.id;
