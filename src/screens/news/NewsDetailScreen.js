@@ -53,7 +53,7 @@ const NewsDetailScreen = ({navigation, route}) => {
     <UniversalView
       haveLoader={isLoading}
       haveScroll
-      contentContainerStyle={styles.view}>
+      contentContainerStyle={styles.view} overScrollMode={'never'}>
       <Text style={styles.title}>{dataSource?.data?.title}</Text>
       <View style={styles.date}>
         <DateFormat date={dataSource?.data?.added_at} />
