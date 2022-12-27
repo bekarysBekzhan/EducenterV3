@@ -81,19 +81,17 @@ const FilterRatingScreen = ({navigation, route}) => {
             selectKeyPressed={selectKeyPressed}
           />
         ))}
+        <SimpleButton
+          text={strings.Применить}
+          onPress={applyFilterTapped}
+          style={styles.button}
+        />
         {selectedCategory || currentKey || selectedTest ? (
-          <View>
-            <SimpleButton
-              text={strings.Применить}
-              onPress={applyFilterTapped}
-              style={styles.button}
-            />
-            <SimpleButton
-              text={strings.Сбросить}
-              onPress={clearFilterTapped}
-              style={styles.button}
-            />
-          </View>
+          <SimpleButton
+            text={strings.Сбросить}
+            onPress={clearFilterTapped}
+            style={styles.button}
+          />
         ) : null}
       </View>
     );
