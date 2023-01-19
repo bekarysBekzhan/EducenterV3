@@ -161,7 +161,7 @@ const MyTestsTab = props => {
         contentContainerStyle={styles.container}
         renderItem={renderTest}
         ListFooterComponent={renderFooter}
-        ListEmptyComponent={() => <Empty />}
+        ListEmptyComponent={<Empty />}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         onEndReached={onEndReached}

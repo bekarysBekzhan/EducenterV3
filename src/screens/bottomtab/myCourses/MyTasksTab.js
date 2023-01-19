@@ -78,12 +78,13 @@ const MyTasksTab = props => {
   if (isFetching) {
     return <LoadingScreen />;
   }
+
   return (
     <UniversalView>
       <FlatList
         data={data}
         contentContainerStyle={styles.container}
-        ListEmptyComponent={() => <Empty />}
+        ListEmptyComponent={ <Empty />}
         renderItem={renderTask}
         ListFooterComponent={renderFooter}
         keyExtractor={(_, index) => index.toString()}

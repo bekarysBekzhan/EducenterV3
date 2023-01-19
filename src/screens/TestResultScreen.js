@@ -7,6 +7,7 @@ import LoadingScreen from '../components/LoadingScreen';
 import Question from '../components/test/Question';
 import {RESULT_TYPES} from '../constans/constants';
 import {strings} from '../localization';
+import Empty from '../components/Empty';
 
 const TestResultScreen = props => {
   const id = props.route?.params?.id;
@@ -53,6 +54,7 @@ const TestResultScreen = props => {
     <UniversalView style={styles.container}>
       <FlatList
         data={data}
+        ListEmptyComponent={<Empty/>}
         style={{padding: 16}}
         renderItem={renderQuestion}
         keyExtractor={(_, index) => index.toString()}

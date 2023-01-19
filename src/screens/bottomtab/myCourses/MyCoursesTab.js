@@ -82,7 +82,7 @@ const MyCoursesTab = props => {
         data={data}
         renderItem={renderCourse}
         ListFooterComponent={renderFooter}
-        ListEmptyComponent={() => <Empty />}
+        ListEmptyComponent={<Empty />}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
