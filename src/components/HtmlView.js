@@ -57,6 +57,7 @@ const HtmlView = ({
       mediaPlaybackRequiresUserAction: false,
       allowsFullscreenVideo: true,
       androidHardwareAccelerationDisabled: true,
+      style: {opacity: 0.99, overflow: 'hidden'},
     }),
     [],
   );
