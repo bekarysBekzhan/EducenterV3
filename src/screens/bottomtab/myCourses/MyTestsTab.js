@@ -197,7 +197,9 @@ const ModuleMyTestItem = ({
   const {settings} = useSettings();
 
   const usedAttempts = () => {
-    return attemptHistory[attemptHistory?.length - 1]?.attempts;
+    const attempts = attemptHistory[attemptHistory?.length - 1]?.attempts;
+    const result = isNaN(attempts) ? 0 : attempts
+    return result
   };
 
   const getData = () => {
