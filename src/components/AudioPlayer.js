@@ -60,7 +60,7 @@ const AudioPlayer = ({
 
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
-  const progress = useProgress();
+  const progress = useProgress(20); // interval
 
   useEffect(() => {
     add();
@@ -139,7 +139,7 @@ const AudioPlayer = ({
     setPosition(progress?.position);
     setDuration(progress?.duration);
     setPlaying(false);
-  };
+};
 
   const onSlidingComplete = useCallback(async value => {
     if (State.Paused == (await TrackPlayer.getState())) {
@@ -154,9 +154,10 @@ const AudioPlayer = ({
   }, []);
 
   const audioFinished = async () => {
+    await TrackPlayer.seekTo(0)
+    await TrackPlayer.pause()
     setPlaying(false);
     setPosition(0);
-    await TrackPlayer.seekTo(0);
   };
 
   return (
@@ -169,6 +170,7 @@ const AudioPlayer = ({
           <PauseIcon size={1.2 * pauseIconSize} />
         </TouchableOpacity>
       ) : (
+        
         <TouchableOpacity
           style={[styles.play, {paddingLeft: 2}]}
           activeOpacity={0.9}

@@ -42,7 +42,7 @@ const AnswerAudio = ({
 
   const [position, setPosition] = useState(0);
   const [duration, setDuration] = useState(0);
-  const progress = useProgress();
+  const progress = useProgress(20); // interval
 
   useEffect(() => {
     add();

@@ -195,6 +195,7 @@ const LessonScreen = props => {
     props.navigation.navigate(ROUTE_NAMES.courseTask, {
       id: data?.id,
       title: data?.title,
+      fetchLesson: fetchLesson,
     });
   };
 

@@ -72,6 +72,7 @@ const CourseTaskScreen = props => {
   // props passed down from parent
   const lessonTitle = props.route?.params?.title;
   const id = props.route?.params?.id;
+  const fetchLesson = props.route?.params?.fetchLesson;
 
   const {settings} = useSettings();
   const controller = useRef(new AbortController());
@@ -107,7 +108,6 @@ const CourseTaskScreen = props => {
 
   // service for fetching task from server
   const [fetchTask, isLoading, fetchingError] = useFetching(async () => {
-
     const response = await CourseService.fetchTask(id);
 
     let exe;
@@ -130,7 +130,6 @@ const CourseTaskScreen = props => {
 
   // service for sending task results to server
   const [sendAnswer, isSending, sendingError] = useFetching(async () => {
-    
     const file = attachedFile ? attachedFile : audioObject;
 
     await CourseService.sendTaskAnswer(
@@ -151,6 +150,16 @@ const CourseTaskScreen = props => {
     props.navigation.setOptions({
       title: lessonTitle ? lessonTitle : strings.Задание,
     });
+  }, []);
+
+  useLayoutEffect(() => {
+    const unsubscribe = props.navigation.addListener('beforeRemove', () => {
+      console.log('Before remove');
+      fetchLesson();
+    });
+    return async () => {
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -212,7 +221,7 @@ const CourseTaskScreen = props => {
         name: res?.[0]?.name,
       };
 
-      console.log("file", res);
+      console.log('file', res);
 
       setAttachedFile(source);
     } catch (e) {
