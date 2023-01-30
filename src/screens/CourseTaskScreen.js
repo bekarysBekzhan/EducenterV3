@@ -8,6 +8,9 @@ import {
   Platform,
   ActionSheetIOS,
   Keyboard,
+  PermissionsAndroid,
+  Alert,
+  Linking,
 } from 'react-native';
 import React, {useEffect, useLayoutEffect, useMemo} from 'react';
 import {useState} from 'react';
@@ -15,7 +18,7 @@ import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
 import {strings} from '../localization';
-import {isValidText, setFontStyle} from '../utils/utils';
+import {isValidText, setFontStyle, wordLocalization} from '../utils/utils';
 import HtmlView from '../components/HtmlView';
 import Person from '../components/Person';
 import RowView from '../components/view/RowView';
@@ -355,6 +358,46 @@ const CourseTaskScreen = props => {
 
     recordButtonWidth.value = withSpring(recordButtonWidth.value * 1.5); // increasing record button width with spring animation
     recordButtonHeight.value = withSpring(recordButtonHeight.value * 1.5); // increasing record button height with spring animation
+
+    if (Platform.OS == 'android') {
+      const grants = await PermissionsAndroid.requestMultiple([
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      ]);
+
+      console.log('write external stroage', grants);
+
+      if (
+        grants['android.permission.RECORD_AUDIO'] ===
+        PermissionsAndroid.RESULTS.GRANTED
+      ) {
+        console.log('Permissions granted');
+      } else {
+        console.log('All required permissions not granted');
+        Alert.alert(
+          strings['Внимание!'],
+          wordLocalization(
+            strings[
+              'Чтобы записать голосовое сообщения, зайдите в настройки и найдите приложения :title затем задайте ему доступ к микрофону'
+            ],
+            {
+              title: settings.title,
+            },
+          ),
+          [
+            {
+              text: strings.Отмена,
+              onPress: () => console.log('Cancel Pressed'),
+              style: 'cancel',
+            },
+            {
+              text: strings.Настройки,
+              onPress: () => Linking.openSettings(),
+            },
+          ],
+        );
+        return;
+      }
+    }
 
     try {
       const result = await audioRecorder.startRecorder(AUDIO_PATH, {
