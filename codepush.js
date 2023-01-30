@@ -2,7 +2,7 @@ const {exec} = require('child_process');
 
 const cudePushRun = () => {
   //Educenter
-  let codePushName = ':codePushName';
+  let name = 'Educenter';
   let android = '-Android';
   let ios = '-IOS';
   let bashCommand = '';
@@ -12,13 +12,13 @@ const cudePushRun = () => {
   let chooseOS = readline.question('1. iOS\n2. Android\n3. all\n');
 
   if (chooseOS == 1) {
-    bashCommand = `appcenter codepush release-react -a Educenter/${codePushName}${ios} -d Production`;
+    bashCommand = `appcenter codepush release-react -a Educenter/${name}${ios} -d Production`;
     console.log(bashCommand);
   } else if (chooseOS == 2) {
-    bashCommand = `appcenter codepush release-react -a Educenter/${codePushName}${android} -d Production`;
+    bashCommand = `appcenter codepush release-react -a Educenter/${name}${android} -d Production`;
     console.log(bashCommand);
   } else if (chooseOS == 3) {
-    bashCommand = `appcenter codepush release-react -a Educenter/${codePushName}${ios} -d Production && appcenter codepush release-react -a Educenter/${codePushName}${android} -d Production`;
+    bashCommand = `appcenter codepush release-react -a Educenter/${name}${ios} -d Production && appcenter codepush release-react -a Educenter/${name}${android} -d Production`;
     console.log(bashCommand);
   } else {
     console.log('ERROR');
