@@ -1,7 +1,8 @@
 const {exec} = require('child_process');
 
 const cudePushRun = () => {
-  let codePushName = 'Educenter';
+  //Educenter
+  let codePushName = ':codePushName';
   let android = '-Android';
   let ios = '-IOS';
   let bashCommand = '';
