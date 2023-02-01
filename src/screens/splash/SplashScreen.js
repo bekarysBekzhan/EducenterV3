@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {useSettings} from '../../components/context/Provider';
 import {setFontStyle, wordLocalization} from '../../utils/utils';
-import {APP_COLORS, STORAGE} from '../../constans/constants';
+import {APP_COLORS, N_STATUS, STORAGE} from '../../constans/constants';
 import SimpleButton from '../../components/button/SimpleButton';
 import OutlineButton from '../../components/button/OutlineButton';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
@@ -13,30 +13,38 @@ import {storeObject} from '../../storage/AsyncStorage';
 import HtmlView from '../../components/HtmlView';
 
 const SplashScreen = ({navigation}) => {
-  const {settings, initialStart, isAuth} = useSettings();
+  const {settings, initialStart, isAuth, nstatus} = useSettings();
 
   useEffect(() => {
     if (!initialStart) {
       setTimeout(() => {
-        if (settings?.marketplace_enabled) {
-          if (isAuth) {
-            navigation.replace(ROUTE_NAMES.bottomTab);
-          } else {
-            navigation.replace(ROUTE_NAMES.login);
-          }
-        } else {
+        if (nstatus === N_STATUS) {
           navigation.replace(ROUTE_NAMES.bottomTab);
+        } else {
+          if (settings?.marketplace_enabled) {
+            if (isAuth) {
+              navigation.replace(ROUTE_NAMES.bottomTab);
+            } else {
+              navigation.replace(ROUTE_NAMES.login);
+            }
+          } else {
+            navigation.replace(ROUTE_NAMES.bottomTab);
+          }
         }
-      }, 3000);
+      }, 1300);
     }
   }, []);
 
   const onContinue = async () => {
     await storeObject(STORAGE.initialStart, false);
-    if (settings?.marketplace_enabled) {
-      navigation.replace(ROUTE_NAMES.login);
-    } else {
+    if (nstatus === N_STATUS) {
       navigation.replace(ROUTE_NAMES.bottomTab);
+    } else {
+      if (settings?.marketplace_enabled) {
+        navigation.replace(ROUTE_NAMES.login);
+      } else {
+        navigation.replace(ROUTE_NAMES.bottomTab);
+      }
     }
   };
 

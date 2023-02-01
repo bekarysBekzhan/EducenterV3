@@ -5,7 +5,7 @@ import {useSettings} from '../../components/context/Provider';
 import Input from '../../components/Input';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import UniversalView from '../../components/view/UniversalView';
-import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
+import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {strings} from '../../localization';
 import {ProfileService} from '../../services/API';
@@ -31,15 +31,24 @@ const DeleteAccountScreen = ({navigation}) => {
     await removeStorage(STORAGE.userToken);
     delete API_V2.defaults.headers[REQUEST_HEADERS.Authorization];
     setIsAuth(false);
-    if (settings?.marketplace_enabled) {
-      navigation.replace(ROUTE_NAMES.login);
-    } else {
+    if (nstatus === N_STATUS) {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
           routes: [{name: ROUTE_NAMES.bottomTab}],
         }),
       );
+    } else {
+      if (settings?.marketplace_enabled) {
+        navigation.replace(ROUTE_NAMES.login);
+      } else {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: ROUTE_NAMES.bottomTab}],
+          }),
+        );
+      }
     }
   };
 

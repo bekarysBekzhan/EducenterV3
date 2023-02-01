@@ -23,7 +23,7 @@ import {useSettings} from '../components/context/Provider';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {CommonActions} from '@react-navigation/native';
 import SimpleButton from '../components/button/SimpleButton';
-import { useToggle } from '../hooks/useToggle';
+import {useToggle} from '../hooks/useToggle';
 
 const SettingsScreen = ({navigation, route}) => {
   const userEmail = route?.params?.userEmail;
@@ -36,7 +36,9 @@ const SettingsScreen = ({navigation, route}) => {
     currentKey: strings.getLanguage(),
   });
 
-  const [isTogglePushAction, setIsTogglePushAction] = useToggle(notification_push_enable)
+  const [isTogglePushAction, setIsTogglePushAction] = useToggle(
+    notification_push_enable,
+  );
   const {setIsAuth, settings, nstatus} = useSettings();
 
   const [fetchSettings, isLoading, error] = useFetching(async () => {
@@ -73,23 +75,31 @@ const SettingsScreen = ({navigation, route}) => {
 
   useEffect(() => {
     fetchSettingsPush();
-    (async () =>
-      await storeObject(STORAGE.pushEnabled, isTogglePushAction))();
+    (async () => await storeObject(STORAGE.pushEnabled, isTogglePushAction))();
   }, [isTogglePushAction]);
 
   const onExit = async () => {
     await removeStorage(STORAGE.userToken);
     delete API_V2.defaults.headers[REQUEST_HEADERS.Authorization];
     setIsAuth(false);
-    if (settings?.marketplace_enabled) {
-      navigation.replace(ROUTE_NAMES.login);
-    } else {
+    if (nstatus === N_STATUS) {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
           routes: [{name: ROUTE_NAMES.bottomTab}],
         }),
       );
+    } else {
+      if (settings?.marketplace_enabled) {
+        navigation.replace(ROUTE_NAMES.login);
+      } else {
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 0,
+            routes: [{name: ROUTE_NAMES.bottomTab}],
+          }),
+        );
+      }
     }
   };
 
