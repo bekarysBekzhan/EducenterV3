@@ -3,10 +3,20 @@ import {useSettings} from '../context/Provider';
 import {ROUTE_NAMES} from './routes';
 import {
   coursesTabIcon,
+  coursesTabIcon2,
+  coursesTabIcon3,
   myCoursesTabIcon,
+  myCoursesTabIcon2,
+  myCoursesTabIcon3,
   profileTabIcon,
+  profileTabIcon2,
+  profileTabIcon3,
   tasksTabIcon,
+  tasksTabIcon2,
+  tasksTabIcon3,
   testsTabIcon,
+  testsTabIcon2,
+  testsTabIcon3,
 } from '../../assets/icons';
 import {strings} from '../../localization';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -26,43 +36,85 @@ import {useNavigation} from '@react-navigation/native';
 const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
-  
   const onNotification = props.route?.params?.onNotification;
-  const {settings, isAuth, nstatus} = useSettings();
+  const {settings, isAuth, nstatus, ndesign} = useSettings();
   const {navigate} = useNavigation();
+
+  const coursesTabFunc = () => {
+    if (ndesign === '1') {
+      return coursesTabIcon2;
+    } else if (ndesign === '2') {
+      return coursesTabIcon3;
+    }
+    return coursesTabIcon;
+  };
+
+  const testTabFunc = () => {
+    if (ndesign === '1') {
+      return testsTabIcon2;
+    } else if (ndesign === '2') {
+      return testsTabIcon3;
+    }
+    return testsTabIcon;
+  };
+
+  const myCoursesTabFunc = () => {
+    if (ndesign === '1') {
+      return myCoursesTabIcon2;
+    } else if (ndesign === '2') {
+      return myCoursesTabIcon3;
+    }
+    return myCoursesTabIcon;
+  };
+
+  const taskTabFunc = () => {
+    if (ndesign === '1') {
+      return tasksTabIcon2;
+    } else if (ndesign === '2') {
+      return tasksTabIcon3;
+    }
+    return tasksTabIcon;
+  };
+
+  const profileTabFunc = () => {
+    if (ndesign === '1' || ndesign === '2') {
+      return profileTabIcon2;
+    }
+    return profileTabIcon;
+  };
 
   const BOTTOM_TAB = [
     {
       name: ROUTE_NAMES.coursesStack,
-      icon: coursesTabIcon,
+      icon: coursesTabFunc(),
       label: strings.Курсы,
       component: Courses,
       options: {
-        unmountOnBlur: true
-      }
+        unmountOnBlur: true,
+      },
     },
     {
       name: ROUTE_NAMES.testsStack,
       component: Tests,
-      icon: testsTabIcon,
+      icon: testTabFunc(),
       label: strings.Тесты,
     },
     {
       name: ROUTE_NAMES.myCoursesStack,
       component: MyCourses,
-      icon: myCoursesTabIcon,
+      icon: myCoursesTabFunc(),
       label: strings['Мои курсы'],
     },
     {
       name: ROUTE_NAMES.tasksStack,
       component: Tasks,
-      icon: tasksTabIcon,
+      icon: taskTabFunc(),
       label: strings.Задания,
     },
     {
       name: ROUTE_NAMES.menuStack,
       component: MenuStack,
-      icon: profileTabIcon,
+      icon: profileTabFunc(),
       label: strings.Меню,
     },
   ];
@@ -111,8 +163,9 @@ const BottomTab = props => {
             key={index}
             options={{
               ...route?.options,
-              tabBarIcon: ({focused}) => route.icon(focused, settings?.color_app),
-              tabBarLabel: route.label
+              tabBarIcon: ({focused}) =>
+                route.icon(focused, settings?.color_app),
+              tabBarLabel: route.label,
             }}
           />
         );
