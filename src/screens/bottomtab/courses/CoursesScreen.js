@@ -26,7 +26,8 @@ import WhatsappButton from '../../../components/button/WhatsappButton';
 import {useSettings} from '../../../components/context/Provider';
 
 const CoursesScreen = props => {
-  const {nstatus} = useSettings();
+
+  const {nstatus , ndesign} = useSettings();
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState(null);
   const [lastPage, setLastPage] = useState(1);
@@ -61,6 +62,7 @@ const CoursesScreen = props => {
   };
 
   const renderCourse = ({item, index}) => {
+    
     return (
       <CourseCard item={item} index={index} navigation={props?.navigation} />
     );

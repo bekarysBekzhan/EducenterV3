@@ -205,6 +205,7 @@ const Navigation = () => {
     setIsRead,
     setNstatus,
     setLanguage,
+    setNdesign,
   } = useSettings();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
@@ -213,6 +214,7 @@ const Navigation = () => {
 
     const status = await MobileSettingsService.getStatus();
     setNstatus(status.data[Platform.OS]);
+    setNdesign(status.data['design'])
 
     const userToken = await getString(STORAGE.userToken);
     if (userToken) {
