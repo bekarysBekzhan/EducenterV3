@@ -150,6 +150,6 @@ export const SHOW_TYPE = {
   result: 'result',
 };
 
-export const N_STATUS = '3';
-export const N_DESIGN = '1';
+export const N_STATUS = '2';
+export const N_DESIGN = '0';
 
