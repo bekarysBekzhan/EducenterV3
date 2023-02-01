@@ -152,4 +152,6 @@ export const SHOW_TYPE = {
 
 export const N_STATUS = '2';
 export const N_DESIGN = '0';
+export const N_ICON = '0';
+
 

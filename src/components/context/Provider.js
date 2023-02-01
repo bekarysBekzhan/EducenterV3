@@ -1,6 +1,6 @@
 import React, {createContext, useContext} from 'react';
 import {useState} from 'react';
-import {APP_COLORS, N_DESIGN, N_STATUS} from '../../constans/constants';
+import {APP_COLORS, N_DESIGN, N_STATUS, N_ICON} from '../../constans/constants';
 
 const Settings = createContext({});
 
@@ -18,6 +18,7 @@ const Provider = ({children}) => {
   const [color, setColor] = useState(APP_COLORS.primary);
   const [language, setLanguage] = useState('ru');
   const [ndesign, setNdesign] = useState(N_DESIGN);
+  const [nicon, setNIcon] = useState(N_ICON);
 
   return (
     <Settings.Provider
@@ -44,7 +45,10 @@ const Provider = ({children}) => {
         setLanguage,
 
         ndesign,
-        setNdesign
+        setNdesign,
+
+        nicon,
+        setNIcon,
       }}>
       {children}
     </Settings.Provider>
