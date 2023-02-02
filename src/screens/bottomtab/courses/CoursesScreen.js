@@ -5,12 +5,7 @@ import SearchButton from '../../../components/button/SearchButton';
 import {useFetching} from '../../../hooks/useFetching';
 import {CourseService} from '../../../services/API';
 import {useState} from 'react';
-import {
-  APP_COLORS,
-  N_DESIGN,
-  N_STATUS,
-  WIDTH,
-} from '../../../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../../../constans/constants';
 import {useEffect} from 'react';
 import {setFontStyle} from '../../../utils/utils';
 import LoadingScreen from '../../../components/LoadingScreen';
@@ -22,7 +17,7 @@ import {MiniCard} from './designType/MiniCard';
 import {DoubleCard} from './designType/DoubleCard';
 
 const CoursesScreen = props => {
-  const {nstatus, ndesign} = useSettings();
+  const {nstatus, nCourse} = useSettings();
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState(null);
   const [lastPage, setLastPage] = useState(1);
@@ -57,13 +52,12 @@ const CoursesScreen = props => {
   };
 
   const renderCourse = ({item, index}) => {
-
-    if (ndesign == '1') {
+    if (nCourse == '1') {
       return (
         <MiniCard item={item} index={index} navigation={props?.navigation} />
       );
     }
-    if (ndesign == '2') {
+    if (nCourse == '2') {
       return (
         <DoubleCard item={item} index={index} navigation={props?.navigation} />
       );
@@ -95,9 +89,10 @@ const CoursesScreen = props => {
       )}
       <FlatList
         data={data}
+        numColumns={nCourse === '2' ? 2 : 1}
         renderItem={renderCourse}
         ListFooterComponent={renderFooter}
-        ListEmptyComponent={() => <Empty />}
+        ListEmptyComponent={<Empty />}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.contentContainer}
@@ -117,46 +112,7 @@ const CoursesScreen = props => {
 
 export const styles = StyleSheet.create({
   contentContainer: {
-    padding: 16,
-  },
-  courseCard: {
-    borderRadius: 10,
-    backgroundColor: 'white',
-    marginBottom: 22,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowColor: '#000',
-    shadowRadius: 20,
-    shadowOpacity: 0.09,
-    elevation: 1,
-  },
-  row1: {
-    justifyContent: 'space-between',
-    padding: 10,
-    paddingBottom: 0,
-  },
-  row2: {
-    paddingHorizontal: 10,
-    paddingBottom: 20,
-  },
-  title: {
-    margin: 10,
-    ...setFontStyle(18, '700', APP_COLORS.font),
-  },
-  category: {
-    textTransform: 'uppercase',
-    ...setFontStyle(14, '700', APP_COLORS.placeholder),
-  },
-  poster: {
-    width: '100%',
-    height: 200,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  price: {
-    fontSize: 14,
+    paddingTop: 13,
   },
   footer: {
     width: WIDTH - 32,

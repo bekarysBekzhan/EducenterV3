@@ -37,53 +37,52 @@ const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
   const onNotification = props.route?.params?.onNotification;
-  const {settings, isAuth, nstatus, nicon} = useSettings();
+  const {settings, isAuth, nstatus, nIcon} = useSettings();
   const {navigate} = useNavigation();
 
   const coursesTabFunc = () => {
-    if (nicon === '1') {
+    if (nIcon === '1') {
       return coursesTabIcon2;
-    } else if (nicon === '2') {
+    } else if (nIcon === '2') {
       return coursesTabIcon3;
     }
     return coursesTabIcon;
   };
 
   const testTabFunc = () => {
-    if (nicon === '1') {
+    if (nIcon === '1') {
       return testsTabIcon2;
-    } else if (nicon === '2') {
+    } else if (nIcon === '2') {
       return testsTabIcon3;
     }
     return testsTabIcon;
   };
 
   const myCoursesTabFunc = () => {
-    if (nicon === '1') {
+    if (nIcon === '1') {
       return myCoursesTabIcon2;
-    } else if (nicon === '2') {
+    } else if (nIcon === '2') {
       return myCoursesTabIcon3;
     }
     return myCoursesTabIcon;
   };
 
   const taskTabFunc = () => {
-    if (nicon === '1') {
+    if (nIcon === '1') {
       return tasksTabIcon2;
-    } else if (nicon === '2') {
+    } else if (nIcon === '2') {
       return tasksTabIcon3;
     }
     return tasksTabIcon;
   };
 
   const profileTabFunc = () => {
-    if (nicon === '1' || nicon === '2') {
+    if (nIcon === '1' || nIcon === '2') {
       return profileTabIcon2;
     }
     return profileTabIcon;
   };
 
-  console.log('nicon', nicon);
 
   const BOTTOM_TAB = [
     {

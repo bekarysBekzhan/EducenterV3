@@ -1,25 +1,23 @@
-import { Text, TouchableOpacity } from 'react-native';
+import {Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 import React from 'react';
-import { N_STATUS } from '../../../../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../../../../constans/constants';
 import FastImage from 'react-native-fast-image';
 import RowView from '../../../../components/view/RowView';
 import Price from '../../../../components/Price';
 import ItemRating from '../../../../components/ItemRating';
-import { ROUTE_NAMES } from '../../../../components/navigation/routes';
-import { useSettings } from '../../../../components/context/Provider';
-import { styles } from '../CoursesScreen';
+import {ROUTE_NAMES} from '../../../../components/navigation/routes';
+import {useSettings} from '../../../../components/context/Provider';
+import {setFontStyle} from '../../../../utils/utils';
+import {strings} from '../../../../localization';
 
-export const MiniCard = ({ item, index, navigation }) => {
-  const { nstatus } = useSettings();
-
-
-  console.log('MiniCard');
+export const MiniCard = ({item, index, navigation}) => {
+  const {nstatus} = useSettings();
 
   const onCourse = () => {
     if (item?.has_subscribed) {
-      navigation.navigate(ROUTE_NAMES.myCourseDetail, { courseID: item?.id });
+      navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: item?.id});
     } else {
-      navigation.navigate(ROUTE_NAMES.courseDetail, { courseID: item?.id });
+      navigation.navigate(ROUTE_NAMES.courseDetail, {courseID: item?.id});
     }
   };
 
@@ -28,27 +26,89 @@ export const MiniCard = ({ item, index, navigation }) => {
       style={styles.courseCard}
       activeOpacity={0.9}
       onPress={onCourse}>
-      <FastImage source={{ uri: item?.poster, priority: "high" }} style={styles.poster} />
-      <RowView style={styles.row1}>
-        <Text style={styles.category}>{item?.category_name}</Text>
-        {nstatus === N_STATUS ? null : (
+      <RowView style={styles.row}>
+        <FastImage
+          source={{uri: item?.poster, priority: 'high'}}
+          style={styles.poster}
+        />
+        <View style={styles.col}>
+          <Text style={styles.title} numberOfLines={1}>
+            {item?.title}
+          </Text>
+          <Text style={styles.category} numberOfLines={1}>
+            {item?.lessons_count}{' '}
+            {item?.lessons_count == 0
+              ? strings.урок
+              : item?.lessons_count > 0 && item?.lessons_count < 5
+              ? strings.урока
+              : strings.уроков}
+          </Text>
+          <ItemRating
+            rating={item?.rating}
+            reviewCount={item?.reviews_count}
+            starSize={16}
+          />
+        </View>
+      </RowView>
+      {nstatus === N_STATUS ? null : (
+        <View style={styles.priceContainer}>
           <Price
             price={item?.price}
             oldPrice={item?.old_price}
             priceStyle={styles.price}
-            oldPriceStyle={styles.price} />
-        )}
-      </RowView>
-      <Text style={styles.title} numberOfLines={2}>
-        {item?.title}
-      </Text>
-      <RowView style={styles.row2}>
-        <Text>{item?.name}</Text>
-        <ItemRating
-          rating={item?.rating}
-          reviewCount={item?.reviews_count}
-          starSize={16} />
-      </RowView>
+            oldPriceStyle={styles.price}
+          />
+        </View>
+      )}
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  courseCard: {
+    marginHorizontal: 13,
+    paddingVertical: 16,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    marginBottom: 20,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowRadius: 20,
+    shadowOpacity: 0.09,
+    elevation: 1,
+  },
+  title: {
+    ...setFontStyle(16, '600', APP_COLORS.font),
+  },
+  category: {
+    textTransform: 'uppercase',
+    ...setFontStyle(12, '400', APP_COLORS.placeholder),
+  },
+  poster: {
+    width: 86,
+    height: 86,
+    borderRadius: 10,
+  },
+  price: {
+    fontSize: 14,
+  },
+  col: {
+    height: 72,
+    flexDirection: 'column',
+    marginHorizontal: 12,
+    justifyContent: 'space-between',
+    width: WIDTH - 158, //24+16+86+32
+  },
+  row: {
+    marginLeft: 16,
+  },
+  priceContainer: {
+    position: 'absolute',
+    right: 16,
+    bottom: 16,
+  },
+});

@@ -205,7 +205,8 @@ const Navigation = () => {
     setIsRead,
     setNstatus,
     setLanguage,
-    setNdesign,
+    setNCourse,
+    setNMyCourse,
     setNIcon,
   } = useSettings();
 
@@ -215,7 +216,8 @@ const Navigation = () => {
 
     const status = await MobileSettingsService.getStatus();
     setNstatus(status.data[Platform.OS]);
-    setNdesign(status.data['design']);
+    setNCourse(status.data['courses']);
+    setNMyCourse(status.data['my_courses']);
     setNIcon(status.data['icon']);
 
     const userToken = await getString(STORAGE.userToken);
