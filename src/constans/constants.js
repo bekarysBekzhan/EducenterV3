@@ -150,7 +150,7 @@ export const SHOW_TYPE = {
   result: 'result',
 };
 
-export const N_STATUS = '2';
+export const N_STATUS = '0';
 export const N_COURSE = '0';
 export const N_MY_COURSE = '0';
 export const N_ICON = '0';
