@@ -80,13 +80,11 @@ const CoursesScreen = props => {
 
   return (
     <UniversalView>
-      {nstatus === N_STATUS ? null : (
         <SearchButton
           navigation={props.navigation}
           type={'course'}
           filters={filters}
         />
-      )}
       <FlatList
         data={data}
         numColumns={nCourse === '2' ? 2 : 1}
