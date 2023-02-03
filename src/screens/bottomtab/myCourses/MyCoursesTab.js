@@ -1,9 +1,4 @@
-import {
-  View,
-  ActivityIndicator,
-  StyleSheet,
-  FlatList,
-} from 'react-native';
+import {View, ActivityIndicator, StyleSheet, FlatList} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {useFetching} from '../../../hooks/useFetching';
@@ -12,13 +7,17 @@ import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import LoadingScreen from '../../../components/LoadingScreen';
 import {setFontStyle} from '../../../utils/utils';
 import Empty from '../../../components/Empty';
-import { MyCourseCard } from './designType/MyCourseCard';
+import {MyCourseDefaultCard} from './designType/MyCourseDefaultCard';
+import {useSettings} from '../../../components/context/Provider';
+import {MyCourseDoubleCard} from './designType/MyCourseDoubleCard';
+import {MyCourseMiniCard} from './designType/MyCourseMiniCard';
 
 const MyCoursesTab = props => {
-
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [data, setData] = useState([]);
+
+  const {nMyCourse} = useSettings();
 
   const [fetchCourses, isFetching, fetchingError] = useFetching(async () => {
     const response = await MyCourseService.fetchMyCourses();
@@ -46,8 +45,30 @@ const MyCoursesTab = props => {
   };
 
   const renderCourse = ({item, index}) => {
+    if (nMyCourse === '1') {
+      return (
+        <MyCourseMiniCard
+          item={item}
+          index={index}
+          navigation={props.navigation}
+        />
+      );
+    }
+    if (nMyCourse === '2') {
+      return (
+        <MyCourseDoubleCard
+          item={item}
+          index={index}
+          navigation={props.navigation}
+        />
+      );
+    }
     return (
-      <MyCourseCard item={item} index={index} navigation={props.navigation} />
+      <MyCourseDefaultCard
+        item={item}
+        index={index}
+        navigation={props.navigation}
+      />
     );
   };
 
@@ -72,6 +93,7 @@ const MyCoursesTab = props => {
     <UniversalView>
       <FlatList
         data={data}
+        numColumns={nMyCourse === '2' ? 2 : 1}
         renderItem={renderCourse}
         ListFooterComponent={renderFooter}
         ListEmptyComponent={<Empty />}
@@ -88,7 +110,7 @@ const MyCoursesTab = props => {
 
 export const styles = StyleSheet.create({
   contentContainer: {
-    padding: 16,
+    paddingTop: 16,
   },
   card: {
     paddingVertical: 16,

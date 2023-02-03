@@ -9,12 +9,14 @@ import CourseRow from '../../../../components/CourseRow';
 import {setFontStyle} from '../../../../utils/utils';
 import {ROUTE_NAMES} from '../../../../components/navigation/routes';
 import {APP_COLORS, N_STATUS, WIDTH} from '../../../../constans/constants';
-import {useSettings} from '../../../../components/context/Provider';
 import ItemRating from '../../../../components/ItemRating';
 import Price from '../../../../components/Price';
+import {useSettings} from '../../../../components/context/Provider';
 
-export const MyCourseDoubleCard = ({item, index, navigation}) => {
-  console.log('MyCourseDoubleCard', item);
+export const MyCourseMiniCard = ({item, index, navigation}) => {
+  console.log(item);
+
+  const {nstatus} = useSettings();
 
   const onPressCourse = () => {
     navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: item?.id});
@@ -25,39 +27,45 @@ export const MyCourseDoubleCard = ({item, index, navigation}) => {
       style={styles.courseCard}
       activeOpacity={0.9}
       onPress={onPressCourse}>
-      <FastImage
-        source={{uri: item?.poster, priority: 'high'}}
-        style={styles.poster}
-      />
-      <View style={styles.col}>
-        <Text style={styles.title} numberOfLines={1}>
-          {item?.title}
-        </Text>
-        <Text style={styles.category} numberOfLines={1}>
-          {item.category_name}{' '}
-        </Text>
-      </View>
-
-      <View style={styles.rating}>
-        <ItemRating
-          rating={item?.rating}
-          reviewCount={item?.reviews_count}
-          starSize={16}
+      <RowView style={styles.row}>
+        <FastImage
+          source={{uri: item?.poster, priority: 'high'}}
+          style={styles.poster}
         />
-      </View>
+        <View style={styles.col}>
+          <Text style={styles.title} numberOfLines={1}>
+            {item?.title}
+          </Text>
+          <Text style={styles.category} numberOfLines={1}>
+            {item.category_name}
+          </Text>
+          <ItemRating
+            rating={item?.rating}
+            reviewCount={item?.reviews_count}
+            starSize={16}
+          />
+        </View>
+      </RowView>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   courseCard: {
-    marginLeft: 16,
-    marginBottom: 10,
-    width: WIDTH / 2 - 24,
-    height: 178,
+    marginHorizontal: 13,
+    paddingVertical: 16,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: APP_COLORS.border,
+    backgroundColor: 'white',
+    marginBottom: 20,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowRadius: 20,
+    shadowOpacity: 0.09,
+    elevation: 1,
   },
   title: {
     ...setFontStyle(16, '600', APP_COLORS.font),
@@ -67,10 +75,9 @@ const styles = StyleSheet.create({
     ...setFontStyle(12, '400', APP_COLORS.placeholder),
   },
   poster: {
-    width: WIDTH / 2 - 24,
-    height: 100,
-    borderTopRightRadius: 10,
-    borderTopLeftRadius: 10,
+    width: 86,
+    height: 86,
+    borderRadius: 10,
   },
   price: {
     fontSize: 14,
@@ -87,21 +94,7 @@ const styles = StyleSheet.create({
   },
   priceContainer: {
     position: 'absolute',
-    left: 13,
+    right: 16,
     bottom: 16,
-  },
-  col: {
-    paddingVertical: 10,
-    marginHorizontal: 13,
-    height: 64,
-    justifyContent: 'space-between',
-  },
-  rating: {
-    backgroundColor: 'white',
-    padding: 2,
-    borderRadius: 6,
-    position: 'absolute',
-    right: 6,
-    top: 10,
   },
 });

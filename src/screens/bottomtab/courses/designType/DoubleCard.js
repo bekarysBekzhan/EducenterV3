@@ -26,30 +26,6 @@ export const DoubleCard = ({item, index, navigation}) => {
       style={styles.courseCard}
       activeOpacity={0.9}
       onPress={onCourse}>
-      {/* <RowView style={styles.row}>
-        <FastImage
-          source={{uri: item?.poster, priority: 'high'}}
-          style={styles.poster}
-        />
-        <View style={styles.col}>
-          <Text style={styles.title} numberOfLines={1}>
-            {item?.title}
-          </Text>
-          <Text style={styles.category} numberOfLines={1}>
-            {item?.lessons_count}{' '}
-            {item?.lessons_count == 0
-              ? strings.урок
-              : item?.lessons_count > 0 && item?.lessons_count < 5
-              ? strings.урока
-              : strings.уроков}
-          </Text>
-          <ItemRating
-            rating={item?.rating}
-            reviewCount={item?.reviews_count}
-            starSize={16}
-          />
-        </View> */}
-
       <FastImage
         source={{uri: item?.poster, priority: 'high'}}
         style={styles.poster}

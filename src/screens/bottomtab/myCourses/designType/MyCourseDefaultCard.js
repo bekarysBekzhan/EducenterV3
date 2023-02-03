@@ -10,7 +10,8 @@ import {setFontStyle} from '../../../../utils/utils';
 import {ROUTE_NAMES} from '../../../../components/navigation/routes';
 import { APP_COLORS, WIDTH } from '../../../../constans/constants';
 
-export const MyCourseCard = ({item, index, navigation}) => {
+export const MyCourseDefaultCard = ({item, index, navigation}) => {
+  console.log('MyCourseDefaultCard');
   const onPressNextLesson = () => {
     navigation.navigate(ROUTE_NAMES.lesson, {
       id: item?.progress_information?.next_lesson?.id,
@@ -103,6 +104,7 @@ export const styles = StyleSheet.create({
     padding: 16,
   },
   card: {
+    marginHorizontal: 16,
     paddingVertical: 16,
     borderBottomWidth: 0.75,
     borderColor: APP_COLORS.border,
