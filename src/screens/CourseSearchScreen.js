@@ -14,7 +14,7 @@ import RowView from '../components/view/RowView';
 import {clear, filter, filterON, search, x} from '../assets/icons';
 import Input from '../components/Input';
 import {strings} from '../localization';
-import {APP_COLORS, STORAGE, WIDTH} from '../constans/constants';
+import {APP_COLORS, N_STATUS, STORAGE, WIDTH} from '../constans/constants';
 import {isValidText, setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
 import {useState} from 'react';
@@ -35,7 +35,7 @@ const MAX_HISTORY_SIZE = 7;
 
 const CourseSearchScreen = props => {
   const filters = props.route?.params?.filters;
-  const {settings} = useSettings();
+  const {settings, nstatus} = useSettings();
 
   const [focus, setFocus] = useState(true);
   const [value, setValue] = useState('');
@@ -230,7 +230,7 @@ const CourseSearchScreen = props => {
             extraStyle={styles.inputContainer}
             extraInputStyle={styles.input}
           />
-          {settings?.show_filter ? (
+          {nstatus === N_STATUS ? null : settings?.show_filter ? (
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => {
