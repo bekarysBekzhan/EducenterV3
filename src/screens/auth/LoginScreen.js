@@ -96,6 +96,7 @@ const LoginScreen = ({navigation}) => {
           placeholder={strings['Номер телефона']}
           onChangeText={onChangeEmailOrPhone}
           editable={!isLoading}
+          value={dataSource?.email}
           keyboardType={'phone-pad'}
           mask={'+9 (999) 999-99-99'}
         />
