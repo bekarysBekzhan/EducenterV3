@@ -79,6 +79,7 @@ const AnswerOption = ({
 
   const [sendAnswer, isLoading] = useFetching(async () => {
     let params = {};
+    item.selected = !(state === ANSWER_STATES.SELECTED);
     params.selected = !(state === ANSWER_STATES.SELECTED);
     params.is_multiple = is_multiple;
     await CourseService.selectAnswer(passingID, {params: params});
