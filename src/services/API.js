@@ -424,7 +424,7 @@ class AuthService {
 class NewsService {
   static fetchNews = async params => {
     console.log('NewsService News params: ', {params: params});
-    const response = await API_V2.get(URLS.news, params);
+    const response = await API_V2.get(URLS.news, {params: params});
     console.log('NewsScreen.js: ', response);
     return response;
   };
