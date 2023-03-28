@@ -2,6 +2,9 @@ import LocalizedStrings from "react-native-localization";
 
 export const strings = new LocalizedStrings({
     kz: {
+        'Журнал': 'Журнал',
+        'ЕНТ': 'ҰТБ',
+        'Расписание': 'Кесте',
         "Курсы": "Курстар",
         "Тесты": "Тесттер",
         "Новости": "Жаңалықтар",
@@ -27,9 +30,9 @@ export const strings = new LocalizedStrings({
         "headerTitleProfile": "Профиль",
         "Редактировать профиль": "Профильді өзгерту",
         "Мои профиль": "Профилім",
-        "История оплаты": "Төлем тарих",
+        "История оплаты": "Төлем тарихы",
         "Реферальная программа": "Анықтамалық бағдарлама",
-        "Сменить пароль": "Кұпия сөзді озгерту",
+        "Сменить пароль": "Кұпия сөзді өзгерту",
         "Настройки": "Параметрлер",
         "Правила и соглашения": "Ережелер мен келісімдер",
         "Информация о разработчике": "Әзірлеуші ​​туралы ақпарат",
@@ -268,6 +271,9 @@ export const strings = new LocalizedStrings({
         "уроков": "сабақ"
     },
     ru: {
+        'Журнал': 'Журнал',
+        'ЕНТ': 'ЕНТ',
+        'Расписание': 'Расписание',
         "Курсы": "Курсы",
         "Тесты": "Тесты",
         "Новости": "Новости",
@@ -535,6 +541,9 @@ export const strings = new LocalizedStrings({
         "уроков": "уроков"
     },
     en: {
+        'Журнал': 'Magazine',
+        'ЕНТ': 'UNT',
+        'Расписание': 'Schedule',
         "Курсы": "Courses",
         "Тесты": "Tests",
         "Новости": "News",
@@ -722,7 +731,7 @@ export const strings = new LocalizedStrings({
         "Создайте новый": "Create a new",
         "Создай свою онлайн школу вместе с Educenter": "Create your own online school with Educenter",
         "Помощь": "Help",
-        "Календарь": "Календарь",
+        "Календарь": "Calendar",
         "Пройти задание": "Complete the task",
         "E-mail или телефон": "Email or phone",
         "Старый пароль": "Old password",
@@ -755,7 +764,7 @@ export const strings = new LocalizedStrings({
         "Задание": "Task",
         "Позвонить": "Call",
         "Скачать": "Download",
-        "Все журналы": "All journals",
+        "Все журналы": "All magazines",
         "Купленные журналы": "Purchased magazines",
         "год": "year",
         "Читать журнал": "To read a magazine",

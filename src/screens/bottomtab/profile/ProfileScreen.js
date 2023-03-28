@@ -54,8 +54,6 @@ const ProfileScreen = ({navigation, route}) => {
     refreshing: false,
   });
 
-  console.log('isRead: ', isRead);
-
   useLayoutEffect(() => {
     let navigationOptions = navHeaderOptions(settings?.logo, strings.Меню);
     if (nstatus !== N_STATUS) {
@@ -79,7 +77,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 2,
-          text: 'Расписание',
+          text: strings.Расписание,
           iconLeft: <CalendarIcon />,
           enabled: nstatus !== N_STATUS,
           route: ROUTE_NAMES.scheduleNavigator,
@@ -109,7 +107,7 @@ const ProfileScreen = ({navigation, route}) => {
       data: [
         {
           id: 0,
-          text: settings?.modules_enabled_ubt_title,
+          text: strings.ЕНТ,
           iconLeft: <UbtIcon />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_ubt,
           action: 'navigation',
@@ -117,7 +115,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 1,
-          text: settings?.modules_enabled_journals_title,
+          text: strings.Журнал,
           iconLeft: <JournalIcon />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_journals,
           action: 'navigation',
@@ -125,7 +123,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 2,
-          text: settings?.modules_enabled_rating_title,
+          text: strings.Рейтинг,
           iconLeft: <RatingIcon />,
           enabled: settings?.modules_enabled_rating,
           action: 'navigation',
@@ -154,7 +152,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 6,
-          text: settings?.modules_enabled_offline_courses_title,
+          text: strings['Офлайн курсы'],
           iconLeft: <ReclamentIcon />,
           action: 'navigation',
           enabled:
