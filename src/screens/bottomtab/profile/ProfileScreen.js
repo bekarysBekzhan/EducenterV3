@@ -43,9 +43,11 @@ import {APP_COLORS, N_STATUS, STORAGE} from '../../../constans/constants';
 import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
 import LoadingScreen from '../../../components/LoadingScreen';
 import {storeObject} from '../../../storage/AsyncStorage';
+import {lang} from '../../../localization/lang';
 
 const ProfileScreen = ({navigation, route}) => {
   const {profile} = route.params;
+
   const {settings, isRead, setIsRead, nstatus} = useSettings();
   const [dataSource, setDataSource] = useState({
     data: null,
@@ -136,7 +138,7 @@ const ProfileScreen = ({navigation, route}) => {
         // },
         {
           id: 4,
-          text: settings?.modules_enabled_news_title,
+          text: lang('Новости'), // тестовый
           iconLeft: <NewsIcon />,
           enabled: settings?.modules_enabled_news,
           action: 'navigation',

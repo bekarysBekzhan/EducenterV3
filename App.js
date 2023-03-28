@@ -13,8 +13,9 @@ import TrackPlayer, {
 } from 'react-native-track-player';
 import {firebaseService} from './src/services/FirebaseService';
 import {LocalNotificationService} from './src/services/LocalNotificationService';
-import { PermissionsAndroid, Platform } from 'react-native';
+import {PermissionsAndroid, Platform} from 'react-native';
 import codePush from 'react-native-code-push';
+import {LocalizationProvider} from './src/components/context/LocalizationProvider';
 
 const events = [
   Event.PlaybackError,
@@ -50,7 +51,7 @@ const App = () => {
         capabilities: [Capability.Play, Capability.Pause, Capability.Stop],
         compactCapabilities: [Capability.Play, Capability.Pause],
         android: {
-          appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback
+          appKilledPlaybackBehavior: AppKilledPlaybackBehavior.ContinuePlayback,
         },
       });
       TrackPlayer.setRepeatMode(RepeatMode.Track);
@@ -80,7 +81,7 @@ const App = () => {
     console.log();
   });
 
-  const requestAndroidPermissions = async() => {
+  const requestAndroidPermissions = async () => {
     try {
       const grants = await PermissionsAndroid.requestMultiple([
         PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
@@ -107,14 +108,16 @@ const App = () => {
       console.warn(err);
       return;
     }
-  }
+  };
 
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <Provider>
-        <Navigation />
-        <Toast config={toastConfig} />
-      </Provider>
+      <LocalizationProvider>
+        <Provider>
+          <Navigation />
+          <Toast config={toastConfig} />
+        </Provider>
+      </LocalizationProvider>
     </GestureHandlerRootView>
   );
 };

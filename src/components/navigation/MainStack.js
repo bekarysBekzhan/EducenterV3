@@ -2,7 +2,7 @@ import React, {useEffect, useLayoutEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useFetching} from '../../hooks/useFetching';
-import {MobileSettingsService} from '../../services/API';
+import {MobileSettingsService, SettingsService} from '../../services/API';
 import {useSettings} from '../context/Provider';
 import {ROUTE_NAMES} from './routes';
 import {getObject, getString} from '../../storage/AsyncStorage';
@@ -44,6 +44,7 @@ import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
 import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
 import PolicyScreen from '../../screens/privacy/PolicyScreen';
 import {Platform} from 'react-native';
+import {useLocalization} from '../context/LocalizationProvider';
 
 const MainStack = createNativeStackNavigator();
 
@@ -210,6 +211,8 @@ const Navigation = () => {
     setNIcon,
   } = useSettings();
 
+  const {localization} = useLocalization();
+
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
     const response = await MobileSettingsService.fetchSettings();
     setSettings(response.data?.data);
@@ -228,7 +231,12 @@ const Navigation = () => {
     }
 
     const lang = await getString(STORAGE.language);
+    const langDB = await SettingsService.fetchLanguage();
     if (lang) {
+      if (langDB?.data?.data) {
+        localization.current = langDB?.data?.data[lang];
+        console.log('langDB', langDB?.data?.data[lang]);
+      }
       strings.setLanguage(lang);
       setLanguage(lang);
       API_V2.defaults.headers[REQUEST_HEADERS.lang] = lang;

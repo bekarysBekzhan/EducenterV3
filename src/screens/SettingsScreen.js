@@ -24,6 +24,7 @@ import {ROUTE_NAMES} from '../components/navigation/routes';
 import {CommonActions} from '@react-navigation/native';
 import SimpleButton from '../components/button/SimpleButton';
 import {useToggle} from '../hooks/useToggle';
+import {useLocalization} from '../components/context/LocalizationProvider';
 
 const SettingsScreen = ({navigation, route}) => {
   const userEmail = route?.params?.userEmail;
@@ -40,6 +41,8 @@ const SettingsScreen = ({navigation, route}) => {
     notification_push_enable,
   );
   const {setIsAuth, settings, nstatus} = useSettings();
+
+  const {localization} = useLocalization();
 
   const [fetchSettings, isLoading, error] = useFetching(async () => {
     const response = await SettingsService.fetchLanguage();
@@ -107,6 +110,10 @@ const SettingsScreen = ({navigation, route}) => {
 
   const selectKeyPressed = async key => {
     if (dataSource?.currentKey !== key) {
+      const langDB = await SettingsService.fetchLanguage();
+      if (langDB?.data?.data) {
+        localization.current = langDB?.data?.data[key];
+      }
       await storeString(STORAGE.language, key);
       setDataSource(prev => ({
         ...prev,

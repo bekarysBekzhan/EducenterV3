@@ -9,6 +9,8 @@ import SelectOption from '../../components/SelectOption';
 import SectionView from '../../components/view/SectionView';
 import {strings} from '../../localization';
 import { useSettings } from '../../components/context/Provider';
+import { SettingsService } from '../../services/API';
+import { useLocalization } from '../../components/context/LocalizationProvider';
 
 const languages = [
   {label: 'Русский', key: 'ru'},
@@ -18,10 +20,16 @@ const languages = [
 
 const LanguageScreen = ({navigation, route}) => {
 
+  const {localization} = useLocalization()
+
   const {setLanguage, language} = useSettings();
   const [currentKey, setCurrentKey] = useState(strings.getLanguage());
   const [selectKeyPressed, isLoading, keyError] = useFetching(async key => {
     if (currentKey !== key) {
+      const langDB = await SettingsService.fetchLanguage();
+      if (langDB?.data?.data) {
+        localization.current = langDB?.data?.data[key];
+      }
       await storeString(STORAGE.language, key);
       strings.setLanguage(key);
       setCurrentKey(key);
