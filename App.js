@@ -27,7 +27,7 @@ const events = [
 ];
 
 const App = () => {
-  disallowScreenshot(true); // disable screenshots & record
+  Platform.OS === 'ios' ? disallowScreenshot(true) : null;
 
   useEffect(() => {
     // Initialize player
