@@ -8,12 +8,14 @@ import {ROUTE_NAMES} from '../components/navigation/routes';
 import SelectOption from '../components/SelectOption';
 import NavButtonRow from '../components/view/NavButtonRow';
 import SectionView from '../components/view/SectionView';
-import {strings} from '../localization';
 import {convertToIterable} from '../utils/utils';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const FilterScreen = ({navigation, route}) => {
   const {settings} = useSettings();
 
+  const {localization} = useLocalization();
   console.log(
     'settings?.show_filter_categories',
     settings?.show_filter_categories,
@@ -67,7 +69,7 @@ const FilterScreen = ({navigation, route}) => {
   const renderFooter = () => {
     return (
       <View>
-        <SectionView label={strings.Сортировка} />
+        <SectionView label={lang('Сортировка', localization)} />
         {convertToIterable(filters.sorts).map((sort, index) => (
           <SelectOption
             value={sort.key}
@@ -79,13 +81,13 @@ const FilterScreen = ({navigation, route}) => {
           />
         ))}
         <SimpleButton
-          text={strings.Применить}
+          text={lang('Применить', localization)}
           onPress={applyFilterTapped}
           style={styles.button}
         />
         {selectedCategory || currentKey ? (
           <SimpleButton
-            text={strings.Сбросить}
+            text={lang('Сбросить', localization)}
             onPress={clearFilterTapped}
             style={styles.button}
           />
@@ -101,7 +103,7 @@ const FilterScreen = ({navigation, route}) => {
           Boolean(parseFloat(settings?.show_filter_categories))
             ? [
                 {
-                  title: strings.Категория,
+                  title: lang('Категория', localization),
                   data: filters?.categories,
                 },
               ]

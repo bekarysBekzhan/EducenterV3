@@ -6,10 +6,13 @@ import {ROUTE_NAMES} from '../components/navigation/routes';
 import SelectOption from '../components/SelectOption';
 import NavButtonRow from '../components/view/NavButtonRow';
 import SectionView from '../components/view/SectionView';
-import {strings} from '../localization';
 import {convertToIterable} from '../utils/utils';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const FilterRatingScreen = ({navigation, route}) => {
+  const {localization} = useLocalization();
+
   const sort = route.params?.sort;
   const setSort = route.params?.setSort;
   const setCategory = route.params?.setCategory;
@@ -70,7 +73,7 @@ const FilterRatingScreen = ({navigation, route}) => {
   const renderFooter = () => {
     return (
       <View>
-        <SectionView label={strings.Сортировка} />
+        <SectionView label={lang('Сортировка', localization)} />
         {convertToIterable(filters?.sorts).map((sort, index) => (
           <SelectOption
             value={sort.key}
@@ -82,13 +85,13 @@ const FilterRatingScreen = ({navigation, route}) => {
           />
         ))}
         <SimpleButton
-          text={strings.Применить}
+          text={lang('Применить', localization)}
           onPress={applyFilterTapped}
           style={styles.button}
         />
         {selectedCategory || currentKey || selectedTest ? (
           <SimpleButton
-            text={strings.Сбросить}
+            text={lang('Сбросить', localization)}
             onPress={clearFilterTapped}
             style={styles.button}
           />
@@ -102,12 +105,12 @@ const FilterRatingScreen = ({navigation, route}) => {
       <BottomSheetFlatList
         data={[
           {
-            title: strings['Выберите направление'],
+            title: lang('Выберите направление', localization),
             data: filters?.categories,
             objectKey: 'name',
           },
           {
-            title: strings['Выберите тест'],
+            title: lang('Выберите тест', localization),
             data: filters?.tests,
             objectKey: 'title',
           },

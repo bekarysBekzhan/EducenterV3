@@ -6,7 +6,6 @@ import {CourseService} from '../../services/API';
 import {TYPE_SUBCRIBES} from '../../constans/constants';
 import {fileDownloader, setFontStyle} from '../../utils/utils';
 import {JournalIcon} from '../../assets/icons';
-import {strings} from '../../localization';
 import {useSettings} from '../../components/context/Provider';
 import TransactionButton from '../../components/button/TransactionButton';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
@@ -17,10 +16,14 @@ import FastImage from 'react-native-fast-image';
 import EventItem from '../../components/item/EventItem';
 import Downloader from '../../components/Downloader';
 import RNFS from 'react-native-fs';
+import {useLocalization} from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const OfflineCourseDetailsScreen = props => {
   const {isAuth} = useSettings();
   const courseID = props.route?.params?.courseID;
+
+  const {localization} = useLocalization();
 
   const [data, setData] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -54,19 +57,19 @@ const OfflineCourseDetailsScreen = props => {
 
   const maps = [
     {
-      title: strings['Участники курса'],
+      title: lang('Участники курса', localization),
       leftIcon: <JournalIcon />,
       navigation: ROUTE_NAMES.offlineCourseMemberScreen,
       props: data?.members,
     },
     {
-      title: strings['Материалы курса'],
+      title: lang('Материалы курса', localization),
       leftIcon: <JournalIcon />,
       navigation: ROUTE_NAMES.courseMaterialScreen,
       props: data?.files,
     },
     {
-      title: strings['Скачать сертификат'],
+      title: lang('Скачать сертификат', localization),
       leftIcon: <JournalIcon />,
       hide: !data?.user_certificate?.file,
       type: 'certificate',
@@ -77,7 +80,7 @@ const OfflineCourseDetailsScreen = props => {
     if (props.route?.params?.reloadOfflineCourse) {
       fetchCourse();
     }
-  }, [props.route?.params?.reloadOfflineCourse])
+  }, [props.route?.params?.reloadOfflineCourse]);
 
   useEffect(() => {
     fetchCourse();
@@ -160,7 +163,7 @@ const OfflineCourseDetailsScreen = props => {
   const renderTransactionButton = () => {
     return data?.has_subscribed ? null : (
       <TransactionButton
-        text={strings['Купить полный курс']}
+        text={lang('Купить полный курс', localization)}
         price={data?.price}
         oldPrice={data?.old_price}
         onPress={onTransaction}
@@ -208,8 +211,8 @@ const CourseListHeader = ({data}) => {
 };
 
 const styles = StyleSheet.create({
-  listContent:{
-    paddingBottom:50
+  listContent: {
+    paddingBottom: 50,
   },
   poster: {
     width: '100%',

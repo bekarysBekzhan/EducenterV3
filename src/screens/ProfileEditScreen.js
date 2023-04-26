@@ -4,15 +4,18 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import SimpleButton from '../components/button/SimpleButton';
 import InputLabel from '../components/InputLabel';
 import {useFetching} from '../hooks/useFetching';
-import {strings} from '../localization';
 import RowView from '../components/view/RowView';
 import UniversalView from '../components/view/UniversalView';
 import FastImage from 'react-native-fast-image';
 import Input from '../components/Input';
 import {ProfileService} from '../services/API';
 import {ROUTE_NAMES} from '../components/navigation/routes';
+import {useLocalization} from './../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
 
 const ProfieEditScreen = ({route, navigation}) => {
+  const {localization} = useLocalization();
+
   const {profileEdit} = route.params;
   console.log('profileEdit', profileEdit);
 
@@ -40,17 +43,21 @@ const ProfieEditScreen = ({route, navigation}) => {
     }
 
     await ProfileService.fetchProfileUpdate(formData);
-    Alert.alert(strings['Внимание!'], strings['Данные изменины'], [
-      {
-        text: 'OK',
-        onPress: () =>
-          navigation.navigate({
-            name: ROUTE_NAMES.profile,
-            params: {profile: true},
-            merge: true,
-          }),
-      },
-    ]);
+    Alert.alert(
+      lang('Внимание!', localization),
+      lang('Данные изменины', localization),
+      [
+        {
+          text: 'OK',
+          onPress: () =>
+            navigation.navigate({
+              name: ROUTE_NAMES.profile,
+              params: {profile: true},
+              merge: true,
+            }),
+        },
+      ],
+    );
   });
 
   const changeAvatar = () => {
@@ -88,7 +95,7 @@ const ProfieEditScreen = ({route, navigation}) => {
           />
         </TouchableOpacity>
         <Input
-          placeholder={strings.ФИО}
+          placeholder={lang('ФИО', localization)}
           extraStyle={styles.input}
           onChangeText={name => setDataSource(prev => ({...prev, name}))}
           value={dataSource?.name}
@@ -97,7 +104,7 @@ const ProfieEditScreen = ({route, navigation}) => {
       </RowView>
 
       <InputLabel
-        label={strings['Номер телефона']}
+        label={lang('Номер телефона', localization)}
         isMask
         onChangeText={phone => setDataSource(prev => ({...prev, phone}))}
         value={dataSource?.phone}
@@ -106,14 +113,14 @@ const ProfieEditScreen = ({route, navigation}) => {
 
       <InputLabel
         autoCapitalize="none"
-        label={strings.Email}
+        label={lang('Email', localization)}
         onChangeText={email => setDataSource(prev => ({...prev, email}))}
         value={dataSource?.email}
         editable={!isLoading}
       />
 
       <SimpleButton
-        text={strings['Сохранить изменения']}
+        text={lang('Сохранить изменения', localization)}
         style={styles.button}
         onPress={fetchUpdateProfile}
         loading={isLoading}

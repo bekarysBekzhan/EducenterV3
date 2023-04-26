@@ -15,14 +15,17 @@ import RowView from '../components/view/RowView';
 import UniversalView from '../components/view/UniversalView';
 import {APP_COLORS, N_STATUS, WIDTH} from '../constans/constants';
 import {useFetching} from '../hooks/useFetching';
-import {strings} from '../localization';
 import {RatingService} from '../services/API';
 import {setFontStyle} from '../utils/utils';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import BottomSheetRatingStack from '../components/navigation/BottomSheetRatingStack';
 import {useSettings} from '../components/context/Provider';
+import { useLocalization } from '../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
 
 const RatingScreen = ({}) => {
+  const {localization} = useLocalization();
+
   const [dataSource, setDataSource] = useState({
     page: 1,
     lastPage: null,
@@ -179,7 +182,7 @@ const RatingScreen = ({}) => {
         <RowView style={styles.searchBar}>
           <Input
             // _focus={focus}
-            placeholder={strings['Поиск тестов']}
+            placeholder={lang('Поиск тестов', localization)}
             left={<View style={styles.searchIcon}>{search('#000')}</View>}
             right={ value ? 
               <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>

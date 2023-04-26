@@ -4,13 +4,16 @@ import FastImage from 'react-native-fast-image';
 import RowView from '../../../../components/view/RowView';
 import * as Progress from 'react-native-progress';
 import {check, PlayIcon} from '../../../../assets/icons';
-import {strings} from '../../../../localization';
 import CourseRow from '../../../../components/CourseRow';
 import {setFontStyle} from '../../../../utils/utils';
 import {ROUTE_NAMES} from '../../../../components/navigation/routes';
-import { APP_COLORS, WIDTH } from '../../../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../../../constans/constants';
+import {useLocalization} from '../../../../components/context/LocalizationProvider';
+import {lang} from '../../../../localization/lang';
 
 export const MyCourseDefaultCard = ({item, index, navigation}) => {
+  const {localization} = useLocalization();
+
   console.log('MyCourseDefaultCard');
   const onPressNextLesson = () => {
     navigation.navigate(ROUTE_NAMES.lesson, {
@@ -36,7 +39,7 @@ export const MyCourseDefaultCard = ({item, index, navigation}) => {
             <RowView style={styles.row1}>
               <Text style={styles.position}>
                 {item?.progress_information?.next_lesson?.position}{' '}
-                {strings.урок}
+                {lang('урок', localization)}
               </Text>
               <Progress.Circle
                 size={40}
@@ -63,7 +66,7 @@ export const MyCourseDefaultCard = ({item, index, navigation}) => {
                 <RowView>
                   <View style={styles.icon}>{check()}</View>
                   <Text style={styles.actionText}>
-                    {strings['Курс завершен']}
+                    {lang('Курс завершен', localization)}
                   </Text>
                 </RowView>
               ) : (
@@ -72,7 +75,7 @@ export const MyCourseDefaultCard = ({item, index, navigation}) => {
                     <PlayIcon size={0.6} />
                   </View>
                   <Text style={styles.actionText}>
-                    {strings['Продолжить урок']}
+                    {lang('Продолжить урок', localization)}
                   </Text>
                 </RowView>
               )}

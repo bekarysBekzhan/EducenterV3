@@ -2,7 +2,6 @@ import {Alert, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
-import {strings} from '../../localization';
 import SimpleButton from '../../components/button/SimpleButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
 import {useFetching} from '../../hooks/useFetching';
@@ -22,8 +21,12 @@ import RowView from '../../components/view/RowView';
 import {firebaseService} from '../../services/FirebaseService';
 import {check, HideIcon, ShowIcon} from '../../assets/icons';
 import {useToggle} from '../../hooks/useToggle';
+import {useLocalization} from '../../components/context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const RegisterScreen = ({navigation}) => {
+  const {localization} = useLocalization();
+
   const [dataSource, setDataSource] = useState({
     name: '',
     email: '',
@@ -49,7 +52,10 @@ const RegisterScreen = ({navigation}) => {
   const [fetchRegister, isLoading, error] = useFetching(async params => {
     const response = await AuthService.fetchRegister(params);
     if (response?.data?.errors) {
-      Alert.alert(strings['Внимание!'], response?.data?.errors?.user_exist);
+      Alert.alert(
+        lang('Внимание!', localization),
+        response?.data?.errors?.user_exist,
+      );
       return;
     }
     const token = response.data?.data?.api_token;
@@ -68,7 +74,7 @@ const RegisterScreen = ({navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: strings['Создать аккаунт'],
+      title: lang('Создать аккаунт!', localization),
       headerTitleAlign: 'center',
     });
   });
@@ -108,11 +114,11 @@ const RegisterScreen = ({navigation}) => {
   return (
     <UniversalView haveScroll contentContainerStyle={styles.view}>
       <AuthDetailView
-        title={strings['Создать аккаунт']}
+        title={lang('Создать аккаунт', localization)}
         titleStyle={styles.title}
       />
       <Input
-        placeholder={strings.ФИО}
+        placeholder={lang('ФИО', localization)}
         onChangeText={setName}
         value={dataSource?.name}
         extraStyle={styles.input}
@@ -136,7 +142,7 @@ const RegisterScreen = ({navigation}) => {
         </View>
         <View style={{width: 16}} />
         <Input
-          placeholder={strings['Номер телефона']}
+          placeholder={lang('Номер телефона', localization)}
           extraStyle={styles.input}
           keyboardType={'phone-pad'}
           mask={'(999) 999 99 99'}
@@ -146,7 +152,7 @@ const RegisterScreen = ({navigation}) => {
         />
       </RowView>
       <Input
-        placeholder={'E-mail'}
+        placeholder={lang('E-mail', localization)}
         onChangeText={setEmail}
         value={dataSource?.email}
         extraStyle={styles.input}
@@ -154,7 +160,7 @@ const RegisterScreen = ({navigation}) => {
         editable={!isLoading}
       />
       <Input
-        placeholder={strings['Придумайте пароль']}
+        placeholder={lang('Придумайте пароль', localization)}
         onChangeText={setPassword}
         value={dataSource?.password}
         extraStyle={styles.input}
@@ -167,15 +173,15 @@ const RegisterScreen = ({navigation}) => {
         <TouchableOpacity style={styles.square} onPress={setToggleCheckMark}>
           {toggleCheckMark ? check(1.5, APP_COLORS.primary) : null}
         </TouchableOpacity>
-        <Text>{strings['Я принимаю']}</Text>
+        <Text>{lang('Я принимаю', localization)}</Text>
         <Text
           style={styles.licenseAgreementTextStyle}
           onPress={licenseAgreement}>
-          {strings['условия соглашения']}
+          {lang('условия соглашения', localization)}
         </Text>
       </View>
       <SimpleButton
-        text={strings.Зарегистрироваться}
+        text={lang('Зарегистрироваться', localization)}
         style={styles.button}
         loading={isLoading}
         onPress={toggleCheckMark ? onSignUp : null}

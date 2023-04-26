@@ -10,7 +10,6 @@ import {
   ReclamentIcon,
   UbtIcon,
 } from '../../../assets/icons';
-import {strings} from '../../../localization';
 import SectionView from '../../../components/view/SectionView';
 import NavButtonRow from '../../../components/view/NavButtonRow';
 import RowView from '../../../components/view/RowView';
@@ -21,22 +20,27 @@ import DevView from '../../../components/view/DevView';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
+import {useLocalization} from '../../../components/context/LocalizationProvider';
+import {lang} from '../../../localization/lang';
 
 const MenuScreen = ({navigation}) => {
   const {settings, nstatus, isAuth} = useSettings();
+  const {localization} = useLocalization();
 
   useLayoutEffect(() => {
-    navigation.setOptions(navHeaderOptions(settings?.logo, strings.Меню));
+    navigation.setOptions(
+      navHeaderOptions(settings?.logo, lang('Меню', localization)),
+    );
   }, []);
 
   const MENU = [
     {
-      section: 'Меню',
+      section: lang('Меню', localization),
       enabled: true,
       data: [
         {
           id: 1,
-          text: settings?.modules_enabled_ubt_title,
+          text: lang('ЕНТ', localization),
           iconLeft: <UbtIcon />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_ubt,
           route: ROUTE_NAMES.selectSubjects,
@@ -44,7 +48,7 @@ const MenuScreen = ({navigation}) => {
         },
         {
           id: 2,
-          text: settings?.modules_enabled_journals_title,
+          text: lang('Журнал', localization),
           iconLeft: <JournalIcon />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_journals,
           route: ROUTE_NAMES.journalNavigator,
@@ -52,7 +56,7 @@ const MenuScreen = ({navigation}) => {
         },
         {
           id: 3,
-          text: settings?.modules_enabled_schedules_title,
+          text: lang('Расписания', localization),
           iconLeft: <JournalIcon />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_schedules,
           route: ROUTE_NAMES.login,
@@ -60,7 +64,7 @@ const MenuScreen = ({navigation}) => {
         },
         {
           id: 2,
-          text: settings?.modules_enabled_rating_title,
+          text: lang('Рейтинг', localization),
           iconLeft: <RatingIcon />,
           enabled: isAuth && settings?.modules_enabled_rating,
           route: ROUTE_NAMES.rating,
@@ -74,7 +78,7 @@ const MenuScreen = ({navigation}) => {
         // },
         {
           id: 4,
-          text: settings?.modules_enabled_news_title,
+          text: lang('Новости', localization),
           iconLeft: <NewsIcon />,
           enabled: settings?.modules_enabled_news,
           route: ROUTE_NAMES.news,
@@ -82,7 +86,7 @@ const MenuScreen = ({navigation}) => {
         },
         {
           id: 5,
-          text: settings?.modules_enabled_offline_courses_title,
+          text: lang('Офлайн курсы', localization),
           iconLeft: <ReclamentIcon />,
           enabled:
             nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
@@ -91,7 +95,7 @@ const MenuScreen = ({navigation}) => {
         },
         {
           id: 6,
-          text: strings.Календарь,
+          text: lang('Календарь', localization),
           iconLeft: <CalendarIcon />,
           enabled:
             nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
@@ -100,7 +104,7 @@ const MenuScreen = ({navigation}) => {
         },
         {
           id: 7,
-          text: strings['Правила и соглашения'],
+          text: lang('Правила и соглашения', localization),
           iconLeft: <ReclamentIcon />,
           enabled: true,
           route: ROUTE_NAMES.privacy,
@@ -109,7 +113,7 @@ const MenuScreen = ({navigation}) => {
       ],
     },
     {
-      section: strings.Помощь,
+      section: lang('Помощь', localization),
       enabled: nstatus !== N_STATUS && settings?.phone?.length,
       data: [
         {
@@ -162,16 +166,20 @@ const MenuScreen = ({navigation}) => {
           style={styles.profile}
         />
         <View style={styles.infoView}>
-          <Text style={styles.profileText}>{strings['Ваш профиль']}</Text>
+          <Text style={styles.profileText}>
+            {lang('Ваш профиль', localization)}
+          </Text>
           <Text style={styles.profileLabel}>
-            {strings['Войдите в профиль или создайте новый']}
+            {lang('Войдите в профиль или создайте новый', localization)}
           </Text>
 
           <Text style={styles.profileAction}>
-            <Text onPress={authLoginNavigation}>{strings.Войти}</Text>
-            <Text style={styles.or}> {strings.или} </Text>
+            <Text onPress={authLoginNavigation}>
+              {lang('Войти', localization)}
+            </Text>
+            <Text style={styles.or}> {lang('или', localization)} </Text>
             <Text onPress={authRegisterNavigation}>
-              {strings['Создайте новый']}
+              {lang('Создайте новый', localization)}
             </Text>
           </Text>
         </View>

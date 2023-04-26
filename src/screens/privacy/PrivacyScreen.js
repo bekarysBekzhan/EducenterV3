@@ -5,17 +5,21 @@ import PrivacyItem from '../../components/item/PrivacyItem';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import {useFetching} from '../../hooks/useFetching';
 import {PolicyService} from '../../services/API';
-import {strings} from '../../localization';
 import Empty from '../../components/Empty';
+import { useLocalization } from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const PrivacyScreen = ({navigation}) => {
+
+  const {localization} = useLocalization();
+
   const [dataSource, setDataSource] = useState({
     data: [],
   });
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: strings['Правила и соглашения'],
+      title: lang('Правила и соглашения', localization),
       headerTitleAlign: 'center',
     });
   }, []);

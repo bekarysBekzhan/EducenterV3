@@ -1,16 +1,18 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {strings} from '../../localization';
 import {ROUTE_NAMES} from './routes';
 import TestsScreen from '../../screens/bottomtab/tests/TestsScreen';
 import TestDetailScreen from '../../screens/bottomtab/tests/TestDetailScreen';
 import {useSettings} from '../context/Provider';
 import {navHeaderOptions} from './navHeaderOptions';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const TestsStack = createNativeStackNavigator();
 
 const Tests = () => {
-  const TITLE = strings.Тесты;
+  const {localization} = useLocalization();
+  const TITLE = lang('Тесты', localization);
 
   const screens = [
     {
@@ -36,7 +38,7 @@ const Tests = () => {
             screen.name === ROUTE_NAMES.tests
               ? navHeaderOptions(settings?.logo, TITLE)
               : {
-                  headerTitle: strings.Тесты,
+                  headerTitle: lang('Тесты', localization),
                   headerBackTitleVisible: false,
                   headerTitleAlign: 'center',
                 }

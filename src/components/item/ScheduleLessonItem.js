@@ -1,14 +1,17 @@
 import React, {memo} from 'react';
 import {FlatList, Linking, StyleSheet, Text, View} from 'react-native';
 import {APP_COLORS} from '../../constans/constants';
-import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
 import Avatar from '../Avatar';
 import TextButton from '../button/TextButton';
 import Empty from '../Empty';
 import RowView from '../view/RowView';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const ScheduleLessonItem = ({name, category, avatar, item, link}) => {
+  const {localization} = useLocalization();
+
   const open = () => {
     console.log(link);
     if (link) {
@@ -42,7 +45,7 @@ const ScheduleLessonItem = ({name, category, avatar, item, link}) => {
           </View>
 
           <TextButton
-            text={strings.Перейти}
+            text={lang('Перейти', localization)}
             textStyle={styles.goTo}
             style={styles.button}
             onPress={open}

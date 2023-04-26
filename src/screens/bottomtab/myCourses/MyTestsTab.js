@@ -21,7 +21,6 @@ import {
   setFontStyle,
   wordLocalization,
 } from '../../../utils/utils';
-import {strings} from '../../../localization';
 import TextButton from '../../../components/button/TextButton';
 import Divider from '../../../components/Divider';
 import Collapsible from 'react-native-collapsible';
@@ -29,6 +28,8 @@ import {useSettings} from '../../../components/context/Provider';
 import RNFS from 'react-native-fs';
 import Downloader from '../../../components/Downloader';
 import Empty from '../../../components/Empty';
+import {useLocalization} from '../../../components/context/LocalizationProvider';
+import {lang} from '../../../localization/lang';
 
 const MyTestsTab = props => {
   const [data, setData] = useState(null);
@@ -37,6 +38,7 @@ const MyTestsTab = props => {
 
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState(0);
+  const {localization} = useLocalization();
 
   const refJobId = useRef(null);
 
@@ -86,7 +88,7 @@ const MyTestsTab = props => {
   };
 
   const downloader = useCallback(
-    (urlFile, fileName = strings.Сертификат) => {
+    (urlFile, fileName = lang('Сертификат', localization)) => {
       setVisible(true);
       fileDownloader(urlFile, fileName, () => setVisible(false), onProgress);
     },
@@ -124,6 +126,7 @@ const MyTestsTab = props => {
         attemptHistory={item?.all_passings}
         certificate={item?.user_certificate}
         resultType={item?.result_type}
+        localization={localization}
         onStartTest={onStartTest}
         onShowResult={onShowResult}
         onDownload={downloader}
@@ -187,8 +190,9 @@ const ModuleMyTestItem = ({
   title,
   attempts,
   certificate,
-  attemptHistory=[],
+  attemptHistory = [],
   resultType,
+  localization,
   onStartTest = () => undefined,
   onShowResult = () => undefined,
   onDownload = () => undefined,
@@ -198,8 +202,8 @@ const ModuleMyTestItem = ({
 
   const usedAttempts = () => {
     const attempts = attemptHistory[attemptHistory?.length - 1]?.attempts;
-    const result = isNaN(attempts) ? 0 : attempts
-    return result
+    const result = isNaN(attempts) ? 0 : attempts;
+    return result;
   };
 
   const getData = () => {
@@ -250,7 +254,7 @@ const ModuleMyTestItem = ({
           onPress={() => onStartTest(id)}
           style={testItem.button}
           textStyle={[testItem.buttonText]}
-          text={strings['Пройти тест']}
+          text={lang('Пройти тест', localization)}
         />
       );
     }
@@ -259,7 +263,7 @@ const ModuleMyTestItem = ({
       <TextButton
         onPress={() => undefined}
         style={testItem.button}
-        text={strings['Тест пройден']}
+        text={lang('Тест пройден', localization)}
         textStyle={[testItem.buttonText, {color: 'green'}]}
       />
     );
@@ -274,7 +278,8 @@ const ModuleMyTestItem = ({
               <PlayIcon size={0.6} color={APP_COLORS.primary} />
             </View>
             <Text style={testItem.attemptText}>
-              {strings.Пройти}. {strings.Попытка} {item?.attempts}
+              {lang('Пройти', localization)}. {lang('Попытка', localization)}{' '}
+              {item?.attempts}
             </Text>
           </RowView>
         </TouchableOpacity>
@@ -284,8 +289,8 @@ const ModuleMyTestItem = ({
         <RowView style={testItem.locked}>
           {lock()}
           <Text style={[testItem.attemptText, {color: APP_COLORS.placeholder}]}>
-            {strings.Попытка} {item?.attempts}.{' '}
-            {strings['Пройдите предыдущий тест, чтобы начать.']}
+            {lang('Попытка', localization)} {item?.attempts}.{' '}
+            {lang('Пройдите предыдущий тест, чтобы начать.', localization)}
           </Text>
         </RowView>
       );
@@ -307,7 +312,7 @@ const ModuleMyTestItem = ({
               <PlayIcon size={0.6} color={APP_COLORS.primary} />
             </View>
             <Text style={testItem.attemptText}>
-              {strings.Попытка} {item?.attempts}
+              {lang('Попытка', localization)} {item?.attempts}
             </Text>
           </RowView>
           <RowView>
@@ -316,8 +321,8 @@ const ModuleMyTestItem = ({
           </RowView>
         </RowView>
         <Text style={testItem.time}>
-          {strings.БАЛЛ} {item?.percent}%・
-          {wordLocalization(strings[':num из :count'], {
+          {lang('БАЛЛ', localization)} {item?.percent}%・
+          {wordLocalization(lang(':num из :count', localization), {
             num: item?.score,
             count: item?.tests_count,
           })}
@@ -330,17 +335,20 @@ const ModuleMyTestItem = ({
     <View style={testItem.container}>
       <Text style={testItem.title}>{title}</Text>
       <Text style={testItem.attempts}>
-        {wordLocalization(strings['Пройдено: :num1 из :num2 тестов'], {
-          num1: usedAttempts(),
-          num2: attempts,
-        })}
+        {wordLocalization(
+          lang('Пройдено: :num1 из :num2 тестов', localization),
+          {
+            num1: usedAttempts(),
+            num2: attempts,
+          },
+        )}
       </Text>
       {certificate && settings?.modules_enabled_certificates ? (
         <TextButton
           onPress={() => onDownload(certificate?.file)}
           style={testItem.button}
           textStyle={testItem.buttonText}
-          text={strings['Скачать сертификат']}
+          text={lang('Скачать сертификат', localization)}
         />
       ) : null}
       <Divider isAbsolute={false} style={testItem.divider} />
@@ -354,9 +362,12 @@ const ModuleMyTestItem = ({
           activeOpacity={0.7}>
           <RowView style={testItem.row2}>
             <Text style={testItem.attemptsLeft}>
-              {wordLocalization(strings['Осталось :attempts попытки'], {
-                attempts: attempts - usedAttempts(),
-              })}
+              {wordLocalization(
+                lang('Осталось :attempts попытки', localization),
+                {
+                  attempts: attempts - usedAttempts(),
+                },
+              )}
             </Text>
             <View>{isCollapsed ? down : up}</View>
           </RowView>

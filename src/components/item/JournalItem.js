@@ -2,10 +2,11 @@ import React, {memo} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {APP_COLORS} from '../../constans/constants';
-import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
 import Price from '../Price';
 import RowView from '../view/RowView';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const JournalItem = ({
   item,
@@ -27,6 +28,8 @@ const JournalItem = ({
     }
   };
 
+  const {localization} = useLocalization();
+
   return (
     <TouchableOpacity onPress={handlerPress} activeOpacity={0.9} style={style}>
       <RowView style={styles.row}>
@@ -42,15 +45,19 @@ const JournalItem = ({
           ) : null}
           {number || year ? (
             <Text numberOfLines={1} style={styles.year}>
-              № {number} • {year} {strings.год}
+              № {number} • {year} {lang('год', localization)}
             </Text>
           ) : null}
           {showPrice && <Price price={price} old_price={old_price} />}
           {hasFile ? (
-            <Text style={styles.subscribe}>{strings['Читать журнал']}</Text>
+            <Text style={styles.subscribe}>
+              {lang('Читать журнал', localization)}
+            </Text>
           ) : (
             <Text style={styles.subscribe}>
-              {has_subscribed ? strings['Вы подписаны'] : strings.Подписаться}
+              {has_subscribed
+                ? lang('Вы подписаны', localization)
+                : lang('Подписаться', localization)}
             </Text>
           )}
         </View>

@@ -11,13 +11,15 @@ import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
 import Overlay from '../components/view/Overlay';
-import {strings} from '../localization';
 import SimpleButton from '../components/button/SimpleButton';
 import {setFontStyle} from '../utils/utils';
 import RatingStar from '../components/RatingStar';
 import {APP_COLORS} from '../constans/constants';
+import {useLocalization} from './../components/context/LocalizationProvider';
+import {lang} from './../localization/lang';
 
 const WriteReviewScreen = props => {
+  const {localization} = useLocalization();
 
   const id = props.route?.params?.id;
 
@@ -29,7 +31,7 @@ const WriteReviewScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: strings['Оставить отзыв'],
+      title: lang('Оставить отзыв', localization),
     });
   }, []);
 
@@ -64,12 +66,16 @@ const WriteReviewScreen = props => {
   };
 
   const alertSuccessful = () => {
-    Alert.alert(strings['Спасибо!'], strings['Ваш отзыв принят!'], [
-      {
-        text: 'OK',
-        onPress: onAlertButton,
-      },
-    ]);
+    Alert.alert(
+      lang('Спасибо!', localization),
+      lang('Ваш отзыв принят!', localization),
+      [
+        {
+          text: 'OK',
+          onPress: onAlertButton,
+        },
+      ],
+    );
   };
 
   return (
@@ -86,7 +92,7 @@ const WriteReviewScreen = props => {
         />
         <TextInput
           value={text}
-          placeholder={strings['Ваш отзыв']}
+          placeholder={lang('Ваш отзыв', localization)}
           placeholderTextColor={APP_COLORS.placeholder}
           onChangeText={onChangeText}
           blurOnSubmit={false}
@@ -95,7 +101,7 @@ const WriteReviewScreen = props => {
         />
         <View style={styles.spacer} />
         <SimpleButton
-          text={strings['Оставить отзыв']}
+          text={lang('Оставить отзыв', localization)}
           onPress={rateCourse}
           onLayout={onButtonLayout}
         />

@@ -5,14 +5,17 @@ import {useFetching} from '../../../hooks/useFetching';
 import {TestService} from '../../../services/API';
 import LoadingScreen from '../../../components/LoadingScreen';
 import Person from '../../../components/Person';
-import {strings} from '../../../localization';
 import TransactionButton from '../../../components/button/TransactionButton';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {N_STATUS, TYPE_SUBCRIBES} from '../../../constans/constants';
+import {useLocalization} from '../../../components/context/LocalizationProvider';
+import {lang} from '../../../localization/lang';
 
 const TestDetailScreen = props => {
   const id = props.route?.params?.id;
+
+  const {localization} = useLocalization();
 
   const {isAuth, nstatus} = useSettings();
   const [data, setData] = useState(null);
@@ -46,7 +49,7 @@ const TestDetailScreen = props => {
         props.navigation.navigate(ROUTE_NAMES.operation, {
           operation: data,
           type: TYPE_SUBCRIBES.TEST_SUBCRIBE,
-          previousScreen: ROUTE_NAMES.testDetail
+          previousScreen: ROUTE_NAMES.testDetail,
         });
       }
     } else {
@@ -56,16 +59,16 @@ const TestDetailScreen = props => {
 
   const getTransactionText = () => {
     if (nstatus === N_STATUS) {
-      return strings['Пройти тест'];
+      return lang('Пройти тест', localization);
     }
 
     if (data?.has_subscribed) {
-      return strings['Пройти тест'];
+      return lang('Пройти тест', localization);
     }
     if (data?.price) {
-      return strings['Купить тест'];
+      return lang('Купить тест', localization);
     }
-    return strings.Бесплатно;
+    return lang('Бесплатно', localization);
   };
 
   if (isFetching) {
@@ -89,7 +92,7 @@ const TestDetailScreen = props => {
         <Person
           name={data?.author?.name}
           image={data?.author?.avatar}
-          status={strings['Автор теста']}
+          status={lang('Автор теста', localization)}
           description={data?.author?.description}
           extraStyles={{
             margin: 16,

@@ -1,19 +1,13 @@
-import {
-  Text,
-  FlatList,
-  StyleSheet,
-  Switch,
-} from 'react-native';
+import {Text, FlatList, StyleSheet, Switch} from 'react-native';
 import React, {useCallback, useRef} from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {useFetching} from '../../../hooks/useFetching';
 import {CourseService} from '../../../services/API';
 import {useState} from 'react';
 import {useEffect} from 'react';
-import {APP_COLORS,} from '../../../constans/constants';
+import {APP_COLORS} from '../../../constans/constants';
 import {fileDownloader, setFontStyle} from '../../../utils/utils';
 import RowView from '../../../components/view/RowView';
-import {strings} from '../../../localization';
 import Divider from '../../../components/Divider';
 import {useSettings} from '../../../components/context/Provider';
 import TransactionButton from '../../../components/button/TransactionButton';
@@ -24,12 +18,14 @@ import Downloader from '../../../components/Downloader';
 import Footer from '../../../components/course/Footer';
 import LoadingScreen from '../../../components/LoadingScreen';
 import MyCourseChapter from '../../../components/course/MyCourseChapter';
+import {useLocalization} from '../../../components/context/LocalizationProvider';
+import {lang} from '../../../localization/lang';
 
 const MyCourseDetailScreen = props => {
-
   const courseID = props.route?.params?.courseID;
 
   const {settings} = useSettings();
+  const {localization} = useLocalization();
 
   const [visible, setVisible] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
@@ -45,7 +41,7 @@ const MyCourseDetailScreen = props => {
 
   useEffect(() => {
     const state = props.navigation.getState();
-    console.log("state",state);
+    console.log('state', state);
     fetchCourse();
   }, []);
 
@@ -77,20 +73,20 @@ const MyCourseDetailScreen = props => {
     }
   }, []);
 
-  const passedLessonCount = (chapter) => {
+  const passedLessonCount = chapter => {
     if (chapter?.position < data?.progress?.last_chapter_position) {
-      return chapter?.lessons_count
-    } 
-    if (chapter?.position > data?.progress?.last_chapter_position) {
-      return 0
+      return chapter?.lessons_count;
     }
-  
-    return data?.progress?.last_lesson_position
-  }
+    if (chapter?.position > data?.progress?.last_chapter_position) {
+      return 0;
+    }
 
-  const getProgressPercent = (chapter) => {
-    return (passedLessonCount(chapter, data) / chapter?.lessons_count) * 100
-  }
+    return data?.progress?.last_lesson_position;
+  };
+
+  const getProgressPercent = chapter => {
+    return (passedLessonCount(chapter, data) / chapter?.lessons_count) * 100;
+  };
 
   const renderHeader = () => {
     return (
@@ -105,24 +101,27 @@ const MyCourseDetailScreen = props => {
           description={data?.description}
         />
         <Divider isAbsolute={false} />
-        <Text style={styles.courseProgram}>{strings['Программа курса']}</Text>
-        <RowView style={{ justifyContent: "space-between", margin: 16 }}>
-          <Text style={{ color: APP_COLORS.font }}>{strings['Скрыть пройденные курсы']}</Text>
+        <Text style={styles.courseProgram}>
+          {lang('Программа курса', localization)}
+        </Text>
+        <RowView style={{justifyContent: 'space-between', margin: 16}}>
+          <Text style={{color: APP_COLORS.font}}>
+            {lang('Скрыть пройденные курсы', localization)}
+          </Text>
           <Switch
             value={isFilter}
-            onValueChange={(value) => setIsFilter(value)}
+            onValueChange={value => setIsFilter(value)}
             thumbColor={isFilter ? APP_COLORS.primary : APP_COLORS.placeholder}
-            trackColor={{ true: "#EBEBFE", false: "#eee"}}
+            trackColor={{true: '#EBEBFE', false: '#eee'}}
           />
         </RowView>
       </UniversalView>
-    )
+    );
   };
 
   const renderChapter = ({item, index}) => {
-
     if (isFilter && getProgressPercent(item) === 100) {
-      return null
+      return null;
     }
 
     return (
@@ -139,26 +138,28 @@ const MyCourseDetailScreen = props => {
   };
 
   const renderFooter = () => {
-    return <Footer data={data} navigation={props?.navigation}/>;
+    return <Footer data={data} navigation={props?.navigation} />;
   };
 
   const renderTransactionButton = () => {
-
-    if (data?.progress?.finished && data?.user_certificate && settings?.modules_enabled_certificates) {
+    if (
+      data?.progress?.finished &&
+      data?.user_certificate &&
+      settings?.modules_enabled_certificates
+    ) {
       return (
         <TransactionButton
-          text={strings['Скачать сертификат']}
+          text={lang('Скачать сертификат', localization)}
           style={{backgroundColor: 'green'}}
           textStyle={{textTransform: 'uppercase'}}
           onPress={downloader}
         />
-      )
+      );
     }
 
-    return (
-      typeof(passedLessonCount(courseID, data)) == 'undefined' ? null :
+    return typeof passedLessonCount(courseID, data) == 'undefined' ? null : (
       <TransactionButton
-        text={strings['Продолжить урок']}
+        text={lang('Продолжить урок', localization)}
         onPress={() =>
           props.navigation.navigate(ROUTE_NAMES.lesson, {
             id: data?.progress?.next_lesson?.id,
@@ -170,20 +171,20 @@ const MyCourseDetailScreen = props => {
   };
 
   if (isLoading) {
-    return <LoadingScreen/>
+    return <LoadingScreen />;
   }
 
   return (
     <UniversalView style={styles.container}>
-        <FlatList
-          data={data?.chapters}
-          ListHeaderComponent={renderHeader}
-          renderItem={renderChapter}
-          ListFooterComponent={renderFooter}
-          keyExtractor={(_, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.listContent}
-        />
+      <FlatList
+        data={data?.chapters}
+        ListHeaderComponent={renderHeader}
+        renderItem={renderChapter}
+        ListFooterComponent={renderFooter}
+        keyExtractor={(_, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.listContent}
+      />
       {renderTransactionButton()}
       <Downloader
         visible={visible}
@@ -195,8 +196,8 @@ const MyCourseDetailScreen = props => {
 };
 
 const styles = StyleSheet.create({
-  listContent:{
-    paddingBottom:50
+  listContent: {
+    paddingBottom: 50,
   },
   container: {},
   counts: {

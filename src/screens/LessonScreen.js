@@ -24,7 +24,6 @@ import {
 } from '../utils/utils';
 import RowView from '../components/view/RowView';
 import OutlineButton from '../components/button/OutlineButton';
-import {strings} from '../localization';
 import {CourseProgramIcon, LeftIcon, RightIcon, x} from '../assets/icons';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {useIsCaptured} from 'react-native-is-screen-captured-ios';
@@ -42,8 +41,11 @@ import CourseChapter from '../components/course/CourseChapter';
 import {useHeaderHeight} from '@react-navigation/elements';
 import {useSettings} from '../components/context/Provider';
 import ShowType from '../components/test/ShowType';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const LessonScreen = props => {
+  const {localization} = useLocalization();
 
   const id = props.route?.params?.id;
   const chapterTitle = props.route?.params?.title;
@@ -76,7 +78,7 @@ const LessonScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: chapterTitle ? chapterTitle : strings.урок,
+      title: chapterTitle ? chapterTitle : lang('урок', localization),
       headerTitleAlign: 'center',
     });
   }, []);
@@ -209,7 +211,9 @@ const LessonScreen = props => {
             setIsCourseProgram(true);
           }}>
           <CourseProgramIcon />
-          <Text style={styles.programText}>{strings['Программа курса']}</Text>
+          <Text style={styles.programText}>
+            {lang('Программа курса', localization)}
+          </Text>
         </TouchableOpacity>
         <View style={styles.video}>
           <HtmlView html={data?.video} />
@@ -236,14 +240,14 @@ const LessonScreen = props => {
         </View>
         {data?.test_enabled ? (
           <OutlineButton
-            text={strings['Пройти тест']}
+            text={lang('Пройти тест', localization)}
             onPress={onPressTest}
             style={styles.testButton}
           />
         ) : null}
         {data?.task_enabled ? (
           <OutlineButton
-            text={strings['Пройти задание']}
+            text={lang('Пройти задание', localization)}
             onPress={onPressTask}
             style={styles.taskButton}
           />
@@ -252,11 +256,12 @@ const LessonScreen = props => {
           <WriteComment
             lessonId={id}
             submitCommentTapped={submitCommentTapped}
+            localization={localization}
           />
         ) : null}
         {settings?.modules_enable_comments_lesson ? (
           <Text style={styles.commentsCount}>
-            {comments.length} {strings.Комментарий}
+            {comments.length} {lang('Комментарий', localization)}
           </Text>
         ) : null}
         {settings?.modules_enable_comments_lesson ? (
@@ -273,6 +278,7 @@ const LessonScreen = props => {
         id={item?.id}
         name={item?.user?.name}
         date={item?.added_at}
+        localization={localization}
         text={item?.text}
         replies={item?.comment_lists}
         lessonId={id}
@@ -285,13 +291,13 @@ const LessonScreen = props => {
 
   const renderEmptyComponent = () => {
     if (!settings?.modules_enable_comments_lesson) return null;
-    return <Empty text={strings['Нет комментариев']} />;
+    return <Empty text={lang('Нет комментариев', localization)} />;
   };
 
   const renderModalHeader = () => {
     return (
       <RowView style={modal.header}>
-        <Text style={modal.text}>{strings['Программа курса']}</Text>
+        <Text style={modal.text}>{lang('Программа курса', localization)}</Text>
         <TouchableOpacity onPress={() => setIsCourseProgram(false)}>
           {x(16, APP_COLORS.placeholder)}
         </TouchableOpacity>
@@ -395,7 +401,11 @@ const LessonScreen = props => {
   );
 };
 
-const WriteComment = ({lessonId, submitCommentTapped = () => undefined}) => {
+const WriteComment = ({
+  lessonId,
+  submitCommentTapped = () => undefined,
+  localization,
+}) => {
   const [text, setText] = useState('');
   const [sendComment, isLoading, sendingError] = useFetching(async () => {
     const response = await CourseService.sendComment(lessonId, null, text);
@@ -426,14 +436,14 @@ const WriteComment = ({lessonId, submitCommentTapped = () => undefined}) => {
       <TextInput
         value={text}
         onChangeText={onChangeText}
-        placeholder={strings.Комментарий}
+        placeholder={lang('Комментарий', localization)}
         placeholderTextColor={APP_COLORS.placeholder}
         multiline
         blurOnSubmit={false}
         style={styles.input}
       />
       <SimpleButton
-        text={strings.Отправить}
+        text={lang('Отправить', localization)}
         onPress={onPress}
         loading={isLoading}
       />
@@ -449,6 +459,7 @@ const Comment = ({
   date,
   text,
   submitCommentTapped = () => undefined,
+  localization,
   replies = [],
 }) => {
   const [reply, setReply] = useState('');
@@ -503,7 +514,9 @@ const Comment = ({
           style={comment.button}
           activeOpacity={0.65}
           onPress={() => onReply(id)}>
-          <Text style={comment.buttonText}>{strings.Ответить}</Text>
+          <Text style={comment.buttonText}>
+            {lang('Ответить', localization)}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -519,7 +532,9 @@ const Comment = ({
           style={comment.button}
           activeOpacity={0.65}
           onPress={() => onReply(item?.id)}>
-          <Text style={comment.buttonText}>{strings.Ответить}</Text>
+          <Text style={comment.buttonText}>
+            {lang('Ответить', localization)}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -542,19 +557,19 @@ const Comment = ({
           style={comment.backDrop}
           onPress={() => setIsModal(false)}>
           <View style={comment.modal}>
-            <Text style={comment.name}>{strings.Ответить}</Text>
+            <Text style={comment.name}>{lang('Ответить', localization)}</Text>
             <Divider isAbsolute />
             <TextInput
               value={reply}
               onChangeText={onChangeReply}
-              placeholder={strings.Комментарий}
+              placeholder={lang('Комментарий', localization)}
               placeholderTextColor={APP_COLORS.placeholder}
               multiline
               blurOnSubmit={false}
               style={styles.input}
             />
             <SimpleButton
-              text={strings.Отправить}
+              text={lang('Отправить', localization)}
               onPress={() => onPress()}
               loading={isLoading}
             />

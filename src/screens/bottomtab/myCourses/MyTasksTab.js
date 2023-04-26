@@ -7,14 +7,16 @@ import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {APP_COLORS, WIDTH} from '../../../constans/constants';
 import LoadingScreen from '../../../components/LoadingScreen';
 import {setFontStyle, wordLocalization} from '../../../utils/utils';
-import {strings} from '../../../localization';
 import Divider from '../../../components/Divider';
 import RowView from '../../../components/view/RowView';
 import {check, PlayIcon} from '../../../assets/icons';
 import TextButton from '../../../components/button/TextButton';
 import Empty from '../../../components/Empty';
+import { useLocalization } from '../../../components/context/LocalizationProvider';
+import { lang } from '../../../localization/lang';
 
 const MyTasksTab = props => {
+  const {localization} = useLocalization();
 
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
@@ -48,6 +50,7 @@ const MyTasksTab = props => {
       <MyTask
         id={item?.id}
         index={index}
+        localization={localization}
         title={item?.title}
         finished={item?.passing_task?.finished}
         score={item?.passing_task?.score}
@@ -103,6 +106,7 @@ const MyTask = ({
   title,
   finished = false,
   score = 0,
+  localization,
   onPress = () => undefined,
 }) => {
   return (
@@ -110,7 +114,7 @@ const MyTask = ({
       <Text style={task.title}>{title}</Text>
       {finished ? (
         <Text style={task.score}>
-          {wordLocalization(strings['Вы набрали :score баллов'], {
+          {wordLocalization(lang('Вы набрали :score баллов', localization), {
             score: score,
           })}
         </Text>
@@ -135,14 +139,14 @@ const MyTask = ({
             onPress={() => onPress(id)}
             style={task.button}
             textStyle={[task.buttonText, {color: 'green'}]}
-            text={strings['Задание завершено']}
+            text={lang('Задание завершено', localization)}
           />
         ) : (
           <TextButton
             onPress={() => onPress(id)}
             style={task.button}
             textStyle={task.buttonText}
-            text={strings['Пройти задание']}
+            text={lang('Пройти задание', localization)}
           />
         )}
       </RowView>

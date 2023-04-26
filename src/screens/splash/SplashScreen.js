@@ -8,12 +8,15 @@ import SimpleButton from '../../components/button/SimpleButton';
 import OutlineButton from '../../components/button/OutlineButton';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import FastImage from 'react-native-fast-image';
-import {strings} from '../../localization';
 import {storeObject} from '../../storage/AsyncStorage';
 import HtmlView from '../../components/HtmlView';
+import {useLocalization} from './../../components/context/LocalizationProvider';
+import {lang} from './../../localization/lang';
 
 const SplashScreen = ({navigation}) => {
   const {settings, initialStart, isAuth, nstatus} = useSettings();
+
+  const {localization} = useLocalization();
 
   useEffect(() => {
     if (!initialStart) {
@@ -70,20 +73,20 @@ const SplashScreen = ({navigation}) => {
 
         <View style={styles.bottom}>
           <SimpleButton
-            text={strings['Продолжить на русском']}
+            text={lang('Продолжить на русском', localization)}
             onPress={onContinue}
           />
           <OutlineButton
-            text={strings['Поменять язык']}
+            text={lang('Поменять язык', localization)}
             style={styles.outlineButton}
             onPress={changeLanguagePressed}
           />
           <TouchableOpacity onPress={goTo}>
             <HtmlView
               html={`<p>${wordLocalization(
-                strings['Продолжая вы соглашаетесь с :word'],
+                lang('Продолжая вы соглашаетесь с :word', localization),
                 {
-                  word: `<span style='color:${APP_COLORS.primary}'>${strings['Пользовательским соглашением']}</span>`,
+                  word: `<span style='color:${APP_COLORS.primary}'>${lang('Пользовательским соглашением', localization)}</span>`,
                 },
               )}</p>`}
               tagsStyles={{p: {color: APP_COLORS.font}}}

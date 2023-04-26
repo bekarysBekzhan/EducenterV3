@@ -6,10 +6,13 @@ import {CourseService} from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
 import Question from '../components/test/Question';
 import {RESULT_TYPES} from '../constans/constants';
-import {strings} from '../localization';
 import Empty from '../components/Empty';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
 
 const TestResultScreen = props => {
+  const {localization} = useLocalization();
+
   const id = props.route?.params?.id;
   const resultType = props.route?.params?.resultType;
 
@@ -23,7 +26,7 @@ const TestResultScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: strings['Результаты теста'],
+      title: lang('Результаты теста', localization),
     });
     fetchResult();
   }, []);
@@ -54,7 +57,7 @@ const TestResultScreen = props => {
     <UniversalView style={styles.container}>
       <FlatList
         data={data}
-        ListEmptyComponent={<Empty/>}
+        ListEmptyComponent={<Empty />}
         style={{padding: 16}}
         renderItem={renderQuestion}
         keyExtractor={(_, index) => index.toString()}

@@ -4,11 +4,15 @@ import UniversalView from '../../components/view/UniversalView';
 import HtmlView from '../../components/HtmlView';
 import {useFetching} from '../../hooks/useFetching';
 import {PolicyService} from '../../services/API';
-import {strings} from '../../localization';
 import {APP_COLORS} from '../../constans/constants';
+import { useLocalization } from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const PolicyScreen = ({navigation, route}) => {
   const id = route?.params?.id;
+
+  const {localization} = useLocalization();
+
 
   const [dataSource, setDataSource] = useState({
     data: '',
@@ -16,7 +20,7 @@ const PolicyScreen = ({navigation, route}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: strings['Правила и соглашения'],
+      title: lang('Правила и соглашения', localization),
       headerTitleAlign: 'center',
     });
   }, []);

@@ -3,13 +3,17 @@ import {Alert, Dimensions, Linking, StyleSheet} from 'react-native';
 import Pdf from 'react-native-pdf';
 import UniversalView from '../../components/view/UniversalView';
 import {APP_COLORS} from '../../constans/constants';
-import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
+
+import {useLocalization} from './../../components/context/LocalizationProvider';
+import {lang} from './../../localization/lang'
 
 const {width, height} = Dimensions.get('screen');
 
 const ReadJournalScreen = ({navigation, route}) => {
   const {readJournal} = route.params;
+
+  const {localization} = useLocalization();
 
   console.log('readJournal', readJournal);
 
@@ -32,12 +36,16 @@ const ReadJournalScreen = ({navigation, route}) => {
   const onError = error => {
     if (error) {
       if (!dataSource?.error) {
-        Alert.alert(strings['Внимание!'], strings['Ошибка!'], [
-          {
-            text: 'OK',
-            onPress: navigation.goBack,
-          },
-        ]);
+        Alert.alert(
+          lang('Внимание!', localization),
+          lang('Ошибка!', localization),
+          [
+            {
+              text: 'OK',
+              onPress: navigation.goBack,
+            },
+          ],
+        );
       }
 
       setDataSource(prev => ({...prev, error: true}));

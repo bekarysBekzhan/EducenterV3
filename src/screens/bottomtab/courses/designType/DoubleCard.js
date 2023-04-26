@@ -8,9 +8,12 @@ import ItemRating from '../../../../components/ItemRating';
 import {ROUTE_NAMES} from '../../../../components/navigation/routes';
 import {useSettings} from '../../../../components/context/Provider';
 import {setFontStyle} from '../../../../utils/utils';
-import {strings} from '../../../../localization';
+import {useLocalization} from '../../../../components/context/LocalizationProvider';
+import {lang} from '../../../../localization/lang';
 
 export const DoubleCard = ({item, index, navigation}) => {
+  const {localization} = useLocalization();
+
   const {nstatus} = useSettings();
 
   const onCourse = () => {
@@ -38,10 +41,10 @@ export const DoubleCard = ({item, index, navigation}) => {
         <Text>
           {item?.lessons_count}{' '}
           {item?.lessons_count == 0
-            ? strings.урок
+            ? lang('урок', localization)
             : item?.lessons_count > 0 && item?.lessons_count < 5
-            ? strings.урока
-            : strings.уроков}
+            ? lang('урока', localization)
+            : lang('уроков', localization)}
         </Text>
       </View>
       {nstatus === N_STATUS ? null : (
@@ -119,5 +122,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 6,
     top: 10,
-  }
+  },
 });

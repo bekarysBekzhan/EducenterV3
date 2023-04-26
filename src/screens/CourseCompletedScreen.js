@@ -1,19 +1,27 @@
 import {Text, StyleSheet} from 'react-native';
-import React, {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
-import {strings} from '../localization';
 import {fileDownloader, setFontStyle, wordLocalization} from '../utils/utils';
 import CourseRow from '../components/CourseRow';
 import SimpleButton from '../components/button/SimpleButton';
 import {APP_COLORS, WIDTH} from '../constans/constants';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import RNFS from 'react-native-fs';
-import Downloader from "../components/Downloader"
+import Downloader from '../components/Downloader';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const CourseCompletedScreen = props => {
+  const {localization} = useLocalization();
 
   const id = props.route?.params?.id;
 
@@ -32,7 +40,7 @@ const CourseCompletedScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: strings['Завершение курса'],
+      title: lang('Завершение курса', localization),
     });
   }, []);
 
@@ -60,8 +68,8 @@ const CourseCompletedScreen = props => {
   }, []);
 
   const downloader = useCallback(() => {
-    const urlFile = data?.user_certificate?.file
-    const fileName = data?.title
+    const urlFile = data?.user_certificate?.file;
+    const fileName = data?.title;
     setVisible(true);
     fileDownloader(urlFile, fileName, () => setVisible(false), onProgress);
   }, []);
@@ -84,12 +92,13 @@ const CourseCompletedScreen = props => {
 
   return (
     <UniversalView style={styles.container}>
-      <Text style={styles.congrats}>{strings['Поздравляем!']}</Text>
+      <Text style={styles.congrats}>{lang('Поздравляем!', localization)}</Text>
       <Text style={styles.text}>
         {wordLocalization(
-          strings[
-            'Вы прошли курс “:course_name” успешно, набрав :num баллов из :count. Оставтье отзыв о курсе, тем самым вы поможете улучшить нам сервис'
-          ],
+          lang(
+            'Вы прошли курс “:course_name” успешно, набрав :num баллов из :count. Оставтье отзыв о курсе, тем самым вы поможете улучшить нам сервис',
+            localization,
+          ),
           {
             course_name: data?.title,
             num: 8,
@@ -105,27 +114,24 @@ const CourseCompletedScreen = props => {
         rating={data?.rating}
         disabled={true}
       />
-      {
-        data?.certification ?
+      {data?.certification ? (
         <Text style={[styles.text, {textAlign: 'center'}]}>
-          {strings['Твой сертификат доступен в твоем личном кабинете']}
+          {lang(
+            'Твой сертификат доступен в твоем личном кабинете',
+            localization,
+          )}
         </Text>
-        :
-        null
-      }
-      {
-        data?.certification ? 
+      ) : null}
+      {data?.certification ? (
         <SimpleButton
-          text={strings['Скачать сертификат']}
+          text={lang('Скачать сертификат', localization)}
           style={styles.downloadButton}
           textStyle={styles.downloadText}
           onPress={downloader}
         />
-        :
-        null
-      }
+      ) : null}
       <SimpleButton
-        text={strings['Оставить отзыв']}
+        text={lang('Оставить отзыв', localization)}
         style={styles.reviewButton}
         textStyle={styles.reviewText}
         onPress={onReview}

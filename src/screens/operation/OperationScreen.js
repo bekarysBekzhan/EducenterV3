@@ -29,13 +29,16 @@ import PromoRow from '../../components/view/PromoRow';
 import MenuItem from '../../components/item/MenuItem';
 import PacketItem from '../../components/item/PacketItem';
 import SearchItem from '../../components/item/SearchItem';
-import {strings} from '../../localization';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import { TabActions } from '@react-navigation/native';
+import { useLocalization } from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const {width} = Dimensions.get('screen');
 
 const OperationScreen = ({navigation, route}) => {
+  const {localization} = useLocalization();
+
   const {settings} = useSettings();
 
   const {operation, type, onRefresh} = route.params;
@@ -62,14 +65,14 @@ const OperationScreen = ({navigation, route}) => {
   const refPromocode = useRef('');
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: strings.Купить, headerTitleAlign: 'center'});
+    navigation.setOptions({title: lang('Купить', localization), headerTitleAlign: 'center'});
   }, []);
 
   const [fetchOperation, loading] = useFetching(async () => {
     const res = await OperationService.fetchOperation(operation?.id, type);
 
     if (res?.data?.data?.message) {
-      Alert.alert(strings['Внимание!'], res?.data?.data?.message?.warning, [
+      Alert.alert(lang('Внимание!', localization), res?.data?.data?.message?.warning, [
         {
           text: 'OK',
           onPress: () => {
@@ -452,8 +455,8 @@ const OperationScreen = ({navigation, route}) => {
       {dataSource?.periods?.length || dataSource?.packets?.length ? (
         <Text style={styles.labelPeriod}>
           {dataSource?.periods?.length
-            ? strings['Выберите период подписки']
-            : strings['Выберите пакет']}
+            ? lang('Выберите период подписки', localization)
+            : lang('Выберите пакет', localization)} 
         </Text>
       ) : null}
 
@@ -472,7 +475,7 @@ const OperationScreen = ({navigation, route}) => {
         style={styles.packetList}
       />
 
-      <Text style={styles.selectedType}>{strings['Выберите тип оплаты']}</Text>
+      <Text style={styles.selectedType}>{lang('Выберите тип оплаты', localization)}</Text>
     </View>
   );
 
@@ -481,7 +484,7 @@ const OperationScreen = ({navigation, route}) => {
       {settings?.modules_enabled_promocodes ? (
         <Input
           extraStyle={styles.input}
-          placeholder={strings['Введите промокод']}
+          placeholder={lang('Введите промокод', localization)}
           returnKeyType="send"
           onSubmitEditing={onSubmitEditing}
         />
@@ -490,14 +493,14 @@ const OperationScreen = ({navigation, route}) => {
       {settings?.modules_enabled_bonus ? (
         <Fragment>
           <PromoRow
-            text={strings['Мои бонусы']}
+            text={lang('Мои бонусы', localization)}
             price={dataSource?.data?.total_bonuses}
             showZero
           />
 
           <PromoRow
             text={wordLocalization(
-              strings['Доступно (:percent% от стоимости)'],
+              lang('Доступно (:percent% от стоимости)', localization),
               {
                 percent: settings?.modules_bonus_percent,
               },
@@ -510,20 +513,20 @@ const OperationScreen = ({navigation, route}) => {
             <CheckButton
               onPress={onCheckedBonuses}
               checked={dataSource?.usedBonuses}
-              text={strings['Использовать бонусы']}
+              text={lang('Использовать бонусы', localization)}
             />
           ) : null}
         </Fragment>
       ) : null}
 
       <PromoRow
-        text={strings.Итого}
+        text={lang('Итого', localization)}
         textStyle={styles.totalLabel}
         price={dataSource?.total}
         priceStyle={styles.priceTotal}
       />
 
-      <PromoRow text={strings.Стоимость} price={dataSource?.cost} />
+      <PromoRow text={lang('Стоимость', localization)} price={dataSource?.cost} />
 
       {promocodeLoad ? (
         <Loader />
@@ -531,7 +534,7 @@ const OperationScreen = ({navigation, route}) => {
         dataSource?.showPromoCode && (
           <Fragment>
             <PromoRow
-              text={`${strings.Скидка} ${dataSource.promocode?.discount}%`}
+              text={`${lang('Скидка', localization)} ${dataSource.promocode?.discount}%`}
               price={dataSource?.promocode?.promocode_price}
             />
           </Fragment>
@@ -539,7 +542,7 @@ const OperationScreen = ({navigation, route}) => {
       )}
 
       {dataSource?.usedBonuses ? (
-        <PromoRow text={`${strings.Бонусы}`} price={dataSource?.bonuses} />
+        <PromoRow text={`${lang('Бонусы', localization)}`} price={dataSource?.bonuses} />
       ) : null}
     </View>
   );

@@ -2,12 +2,13 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import RowView from '../view/RowView';
 import {TimeIcon} from '../../assets/icons';
-import {strings} from '../../localization';
 import Price from '../Price';
 import TextButton from '../button/TextButton';
 import {setFontStyle} from '../../utils/utils';
 import {APP_COLORS, N_STATUS} from '../../constans/constants';
-import { useSettings } from '../context/Provider';
+import {useSettings} from '../context/Provider';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const ModuleTestItem = ({
   categoryName,
@@ -20,26 +21,25 @@ const ModuleTestItem = ({
   hasSubscribed = false,
   onPress = () => undefined,
 }) => {
-
-  const { nstatus } = useSettings();
+  const {localization} = useLocalization();
+  const {nstatus} = useSettings();
 
   const getText = () => {
-
     if (nstatus === N_STATUS) {
-      return strings.Пройти;
+      return lang('Пройти', localization);
     }
 
     const buyText = {
-      test: strings['Купить тест'],
-      task: strings['Купить задание'],
+      test: lang('Купить тест', localization),
+      task: lang('Купить задание', localization),
     };
     if (hasSubscribed) {
-      return strings.Пройти;
+      return lang('Пройти', localization);
     }
     if (price) {
       return buyText[type];
     }
-    return strings.Бесплатно;
+    return lang('Бесплатно', localization);
   };
 
   return (
@@ -52,13 +52,13 @@ const ModuleTestItem = ({
         <RowView>
           <TimeIcon color={APP_COLORS.placeholder} size={16} />
           <Text style={styles.time}>
-            {time ? time : 30} {strings.мин}
+            {time ? time : 30} {lang('мин', localization)}
           </Text>
         </RowView>
       </RowView>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.attempts}>
-        {attempts ? attempts : 0} {strings.попыток}
+        {attempts ? attempts : 0} {lang('попыток', localization)}
       </Text>
       <RowView style={styles.row2}>
         {price === 0 || hasSubscribed ? (

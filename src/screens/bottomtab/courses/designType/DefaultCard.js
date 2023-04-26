@@ -8,6 +8,7 @@ import ItemRating from '../../../../components/ItemRating';
 import {ROUTE_NAMES} from '../../../../components/navigation/routes';
 import {useSettings} from '../../../../components/context/Provider';
 import {setFontStyle} from '../../../../utils/utils';
+import { lang } from '../../../../localization/lang';
 
 export const DefaultCard = ({item, index, navigation}) => {
   const {nstatus} = useSettings();

@@ -3,7 +3,6 @@ import React, {useLayoutEffect} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
 import {useState} from 'react';
-import {strings} from '../../localization';
 import SimpleButton from '../../components/button/SimpleButton';
 import TextButton from '../../components/button/TextButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
@@ -23,8 +22,13 @@ import {API_V2} from '../../services/axios';
 import {firebaseService} from '../../services/FirebaseService';
 import {HideIcon, ShowIcon} from '../../assets/icons';
 import {useToggle} from '../../hooks/useToggle';
+import { useLocalization} from './../../components/context/LocalizationProvider'
+import {lang} from './../../localization/lang'
 
 const LoginScreen = ({navigation}) => {
+
+  const {localization} = useLocalization();
+  
   const {setIsAuth, settings, nstatus} = useSettings();
 
   const [dataSource, setDataSource] = useState({
@@ -36,6 +40,7 @@ const LoginScreen = ({navigation}) => {
 
   const [fetchLogin, isLoading] = useFetching(async params => {
     const response = await AuthService.fetchLogin(params);
+    console.log('ressssponse', response);
     const token = response?.data?.data?.token;
     await storeString(STORAGE.userToken, token);
     API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = 'Bearer ' + token;
@@ -50,7 +55,7 @@ const LoginScreen = ({navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: strings['Войти в аккаунт'],
+      title: lang('Войти в аккаунт', localization),
       headerTitleAlign: 'center',
     });
   });
@@ -82,7 +87,7 @@ const LoginScreen = ({navigation}) => {
       return (
         <Input
           extraStyle={styles.input}
-          placeholder={strings.Email}
+          placeholder={lang('Email', localization)}
           onChangeText={onChangeEmailOrPhone}
           value={dataSource?.email}
           autoCapitalize="none"
@@ -93,7 +98,7 @@ const LoginScreen = ({navigation}) => {
       return (
         <Input
           extraStyle={styles.input}
-          placeholder={strings['Номер телефона']}
+          placeholder={lang('Номер телефона', localization)}
           onChangeText={onChangeEmailOrPhone}
           editable={!isLoading}
           value={dataSource?.email}
@@ -105,7 +110,7 @@ const LoginScreen = ({navigation}) => {
     return (
       <Input
         extraStyle={styles.input}
-        placeholder={strings['E-mail или телефон']}
+        placeholder={lang('E-mail или телефон', localization)}
         onChangeText={onChangeEmailOrPhone}
         value={dataSource?.email}
         autoCapitalize="none"
@@ -118,14 +123,14 @@ const LoginScreen = ({navigation}) => {
     <UniversalView haveScroll contentContainerStyle={styles.view}>
       <AuthDetailView
         title={
-          strings['Войдите или создайте аккаунт чтобы смотреть онлайн курсы']
+          lang('Войдите или создайте аккаунт, чтобы смотреть онлайн курсы', localization)
         }
         titleStyle={styles.title}
       />
       {renderLogin()}
       <Input
         extraStyle={styles.input}
-        placeholder={strings.Пароль}
+        placeholder={lang('Пароль', localization)}
         onChangeText={onChangePassword}
         value={dataSource?.password}
         secureTextEntry={togglePassword}
@@ -135,18 +140,18 @@ const LoginScreen = ({navigation}) => {
       />
       <SimpleButton
         style={styles.button}
-        text={strings.Войти}
+        text={lang('Войти', localization)}
         loading={isLoading}
         onPress={() => fetchLogin(dataSource)}
       />
       <TextButton
-        text={strings['Я забыл пароль']}
+        text={lang('Я забыл пароль', localization)}
         disabled={isLoading}
         onPress={onNavigationRecovery}
       />
       <TextButton
         style={styles.registerButton}
-        text={strings['У меня нет аккаунта']}
+        text={lang('У меня нет аккаунта', localization)}
         textStyle={styles.registerText}
         onPress={onNavigationRegister}
       />

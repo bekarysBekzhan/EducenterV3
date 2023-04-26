@@ -7,15 +7,18 @@ import Question from '../components/test/Question';
 import {CourseService} from '../services/API';
 import {APP_COLORS} from '../constans/constants';
 import SimpleButton from '../components/button/SimpleButton';
-import {strings} from '../localization';
 import RowView from '../components/view/RowView';
 import {TimeIcon} from '../assets/icons';
 import Timer from '../components/test/Timer';
 import Overlay from '../components/view/Overlay';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {getSeconds} from '../utils/utils';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
 
 const CourseTestScreen = props => {
+  const {localization} = useLocalization();
+
   const id = props.route?.params?.id;
   const again = props.route?.params?.again;
   const lessonTitle = props.route?.params?.title;
@@ -50,7 +53,7 @@ const CourseTestScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: lessonTitle ? lessonTitle : strings.тест,
+      title: lessonTitle ? lessonTitle : lang('тест', localization),
     });
     if (data) {
       props.navigation.setOptions({
@@ -123,7 +126,7 @@ const CourseTestScreen = props => {
   const renderFooter = () => (
     <View>
       <SimpleButton
-        text={strings['Завершить тест']}
+        text={lang('Завершить тест', localization)}
         onPress={finishTest}
         style={{marginBottom: 100}}
         loading={isFinishLoading}

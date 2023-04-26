@@ -1,20 +1,25 @@
 import React, {memo} from 'react';
 import {FlatList, StyleSheet, Text} from 'react-native';
 import {APP_COLORS} from '../../constans/constants';
-import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
 import Empty from '../Empty';
 import RowView from '../view/RowView';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const ScheduleVisitItem = ({data = []}) => {
   const keyExtractor = item => item?.id?.toString();
+
+  const {localization} = useLocalization();
 
   const renderItem = ({item, index}) => (
     <RowView style={index % 2 == 0 ? styles.row : styles.inRow}>
       <Text style={styles.count}>{index + 1}.</Text>
       <Text style={styles.date}>{item?.date_at_format}</Text>
       <Text style={item?.attendant ? styles.activ : styles.inActiv}>
-        {item?.attendant ? strings.Присутствовал : strings.Отсутствовал}
+        {item?.attendant
+          ? lang('Присутствовал', localization)
+          : lang('Отсутствовал', localization)}
       </Text>
     </RowView>
   );

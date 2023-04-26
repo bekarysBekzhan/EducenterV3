@@ -37,7 +37,6 @@ import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
 import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
 import {navigationRef} from './RootNavigation';
 import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
-import {strings} from '../../localization';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
 import NotificationsScreen from '../../screens/NotificationsScreen';
 import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
@@ -45,6 +44,7 @@ import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
 import PolicyScreen from '../../screens/privacy/PolicyScreen';
 import {Platform} from 'react-native';
 import {useLocalization} from '../context/LocalizationProvider';
+import {strings} from '../../localization';
 
 const MainStack = createNativeStackNavigator();
 
@@ -232,10 +232,10 @@ const Navigation = () => {
 
     const lang = await getString(STORAGE.language);
     const langDB = await SettingsService.fetchLanguage();
+
     if (lang) {
       if (langDB?.data?.data) {
         localization.current = langDB?.data?.data[lang];
-        console.log('langDB', langDB?.data?.data[lang]);
       }
       strings.setLanguage(lang);
       setLanguage(lang);
@@ -243,6 +243,7 @@ const Navigation = () => {
     } else {
       strings.setLanguage('ru');
       API_V2.defaults.headers[REQUEST_HEADERS.lang] = 'ru';
+      localization.current = langDB?.data?.data['ru'];
     }
 
     const isInitialStart = await getObject(STORAGE.initialStart);

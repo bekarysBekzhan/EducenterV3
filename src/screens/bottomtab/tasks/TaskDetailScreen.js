@@ -5,13 +5,16 @@ import {useFetching} from '../../../hooks/useFetching';
 import {TaskService} from '../../../services/API';
 import LoadingScreen from '../../../components/LoadingScreen';
 import Person from '../../../components/Person';
-import {strings} from '../../../localization';
 import TransactionButton from '../../../components/button/TransactionButton';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {N_STATUS, TYPE_SUBCRIBES} from '../../../constans/constants';
+import { useLocalization } from '../../../components/context/LocalizationProvider';
+import { lang } from '../../../localization/lang';
 
 const TaskDetailScreen = props => {
+  const {localization} = useLocalization()
+
   const id = props.route?.params?.id;
   const {isAuth, nstatus} = useSettings();
   const [data, setData] = useState(null);
@@ -54,16 +57,16 @@ const TaskDetailScreen = props => {
 
   const getTransactionText = () => {
     if (nstatus === N_STATUS) {
-      return strings['Пройти задание'];
+      return lang('Пройти задание', localization);
     }
 
     if (data?.has_subscribed) {
-      return strings['Пройти задание'];
+      return lang('Пройти задание', localization);
     }
     if (data?.price) {
-      return strings['Купить задание'];
+      return lang('Купить задание', localization);
     }
-    return strings.Бесплатно;
+    return lang('Бесплатно', localization);
   };
 
   if (isFetching) {
@@ -83,7 +86,7 @@ const TaskDetailScreen = props => {
         <Person
           name={data?.author?.name}
           image={data?.author?.avatar}
-          status={strings['Автор задания']}
+          status={lang('Автор задания', localization)}
           description={data?.author?.description}
           extraStyles={{
             margin: 16,

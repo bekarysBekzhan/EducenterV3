@@ -1,9 +1,10 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ROUTE_NAMES} from './routes';
-import {strings} from '../../localization';
 import FilterRatingScreen from '../../screens/FilterRatingScreen';
 import SelectCategoryRatingScreen from '../../screens/SelectCategoryRatingScreen';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const BottomSheet = createNativeStackNavigator();
 
@@ -17,11 +18,13 @@ const BottomSheetRatingStack = ({
   filters,
   close,
 }) => {
+  const {localization} = useLocalization();
+
   const SCREENS = [
     {
       name: ROUTE_NAMES.filterRating,
       component: FilterRatingScreen,
-      title: strings.Фильтр,
+      title: lang('Фильтр', localization),
     },
     {
       name: ROUTE_NAMES.selectCategoryRating,

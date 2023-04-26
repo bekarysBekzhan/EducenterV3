@@ -15,7 +15,6 @@ import {useState} from 'react';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService, TaskService} from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
-import {strings} from '../localization';
 import {isValidText, setFontStyle} from '../utils/utils';
 import HtmlView from '../components/HtmlView';
 import Person from '../components/Person';
@@ -51,6 +50,8 @@ import TrackPlayer, {
 import AnswerAudio from '../components/AnswerAudio';
 import RNFetchBlob from 'rn-fetch-blob';
 import {useSettings} from '../components/context/Provider';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const audioRecorder = new AudioRecorderPlayer();
 
@@ -70,6 +71,7 @@ const AUDIO_PATH = Platform.select({
 });
 
 const ModuleTaskScreen = props => {
+  const {localization} = useLocalization();
   // props passed down from parent
   const id = props.route?.params?.id;
 
@@ -147,7 +149,7 @@ const ModuleTaskScreen = props => {
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-      title: strings.Задание,
+      title: lang('Задание', localization),
     });
   }, []);
 
@@ -257,7 +259,11 @@ const ModuleTaskScreen = props => {
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(
         {
-          options: [strings.Отмена, strings.Файл, strings.Фото],
+          options: [
+            lang('Отмена', localization),
+            lang('Файл', localization),
+            lang('Фото', localization),
+          ],
           cancelButtonIndex: 0,
         },
         buttonIndex => {
@@ -408,7 +414,10 @@ const ModuleTaskScreen = props => {
       });
   };
 
-  const _renderHeader = useMemo(() => <ListHeader data={data} />, [isLoading]);
+  const _renderHeader = useMemo(
+    () => <ListHeader data={data} localization={localization} />,
+    [isLoading],
+  );
 
   const renderHeader = () => <ListHeader data={data} />;
 
@@ -492,7 +501,7 @@ const ModuleTaskScreen = props => {
           value={answer}
           onContentSizeChange={onContentSizeChange}
           onChangeText={value => setAnswer(value)}
-          placeholder={strings['Напишите результаты задания']}
+          placeholder={lang('Напишите результаты задания', localization)}
         />
         <TouchableOpacity
           style={styles.sendIcon}
@@ -517,27 +526,30 @@ const ModuleTaskScreen = props => {
   );
 };
 
-const ListHeader = ({data}) => {
+const ListHeader = ({data, localization}) => {
   return (
     <View>
-      <Text style={styles.onlineTask}>{strings['Онлайн задание']}</Text>
+      <Text style={styles.onlineTask}>
+        {lang('Онлайн задание', localization)}
+      </Text>
       <Text style={styles.tips}>
-        {
-          strings[
-            'Выполните онлайн задание, чтобы закрепить материалы курса и получить сертификат.'
-          ]
-        }
+        {lang(
+          'Выполните онлайн задание, чтобы закрепить материалы курса и получить сертификат.',
+          localization,
+        )}
       </Text>
       <Text style={styles.onlineTask}>{data?.task?.title}</Text>
       <HtmlView html={data?.task?.question} />
       <Divider isAbsolute={false} style={{marginBottom: 24}} />
       <Person
-        status={strings.Преподаватель}
+        status={lang('Преподаватель', localization)}
         image={data?.author?.avatar}
         name={data?.author?.name}
         description={data?.author?.description}
       />
-      <Text style={styles.taskResult}>{strings['Результаты задания']}</Text>
+      <Text style={styles.taskResult}>
+        {lang('Результаты задания', localization)}
+      </Text>
     </View>
   );
 };

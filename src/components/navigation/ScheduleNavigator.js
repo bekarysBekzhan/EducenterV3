@@ -2,20 +2,21 @@ import React, {useLayoutEffect} from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {StyleSheet} from 'react-native';
 import {APP_COLORS} from '../../constans/constants';
-import {strings} from '../../localization';
 import {ROUTE_NAMES} from './routes';
 import ScheduleLessonsScreen from '../../screens/schedule/ScheduleLessonScreen';
 import ScheduleVisitsScreen from '../../screens/schedule/ScheduleVisitsScreen';
 import {useNavigation} from '@react-navigation/native';
+import {useLocalization} from '../context/LocalizationProvider';
 
 const Tab = createMaterialTopTabNavigator();
 
 const ScheduleNavigator = () => {
   const navigation = useNavigation();
+  const {localization} = useLocalization();
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: strings.Расписание,
+      title: lang('Расписание', localization),
     });
   }, []);
 
@@ -34,12 +35,12 @@ const ScheduleNavigator = () => {
       <Tab.Screen
         name={ROUTE_NAMES.scheduleLessons}
         component={ScheduleLessonsScreen}
-        options={{title: strings.Уроки}}
+        options={{title: lang('Уроки', localization)}}
       />
       <Tab.Screen
         name={ROUTE_NAMES.scheduleVisitis}
         component={ScheduleVisitsScreen}
-        options={{title: strings.Посещения}}
+        options={{title: lang('Посещения', localization)}}
       />
     </Tab.Navigator>
   );

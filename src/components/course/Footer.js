@@ -5,12 +5,15 @@ import ReviewItem from '../view/ReviewItem';
 import UniversalView from '../view/UniversalView';
 import Person from '../Person';
 import RowView from '../view/RowView';
-import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
 import TextButton from '../button/TextButton';
 import {APP_COLORS, WIDTH} from '../../constans/constants';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const Footer = ({data, navigation, haveAuthor = true}) => {
+  const {localization} = useLocalization();
+
   const onAllReviews = () => {
     navigation.navigate(ROUTE_NAMES.reviews, {id: data?.id});
   };
@@ -39,7 +42,7 @@ const Footer = ({data, navigation, haveAuthor = true}) => {
       <View style={{padding: 16, paddingTop: 32}}>
         {haveAuthor ? (
           <Person
-            status={strings['Автор курса']}
+            status={lang('Автор курса', localization)}
             image={data?.author?.avatar}
             name={data?.author?.name}
             description={data?.author?.description}
@@ -52,10 +55,10 @@ const Footer = ({data, navigation, haveAuthor = true}) => {
               style={{
                 ...setFontStyle(21, '700'),
               }}>
-              {strings.Отзывы}
+              {lang('Автор Отзывы', localization)}
             </Text>
             <TextButton
-              text={strings.Все}
+              text={lang('Все', localization)}
               textStyle={styles.allButton}
               onPress={onAllReviews}
             />

@@ -2,21 +2,13 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import FastImage from 'react-native-fast-image';
 import RowView from '../../../../components/view/RowView';
-import * as Progress from 'react-native-progress';
-import {check, PlayIcon} from '../../../../assets/icons';
-import {strings} from '../../../../localization';
-import CourseRow from '../../../../components/CourseRow';
 import {setFontStyle} from '../../../../utils/utils';
 import {ROUTE_NAMES} from '../../../../components/navigation/routes';
-import {APP_COLORS, N_STATUS, WIDTH} from '../../../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../../../constans/constants';
 import ItemRating from '../../../../components/ItemRating';
-import Price from '../../../../components/Price';
-import {useSettings} from '../../../../components/context/Provider';
 
 export const MyCourseMiniCard = ({item, index, navigation}) => {
   console.log(item);
-
-  const {nstatus} = useSettings();
 
   const onPressCourse = () => {
     navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: item?.id});

@@ -1,48 +1,59 @@
-import { View, Text, StyleSheet, FlatList, SafeAreaView, TouchableOpacity, Platform, StatusBar } from 'react-native'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import UniversalView from '../../components/view/UniversalView'
-import { useFetching } from '../../hooks/useFetching'
-import { UBTService } from '../../services/API'
-import Question from '../../components/test/Question'
-import { APP_COLORS, RESULT_TYPES, WIDTH } from '../../constans/constants'
-import { useHeaderHeight } from '@react-navigation/elements'
-import { Modal } from 'react-native'
-import { setFontStyle } from '../../utils/utils'
-import { down, up } from '../../assets/icons'
-import { strings } from '../../localization'
-import LoadingScreen from '../../components/LoadingScreen'
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+  Platform,
+  StatusBar,
+} from 'react-native';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import UniversalView from '../../components/view/UniversalView';
+import {useFetching} from '../../hooks/useFetching';
+import {UBTService} from '../../services/API';
+import Question from '../../components/test/Question';
+import {APP_COLORS, RESULT_TYPES, WIDTH} from '../../constans/constants';
+import {useHeaderHeight} from '@react-navigation/elements';
+import {Modal} from 'react-native';
+import {setFontStyle} from '../../utils/utils';
+import {down, up} from '../../assets/icons';
+import LoadingScreen from '../../components/LoadingScreen';
+import {useLocalization} from './../../components/context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
-const UBTResultScreen = (props) => {
+const UBTResultScreen = props => {
+  const {localization} = useLocalization;
 
-  const id = props.route?.params?.id
-  const resultType = props.route?.params?.resultType 
+  const id = props.route?.params?.id;
+  const resultType = props.route?.params?.resultType;
 
   const listRef = useRef(null);
 
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null);
   const [visible, setVisible] = useState(false);
-  const [navigationTitle, setNavigationTitle] = useState(null)
+  const [navigationTitle, setNavigationTitle] = useState(null);
 
-  const [fetchResult, isFetching, fetchingError] = useFetching(async() => {
+  const [fetchResult, isFetching, fetchingError] = useFetching(async () => {
     let response = await UBTService.fetchResult(id);
-    let convertedArray = Object.values(response.data?.data?.variants)
-    response.data.data.results = convertedArray
+    let convertedArray = Object.values(response.data?.data?.variants);
+    response.data.data.results = convertedArray;
     setData(response.data?.data);
-    setNavigationTitle(response.data?.data?.results[0]?.entity?.name)
-  }, [])
+    setNavigationTitle(response.data?.data?.results[0]?.entity?.name);
+  }, []);
 
   useLayoutEffect(() => {
     props.navigation.setOptions({
-        title: strings['Результаты теста']
-    })
-    fetchResult()
-  }, [])
+      title: lang('Результаты теста', localization),
+    });
+    fetchResult();
+  }, []);
 
   useEffect(() => {
     if (fetchingError) {
-        console.log(fetchingError)
+      console.log(fetchingError);
     }
-  }, [fetchingError])
+  }, [fetchingError]);
 
   const getSubjects = () => {
     return data?.results.map(value => value?.entity);
@@ -50,8 +61,8 @@ const UBTResultScreen = (props) => {
 
   const onSelectSubject = (title, index) => {
     listRef.current?.scrollToIndex({index: index, animated: false});
-    setVisible(false)
-    setNavigationTitle(title)
+    setVisible(false);
+    setNavigationTitle(title);
   };
 
   const onOpenSubjectsModal = () => {
@@ -60,11 +71,10 @@ const UBTResultScreen = (props) => {
 
   const renderNavigationHeader = () => {
     return (
-      <TouchableOpacity 
-        onPress={onOpenSubjectsModal} 
+      <TouchableOpacity
+        onPress={onOpenSubjectsModal}
         activeOpacity={0.75}
-        style={styles.navigationHeader}
-      >
+        style={styles.navigationHeader}>
         <Text style={styles.navigationHeaderTitle}>{navigationTitle}</Text>
         {visible ? up : down}
       </TouchableOpacity>
@@ -76,8 +86,8 @@ const UBTResultScreen = (props) => {
       <FlatList
         data={Object.values(item?.questions)}
         renderItem={renderQuestion}
-        style={{ width: WIDTH }}
-        contentContainerStyle={{ padding: 16 }}
+        style={{width: WIDTH}}
+        contentContainerStyle={{padding: 16}}
         maxToRenderPerBatch={10}
         keyExtractor={(_, index) => index.toString()}
         showsVerticalScrollIndicator={false}
@@ -87,21 +97,21 @@ const UBTResultScreen = (props) => {
     );
   };
 
-  const renderQuestion = ({ item, index }) => {
+  const renderQuestion = ({item, index}) => {
     return (
-        <Question
-            questionItem={item?.question}
-            items={Object.values(item?.items)}
-            index={index}
-            is_multiple={item?.question?.is_multiple}
-            resultType={resultType ? resultType : RESULT_TYPES.DEFAULT}
-            disabledAnswer
-        />
-    )
-  }
+      <Question
+        questionItem={item?.question}
+        items={Object.values(item?.items)}
+        index={index}
+        is_multiple={item?.question?.is_multiple}
+        resultType={resultType ? resultType : RESULT_TYPES.DEFAULT}
+        disabledAnswer
+      />
+    );
+  };
 
   if (isFetching) {
-    return <LoadingScreen/>
+    return <LoadingScreen />;
   }
 
   return (
@@ -131,29 +141,26 @@ const UBTResultScreen = (props) => {
         onSelect={onSelectSubject}
       />
     </UniversalView>
-  )
-}
+  );
+};
 
 const SubjectsModal = ({
   visible,
   subjects = [],
   onSelect = () => undefined,
 }) => {
-  
-  const headerHeight = useHeaderHeight()
+  const headerHeight = useHeaderHeight();
 
   const onSubject = (s, index) => {
     onSelect(s?.name, index);
   };
 
-  const onBackDrop = () => {
-
-  }
+  const onBackDrop = () => {};
 
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
       <SafeAreaView style={styles.modal}>
-        <View style={{ height: headerHeight }}/>
+        <View style={{height: headerHeight}} />
         {subjects.map((s, i) => (
           <TouchableOpacity
             key={i}
@@ -163,28 +170,26 @@ const SubjectsModal = ({
             <Text style={styles.subjectText}>{s?.name}</Text>
           </TouchableOpacity>
         ))}
-        <View style={styles.backDrop} onPress={onBackDrop}/>
+        <View style={styles.backDrop} onPress={onBackDrop} />
       </SafeAreaView>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-
-  },
+  container: {},
   timerContainer: {
     padding: 4,
     borderRadius: 4,
   },
   navigationHeader: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 12
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 12,
   },
   navigationHeaderTitle: {
-    ...setFontStyle(17, "500"),
+    ...setFontStyle(17, '500'),
   },
   list: {
     flex: 1,
@@ -192,11 +197,11 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   backDrop: {
     flex: 1,
-    backgroundColor: "rgba(0.0, 0.0, 0.0, 0.2)"
+    backgroundColor: 'rgba(0.0, 0.0, 0.0, 0.2)',
   },
   subject: {
     width: '100%',
@@ -211,4 +216,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default UBTResultScreen
+export default UBTResultScreen;

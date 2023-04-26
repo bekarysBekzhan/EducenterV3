@@ -3,7 +3,8 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {ROUTE_NAMES} from './routes';
 import FilterScreen from '../../screens/FilterScreen';
 import SelectCategoryScreen from '../../screens/SelectCategoryScreen';
-import {strings} from '../../localization';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const BottomSheet = createNativeStackNavigator();
 
@@ -15,16 +16,18 @@ const BottomSheetStack = ({
   filters,
   close,
 }) => {
+  const {localization} = useLocalization();
+
   const SCREENS = [
     {
       name: ROUTE_NAMES.filter,
       component: FilterScreen,
-      title: strings.Фильтр,
+      title: lang('Фильтр', localization),
     },
     {
       name: ROUTE_NAMES.selectCategory,
       component: SelectCategoryScreen,
-      title: strings['Выберите категорию'],
+      title: lang('Выберите категорию', localization),
     },
   ];
 

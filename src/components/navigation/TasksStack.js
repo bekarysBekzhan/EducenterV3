@@ -1,16 +1,18 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {strings} from '../../localization';
 import {ROUTE_NAMES} from './routes';
 import {useSettings} from '../context/Provider';
 import {navHeaderOptions} from './navHeaderOptions';
 import TasksScreen from '../../screens/bottomtab/tasks/TasksScreen';
 import TaskDetailScreen from '../../screens/bottomtab/tasks/TaskDetailScreen';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const TasksStack = createNativeStackNavigator();
 
 const Tasks = () => {
-  const TITLE = strings.Задания;
+  const {localization} = useLocalization();
+  const TITLE = lang('Задания', localization);
 
   const screens = [
     {
@@ -36,7 +38,7 @@ const Tasks = () => {
             screen.name === ROUTE_NAMES.tasks
               ? navHeaderOptions(settings?.logo, TITLE)
               : {
-                  headerTitle: strings.Задания,
+                  headerTitle: lang('Задания', localization),
                   headerBackTitleVisible: false,
                   headerTitleAlign: 'center',
                 }

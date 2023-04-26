@@ -10,7 +10,6 @@ import SimpleButton from '../../components/button/SimpleButton';
 import Loader from '../../components/Loader';
 import {useFetching} from '../../hooks/useFetching';
 import {OperationService} from '../../services/API';
-import {strings} from '../../localization';
 import UploadCheck from '../../components/UploadCheck';
 import {API_V2} from '../../services/axios';
 import {shadowStyle} from '../../utils/shadowStyle';
@@ -18,13 +17,17 @@ import {checkPrice} from '../../utils/checkPrice';
 import CardDetail from '../../components/view/CardDetail';
 import {ClipCheckIcon} from '../../assets/icons';
 import {URLS} from '../../constans/constants';
-import { useSettings } from '../../components/context/Provider';
+import {useSettings} from '../../components/context/Provider';
+import {useLocalization} from './../../components/context/LocalizationProvider';
+import {lang} from './../../localization/lang';
 
 const KaspiBankScreen = ({route}) => {
   const {kaspiBank, type, mode} = route?.params;
   console.log('kaspiBank param: ', kaspiBank, type);
 
-  const { settings } = useSettings();
+  const {localization} = useLocalization();
+
+  const {settings} = useSettings();
   const [dataSource, setDataSource] = useState({
     data: null,
     visible: false,
@@ -79,19 +82,19 @@ const KaspiBankScreen = ({route}) => {
     switch (index) {
       case 1:
         Clipboard.setString(dataSource?.data?.card_number);
-        close(strings['Номер карты']);
+        close(lang('Номер карты', localization));
         break;
       case 2:
         Clipboard.setString(dataSource?.data?.phone);
-        close(strings['Номер телефона']);
+        close(lang('Номер телефона', localization));
         break;
       case 3:
         Clipboard.setString(dataSource?.data?.iin);
-        close(strings.ИИН);
+        close(lang('ИИН', localization));
         break;
       case 4:
         Clipboard.setString(dataSource?.data?.fio);
-        close(strings.ФИО);
+        close(lang('ФИО', localization));
         break;
     }
   }, []);
@@ -151,14 +154,20 @@ const KaspiBankScreen = ({route}) => {
             removeLoading: false,
             hideButton: true,
           }));
-          Alert.alert(strings['Внимание!'], strings['Ваш чек удален']);
+          Alert.alert(
+            lang('Внимание!', localization),
+            lang('Ваш чек удален', localization),
+          );
         } else {
           setUploader(prev => ({
             ...prev,
             removeLoading: false,
             hideButton: true,
           }));
-          Alert.alert(strings['Внимание!'], strings['Ошибка!']);
+          Alert.alert(
+            lang('Внимание!', localization),
+            lang('Ошибка!', localization),
+          );
         }
       } catch (e) {
         console.log('catch remove: ', e, e?.response);
@@ -194,8 +203,10 @@ const KaspiBankScreen = ({route}) => {
       console.log('res sendFile:', res);
 
       if (res?.data?.data?.id) {
-        Alert.alert(strings['Внимание!'], strings['Ваш чек отправлен']);
-
+        Alert.alert(
+          lang('Внимание!', localization),
+          lang('Ваш чек отправлен', localization),
+        );
         setUploader(prev => ({
           ...prev,
           sender: true,
@@ -203,8 +214,10 @@ const KaspiBankScreen = ({route}) => {
           loading: false,
         }));
       } else {
-        Alert.alert(strings['Внимание!'], strings['Ошибка!']);
-
+        Alert.alert(
+          lang('Внимание!', localization),
+          lang('Ошибка!', localization),
+        );
         setUploader(prev => ({
           ...prev,
           sender: false,
@@ -226,10 +239,17 @@ const KaspiBankScreen = ({route}) => {
       <Fragment>
         <Text style={styles.info}>
           {wordLocalization(
-            strings[
-              'Переведите :sum по реквизитам указанный ниже и прикрепите чек.'
-            ],
-            {sum: checkPrice(dataSource?.data?.price, false, settings?.currency_symbol)},
+            lang(
+              'Переведите :sum по реквизитам указанный ниже и прикрепите чек.',
+              localization,
+            ),
+            {
+              sum: checkPrice(
+                dataSource?.data?.price,
+                false,
+                settings?.currency_symbol,
+              ),
+            },
           )}
         </Text>
         <FastImage
@@ -240,25 +260,25 @@ const KaspiBankScreen = ({route}) => {
         </FastImage>
 
         <CardDetail
-          title={strings['Номер карты']}
+          title={lang('Номер карты', localization)}
           value={dataSource?.data?.card_number}
           onPress={() => copyValue(1)}
         />
 
         <CardDetail
-          title={strings['Номер телефона']}
+          title={lang('Номер телефона', localization)}
           value={dataSource?.data?.phone}
           onPress={() => copyValue(2)}
         />
 
         <CardDetail
-          title={strings.ИИН}
+          title={lang('ИИН', localization)}
           value={dataSource?.data?.iin}
           onPress={() => copyValue(3)}
         />
 
         <CardDetail
-          title={strings.ФИО}
+          title={lang('ФИО', localization)}
           value={dataSource?.data?.fio}
           onPress={() => copyValue(4)}
         />
@@ -267,8 +287,8 @@ const KaspiBankScreen = ({route}) => {
           <Loader />
         ) : (
           <UploadCheck
-            text={strings['Прикрепите чек']}
-            placeholder={strings['Загрузите чек']}
+            text={lang('Прикрепите чек', localization)}
+            placeholder={lang('Загрузите чек', localization)}
             onPress={uploadImage}
             file={source}
             remove={remove}
@@ -277,7 +297,7 @@ const KaspiBankScreen = ({route}) => {
 
         {source && !uploader?.hideButton ? (
           <SimpleButton
-            text={strings['Подтвердить оплату']}
+            text={lang('Подтвердить оплату', localization)}
             style={styles.button}
             onPress={sendFile}
             loading={uploader?.loading}
@@ -289,7 +309,7 @@ const KaspiBankScreen = ({route}) => {
           <RowView style={styles.clip}>
             <ClipCheckIcon />
             <Text style={styles.text}>
-              {dataSource?.text} {strings.скопировано}
+              {dataSource?.text} {lang('скопировано', localization)}
             </Text>
           </RowView>
         </View>

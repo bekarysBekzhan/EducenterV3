@@ -1,9 +1,14 @@
 import React, {useMemo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {strings} from '../localization';
 import {setFontStyle} from '../utils/utils';
+import {useLocalization} from './context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
-const Empty = ({text = strings['Нет данных'], style, textStyle}) => {
+const Empty = ({text, style, textStyle}) => {
+  const {localization} = useLocalization();
+
+  text = text || lang('Нет данных', localization);
+
   const memoStyle = useMemo(() => [styles.view, style], [style]);
   const memoTextStyle = useMemo(() => [styles.text, textStyle], [textStyle]);
   return (

@@ -1,29 +1,34 @@
 import React, {memo} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {APP_COLORS} from '../../constans/constants';
-import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
 import Avatar from '../Avatar';
 import Divider from '../Divider';
 import RowView from '../view/RowView';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
-const RaitingItem = ({count, avatar, category, name, title, score}) => (
-  <RowView style={styles.row}>
-    <Text style={styles.count}>{count}.</Text>
-    <RowView style={styles.innerRow}>
-      <Avatar source={avatar} style={styles.avatar} />
-      <View style={styles.col}>
-        {category ? <Text style={styles.category}>{category}</Text> : null}
-        {name ? <Text style={styles.name}>{name}</Text> : null}
-        {title ? <Text style={styles.title}>{title}</Text> : null}
-      </View>
-      <Text style={styles.score}>
-        {score ? score : 0}-{strings.БАЛЛ}
-      </Text>
-      <Divider />
+const RaitingItem = ({count, avatar, category, name, title, score}) => {
+  const {localization} = useLocalization();
+
+  return (
+    <RowView style={styles.row}>
+      <Text style={styles.count}>{count}.</Text>
+      <RowView style={styles.innerRow}>
+        <Avatar source={avatar} style={styles.avatar} />
+        <View style={styles.col}>
+          {category ? <Text style={styles.category}>{category}</Text> : null}
+          {name ? <Text style={styles.name}>{name}</Text> : null}
+          {title ? <Text style={styles.title}>{title}</Text> : null}
+        </View>
+        <Text style={styles.score}>
+          {score ? score : 0}-{lang('БАЛЛ', localization)}
+        </Text>
+        <Divider />
+      </RowView>
     </RowView>
-  </RowView>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   row: {

@@ -2,16 +2,19 @@ import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {StyleSheet} from 'react-native';
 import {useSettings} from '../context/Provider';
-import {strings} from '../../localization';
 import {APP_COLORS} from '../../constans/constants';
 import {ROUTE_NAMES} from './routes';
 import JournalsScreen from '../../screens/journal/JournalsScreen';
 import MyJournalScreen from '../../screens/journal/MyJournalScreen';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const Tab = createMaterialTopTabNavigator();
 
 const JournalNavigator = () => {
   const {isAuth} = useSettings();
+
+  const {localization} = useLocalization();
 
   return (
     <Tab.Navigator
@@ -30,14 +33,14 @@ const JournalNavigator = () => {
         name={ROUTE_NAMES.journals}
         component={JournalsScreen}
         options={{
-          title: strings['Все журналы'],
+          title: lang('Все журналы', localization),
         }}
       />
       <Tab.Screen
         name={ROUTE_NAMES.myJournlas}
         component={MyJournalScreen}
         options={{
-          title: strings['Купленные журналы'],
+          title: lang('Купленные журналы', localization),
         }}
       />
     </Tab.Navigator>

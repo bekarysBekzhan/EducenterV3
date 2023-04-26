@@ -6,7 +6,6 @@ import NewsScreen from '../../screens/news/NewsScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
 import {useSettings} from '../context/Provider';
 import {setFontStyle} from '../../utils/utils';
-import {strings} from '../../localization';
 import HistoryScreen from '../../screens/HistoryScreen';
 import ChangePassword from '../../screens/ChangePasswordScreen';
 import ProfieEditScreen from '../../screens/ProfileEditScreen';
@@ -23,10 +22,13 @@ import RatingScreen from '../../screens/RatingScreen';
 import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
 import PolicyScreen from '../../screens/privacy/PolicyScreen';
 import DeleteAccountScreen from '../../screens/deleteAccount/DeleteAccountScreen';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const Stack = createNativeStackNavigator();
 
 const MenuStack = ({navigation}) => {
+  const {localization} = useLocalization();
   const {isAuth, settings} = useSettings();
 
   const screens = [
@@ -38,14 +40,14 @@ const MenuStack = ({navigation}) => {
       name: ROUTE_NAMES.news,
       component: NewsScreen,
       options: {
-        title: strings.Новости,
+        title: lang('Новости', localization),
       },
     },
     {
       name: ROUTE_NAMES.selectSubjects,
       component: SelectSubjectsScreen,
       options: {
-        title: settings?.modules_enabled_ubt_title,
+        title: lang('ЕНТ', localization),
       },
     },
     {
@@ -57,49 +59,49 @@ const MenuStack = ({navigation}) => {
       name: ROUTE_NAMES.history,
       component: HistoryScreen,
       options: {
-        title: strings['История оплаты'],
+        title: lang('История оплаты', localization),
       },
     },
     {
       name: ROUTE_NAMES.changePassword,
       component: ChangePassword,
       options: {
-        title: strings['Сменить пароль'],
+        title: lang('Сменить пароль', localization),
       },
     },
     {
       name: ROUTE_NAMES.profileEdit,
       component: ProfieEditScreen,
       options: {
-        title: strings['Редактировать профиль'],
+        title: lang('Редактировать профиль', localization),
       },
     },
     {
       name: ROUTE_NAMES.scheduleNavigator,
       component: ScheduleNavigator,
       options: {
-        title: strings['Редактировать профиль'],
+        title: lang('Редактировать профиль', localization),
       },
     },
     {
       name: ROUTE_NAMES.settings,
       component: SettingsScreen,
       options: {
-        title: strings.Настройки,
+        title: lang('Настройки', localization),
       },
     },
     {
       name: ROUTE_NAMES.journalNavigator,
       component: JournalNavigator,
       options: {
-        title: strings['Все журналы'],
+        title: lang('Все журналы', localization),
       },
     },
     {
       name: ROUTE_NAMES.offlineCourses,
       component: OfflineCourseScreen,
       options: {
-        title: strings['Офлайн курсы'],
+        title: lang('Офлайн курсы', localization),
         headerBackTitleVisible: false,
       },
     },
@@ -107,7 +109,7 @@ const MenuStack = ({navigation}) => {
       name: ROUTE_NAMES.offlineCalendar,
       component: CalendarScreen,
       options: {
-        title: strings.Календарь,
+        title: lang('Календарь', localization),
         headerBackTitleVisible: false,
       },
     },
@@ -123,42 +125,42 @@ const MenuStack = ({navigation}) => {
       name: ROUTE_NAMES.offlineCourseMemberScreen,
       component: OfflineCourseMemberScreen,
       options: {
-        title: strings['Участники курса'],
+        title: lang('Участники курса', localization),
       },
     },
     {
       name: ROUTE_NAMES.courseMaterialScreen,
       component: CourseMaterialScreen,
       options: {
-        title: strings['Материалы курса'],
+        title: lang('Материалы курса', localization),
       },
     },
     {
       name: ROUTE_NAMES.rating,
       component: RatingScreen,
       options: {
-        title: strings.Рейтинг,
+        title: lang('Рейтинг', localization),
       },
     },
     {
       name: ROUTE_NAMES.privacy,
       component: PrivacyScreen,
       options: {
-        title: strings['Правила и соглашения'],
+        title: lang('Правила и соглашения', localization),
       },
     },
     {
       name: ROUTE_NAMES.privacyPolicy,
       component: PolicyScreen,
       options: {
-        title: strings['Правила и соглашения'],
+        title: lang('Правила и соглашения', localization),
       },
     },
     {
       name: ROUTE_NAMES.deleteAccount,
       component: DeleteAccountScreen,
       options: {
-        title: strings["Удалить аккаунт"],
+        title: lang('Удалить аккаунт', localization),
       },
     },
   ];

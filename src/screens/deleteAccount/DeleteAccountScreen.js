@@ -7,21 +7,23 @@ import {ROUTE_NAMES} from '../../components/navigation/routes';
 import UniversalView from '../../components/view/UniversalView';
 import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constans/constants';
 import {useFetching} from '../../hooks/useFetching';
-import {strings} from '../../localization';
 import {ProfileService} from '../../services/API';
 import {API_V2} from '../../services/axios';
 import {removeStorage} from '../../storage/AsyncStorage';
+import {useLocalization} from '../../components/context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const DeleteAccountScreen = ({navigation}) => {
   const [word, setWord] = useState(null);
   const {setIsAuth, settings, nstatus} = useSettings();
+  const {localization} = useLocalization();
 
   const [fetchDeleteAccount, isLoading, error] = useFetching(async () => {
     const result = await ProfileService.fetchDeleteAccount({password: word});
 
     if (result?.data?.hasOwnProperty('errors')) {
       const value = Object.values(result.data?.errors);
-      Alert.alert(strings['Внимание!'], value[0]);
+      Alert.alert(lang('Внимание!', localization), value[0]);
     } else {
       onExit();
     }
@@ -58,11 +60,11 @@ const DeleteAccountScreen = ({navigation}) => {
         onChangeText={word => setWord(word)}
         value={word}
         secureTextEntry
-        placeholder={strings['Пароль']}
+        placeholder={lang('Пароль', localization)}
         extraStyle={{marginHorizontal: 16, marginVertical: 13}}></Input>
       <SimpleButton
         style={styles.navButton}
-        text={strings['Удалить аккаунт']}
+        text={lang('Удалить аккаунт', localization)}
         loading={isLoading}
         onPress={fetchDeleteAccount}></SimpleButton>
     </UniversalView>

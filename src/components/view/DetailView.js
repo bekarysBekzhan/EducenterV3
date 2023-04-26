@@ -1,16 +1,16 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
-import UniversalView from './UniversalView';
 import {setFontStyle} from '../../utils/utils';
 import {APP_COLORS, HEIGHT, WIDTH} from '../../constans/constants';
 import TextButton from '../button/TextButton';
-import {strings} from '../../localization';
 import HtmlView from '../HtmlView';
 import ItemRating from '../ItemRating';
 import FastImage from 'react-native-fast-image';
 import {useState} from 'react';
 import RowView from './RowView';
 import {time} from '../../assets/icons';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const DetailView = ({
   poster,
@@ -21,20 +21,18 @@ const DetailView = ({
   rating,
   reviewCount,
 }) => {
+  const {localization} = useLocalization();
+
   const [isDescriptionMore, setDescriptionMore] = useState(false);
 
   return (
     <View style={styles.container}>
-      {
-        poster 
-        ?
+      {poster ? (
         <FastImage
           source={{uri: poster, priority: 'high'}}
           style={styles.poster}
         />
-        :
-        null
-      }
+      ) : null}
       <View
         style={{
           padding: 16,
@@ -43,19 +41,17 @@ const DetailView = ({
         <Text style={styles.title}>{title}</Text>
         <RowView>
           {time()}
-          <Text style={styles.time}>{duration ? duration : 30} {strings.мин}.</Text>
-          {
-            rating !== undefined || reviewCount !== undefined
-            ?
+          <Text style={styles.time}>
+            {duration ? duration : 30} {lang('мин', localization)}.
+          </Text>
+          {rating !== undefined || reviewCount !== undefined ? (
             <ItemRating
               rating={rating}
               reviewCount={reviewCount}
               starSize={16}
               word={true}
             />
-            :
-            null
-          }
+          ) : null}
         </RowView>
         <View
           style={
@@ -63,11 +59,19 @@ const DetailView = ({
               ? styles.descriptionViewShow
               : styles.descriptionViewHidden
           }>
-          {description ? <HtmlView html={description} tagsStyles={{ p: { color: APP_COLORS.font }, span: { color: APP_COLORS.font  } }}/> : null}
+          {description ? (
+            <HtmlView
+              html={description}
+              tagsStyles={{
+                p: {color: APP_COLORS.font},
+                span: {color: APP_COLORS.font},
+              }}
+            />
+          ) : null}
         </View>
         {description && !isDescriptionMore ? (
           <TextButton
-            text={strings.Подробнее}
+            text={lang('Подробнее', localization)}
             style={styles.moreButton}
             textStyle={styles.moreButtonText}
             onPress={() => setDescriptionMore(true)}
@@ -81,7 +85,7 @@ const DetailView = ({
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 0.2,
-    borderColor: APP_COLORS.border
+    borderColor: APP_COLORS.border,
   },
   category: {
     textTransform: 'uppercase',

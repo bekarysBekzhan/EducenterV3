@@ -14,7 +14,6 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import UniversalView from '../../../components/view/UniversalView';
-import {strings} from '../../../localization';
 import NavButtonRow from '../../../components/view/NavButtonRow';
 import SectionView from '../../../components/view/SectionView';
 import {
@@ -44,9 +43,11 @@ import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions'
 import LoadingScreen from '../../../components/LoadingScreen';
 import {storeObject} from '../../../storage/AsyncStorage';
 import {lang} from '../../../localization/lang';
+import {useLocalization} from '../../../components/context/LocalizationProvider';
 
 const ProfileScreen = ({navigation, route}) => {
   const {profile} = route.params;
+  const {localization} = useLocalization();
 
   const {settings, isRead, setIsRead, nstatus} = useSettings();
   const [dataSource, setDataSource] = useState({
@@ -55,7 +56,10 @@ const ProfileScreen = ({navigation, route}) => {
   });
 
   useLayoutEffect(() => {
-    let navigationOptions = navHeaderOptions(settings?.logo, strings.Меню);
+    let navigationOptions = navHeaderOptions(
+      settings?.logo,
+      lang('Меню', localization),
+    );
     if (nstatus !== N_STATUS) {
       navigationOptions.headerRight = renderHeaderRight;
     }
@@ -64,12 +68,12 @@ const ProfileScreen = ({navigation, route}) => {
 
   const MENU = [
     {
-      section: strings['Мои профиль'],
+      section: lang('Мои профиль', localization),
       enabled: true,
       data: [
         {
           id: 1,
-          text: strings['История оплаты'],
+          text: lang('История оплаты', localization),
           iconLeft: <History />,
           enabled: nstatus !== N_STATUS,
           action: 'navigation',
@@ -77,7 +81,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 2,
-          text: strings.Расписание,
+          text: lang('Расписание', localization),
           iconLeft: <CalendarIcon />,
           enabled: nstatus !== N_STATUS,
           route: ROUTE_NAMES.scheduleNavigator,
@@ -85,7 +89,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 3,
-          text: strings['Сменить пароль'],
+          text: lang('Сменить пароль', localization),
           iconLeft: <Password />,
           enabled: true,
           action: 'navigation',
@@ -93,7 +97,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 4,
-          text: strings.Настройки,
+          text: lang('Настройки', localization),
           iconLeft: <Settings />,
           enabled: true,
           action: 'navigation',
@@ -102,12 +106,12 @@ const ProfileScreen = ({navigation, route}) => {
       ],
     },
     {
-      section: 'Меню',
+      section: lang('Меню', localization),
       enabled: true,
       data: [
         {
           id: 0,
-          text: strings.ЕНТ,
+          text: lang('ЕНТ', localization),
           iconLeft: <UbtIcon />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_ubt,
           action: 'navigation',
@@ -115,7 +119,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 1,
-          text: strings.Журнал,
+          text: lang('Журнал', localization),
           iconLeft: <JournalIcon />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_journals,
           action: 'navigation',
@@ -123,7 +127,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 2,
-          text: strings.Рейтинг,
+          text: lang('Рейтинг', localization),
           iconLeft: <RatingIcon />,
           enabled: settings?.modules_enabled_rating,
           action: 'navigation',
@@ -131,12 +135,12 @@ const ProfileScreen = ({navigation, route}) => {
         },
         // {
         //   id: 3,
-        //   text: strings['Реферальная программа'],
+        //   text: lang('Реферальная программа', localization),
         //   iconLeft: <Referal />,
         // },
         {
           id: 4,
-          text: lang('Новости'), // тестовый
+          text: lang('Новости', localization),
           iconLeft: <NewsIcon />,
           enabled: settings?.modules_enabled_news,
           action: 'navigation',
@@ -144,7 +148,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 5,
-          text: strings['Правила и соглашения'],
+          text: lang('Правила и соглашения', localization),
           iconLeft: <ReclamentIcon />,
           enabled: true,
           action: 'navigation',
@@ -152,7 +156,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 6,
-          text: strings['Офлайн курсы'],
+          text: lang('Офлайн курсы', localization),
           iconLeft: <ReclamentIcon />,
           action: 'navigation',
           enabled:
@@ -161,7 +165,7 @@ const ProfileScreen = ({navigation, route}) => {
         },
         {
           id: 7,
-          text: strings.Календарь,
+          text: lang('Календарь', localization),
           iconLeft: <CalendarIcon />,
           action: 'navigation',
           enabled:
@@ -171,7 +175,7 @@ const ProfileScreen = ({navigation, route}) => {
       ],
     },
     {
-      section: strings.Помощь,
+      section: lang('Помощь', localization),
       enabled: nstatus !== N_STATUS && settings?.phone?.length,
       data: [
         {
@@ -293,7 +297,7 @@ const ProfileScreen = ({navigation, route}) => {
               {dataSource?.data?.phone}
             </Text>
             <Text style={styles.editButton}>
-              {strings['Редактировать профиль']}
+              {lang('Редактировать профиль', localization)}
             </Text>
           </View>
           {iconNext}

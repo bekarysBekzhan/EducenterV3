@@ -13,7 +13,6 @@ import UniversalView from '../components/view/UniversalView';
 import RowView from '../components/view/RowView';
 import {clear, filter, filterON, search, x} from '../assets/icons';
 import Input from '../components/Input';
-import {strings} from '../localization';
 import {APP_COLORS, N_STATUS, STORAGE, WIDTH} from '../constans/constants';
 import {isValidText, setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
@@ -30,10 +29,13 @@ import {useEffect} from 'react';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {getObject, storeObject} from '../storage/AsyncStorage';
 import {useSettings} from '../components/context/Provider';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const MAX_HISTORY_SIZE = 7;
 
 const CourseSearchScreen = props => {
+  const {localization} = useLocalization();
   const filters = props.route?.params?.filters;
   const {settings, nstatus} = useSettings();
 
@@ -216,7 +218,7 @@ const CourseSearchScreen = props => {
           </TouchableOpacity>
           <Input
             _focus={focus}
-            placeholder={strings['Поиск курсов']}
+            placeholder={lang('Поиск курсов', localization)}
             left={<View style={styles.searchIcon}>{search('#000')}</View>}
             right={
               value ? (
@@ -244,8 +246,8 @@ const CourseSearchScreen = props => {
         <SectionView
           label={
             value.length > 0 || sort || category
-              ? strings.Курсы
-              : strings['История поиска']
+              ? lang('Курсы', localization)
+              : lang('История поиска', localization)
           }
         />
         {data.length > 0 ? (

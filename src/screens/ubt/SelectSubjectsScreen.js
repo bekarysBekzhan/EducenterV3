@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
-import {UBT, UBTService} from '../../services/API';
+import {UBTService} from '../../services/API';
 import LoadingScreen from '../../components/LoadingScreen';
 import {
   FlatList,
@@ -12,13 +12,11 @@ import {
   Modal,
 } from 'react-native';
 import Empty from '../../components/Empty';
-import {strings} from '../../localization';
 import {setFontStyle} from '../../utils/utils';
 import {
   APP_COLORS,
   HEIGHT,
   TYPE_SUBCRIBES,
-  WIDTH,
 } from '../../constans/constants';
 import ModuleTestItem from '../../components/test/ModuleTestItem';
 import SimpleButton from '../../components/button/SimpleButton';
@@ -26,6 +24,8 @@ import {down} from '../../assets/icons';
 import SelectOption from '../../components/SelectOption';
 import {useSettings} from '../../components/context/Provider';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
+import {useLocalization} from '../../components/context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const SelectSubjectsScreen = props => {
   const category = useRef(null);
@@ -33,41 +33,40 @@ const SelectSubjectsScreen = props => {
 
   const {isAuth} = useSettings();
 
+  const {localization} = useLocalization();
+
   const [dataSource, setDataSource] = useState({
     categories: [],
     categories2: [],
     tests: [],
   });
 
-  const [fetchCategories, isFetchingCategories] =
-    useFetching(async () => {
-      const response = await UBTService.fetchCategories();
+  const [fetchCategories, isFetchingCategories] = useFetching(async () => {
+    const response = await UBTService.fetchCategories();
+    setDataSource(prev => ({
+      ...prev,
+      categories: response.data?.data,
+    }));
+  });
+
+  const [fetchTests, isFetchingTests] = useFetching(async () => {
+    const response = await UBTService.fetchTests(
+      category.current?.id,
+      category2.current?.id,
+    );
+    if (category2.current) {
       setDataSource(prev => ({
         ...prev,
-        categories: response.data?.data,
+        tests: response.data?.data,
       }));
-    });
-
-  const [fetchTests, isFetchingTests] = useFetching(
-    async () => {
-      const response = await UBTService.fetchTests(
-        category.current?.id,
-        category2.current?.id,
-      );
-      if (category2.current) {
-        setDataSource(prev => ({
-          ...prev,
-          tests: response.data?.data,
-        }));
-      } else {
-        const newCategories2 = getCategories2(response.data?.data);
-        setDataSource(prev => ({
-          ...prev,
-          categories2: newCategories2,
-        }));
-      }
-    },
-  );
+    } else {
+      const newCategories2 = getCategories2(response.data?.data);
+      setDataSource(prev => ({
+        ...prev,
+        categories2: newCategories2,
+      }));
+    }
+  });
 
   useEffect(() => {
     fetchCategories();
@@ -128,7 +127,7 @@ const SelectSubjectsScreen = props => {
         props.navigation.navigate(ROUTE_NAMES.operation, {
           operation: item,
           type: TYPE_SUBCRIBES.TEST_SUBCRIBE,
-          previousScreen: ROUTE_NAMES.selectSubjects
+          previousScreen: ROUTE_NAMES.selectSubjects,
         });
       }
     } else {
@@ -140,24 +139,24 @@ const SelectSubjectsScreen = props => {
     return (
       <View>
         <Text style={{color: APP_COLORS.font}}>
-          {
-            strings[
-              'Выберите вопросы первого и второго урока чтобы начать тест'
-            ]
-          }
+          {lang(
+            'Выберите вопросы первого и второго урока чтобы начать тест',
+            localization,
+          )}
         </Text>
         <SelectButton
           categories={dataSource.categories}
-          placeholder={strings['Выберите первый урок']}
+          placeholder={lang('Выберите первый урок', localization)}
           action={onFirstSelect}
+          localization={localization}
         />
         <SelectButton
           categories={dataSource.categories2}
-          placeholder={strings['Выберите второй урок']}
+          placeholder={lang('Выберите второй урок', localization)}
           action={onSecondSelect}
         />
         <SimpleButton
-          text={strings.Выбрать}
+          text={lang('Выбрать', localization)}
           onPress={fetchTests}
           style={{marginTop: 20}}
         />
@@ -188,10 +187,10 @@ const SelectSubjectsScreen = props => {
 
   const renderEmptyComponent = () => {
     if (category.current && category2.current) {
-      return <Empty/>
+      return <Empty />;
     }
     return null;
-  }
+  };
 
   if (isFetchingCategories) {
     return <LoadingScreen />;
@@ -214,6 +213,7 @@ const SelectSubjectsScreen = props => {
 const SelectButton = ({
   categories = [],
   placeholder = '',
+  localization,
   action = () => undefined,
 }) => {
   const [visible, setVisible] = useState(false);
@@ -274,7 +274,7 @@ const SelectButton = ({
               keyExtractor={(_, index) => index.toString()}
             />
             <SimpleButton
-              text={strings.Выбрать}
+              text={lang('Выбрать', localization)} 
               onPress={onApply}
               style={{margin: 16, marginBottom: 32}}
             />

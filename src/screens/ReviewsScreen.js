@@ -9,11 +9,13 @@ import { FlatList } from 'react-native'
 import Empty from '../components/Empty'
 import ReviewItem from '../components/view/ReviewItem'
 import RowView from '../components/view/RowView'
-import { strings } from '../localization'
 import { setFontStyle, wordLocalization } from '../utils/utils'
 import RatingStar from '../components/RatingStar'
+import { useLocalization } from '../components/context/LocalizationProvider'
+import { lang } from '../localization/lang'
 
 const ReviewsScreen = (props) => {
+    const {localization} = useLocalization();
 
     const id = props.route?.params?.id
 
@@ -35,7 +37,7 @@ const ReviewsScreen = (props) => {
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
-            title: strings.Отзывы
+            title: lang('Отзывы', localization)
         })
     }, [])
 
@@ -68,7 +70,7 @@ const ReviewsScreen = (props) => {
                         halfStarEnabled={true}
                         starSize={32}
                     />
-                    <Text style={styles.reviewCount}>{wordLocalization(strings['Оставлено :num отзывов'], { num: course?.reviews_count })}</Text>
+                    <Text style={styles.reviewCount}>{wordLocalization(lang('Оставлено :num отзывов', localization), { num: course?.reviews_count })}</Text>
                 </View>
             </RowView>
         )

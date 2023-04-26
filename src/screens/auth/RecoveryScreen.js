@@ -2,21 +2,24 @@ import {Alert, StyleSheet} from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import AuthDetailView from '../../components/view/AuthDetailView';
-import {strings} from '../../localization';
 import Input from '../../components/Input';
 import SimpleButton from '../../components/button/SimpleButton';
 import TextButton from '../../components/button/TextButton';
 import {useFetching} from '../../hooks/useFetching';
 import {AuthService} from '../../services/API';
+import {useLocalization} from './../../components/context/LocalizationProvider';
+import {lang} from './../../localization/lang';
 
 const RecoveryScreen = ({navigation}) => {
+  const {localization} = useLocalization();
+
   const [dataSource, setDataSource] = useState({
     email: '',
   });
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: strings['Восстановить пароль'],
+      title: lang('Восстановить пароль', localization),
       headerTitleAlign: 'center',
     });
   });
@@ -30,7 +33,7 @@ const RecoveryScreen = ({navigation}) => {
       ...prev,
       email: '',
     }));
-    Alert.alert(strings['Внимание!'], response?.data?.message);
+    Alert.alert(lang('Внимание!', localization), response?.data?.message);
   });
 
   const onBack = () => {
@@ -48,10 +51,11 @@ const RecoveryScreen = ({navigation}) => {
     <UniversalView haveScroll style={styles.view}>
       <AuthDetailView
         haveLogo
-        title={strings['Восстановить пароль']}
-        description={
-          strings['Введите ваш E-mail чтобы восстановить ваш пароль']
-        }
+        title={lang('Восстановить пароль', localization)}
+        description={lang(
+          'Введите ваш E-mail чтобы восстановить ваш пароль',
+          localization,
+        )}
       />
       <Input
         placeholder={'E-mail'}
@@ -62,12 +66,12 @@ const RecoveryScreen = ({navigation}) => {
       />
       <SimpleButton
         style={styles.button}
-        text={strings.Восстановить}
+        text={lang('Восстановить', localization)}
         loading={isLoading}
         onPress={() => fetchingRecovery()}
       />
       <TextButton
-        text={strings['Я вспомнил пароль']}
+        text={lang('Я вспомнил пароль', localization)}
         onPress={onBack}
         disabled={isLoading}
       />

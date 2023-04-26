@@ -7,9 +7,10 @@ import Price from './Price';
 import ItemRating from './ItemRating';
 import {useSettings} from './context/Provider';
 import TextButton from './button/TextButton';
-import {strings} from '../localization';
 import Downloader from './Downloader';
 import RNFS from 'react-native-fs';
+import { lang } from '../localization/lang';
+import { useLocalization } from './context/LocalizationProvider';
 
 const CourseRow = ({
   id,
@@ -30,6 +31,8 @@ const CourseRow = ({
 
   const refJobId = useRef(null);
   const {settings, nstatus} = useSettings();
+  const {localization} = useLocalization();
+
 
   const onProgress = useCallback(data => {
     console.log('progress: ', data);
@@ -102,7 +105,7 @@ const CourseRow = ({
           <TextButton
             style={styles.button}
             textStyle={{...styles.buttonText, color: settings?.color_app}}
-            text={strings.Скачать}
+            text={lang('Скачать', localization)}
             onPress={downloader}
           />
         ) : (

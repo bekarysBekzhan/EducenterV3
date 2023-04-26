@@ -25,8 +25,11 @@ import {CommonActions} from '@react-navigation/native';
 import SimpleButton from '../components/button/SimpleButton';
 import {useToggle} from '../hooks/useToggle';
 import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const SettingsScreen = ({navigation, route}) => {
+  const {localization} = useLocalization();
+
   const userEmail = route?.params?.userEmail;
   const notification_push_enable = route?.params?.notification_push_enable;
 
@@ -41,8 +44,6 @@ const SettingsScreen = ({navigation, route}) => {
     notification_push_enable,
   );
   const {setIsAuth, settings, nstatus} = useSettings();
-
-  const {localization} = useLocalization();
 
   const [fetchSettings, isLoading, error] = useFetching(async () => {
     const response = await SettingsService.fetchLanguage();
@@ -145,7 +146,7 @@ const SettingsScreen = ({navigation, route}) => {
   const renderEmpty = <Empty style={styles.empty} />;
 
   const renderHeader = dataSource?.list.length ? (
-    <SectionView label={strings['Выберите язык']} />
+    <SectionView label={lang('Выберите язык', localization)} />
   ) : null;
 
   const navigationDeleteAccountScreen = () => {
@@ -155,18 +156,18 @@ const SettingsScreen = ({navigation, route}) => {
   const renderFooter = (
     <View>
       {nstatus === N_STATUS ? null : (
-        <SectionView label={strings.Уведомление} />
+        <SectionView label={lang('Уведомление', localization)} />
       )}
       {nstatus === N_STATUS ? null : (
         <SettingItem
-          text={strings['Уведомления о действиях']}
+          text={lang('Уведомления о действиях', localization)}
           value={isTogglePushAction}
           onValueChange={setIsTogglePushAction}
         />
       )}
       <SimpleButton
         style={styles.navButton}
-        text={strings['Удалить аккаунт']}
+        text={lang('Удалить аккаунт', localization)}
         onPress={navigationDeleteAccountScreen}></SimpleButton>
 
       {/* <SettingItem
@@ -181,7 +182,9 @@ const SettingsScreen = ({navigation, route}) => {
       <TouchableOpacity activeOpacity={0.9} onPress={onExit}>
         <RowView style={styles.row}>
           <ExitIcon />
-          <Text style={styles.exit}>{strings['Выход из аккаунта']}</Text>
+          <Text style={styles.exit}>
+            {lang('Выход из аккаунта', localization)}
+          </Text>
         </RowView>
       </TouchableOpacity>
     </View>

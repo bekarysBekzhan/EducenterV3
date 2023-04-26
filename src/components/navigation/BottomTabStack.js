@@ -18,7 +18,6 @@ import {
   testsTabIcon2,
   testsTabIcon3,
 } from '../../assets/icons';
-import {strings} from '../../localization';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   APP_COLORS,
@@ -32,6 +31,8 @@ import Tasks from './TasksStack';
 import MyCourses from './MyCoursesStack';
 import {firebaseService} from '../../services/FirebaseService';
 import {useNavigation} from '@react-navigation/native';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const BottomTabStack = createBottomTabNavigator();
 
@@ -39,6 +40,8 @@ const BottomTab = props => {
   const onNotification = props.route?.params?.onNotification;
   const {settings, isAuth, nstatus, nIcon} = useSettings();
   const {navigate} = useNavigation();
+
+  const {localization} = useLocalization();
 
   const coursesTabFunc = () => {
     if (nIcon === '1') {
@@ -83,12 +86,11 @@ const BottomTab = props => {
     return profileTabIcon;
   };
 
-
   const BOTTOM_TAB = [
     {
       name: ROUTE_NAMES.coursesStack,
       icon: coursesTabFunc(),
-      label: strings.Курсы,
+      label: lang('Курсы', localization),
       component: Courses,
       options: {
         unmountOnBlur: true,
@@ -98,25 +100,25 @@ const BottomTab = props => {
       name: ROUTE_NAMES.testsStack,
       component: Tests,
       icon: testTabFunc(),
-      label: strings.Тесты,
+      label: lang('Тесты', localization),
     },
     {
       name: ROUTE_NAMES.myCoursesStack,
       component: MyCourses,
       icon: myCoursesTabFunc(),
-      label: strings['Мои курсы'],
+      label: lang('Мои курсы', localization),
     },
     {
       name: ROUTE_NAMES.tasksStack,
       component: Tasks,
       icon: taskTabFunc(),
-      label: strings.Задания,
+      label: lang('Задания', localization),
     },
     {
       name: ROUTE_NAMES.menuStack,
       component: MenuStack,
       icon: profileTabFunc(),
-      label: strings.Меню,
+      label: lang('Меню', localization),
     },
   ];
 

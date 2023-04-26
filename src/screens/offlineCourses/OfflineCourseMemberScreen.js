@@ -4,11 +4,14 @@ import Empty from '../../components/Empty';
 import MemberItem from '../../components/item/MemberItem';
 import UniversalView from '../../components/view/UniversalView';
 import {APP_COLORS, WIDTH} from '../../constans/constants';
-import {strings} from '../../localization';
 import {search} from '../../assets/icons';
+import {useLocalization} from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const OfflineCourseMemberScreen = props => {
   const data = props.route.params;
+
+  const {localization} = useLocalization();
 
   const [searches, setSearch] = useState('');
   const [fiteredDataSource, setFiteredDataSource] = useState([]);
@@ -57,7 +60,7 @@ const OfflineCourseMemberScreen = props => {
       <View style={styles.searchIcon}>{search()}</View>
       <TextInput
         style={styles.searchContainer}
-        placeholder={strings['Поиск среди участников']}
+        placeholder={lang('Поиск среди участников', localization)}
         onChangeText={text => searchFilterFunction(text)}
         value={searches}></TextInput>
 

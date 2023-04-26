@@ -6,11 +6,13 @@ import Input from '../components/Input';
 import AuthDetailView from '../components/view/AuthDetailView';
 import UniversalView from '../components/view/UniversalView';
 import {useFetching} from '../hooks/useFetching';
-import { useToggle } from '../hooks/useToggle';
-import {strings} from '../localization';
-import {ProfileService} from '../services/API';
+import {useToggle} from '../hooks/useToggle';
+import {lang} from '../localization/lang';
+import {useLocalization} from '../components/context/LocalizationProvider';
 
 const ChangePassword = () => {
+  const {localization} = useLocalization();
+
   const [dataSource, setDataSource] = useState({
     loading: false,
     old_password: '',
@@ -28,13 +30,25 @@ const ChangePassword = () => {
       dataSource.password.length <= 0 &&
       dataSource?.confirm_password.length <= 0
     ) {
-      Alert.alert(strings['Внимание!'], strings['Заполните все поля']);
+      Alert.alert(
+        lang('Внимание!', localization),
+        lang('Заполните все поля', localization),
+      );
       return;
-    } else if (dataSource.password.length < 8 && dataSource?.confirm_password.length < 8) {
-      Alert.alert(strings['Внимание!'], strings['Новый пароль не может быть менее 8 символов']);
+    } else if (
+      dataSource.password.length < 8 &&
+      dataSource?.confirm_password.length < 8
+    ) {
+      Alert.alert(
+        lang('Внимание!', localization),
+        lang('Новый пароль не может быть менее 8 символов', localization),
+      );
       return;
     } else if (dataSource?.password != dataSource?.confirm_password) {
-      Alert.alert(strings['Внимание!'], strings['Пароли не совпадают']);
+      Alert.alert(
+        lang('Внимание!', localization),
+        lang('Пароли не совпадают', localization),
+      );
       return;
     }
 
@@ -49,7 +63,10 @@ const ChangePassword = () => {
       password: '',
       confirm_password: '',
     }));
-    Alert.alert(strings['Внимание!'], strings['Пароль изменен']);
+    Alert.alert(
+      lang('Внимание!', localization),
+      lang('Пароль изменен', localization),
+    );
   });
 
   return (
@@ -57,7 +74,7 @@ const ChangePassword = () => {
       <AuthDetailView haveLogo />
       <Input
         extraStyle={styles.inputView}
-        placeholder={strings['Старый пароль']}
+        placeholder={lang('Старый пароль', localization)}
         right={toggleOldPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
         secureTextEntry={!toggleOldPassword}
@@ -69,7 +86,7 @@ const ChangePassword = () => {
       />
       <Input
         extraStyle={styles.inputView}
-        placeholder={strings['Новый пароль']}
+        placeholder={lang('Новый пароль', localization)}
         right={toggleNewPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
         secureTextEntry={!toggleNewPassword}
@@ -79,7 +96,7 @@ const ChangePassword = () => {
       />
       <Input
         extraStyle={styles.inputView}
-        placeholder={strings['Повторите пароль']}
+        placeholder={lang('Повторите пароль', localization)}
         right={toggleCfmPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
         secureTextEntry={!toggleCfmPassword}
@@ -92,7 +109,7 @@ const ChangePassword = () => {
 
       <SimpleButton
         style={styles.button}
-        text={strings['Сохранить новый пароль']}
+        text={lang('Сохранить новый пароль', localization)}
         onPress={fetchChangePassword}
         loading={isLoading}
       />

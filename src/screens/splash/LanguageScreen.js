@@ -11,6 +11,7 @@ import {strings} from '../../localization';
 import { useSettings } from '../../components/context/Provider';
 import { SettingsService } from '../../services/API';
 import { useLocalization } from '../../components/context/LocalizationProvider';
+import {lang} from '../../localization/lang'
 
 const languages = [
   {label: 'Русский', key: 'ru'},
@@ -39,13 +40,13 @@ const LanguageScreen = ({navigation, route}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: strings['Поменять язык'],
+      headerTitle: lang('Поменять язык', localization),
     })
   }, [language])
 
   return (
     <UniversalView style={styles.container}>
-      <SectionView label={strings['Выберите язык']} />
+      <SectionView label={lang('Выберите язык', localization)} />
       {languages.map((value, index) => (
         <SelectOption
           selectKeyPressed={selectKeyPressed}

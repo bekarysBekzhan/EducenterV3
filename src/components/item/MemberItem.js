@@ -11,12 +11,13 @@ import {
 import FastImage from 'react-native-fast-image';
 import {CallCenterIcon, x} from '../../assets/icons';
 import {APP_COLORS, HEIGHT, WIDTH} from '../../constans/constants';
-import {strings} from '../../localization';
 import {getWhatsappNumber} from '../../utils/utils';
 import OutlineButton from '../button/OutlineButton';
 import SimpleButton from '../button/SimpleButton';
 import Divider from '../Divider';
 import RowView from '../view/RowView';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const MemberItem = ({
   name,
@@ -28,6 +29,8 @@ const MemberItem = ({
   category,
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const {localization} = useLocalization();
 
   const callNumber = () => {
     Linking.openURL(`tel:${phone}`);
@@ -79,7 +82,7 @@ const MemberItem = ({
                 width: WIDTH - 48,
                 alignItems: 'center',
               }}>
-              <Text style={styles.title}>{strings.Детали}</Text>
+              <Text style={styles.title}>{lang('Детали', localization)}</Text>
             </View>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
               {x(16, APP_COLORS.border)}
@@ -98,12 +101,12 @@ const MemberItem = ({
           {hide_phone ? null : (
             <View style={styles.buttonContainer}>
               <SimpleButton
-                text={strings['Позвонить']}
+                text={lang('Позвонить', localization)}
                 style={{marginBottom: 8}}
                 onPress={callNumber}
               />
               <OutlineButton
-                text={strings['Написать в WhatsApp']}
+                text={lang('Написать в WhatsApp', localization)}
                 onPress={whatsappLink}
               />
             </View>

@@ -15,7 +15,6 @@ import {UBTService} from '../../services/API';
 import TrackPlayer from 'react-native-track-player';
 import Question from '../../components/test/Question';
 import SimpleButton from '../../components/button/SimpleButton';
-import {strings} from '../../localization';
 import Overlay from '../../components/view/Overlay';
 import RowView from '../../components/view/RowView';
 import {down, TimeIcon, up} from '../../assets/icons';
@@ -26,10 +25,13 @@ import {getSeconds, setFontStyle} from '../../utils/utils';
 import LoadingScreen from '../../components/LoadingScreen';
 import {useHeaderHeight} from '@react-navigation/elements';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
+import {useLocalization} from '../../components/context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const UBTTestScreen = props => {
   const id = props.route?.params?.id;
   const again = props.route?.params?.again;
+  const {localization} = useLocalization();
 
   const currentSetPlaying = useRef(null);
   const currentSetDuration = useRef(null);
@@ -190,7 +192,7 @@ const UBTTestScreen = props => {
   const renderFooter = () => (
     <View>
       <SimpleButton
-        text={strings['Завершить тест']}
+        text={lang('Завершить тест', localization)}
         onPress={finishTest}
         style={{marginBottom: 100}}
         loading={isFinishLoading}
@@ -270,7 +272,6 @@ const SubjectsModal = ({
   subjects = [],
   onSelect = () => undefined,
 }) => {
-
   const headerHeight = useHeaderHeight();
 
   const onSubject = (s, index) => {
@@ -280,7 +281,7 @@ const SubjectsModal = ({
   return (
     <Modal visible={visible} transparent={true} animationType="fade">
       <View style={styles.modal}>
-        <View style={{height: 86}}/>
+        <View style={{height: 86}} />
         {subjects.map((s, i) => (
           <TouchableOpacity
             key={i}
@@ -290,7 +291,10 @@ const SubjectsModal = ({
             <Text style={styles.subjectText}>{s?.entity?.name}</Text>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={styles.backDrop} onPress={() => setVisible(false)} />
+        <TouchableOpacity
+          style={styles.backDrop}
+          onPress={() => setVisible(false)}
+        />
       </View>
     </Modal>
   );

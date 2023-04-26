@@ -1,29 +1,34 @@
-import { Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
 import UniversalView from '../components/view/UniversalView';
-import {strings} from '../localization';
+
 import {useFetching} from '../hooks/useFetching';
 import LoadingScreen from '../components/LoadingScreen';
 import {NotificationService} from '../services/API';
 import RowView from '../components/view/RowView';
 import {NotificationItemIcon} from '../assets/icons';
-import {containsHTML,  setFontStyle} from '../utils/utils';
+import {containsHTML, setFontStyle} from '../utils/utils';
 import {APP_COLORS, NOTIFICATION_TYPE} from '../constans/constants';
 import Loader from '../components/Loader';
 import Divider from '../components/Divider';
 import HtmlView from '../components/HtmlView';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import Empty from '../components/Empty';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const NotificationsScreen = ({navigation}) => {
+  const {localization} = useLocalization();
 
   const [notifications, setNotifications] = useState(null);
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
 
-  const [readNotifications, isReading, readingError] = useFetching(async (ids) => {
-    await NotificationService.read(ids);
-  })
+  const [readNotifications, isReading, readingError] = useFetching(
+    async ids => {
+      await NotificationService.read(ids);
+    },
+  );
 
   const [fetchNotifications, isFetching, error] = useFetching(async () => {
     const response = await NotificationService.fetch();
@@ -31,17 +36,23 @@ const NotificationsScreen = ({navigation}) => {
     setNotifications(notificationList);
     setLastPage(response.data?.data?.notifications?.last_page);
 
-    await readNotifications(notificationList.filter((notification) => !notification?.readed_at).map(notification => notification?.id));
+    await readNotifications(
+      notificationList
+        .filter(notification => !notification?.readed_at)
+        .map(notification => notification?.id),
+    );
   });
 
   const [fetchNextPage, isFetchingNext, errorNext] = useFetching(async () => {
     const response = await NotificationService.fetch(page);
     const notificationList = response.data?.data?.notifications?.data;
-    setNotifications(prev =>
-      prev.concat(notificationList),
-    );
+    setNotifications(prev => prev.concat(notificationList));
 
-    await readNotifications(notificationList.filter((notification) => !notification?.readed_at).map(notification => notification?.id));
+    await readNotifications(
+      notificationList
+        .filter(notification => !notification?.readed_at)
+        .map(notification => notification?.id),
+    );
   });
 
   useEffect(() => {
@@ -54,7 +65,7 @@ const NotificationsScreen = ({navigation}) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: strings.Уведомления,
+      title: lang('На главную', localization),
     });
   }, []);
 
@@ -103,7 +114,7 @@ const NotificationsScreen = ({navigation}) => {
         data={notifications}
         renderItem={renderItem}
         keyExtractor={(_, index) => index.toString()}
-        ListEmptyComponent={() => <Empty/>}
+        ListEmptyComponent={() => <Empty />}
         showsVerticalScrollIndicator={false}
         onEndReachedThreshold={0.2}
         ItemSeparatorComponent={() => <Divider />}
@@ -118,7 +129,6 @@ const NotificationsScreen = ({navigation}) => {
 };
 
 const NotificationItem = ({message, date, type, modelID, navigation}) => {
-
   const onPress = () => {
     switch (type) {
       case NOTIFICATION_TYPE.course:
@@ -139,11 +149,7 @@ const NotificationItem = ({message, date, type, modelID, navigation}) => {
   };
 
   const renderButton = ({TDefaultRenderer, ...props}) => {
-    return (
-      <Text style={notification.highlight}>
-        {props.tnode?.data}
-      </Text>
-    );
+    return <Text style={notification.highlight}>{props.tnode?.data}</Text>;
   };
 
   let messageComponent = (
@@ -154,14 +160,23 @@ const NotificationItem = ({message, date, type, modelID, navigation}) => {
 
   if (containsHTML(message)) {
     messageComponent = (
-      <HtmlView html={"<p>" + message + "</p>"} renderers={{span: renderButton}} tagsStyles={{ p: {...setFontStyle(15, '500', APP_COLORS.font), marginTop: 0} }}/>
+      <HtmlView
+        html={'<p>' + message + '</p>'}
+        renderers={{span: renderButton}}
+        tagsStyles={{
+          p: {...setFontStyle(15, '500', APP_COLORS.font), marginTop: 0},
+        }}
+      />
     );
   }
 
   return (
     <RowView style={notification.container}>
       <NotificationItemIcon type={type} />
-      <TouchableOpacity style={notification.view} activeOpacity={0.7} onPress={onPress}>
+      <TouchableOpacity
+        style={notification.view}
+        activeOpacity={0.7}
+        onPress={onPress}>
         {messageComponent}
         <Text style={notification.date}>{date}</Text>
       </TouchableOpacity>

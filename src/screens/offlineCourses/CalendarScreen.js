@@ -4,7 +4,6 @@ import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
 import {CourseService} from '../../services/API';
 import CalendarCourseItem from '../../components/item/CalendarCourseItem';
-import {strings} from '../../localization';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import {Calendar, LocaleConfig} from 'react-native-calendars';
 import {APP_COLORS} from '../../constans/constants';
@@ -14,8 +13,12 @@ import moment from 'moment';
 import {API_V2} from '../../services/axios';
 import Loader from '../../components/Loader';
 import Empty from '../../components/Empty';
+import {useLocalization} from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const CalendarScreen = ({navigation}) => {
+  const {localization} = useLocalization();
+
   const [dataSource, setDataSource] = useState({
     data: [],
     day: moment().format('YYYY-MM-DD'),
@@ -201,7 +204,7 @@ const CalendarScreen = ({navigation}) => {
     };
     LocaleConfig.defaultLocale = API_V2.defaults.headers?.lang;
     navigation.setOptions({
-      title: strings.Календарь,
+      title: lang('Календарь', localization),
       headerTitleAlign: 'center',
     });
   }, []);

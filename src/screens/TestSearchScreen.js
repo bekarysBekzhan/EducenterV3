@@ -13,7 +13,6 @@ import UniversalView from '../components/view/UniversalView';
 import RowView from '../components/view/RowView';
 import {clear, filter, filterON, search, x} from '../assets/icons';
 import Input from '../components/Input';
-import {strings} from '../localization';
 import {APP_COLORS, STORAGE, WIDTH} from '../constans/constants';
 import {isValidText, setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
@@ -30,12 +29,15 @@ import ModuleTestItem from '../components/test/ModuleTestItem';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {getObject, storeObject} from '../storage/AsyncStorage';
 import {useSettings} from '../components/context/Provider';
+import {useLocalization} from '../components/context/LocalizationProvider';
+import {lang} from '../localization/lang';
 
 const MAX_HISTORY_SIZE = 7;
 
 const TestSearchScreen = props => {
   const filters = props.route?.params?.filters;
   const {settings} = useSettings();
+  const {localization} = useLocalization();
 
   const [focus, setFocus] = useState(true);
   const [value, setValue] = useState('');
@@ -214,12 +216,14 @@ const TestSearchScreen = props => {
           </TouchableOpacity>
           <Input
             _focus={focus}
-            placeholder={strings['Поиск тестов']}
+            placeholder={lang('Поиск тестов', localization)}
             left={<View style={styles.searchIcon}>{search('#000')}</View>}
-            right={ value ? 
-              <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
-                {clear()}
-              </TouchableOpacity> : null
+            right={
+              value ? (
+                <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
+                  {clear()}
+                </TouchableOpacity>
+              ) : null
             }
             value={value}
             onChangeText={onChangeText}
@@ -240,8 +244,8 @@ const TestSearchScreen = props => {
         <SectionView
           label={
             value.length > 0 || sort || category
-              ? strings.Тесты
-              : strings['История поиска']
+              ? lang('Тесты', localization)
+              : lang('История поиска', localization)
           }
         />
         {data.length > 0 ? (

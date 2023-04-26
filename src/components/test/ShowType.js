@@ -1,16 +1,19 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Modal} from 'react-native';
-import {strings} from '../../localization';
 import SelectOption from '../SelectOption';
 import {APP_COLORS, SHOW_TYPE} from '../../constans/constants';
 import {setFontStyle} from '../../utils/utils';
+import {useLocalization} from '../context/LocalizationProvider';
+import {lang} from '../../localization/lang';
 
 const ShowType = ({
   visible = false,
   onHide = () => undefined,
   onSelect = () => undefined,
 }) => {
+  const {localization} = useLocalization();
+
   const [currentKey, setCurrentKey] = useState(null);
 
   const selectKeyPressed = key => {
@@ -25,18 +28,21 @@ const ShowType = ({
         <TouchableOpacity style={styles.backdrop} onPress={onHide} />
         <View style={styles.modal}>
           <Text style={styles.text}>
-            {strings['Вы уже прошли этот тест. Хотите пройти еще раз?']}
+            {lang(
+              'Вы уже прошли этот тест. Хотите пройти еще раз?',
+              localization,
+            )}
           </Text>
           <SelectOption
             value={SHOW_TYPE.test}
             selectKeyPressed={selectKeyPressed}
-            label={strings['Пройти тест']}
+            label={lang('Пройти тест', localization)}
             currentKey={currentKey}
           />
           <SelectOption
             value={SHOW_TYPE.result}
             selectKeyPressed={selectKeyPressed}
-            label={strings['Посмотреть результаты']}
+            label={lang('Посмотреть результаты', localization)}
             currentKey={currentKey}
           />
         </View>

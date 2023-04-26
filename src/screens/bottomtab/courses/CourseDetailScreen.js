@@ -1,8 +1,4 @@
-import {
-  Text,
-  FlatList,
-  StyleSheet,
-} from 'react-native';
+import {Text, FlatList, StyleSheet} from 'react-native';
 import React from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import {useFetching} from '../../../hooks/useFetching';
@@ -10,7 +6,6 @@ import {CourseService} from '../../../services/API';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import {generateHash, setFontStyle} from '../../../utils/utils';
-import {strings} from '../../../localization';
 import Divider from '../../../components/Divider';
 import {useSettings} from '../../../components/context/Provider';
 import TransactionButton from '../../../components/button/TransactionButton';
@@ -19,11 +14,13 @@ import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import Footer from '../../../components/course/Footer';
 import LoadingScreen from '../../../components/LoadingScreen';
 import CourseChapter from '../../../components/course/CourseChapter';
-import { N_STATUS, TYPE_SUBCRIBES } from '../../../constans/constants';
+import {N_STATUS, TYPE_SUBCRIBES} from '../../../constans/constants';
 import MyCourseChapter from '../../../components/course/MyCourseChapter';
+import {useLocalization} from '../../../components/context/LocalizationProvider';
+import {lang} from '../../../localization/lang';
 
 const CourseDetailScreen = props => {
-
+  const {localization} = useLocalization();
   const {isAuth, nstatus} = useSettings();
 
   const courseID = props.route?.params?.courseID;
@@ -42,25 +39,24 @@ const CourseDetailScreen = props => {
     fetchCourse();
   }, []);
 
-  const passedLessonCount = (chapter) => {
+  const passedLessonCount = chapter => {
     if (chapter?.position < data?.progress_information?.last_chapter_position) {
-      return chapter?.lessons_count
-    } 
-    if (chapter?.position > data?.progress_information?.last_chapter_position) {
-      return 0
+      return chapter?.lessons_count;
     }
-  
-    return data?.progress_information?.last_lesson_position
-  }
+    if (chapter?.position > data?.progress_information?.last_chapter_position) {
+      return 0;
+    }
 
-  const getProgressPercent = (chapter) => {
+    return data?.progress_information?.last_lesson_position;
+  };
 
+  const getProgressPercent = chapter => {
     if (chapter?.lessons_count === 0) {
       return 0;
     }
 
-    return (passedLessonCount(chapter) / chapter?.lessons_count) * 100
-  }
+    return (passedLessonCount(chapter) / chapter?.lessons_count) * 100;
+  };
 
   const onTransaction = () => {
     if (isAuth) {
@@ -73,7 +69,7 @@ const CourseDetailScreen = props => {
         props.navigation.navigate(ROUTE_NAMES.operation, {
           operation: data,
           type: TYPE_SUBCRIBES.COURSE_SUBCRIBE,
-          previousScreen: ROUTE_NAMES.courseDetail
+          previousScreen: ROUTE_NAMES.courseDetail,
         });
       }
     } else {
@@ -86,12 +82,12 @@ const CourseDetailScreen = props => {
   };
 
   const renderChapter = ({item, index}) => {
-
     if (data?.has_subscribed) {
       return (
         <MyCourseChapter
           item={item}
           index={index}
+          localization={localization}
           navigation={props.navigation}
           passedLessonsCount={passedLessonCount(item)}
           totalLessonsCount={item?.lessons_count}
@@ -101,11 +97,7 @@ const CourseDetailScreen = props => {
     }
 
     return (
-      <CourseChapter
-        item={item}
-        index={index}
-        navigation={props.navigation}
-      />
+      <CourseChapter item={item} index={index} navigation={props.navigation} />
     );
   };
 
@@ -114,14 +106,13 @@ const CourseDetailScreen = props => {
   };
 
   const renderTransactionButton = () => {
-
     if (nstatus === N_STATUS) {
-      return null
+      return null;
     }
 
     return (
       <TransactionButton
-        text={strings['Купить полный курс']}
+        text={lang('Купить полный курс', localization)}
         price={data?.price}
         oldPrice={data?.old_price}
         onPress={onTransaction}
@@ -150,7 +141,7 @@ const CourseDetailScreen = props => {
   );
 };
 
-const CourseListHeader = ({data}) => {
+const CourseListHeader = ({data, localization}) => {
   return (
     <UniversalView>
       <DetailView
@@ -163,14 +154,14 @@ const CourseListHeader = ({data}) => {
         description={data?.description}
       />
       <Divider isAbsolute={false} />
-      <Text style={styles.courseProgram}>{strings['Программа курса']}</Text>
+      <Text style={styles.courseProgram}>{lang('Программа курса', localization)}</Text>
     </UniversalView>
   );
 };
 
 const styles = StyleSheet.create({
-  listContent:{
-    paddingBottom:50
+  listContent: {
+    paddingBottom: 50,
   },
   container: {},
   courseProgram: {
