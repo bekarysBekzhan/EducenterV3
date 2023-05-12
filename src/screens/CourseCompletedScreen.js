@@ -96,13 +96,11 @@ const CourseCompletedScreen = props => {
       <Text style={styles.text}>
         {wordLocalization(
           lang(
-            'Вы прошли курс “:course_name” успешно, набрав :num баллов из :count. Оставтье отзыв о курсе, тем самым вы поможете улучшить нам сервис',
+            'Вы прошли курс “:course_name”. Оставтье отзыв о курсе, тем самым вы поможете улучшить нам сервис',
             localization,
           ),
           {
             course_name: data?.title,
-            num: 8,
-            count: 10,
           },
         )}
       </Text>
@@ -113,6 +111,7 @@ const CourseCompletedScreen = props => {
         reviewCount={data?.reviews_count}
         rating={data?.rating}
         disabled={true}
+        containerStyle={styles.courseRowStyle}
       />
       {data?.certification ? (
         <Text style={[styles.text, {textAlign: 'center'}]}>
@@ -172,6 +171,7 @@ const styles = StyleSheet.create({
     height: 200,
     backgroundColor: 'yellow',
   },
+  courseRowStyle: {marginBottom: 20},
 });
 
 export default CourseCompletedScreen;
