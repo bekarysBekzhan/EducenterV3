@@ -129,19 +129,27 @@ const NotificationsScreen = ({navigation}) => {
 };
 
 const NotificationItem = ({message, date, type, modelID, navigation}) => {
+  console.log(modelID + ' ' + 'type ' + type);
+  console.log('message ' + message + '\n');
   const onPress = () => {
     switch (type) {
       case NOTIFICATION_TYPE.course:
+        navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: modelID});
+        break;
+      case NOTIFICATION_TYPE.buy:
         navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: modelID});
         break;
       case NOTIFICATION_TYPE.news:
         navigation.navigate(ROUTE_NAMES.newsDetail, {newsId: modelID});
         break;
       case NOTIFICATION_TYPE.task:
-        navigation.navigate(ROUTE_NAMES.moduleTask, {id: modelID});
+        navigation.navigate(ROUTE_NAMES.moduleTask, {id: 19});
         break;
       case NOTIFICATION_TYPE.test:
         navigation.navigate(ROUTE_NAMES.testResult, {id: modelID});
+        break;
+      case NOTIFICATION_TYPE.complete:
+        navigation.navigate(ROUTE_NAMES.courseFinish, {id: modelID});
         break;
       default:
         break;

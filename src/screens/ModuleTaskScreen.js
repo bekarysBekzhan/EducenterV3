@@ -42,11 +42,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import TrackPlayer, {
-  Event,
-  State,
-  useProgress,
-} from 'react-native-track-player';
+import TrackPlayer, {State} from 'react-native-track-player';
 import AnswerAudio from '../components/AnswerAudio';
 import RNFetchBlob from 'rn-fetch-blob';
 import {useSettings} from '../components/context/Provider';
