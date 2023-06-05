@@ -129,8 +129,6 @@ const NotificationsScreen = ({navigation}) => {
 };
 
 const NotificationItem = ({message, date, type, modelID, navigation}) => {
-  console.log(modelID + ' ' + 'type ' + type);
-  console.log('message ' + message + '\n');
   const onPress = () => {
     switch (type) {
       case NOTIFICATION_TYPE.course:
