@@ -7,6 +7,7 @@ import ScheduleLessonsScreen from '../../screens/schedule/ScheduleLessonScreen';
 import ScheduleVisitsScreen from '../../screens/schedule/ScheduleVisitsScreen';
 import {useNavigation} from '@react-navigation/native';
 import {useLocalization} from '../context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const Tab = createMaterialTopTabNavigator();
 
