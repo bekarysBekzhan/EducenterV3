@@ -1,15 +1,17 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
-import React, {useState} from 'react';
-import {useSettings} from '../context/Provider';
-import {ROUTE_NAMES} from '../navigation/routes';
-import {APP_COLORS, N_STATUS} from '../../constans/constants';
-import {down, iconPlay, lock, PlayIcon, time, up} from '../../assets/icons';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
+import { useSettings } from '../context/Provider';
+import { ROUTE_NAMES } from '../navigation/routes';
+import { APP_COLORS, N_STATUS } from '../../constans/constants';
+import { down, iconPlay, lock, PlayIcon, time, up } from '../../assets/icons';
 import RowView from '../view/RowView';
 import FastImage from 'react-native-fast-image';
 import Collapsible from 'react-native-collapsible';
-import {setFontStyle} from '../../utils/utils';
-import {useLocalization} from '../../components/context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { setFontStyle } from '../../utils/utils';
+import { useLocalization } from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
+import { CourseService } from '../../services/API';
+import { useFetching } from '../../hooks/useFetching';
 
 const CourseChapter = ({
   item,
@@ -19,23 +21,34 @@ const CourseChapter = ({
   from = 'course',
   onPress = () => undefined,
 }) => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const [isCollapsed, setIsCollapsed] = useState(true);
-  const {settings, isAuth, nstatus} = useSettings();
+  const { settings, isAuth, nstatus } = useSettings();
 
   const onLesson = (id, title) => {
     if (!isAuth) {
       navigation.navigate(ROUTE_NAMES.login);
     } else {
       if (from === 'course') {
-        navigation.navigate(ROUTE_NAMES.lesson, {id, title, hasSubscribed});
+        navigation.navigate(ROUTE_NAMES.lesson, { id, title, hasSubscribed });
       } else if (from === 'lesson') {
-        navigation.replace(ROUTE_NAMES.lesson, {id, title, hasSubscribed});
+        navigation.replace(ROUTE_NAMES.lesson, { id, title, hasSubscribed });
         onPress();
       }
     }
   };
+  //--
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [fetchCourse, isLoading, courseError] = useFetching(async () => {
+    setIsCollapsed(prev => !prev);
+    const response = await CourseService.fetchChapterById(item?.id)
+    setData(response?.data?.data);
+    setLoading(false);
+    console.log("CourseChapter Featch", response?.data?.data);
+  });
+  //--
 
   const buyKursText = () => {
     if (nstatus === N_STATUS) {
@@ -53,18 +66,21 @@ const CourseChapter = ({
   };
 
   const renderStatus = () => {
-    if (item?.lessons.filter(lesson => lesson?.is_promo).length > 0) {
-      return (
-        <RowView>
-          <View
-            style={[styles.chapterPlay, {backgroundColor: APP_COLORS.primary}]}>
-            <PlayIcon size={0.9} />
-          </View>
-          <Text style={styles.promoText}>
-            {lang('Смотреть первый урок бесплатно', localization)}
-          </Text>
-        </RowView>
-      );
+    if (!loading) {
+      if (data?.lessons.filter(lesson => lesson?.is_promo).length > 0) {
+        return (
+          <RowView>
+            <View
+              style={[styles.chapterPlay, { backgroundColor: APP_COLORS.primary }]}>
+              <PlayIcon size={0.9} />
+            </View>
+            <Text style={styles.promoText}>
+              {lang('Смотреть первый урок бесплатно', localization)}
+            </Text>
+          </RowView>
+        );
+      }
+      return buyKursText();
     }
 
     return buyKursText();
@@ -73,10 +89,10 @@ const CourseChapter = ({
   return (
     <View>
       <TouchableOpacity
-        onPress={() => setIsCollapsed(prev => !prev)}
+        onPress={() => isCollapsed ? (data ? setIsCollapsed(prev => !prev) : fetchCourse()) : setIsCollapsed(prev => !prev)}
         style={[
           styles.chapter,
-          {backgroundColor: isCollapsed ? APP_COLORS.gray2 : 'white'},
+          { backgroundColor: isCollapsed ? APP_COLORS.gray2 : 'white' },
         ]}
         activeOpacity={0.8}>
         <View style={styles.chapterInfo}>
@@ -84,14 +100,14 @@ const CourseChapter = ({
             {item?.title}
           </Text>
           <Text style={styles.counts}>
-            {item?.lessons?.length} {lang('лекции', localization)}・
+            {item?.lessons_count} {lang('лекции', localization)}・
             {item?.files_count} {lang('файла', localization)}・
             {item?.tests_count} {lang('тест', localization)}
           </Text>
           <View style={styles.courseStatus}>{renderStatus()}</View>
         </View>
         <RowView>
-          <FastImage
+          {/* <FastImage
             source={{
               uri:
                 item?.lessons?.length > 0
@@ -105,46 +121,46 @@ const CourseChapter = ({
                 <PlayIcon size={0.9} color={APP_COLORS.primary} />
               </View>
             </View>
-          </FastImage>
-          <View style={{marginLeft: 8}}>{isCollapsed ? down : up}</View>
+          </FastImage> */}
+          <View style={{ marginLeft: 8 }}>{isCollapsed ? down : up}</View>
         </RowView>
       </TouchableOpacity>
-
-      <Collapsible collapsed={isCollapsed} style={styles.collapsed}>
-        {item?.lessons.map((lesson, i) => (
-          <TouchableOpacity
-            activeOpacity={0.8}
-            onPress={() => onLesson(lesson?.id, lesson?.chapter?.title)}
-            key={i}>
-            <RowView style={styles.lesson}>
-              <RowView style={styles.lessonRow1}>
-                <View style={styles.lessonIcon}>
-                  {lesson?.is_promo ? (
-                    <View style={styles.lessonPlay}>{iconPlay(0.85)}</View>
-                  ) : (
-                    lock()
-                  )}
-                </View>
-                <Text
-                  style={
-                    lesson?.is_promo || hasSubscribed
-                      ? styles.lessonTitle
-                      : styles.lessonLockedTitle
-                  }
-                  numberOfLines={3}>
-                  {index + 1}.{i + 1} {lesson?.title}
-                </Text>
+      {!isCollapsed ? loading ? <ActivityIndicator style={{ padding: 6 }} /> :
+        <Collapsible collapsed={isCollapsed} style={styles.collapsed}>
+          {data?.lessons.map((lesson, i) => (
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => onLesson(lesson?.id, lesson?.title)}
+              key={i}>
+              <RowView style={styles.lesson}>
+                <RowView style={styles.lessonRow1}>
+                  <View style={styles.lessonIcon}>
+                    {lesson?.is_promo ? (
+                      <View style={styles.lessonPlay}>{iconPlay(0.85)}</View>
+                    ) : (
+                      lock()
+                    )}
+                  </View>
+                  <Text
+                    style={
+                      lesson?.is_promo || hasSubscribed
+                        ? styles.lessonTitle
+                        : styles.lessonLockedTitle
+                    }
+                    numberOfLines={3}>
+                    {index + 1}.{i + 1} {lesson?.title}
+                  </Text>
+                </RowView>
+                <RowView>
+                  {time(undefined, APP_COLORS.placeholder)}
+                  <Text style={styles.lessonTime}>
+                    {lesson?.time < 10 ? '0' + lesson?.time : lesson?.time}:00
+                  </Text>
+                </RowView>
               </RowView>
-              <RowView>
-                {time(undefined, APP_COLORS.placeholder)}
-                <Text style={styles.lessonTime}>
-                  {lesson?.time < 10 ? '0' + lesson?.time : lesson?.time}:00
-                </Text>
-              </RowView>
-            </RowView>
-          </TouchableOpacity>
-        ))}
-      </Collapsible>
+            </TouchableOpacity>
+          ))}
+        </Collapsible> : null}
     </View>
   );
 };

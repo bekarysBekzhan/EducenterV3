@@ -36,6 +36,11 @@ class MobileSettingsService {
 }
 
 class CourseService {
+  static fetchChapterById = async (id) => {
+    const response = await API_V2.get(URLS.chapter + "/" + id)
+    console.log("fetchChapterById", id, " response", response);
+    return response;
+  }
   static fetchCourses = async (
     query = '',
     page = 1,

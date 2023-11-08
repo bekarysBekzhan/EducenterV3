@@ -34,6 +34,7 @@ export const URLS = {
   settings: 'settings/mobile',
   languages: 'languages',
   courses: 'courses',
+  chapter: 'chapter',
   myCourses: 'my_courses',
   courseByID: 'course/',
   courseRate: '/rate',
