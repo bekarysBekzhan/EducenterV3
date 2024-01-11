@@ -1,11 +1,11 @@
-import React, {useMemo} from 'react';
-import {useWindowDimensions} from 'react-native';
+import React, { useMemo } from 'react';
+import { View, useWindowDimensions } from 'react-native';
 import RenderHTML from 'react-native-render-html';
-import {WebView} from 'react-native-webview';
-import IframeRenderer, {iframeModel} from '@native-html/iframe-plugin';
-import TableRenderer, {tableModel} from '@native-html/table-plugin';
-import TrackPlayer, {State} from 'react-native-track-player';
-import {APP_COLORS} from '../constans/constants';
+import { WebView } from 'react-native-webview';
+import IframeRenderer, { iframeModel } from '@native-html/iframe-plugin';
+import TableRenderer, { tableModel } from '@native-html/table-plugin';
+import TrackPlayer, { State } from 'react-native-track-player';
+import { APP_COLORS } from '../constans/constants';
 
 const HtmlView = ({
   html,
@@ -17,8 +17,8 @@ const HtmlView = ({
 }) => {
   const memoTagsStyles = useMemo(
     () => ({
-      p: {color: APP_COLORS.font, ...tagsStyles?.p},
-      span: {color: APP_COLORS.font, ...tagsStyles?.span},
+      p: { color: APP_COLORS.font, ...tagsStyles?.p },
+      span: { color: APP_COLORS.font, ...tagsStyles?.span },
     }),
     [],
   );
@@ -40,7 +40,7 @@ const HtmlView = ({
     [],
   );
 
-  const {width} = useWindowDimensions();
+  const { width } = useWindowDimensions();
 
   const memoDefaultWebViewProps = useMemo(
     () => ({
@@ -57,7 +57,7 @@ const HtmlView = ({
       mediaPlaybackRequiresUserAction: false,
       allowsFullscreenVideo: true,
       androidHardwareAccelerationDisabled: true,
-      style: {opacity: 0.99, overflow: 'hidden'},
+      style: { opacity: 0.99, overflow: 'hidden' },
     }),
     [],
   );
@@ -85,19 +85,21 @@ const HtmlView = ({
   }
 
   return (
-    <RenderHTML
-      baseStyle={baseStyle}
-      contentWidth={width - contentWidth}
-      renderers={memoRenderers}
-      WebView={WebView}
-      source={memoHtml}
-      customHTMLElementModels={memoCustomHTMLElementModels}
-      renderersProps={memoRenderersProps}
-      defaultWebViewProps={memoDefaultWebViewProps}
-      ignoredDomTags={memoIgnoredDomTags}
-      tagsStyles={memoTagsStyles}
-      {...props}
-    />
+    <View style={{ flex: 1 }}>
+      <RenderHTML
+        baseStyle={baseStyle}
+        contentWidth={width - contentWidth}
+        renderers={memoRenderers}
+        WebView={WebView}
+        source={memoHtml}
+        customHTMLElementModels={memoCustomHTMLElementModels}
+        renderersProps={memoRenderersProps}
+        defaultWebViewProps={memoDefaultWebViewProps}
+        ignoredDomTags={memoIgnoredDomTags}
+        tagsStyles={memoTagsStyles}
+        {...props}
+      />
+    </View>
   );
 };
 
