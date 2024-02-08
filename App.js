@@ -16,6 +16,7 @@ import {LocalNotificationService} from './src/services/LocalNotificationService'
 import {PermissionsAndroid, Platform} from 'react-native';
 import codePush from 'react-native-code-push';
 import {LocalizationProvider} from './src/components/context/LocalizationProvider';
+import { disallowScreenshot } from 'react-native-screen-capture';
 
 const events = [
   Event.PlaybackError,
@@ -28,6 +29,7 @@ const events = [
 const App = () => {
 
   useEffect(() => {
+    Platform.OS === 'ios' ? disallowScreenshot(true) : null;
     // Initialize player
     initPlayer();
     // Firebase Messaging Service
