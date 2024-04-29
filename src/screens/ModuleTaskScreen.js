@@ -10,23 +10,23 @@ import {
   Keyboard,
   SafeAreaView,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useMemo} from 'react';
-import {useState} from 'react';
-import {useFetching} from '../hooks/useFetching';
-import {CourseService, TaskService} from '../services/API';
+import React, { useEffect, useLayoutEffect, useMemo } from 'react';
+import { useState } from 'react';
+import { useFetching } from '../hooks/useFetching';
+import { CourseService, TaskService } from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
-import {isValidText, setFontStyle} from '../utils/utils';
+import { isValidText, setFontStyle } from '../utils/utils';
 import HtmlView from '../components/HtmlView';
 import Person from '../components/Person';
 import RowView from '../components/view/RowView';
-import {AttachIcon, MicrophoneIcon, SendIcon, x} from '../assets/icons';
+import { AttachIcon, MicrophoneIcon, SendIcon, x } from '../assets/icons';
 import Input from '../components/Input';
-import {APP_COLORS, WIDTH} from '../constans/constants';
+import { APP_COLORS, WIDTH } from '../constans/constants';
 import Divider from '../components/Divider';
 import FastImage from 'react-native-fast-image';
 import DocumentPicker from 'react-native-document-picker';
-import {launchImageLibrary} from 'react-native-image-picker';
-import {useRef} from 'react';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { useRef } from 'react';
 import FileItem from '../components/FileItem';
 import Overlay from '../components/view/Overlay';
 import AudioRecorderPlayer, {
@@ -42,12 +42,12 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import TrackPlayer, {State} from 'react-native-track-player';
+import TrackPlayer, { State } from 'react-native-track-player';
 import AnswerAudio from '../components/AnswerAudio';
 import RNFetchBlob from 'rn-fetch-blob';
-import {useSettings} from '../components/context/Provider';
-import {useLocalization} from '../components/context/LocalizationProvider';
-import {lang} from '../localization/lang';
+import { useSettings } from '../components/context/Provider';
+import { useLocalization } from '../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
 
 const audioRecorder = new AudioRecorderPlayer();
 
@@ -67,11 +67,11 @@ const AUDIO_PATH = Platform.select({
 });
 
 const ModuleTaskScreen = props => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
   // props passed down from parent
   const id = props.route?.params?.id;
 
-  const {settings} = useSettings();
+  const { settings } = useSettings();
   const controller = useRef(new AbortController());
 
   // use refs
@@ -308,7 +308,7 @@ const ModuleTaskScreen = props => {
     fetchTask();
   };
 
-  const onContentSizeChange = ({nativeEvent: {contentSize}}) => {
+  const onContentSizeChange = ({ nativeEvent: { contentSize } }) => {
     if (inputHeight === 0) {
       console.log('initial set ', contentSize.height);
       setInputHeight(contentSize.height);
@@ -417,7 +417,7 @@ const ModuleTaskScreen = props => {
 
   const renderHeader = () => <ListHeader data={data} />;
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <TaskResult item={item} index={index} onTrackChange={onTrackChange} />
     );
@@ -479,7 +479,7 @@ const ModuleTaskScreen = props => {
         style={styles.replySection}
         onLayout={({
           nativeEvent: {
-            layout: {width, height},
+            layout: { width, height },
           },
         }) => {
           console.log('height: ', height);
@@ -492,7 +492,7 @@ const ModuleTaskScreen = props => {
           <AttachIcon />
         </TouchableOpacity>
         <Input
-          extraStyle={[styles.input, {height: height}]}
+          extraStyle={[styles.input, { height: height }]}
           multiline
           value={answer}
           onContentSizeChange={onContentSizeChange}
@@ -507,7 +507,7 @@ const ModuleTaskScreen = props => {
         </TouchableOpacity>
         {settings?.audio_record ? (
           <Animated.View
-            style={[styles.sendIcon, {marginLeft: 10}, animatedStyle]}>
+            style={[styles.sendIcon, { marginLeft: 10 }, animatedStyle]}>
             <TouchableOpacity
               onPressIn={pauseCurrentTrack}
               onPressOut={onStopRecording}
@@ -522,7 +522,7 @@ const ModuleTaskScreen = props => {
   );
 };
 
-const ListHeader = ({data, localization}) => {
+const ListHeader = ({ data, localization }) => {
   return (
     <View>
       <Text style={styles.onlineTask}>
@@ -536,7 +536,9 @@ const ListHeader = ({data, localization}) => {
       </Text>
       <Text style={styles.onlineTask}>{data?.task?.title}</Text>
       <HtmlView html={data?.task?.question} />
-      <Divider isAbsolute={false} style={{marginBottom: 24}} />
+      {data?.entity?.file ?
+        <FileItem fileName={'Task file'} urlFile={data?.entity?.file} /> : null}
+      <Divider isAbsolute={false} style={{ marginBottom: 24 }} />
       <Person
         status={lang('Преподаватель', localization)}
         image={data?.author?.avatar}
@@ -550,10 +552,10 @@ const ListHeader = ({data, localization}) => {
   );
 };
 
-const TaskResult = ({item, index, onTrackChange = () => undefined}) => {
+const TaskResult = ({ item, index, onTrackChange = () => undefined }) => {
   return (
     <RowView style={taskResult.container}>
-      <FastImage source={{uri: item?.user?.avatar}} style={taskResult.image} />
+      <FastImage source={{ uri: item?.user?.avatar }} style={taskResult.image} />
       <View style={taskResult.info}>
         <Text style={taskResult.user}>
           {item?.user?.name} {item?.user?.surname}
