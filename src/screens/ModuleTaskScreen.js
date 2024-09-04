@@ -21,7 +21,7 @@ import Person from '../components/Person';
 import RowView from '../components/view/RowView';
 import { AttachIcon, MicrophoneIcon, SendIcon, x } from '../assets/icons';
 import Input from '../components/Input';
-import { APP_COLORS, WIDTH } from '../constans/constants';
+import { APP_COLORS, WIDTH } from '../constants/constants';
 import Divider from '../components/Divider';
 import FastImage from 'react-native-fast-image';
 import DocumentPicker from 'react-native-document-picker';
@@ -48,6 +48,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import { useSettings } from '../components/context/Provider';
 import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
+import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const audioRecorder = new AudioRecorderPlayer();
 
@@ -431,6 +432,7 @@ const ModuleTaskScreen = props => {
       behavior={Platform.OS == 'android' ? null : 'padding'}
       style={styles.container}
       keyboardVerticalOffset={keyboardOffset}>
+      <SmallHeaderBar title={lang('Задание', localization)} />
       <FlatList
         style={styles.listContainer}
         data={data?.passing_answers}

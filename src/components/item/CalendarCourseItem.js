@@ -5,7 +5,7 @@ import RowView from '../view/RowView';
 import Price from '../Price';
 import ItemRating from '../ItemRating';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 
 const CalendarCourseItem = ({item = {}, onPress = () => undefined}) => {
   return (

@@ -5,7 +5,7 @@ import {
   PURE_DOMAIN,
   SECONDS_IN_HOUR,
   SECONDS_IN_MINUTE,
-} from '../constans/constants';
+} from '../constants/constants';
 import {strings} from '../localization';
 import RNFS from 'react-native-fs';
 import FileViewer from 'react-native-file-viewer';

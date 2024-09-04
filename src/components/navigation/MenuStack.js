@@ -169,11 +169,12 @@ const MenuStack = ({navigation}) => {
     <Stack.Navigator
       initialRouteName={isAuth ? ROUTE_NAMES.profile : ROUTE_NAMES.menu}
       screenOptions={{
+        headerShown: false,
         headerTitleAlign: 'center',
         headerTitleStyle: {
-          ...setFontStyle(17, '600'),
+          ...setFontStyle(7, '100'),
         },
-        headerBackTitleVisible: false,
+        headerBackTitleVisible: true,
       }}>
       {screens.map((screen, index) => (
         <Stack.Screen

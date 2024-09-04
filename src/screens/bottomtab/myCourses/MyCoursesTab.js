@@ -1,23 +1,23 @@
-import {View, ActivityIndicator, StyleSheet, FlatList} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import { View, ActivityIndicator, StyleSheet, FlatList } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import UniversalView from '../../../components/view/UniversalView';
-import {useFetching} from '../../../hooks/useFetching';
-import {MyCourseService} from '../../../services/API';
-import {APP_COLORS, WIDTH} from '../../../constans/constants';
+import { useFetching } from '../../../hooks/useFetching';
+import { MyCourseService } from '../../../services/API';
+import { APP_COLORS, WIDTH } from '../../../constants/constants';
 import LoadingScreen from '../../../components/LoadingScreen';
-import {setFontStyle} from '../../../utils/utils';
+import { setFontStyle } from '../../../utils/utils';
 import Empty from '../../../components/Empty';
-import {MyCourseDefaultCard} from './designType/MyCourseDefaultCard';
-import {useSettings} from '../../../components/context/Provider';
-import {MyCourseDoubleCard} from './designType/MyCourseDoubleCard';
-import {MyCourseMiniCard} from './designType/MyCourseMiniCard';
+import { MyCourseDefaultCard } from './designType/MyCourseDefaultCard';
+import { useSettings } from '../../../components/context/Provider';
+import { MyCourseDoubleCard } from './designType/MyCourseDoubleCard';
+import { MyCourseMiniCard } from './designType/MyCourseMiniCard';
 
 const MyCoursesTab = props => {
   const [page, setPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [data, setData] = useState([]);
 
-  const {nMyCourse} = useSettings();
+  const { nMyCourse } = useSettings();
 
   const [fetchCourses, isFetching, fetchingError] = useFetching(async () => {
     const response = await MyCourseService.fetchMyCourses();
@@ -44,7 +44,7 @@ const MyCoursesTab = props => {
     }
   };
 
-  const renderCourse = ({item, index}) => {
+  const renderCourse = ({ item, index }) => {
     if (nMyCourse === '1') {
       return (
         <MyCourseMiniCard
@@ -91,24 +91,28 @@ const MyCoursesTab = props => {
 
   return (
     <UniversalView>
-      <FlatList
-        data={data}
-        numColumns={nMyCourse === '2' ? 2 : 1}
-        renderItem={renderCourse}
-        ListFooterComponent={renderFooter}
-        ListEmptyComponent={<Empty />}
-        keyExtractor={(_, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-        onEndReached={onEndReached}
-        refreshing={isFetching}
-        onRefresh={onRefresh}
-      />
+      <View style={styles.primaryView}>
+        <FlatList
+          data={data}
+          numColumns={nMyCourse === '2' ? 2 : 1}
+          renderItem={renderCourse}
+          ListFooterComponent={renderFooter}
+          ListEmptyComponent={<Empty />}
+          keyExtractor={(_, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.contentContainer}
+          onEndReached={onEndReached}
+          refreshing={isFetching}
+          onRefresh={onRefresh}
+        />
+      </View>
     </UniversalView>
   );
 };
 
 export const styles = StyleSheet.create({
+  primaryView: {
+  },
   contentContainer: {
     paddingTop: 16,
   },

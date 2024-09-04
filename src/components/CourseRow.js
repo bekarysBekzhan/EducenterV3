@@ -1,11 +1,11 @@
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useCallback, useRef, useState} from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
 import FastImage from 'react-native-fast-image';
-import {fileDownloader, setFontStyle} from '../utils/utils';
-import {APP_COLORS, N_STATUS} from '../constans/constants';
+import { fileDownloader, setFontStyle } from '../utils/utils';
+import { APP_COLORS, N_STATUS, WIDTH } from '../constants/constants';
 import Price from './Price';
 import ItemRating from './ItemRating';
-import {useSettings} from './context/Provider';
+import { useSettings } from './context/Provider';
 import TextButton from './button/TextButton';
 import Downloader from './Downloader';
 import RNFS from 'react-native-fs';
@@ -14,7 +14,6 @@ import { useLocalization } from './context/LocalizationProvider';
 
 const CourseRow = ({
   id,
-  poster,
   title,
   category_name,
   price,
@@ -30,8 +29,8 @@ const CourseRow = ({
   const [progress, setProgress] = useState(0);
 
   const refJobId = useRef(null);
-  const {settings, nstatus} = useSettings();
-  const {localization} = useLocalization();
+  const { settings, nstatus } = useSettings();
+  const { localization } = useLocalization();
 
 
   const onProgress = useCallback(data => {
@@ -71,20 +70,16 @@ const CourseRow = ({
       onPress={() => onPress(id)}
       activeOpacity={0.8}
       disabled={disabled}>
-      <FastImage
-        source={{uri: poster, priority: 'high'}}
-        style={styles.poster}
-      />
       <View
         style={[
-          nstatus === N_STATUS ? {height: 38} : {height: 64},
+          nstatus === N_STATUS ? { height: 38 } : { height: 64 },
           styles.data,
         ]}>
-        <Text style={setFontStyle(11, '400', APP_COLORS.placeholder)}>
+        <Text style={styles.categoryName}>
           {category_name}
         </Text>
         <Text
-          style={setFontStyle(17, '600', APP_COLORS.font)}
+          style={styles.title}
           numberOfLines={1}>
           {title}
         </Text>
@@ -99,24 +94,6 @@ const CourseRow = ({
           />
         )}
       </View>
-      <View style={styles.column}>
-        <ItemRating rating={rating} reviewCount={reviewCount} starSize={16} />
-        {settings?.modules_enabled_certificates && certificate ? (
-          <TextButton
-            style={styles.button}
-            textStyle={{...styles.buttonText, color: settings?.color_app}}
-            text={lang('Скачать', localization)}
-            onPress={downloader}
-          />
-        ) : (
-          <View />
-        )}
-      </View>
-      <Downloader
-        visible={visible}
-        progress={progress}
-        onPressCancel={cancelDownloader}
-      />
     </TouchableOpacity>
   );
 };
@@ -129,16 +106,31 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   poster: {
-    width: 62,
-    height: 62,
-    borderRadius: 10,
+    width: 60,
+    height: 60,
+    borderRadius: 12,
     marginRight: 8,
   },
   data: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'flex-start',
+    borderTopWidth: 1,
+    borderTopColor: '#00000012',
+    marginTop: 8,
+    marginHorizontal: 4,
+  },
+  categoryName: {
+    ...setFontStyle(11, '400', APP_COLORS.gray4),
+    letterSpacing: 0.4,
+    textAlign: 'left',
+  },
+  title: {
+    marginTop: 4,
+    ...setFontStyle(13, '500', APP_COLORS.font),
+    letterSpacing: 0.4,
+    textAlign: 'left',
   },
   textPrice: {
     fontSize: 13,

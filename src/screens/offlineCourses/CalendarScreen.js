@@ -1,23 +1,24 @@
-import {FlatList, StyleSheet} from 'react-native';
-import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import UniversalView from '../../components/view/UniversalView';
-import {useFetching} from '../../hooks/useFetching';
-import {CourseService} from '../../services/API';
+import { useFetching } from '../../hooks/useFetching';
+import { CourseService } from '../../services/API';
 import CalendarCourseItem from '../../components/item/CalendarCourseItem';
-import {ROUTE_NAMES} from '../../components/navigation/routes';
-import {Calendar, LocaleConfig} from 'react-native-calendars';
-import {APP_COLORS} from '../../constans/constants';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { APP_COLORS } from '../../constants/constants';
 import 'moment';
 import 'moment/min/locales';
 import moment from 'moment';
-import {API_V2} from '../../services/axios';
+import { API_V2 } from '../../services/axios';
 import Loader from '../../components/Loader';
 import Empty from '../../components/Empty';
-import {useLocalization} from '../../components/context/LocalizationProvider';
+import { useLocalization } from '../../components/context/LocalizationProvider';
 import { lang } from '../../localization/lang';
+import SmallHeaderBar from '../../components/SmallHeaderBar';
 
-const CalendarScreen = ({navigation}) => {
-  const {localization} = useLocalization();
+const CalendarScreen = ({ navigation }) => {
+  const { localization } = useLocalization();
 
   const [dataSource, setDataSource] = useState({
     data: [],
@@ -230,7 +231,7 @@ const CalendarScreen = ({navigation}) => {
   };
 
   const renderItem = useCallback(
-    ({item}) => (
+    ({ item }) => (
       <CalendarCourseItem
         item={item}
         onPress={() =>
@@ -289,6 +290,7 @@ const CalendarScreen = ({navigation}) => {
 
   return (
     <UniversalView haveLoader={loading}>
+      <SmallHeaderBar title={lang('Календарь', localization)} />
       <FlatList
         data={dataSource?.data}
         renderItem={renderItem}

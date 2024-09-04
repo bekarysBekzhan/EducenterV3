@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { APP_COLORS } from '../constans/constants';
+import { APP_COLORS } from '../constants/constants';
 
 const Divider = ({
     style,

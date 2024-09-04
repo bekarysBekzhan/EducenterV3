@@ -13,7 +13,7 @@ import RatingItem from '../components/item/RatingItem';
 import Loader from '../components/Loader';
 import RowView from '../components/view/RowView';
 import UniversalView from '../components/view/UniversalView';
-import {APP_COLORS, N_STATUS, WIDTH} from '../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../constants/constants';
 import {useFetching} from '../hooks/useFetching';
 import {RatingService} from '../services/API';
 import {setFontStyle} from '../utils/utils';
@@ -22,6 +22,7 @@ import BottomSheetRatingStack from '../components/navigation/BottomSheetRatingSt
 import {useSettings} from '../components/context/Provider';
 import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
+import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const RatingScreen = ({}) => {
   const {localization} = useLocalization();
@@ -178,6 +179,7 @@ const RatingScreen = ({}) => {
 
   return (
     <UniversalView>
+      <SmallHeaderBar title={lang('Рейтинг', localization)}/>
       {nstatus === N_STATUS ? null : (
         <RowView style={styles.searchBar}>
           <Input

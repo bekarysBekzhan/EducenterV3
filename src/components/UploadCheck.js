@@ -9,7 +9,7 @@ import {
 import FastImage from 'react-native-fast-image';
 import RowView from './view/RowView';
 import {DeleteIcon, iconNext} from '../assets/icons';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS} from '../constants/constants';
 import IconButton from './button/IconButton';
 import { setFontStyle } from '../utils/utils';
 

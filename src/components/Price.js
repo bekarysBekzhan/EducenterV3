@@ -2,7 +2,7 @@ import {StyleSheet, Text} from 'react-native';
 import React, {useMemo} from 'react';
 import RowView from './view/RowView';
 import {setFontStyle} from '../utils/utils';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS} from '../constants/constants';
 import { useSettings } from './context/Provider';
 
 const Price = ({price = 0, priceStyle, oldPrice = 0, oldPriceStyle, style}) => {
@@ -33,13 +33,13 @@ export default Price;
 
 const styles = StyleSheet.create({
   price: {
-    ...setFontStyle(17, '600', APP_COLORS.primary),
+    ...setFontStyle(20, '700', APP_COLORS.black),
   },
   oldPrice: {
-    ...setFontStyle(17, '400', '#808191'),
+    ...setFontStyle(14, '400', '#808191'),
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
     textDecorationColor: '#808191',
-    marginLeft: 4,
+    marginLeft: 8,
   },
 });

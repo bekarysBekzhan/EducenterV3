@@ -3,7 +3,7 @@ import {FlatList, StyleSheet, TextInput, View} from 'react-native';
 import Empty from '../../components/Empty';
 import MemberItem from '../../components/item/MemberItem';
 import UniversalView from '../../components/view/UniversalView';
-import {APP_COLORS, WIDTH} from '../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../constants/constants';
 import {search} from '../../assets/icons';
 import {useLocalization} from '../../components/context/LocalizationProvider';
 import { lang } from '../../localization/lang';

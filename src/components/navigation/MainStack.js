@@ -13,7 +13,7 @@ import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
 import {API_V2} from '../../services/axios';
 import CourseTaskScreen from '../../screens/CourseTaskScreen';
-import {REQUEST_HEADERS, STORAGE} from '../../constans/constants';
+import {REQUEST_HEADERS, STORAGE} from '../../constants/constants';
 import CourseSearchScreen from '../../screens/CourseSearchScreen';
 import TestSearchScreen from '../../screens/TestSearchScreen';
 import TaskSearchScreen from '../../screens/TaskSearchScreen';
@@ -315,7 +315,7 @@ const Navigation = () => {
                 component={route.component}
                 key={index}
                 options={{
-                  headerShown: true,
+                  headerShown: false,
                   headerBackTitleVisible: false,
                 }}
                 initialParams={route?.initialParams}

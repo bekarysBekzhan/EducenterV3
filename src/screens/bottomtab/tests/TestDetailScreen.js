@@ -8,9 +8,10 @@ import Person from '../../../components/Person';
 import TransactionButton from '../../../components/button/TransactionButton';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
-import {N_STATUS, TYPE_SUBCRIBES} from '../../../constans/constants';
+import {N_STATUS, TYPE_SUBCRIBES} from '../../../constants/constants';
 import {useLocalization} from '../../../components/context/LocalizationProvider';
 import {lang} from '../../../localization/lang';
+import SmallHeaderBar from '../../../components/SmallHeaderBar';
 
 const TestDetailScreen = props => {
   const id = props.route?.params?.id;
@@ -81,6 +82,7 @@ const TestDetailScreen = props => {
 
   return (
     <UniversalView>
+      <SmallHeaderBar title={lang('Тесты', localization)} />
       <UniversalView haveScroll>
         <DetailView
           title={data?.title}

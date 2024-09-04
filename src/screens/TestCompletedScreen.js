@@ -3,7 +3,7 @@ import React, {useLayoutEffect} from 'react';
 import UniversalView from '../components/view/UniversalView';
 import {setFontStyle, wordLocalization} from '../utils/utils';
 import FastImage from 'react-native-fast-image';
-import {APP_COLORS, HEIGHT, RESULT_TYPES, WIDTH} from '../constans/constants';
+import {APP_COLORS, HEIGHT, RESULT_TYPES, WIDTH} from '../constants/constants';
 import SimpleButton from '../components/button/SimpleButton';
 import {ROUTE_NAMES} from '../components/navigation/routes';
 import {useLocalization} from './../components/context/LocalizationProvider';

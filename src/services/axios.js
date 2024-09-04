@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {DOMAIN, REQUEST_HEADERS, STORAGE} from '../constans/constants';
+import {DOMAIN, REQUEST_HEADERS, STORAGE} from '../constants/constants';
 import RNRestart from 'react-native-restart';
 import Toast from 'react-native-toast-message';
 import {removeStorage} from '../storage/AsyncStorage';

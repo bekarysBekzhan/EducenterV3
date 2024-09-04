@@ -1,6 +1,6 @@
 import {ActivityIndicator, StyleSheet} from 'react-native';
 import React from 'react';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS} from '../constants/constants';
 import {useMemo} from 'react';
 
 const Loader = ({color = APP_COLORS.primary, style, ...props}) => {

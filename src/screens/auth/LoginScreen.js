@@ -14,7 +14,7 @@ import {
   N_STATUS,
   REQUEST_HEADERS,
   STORAGE,
-} from '../../constans/constants';
+} from '../../constants/constants';
 import {getString, storeString} from '../../storage/AsyncStorage';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import {useSettings} from '../../components/context/Provider';

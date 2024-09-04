@@ -7,7 +7,7 @@ import Person from '../Person';
 import RowView from '../view/RowView';
 import {setFontStyle} from '../../utils/utils';
 import TextButton from '../button/TextButton';
-import {APP_COLORS, WIDTH} from '../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../constants/constants';
 import {useLocalization} from '../context/LocalizationProvider';
 import {lang} from '../../localization/lang';
 
@@ -39,7 +39,7 @@ const Footer = ({data, navigation, haveAuthor = true}) => {
 
   return (
     <UniversalView>
-      <View style={{padding: 16, paddingTop: 32}}>
+      <View style={{paddingTop: 32}}>
         {haveAuthor ? (
           <Person
             status={lang('Автор курса', localization)}

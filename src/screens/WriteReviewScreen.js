@@ -7,19 +7,21 @@ import {
   TextInput,
   Platform,
 } from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {useFetching} from '../hooks/useFetching';
-import {CourseService} from '../services/API';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { useFetching } from '../hooks/useFetching';
+import { CourseService } from '../services/API';
 import Overlay from '../components/view/Overlay';
 import SimpleButton from '../components/button/SimpleButton';
-import {setFontStyle} from '../utils/utils';
+import { setFontStyle } from '../utils/utils';
 import RatingStar from '../components/RatingStar';
-import {APP_COLORS} from '../constans/constants';
-import {useLocalization} from './../components/context/LocalizationProvider';
-import {lang} from './../localization/lang';
+import { APP_COLORS } from '../constants/constants';
+import { useLocalization } from './../components/context/LocalizationProvider';
+import { lang } from './../localization/lang';
+import UniversalView from '../components/view/UniversalView';
+import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const WriteReviewScreen = props => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const id = props.route?.params?.id;
 
@@ -58,7 +60,7 @@ const WriteReviewScreen = props => {
 
   const onButtonLayout = ({
     nativeEvent: {
-      layout: {width, height},
+      layout: { width, height },
     },
   }) => {
     console.log('button height : ', height);
@@ -79,35 +81,38 @@ const WriteReviewScreen = props => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS == 'android' ? null : 'padding'}
-      keyboardVerticalOffset={buttonHeight}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <RatingStar
-          halfStarEnabled={false}
-          starSize={54}
-          rating={rating}
-          selectedStar={setRating}
-        />
-        <TextInput
-          value={text}
-          placeholder={lang('Ваш отзыв', localization)}
-          placeholderTextColor={APP_COLORS.placeholder}
-          onChangeText={onChangeText}
-          blurOnSubmit={false}
-          style={styles.input}
-          multiline
-        />
-        <View style={styles.spacer} />
-        <SimpleButton
-          text={lang('Оставить отзыв', localization)}
-          onPress={rateCourse}
-          onLayout={onButtonLayout}
-        />
-      </ScrollView>
-      <Overlay visible={isSending} />
-    </KeyboardAvoidingView>
+    <UniversalView>
+      <SmallHeaderBar title={lang('Оставить отзыв', localization)} />
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS == 'android' ? null : 'padding'}
+        keyboardVerticalOffset={buttonHeight}>
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          <RatingStar
+            halfStarEnabled={false}
+            starSize={54}
+            rating={rating}
+            selectedStar={setRating}
+          />
+          <TextInput
+            value={text}
+            placeholder={lang('Ваш отзыв', localization)}
+            placeholderTextColor={APP_COLORS.placeholder}
+            onChangeText={onChangeText}
+            blurOnSubmit={false}
+            style={styles.input}
+            multiline
+          />
+          <View style={styles.spacer} />
+          <SimpleButton
+            text={lang('Оставить отзыв', localization)}
+            onPress={rateCourse}
+            onLayout={onButtonLayout}
+          />
+        </ScrollView>
+        <Overlay visible={isSending} />
+      </KeyboardAvoidingView>
+    </UniversalView>
   );
 };
 

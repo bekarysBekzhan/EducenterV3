@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {ToastInfoIcon} from '../../assets/icons';
 import RowView from './RowView';
 

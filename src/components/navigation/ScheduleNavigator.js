@@ -1,19 +1,20 @@
-import React, {useLayoutEffect} from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {StyleSheet} from 'react-native';
-import {APP_COLORS} from '../../constans/constants';
-import {ROUTE_NAMES} from './routes';
+import React, { useLayoutEffect } from 'react';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { StyleSheet, View } from 'react-native';
+import { APP_COLORS } from '../../constants/constants';
+import { ROUTE_NAMES } from './routes';
 import ScheduleLessonsScreen from '../../screens/schedule/ScheduleLessonScreen';
 import ScheduleVisitsScreen from '../../screens/schedule/ScheduleVisitsScreen';
-import {useNavigation} from '@react-navigation/native';
-import {useLocalization} from '../context/LocalizationProvider';
+import { useNavigation } from '@react-navigation/native';
+import { useLocalization } from '../context/LocalizationProvider';
 import { lang } from '../../localization/lang';
+import SmallHeaderBar from '../SmallHeaderBar';
 
 const Tab = createMaterialTopTabNavigator();
 
 const ScheduleNavigator = () => {
   const navigation = useNavigation();
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -22,32 +23,41 @@ const ScheduleNavigator = () => {
   }, []);
 
   return (
-    <Tab.Navigator
-      style={styles.screen}
-      screenOptions={{
-        tabBarStyle: styles.tabBarStyle,
-        tabBarItemStyle: styles.tabBarItemStyle,
-        tabBarLabelStyle: styles.tabBarLabelStyle,
-        tabBarIndicatorContainerStyle: styles.tabBarIndicatorContainerStyle,
-        tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
-        tabBarInactiveTintColor: APP_COLORS.placeholder,
-        tabBarActiveTintColor: APP_COLORS.font,
-      }}>
-      <Tab.Screen
-        name={ROUTE_NAMES.scheduleLessons}
-        component={ScheduleLessonsScreen}
-        options={{title: lang('Уроки', localization)}}
-      />
-      <Tab.Screen
-        name={ROUTE_NAMES.scheduleVisitis}
-        component={ScheduleVisitsScreen}
-        options={{title: lang('Посещения', localization)}}
-      />
-    </Tab.Navigator>
+    <View style={styles.mainView}>
+
+      <SmallHeaderBar title={lang('Расписание', localization)} />
+
+      <Tab.Navigator
+        style={styles.screen}
+        screenOptions={{
+          tabBarStyle: styles.tabBarStyle,
+          tabBarItemStyle: styles.tabBarItemStyle,
+          tabBarLabelStyle: styles.tabBarLabelStyle,
+          tabBarIndicatorContainerStyle: styles.tabBarIndicatorContainerStyle,
+          tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
+          tabBarInactiveTintColor: APP_COLORS.placeholder,
+          tabBarActiveTintColor: APP_COLORS.font,
+        }}>
+        <Tab.Screen
+          name={ROUTE_NAMES.scheduleLessons}
+          component={ScheduleLessonsScreen}
+          options={{ title: lang('Уроки', localization) }}
+        />
+        <Tab.Screen
+          name={ROUTE_NAMES.scheduleVisitis}
+          component={ScheduleVisitsScreen}
+          options={{ title: lang('Посещения', localization) }}
+        />
+      </Tab.Navigator>
+
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+  },
   screen: {
     backgroundColor: '#fff',
   },

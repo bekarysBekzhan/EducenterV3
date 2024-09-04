@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'rea
 import React, { useState } from 'react';
 import { useSettings } from '../context/Provider';
 import { ROUTE_NAMES } from '../navigation/routes';
-import { APP_COLORS, WIDTH } from '../../constans/constants';
+import { APP_COLORS, WIDTH } from '../../constants/constants';
 import { down, iconPlay, lock, PlayIcon, time, up } from '../../assets/icons';
 import RowView from '../view/RowView';
 import FastImage from 'react-native-fast-image';
@@ -176,8 +176,8 @@ const MyCourseChapter = ({
 
 const styles = StyleSheet.create({
   chapter: {
-    padding: 8,
-    paddingLeft: 16,
+    paddingTop: 16,
+    paddingHorizontal: 24,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',

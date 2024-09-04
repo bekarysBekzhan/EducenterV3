@@ -1,6 +1,6 @@
 import React, {memo} from 'react';
 import {FlatList, StyleSheet, Text} from 'react-native';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 import Empty from '../Empty';
 import RowView from '../view/RowView';

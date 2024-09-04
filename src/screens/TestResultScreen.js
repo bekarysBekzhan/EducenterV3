@@ -5,7 +5,7 @@ import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
 import Question from '../components/test/Question';
-import {RESULT_TYPES} from '../constans/constants';
+import {RESULT_TYPES} from '../constants/constants';
 import Empty from '../components/Empty';
 import {useLocalization} from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';

@@ -9,6 +9,7 @@ import TransactionButton from '../../../components/button/TransactionButton';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {useLocalization} from '../../../components/context/LocalizationProvider';
 import {lang} from '../../../localization/lang';
+import SmallHeaderBar from '../../../components/SmallHeaderBar';
 
 const MyTestDetailScreen = props => {
   const id = props.route?.params?.id;
@@ -44,6 +45,7 @@ const MyTestDetailScreen = props => {
 
   return (
     <UniversalView>
+      <SmallHeaderBar title={lang('Задания', localization)} />
       <UniversalView haveScroll>
         <DetailView
           title={data?.title}

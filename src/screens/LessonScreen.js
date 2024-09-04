@@ -13,7 +13,7 @@ import {useEffect} from 'react';
 import {useFetching} from '../hooks/useFetching';
 import {CourseService} from '../services/API';
 import {useState} from 'react';
-import {APP_COLORS, N_STATUS, SHOW_TYPE, WIDTH} from '../constans/constants';
+import {APP_COLORS, N_STATUS, SHOW_TYPE, WIDTH} from '../constants/constants';
 import HtmlView from '../components/HtmlView';
 import {
   generateHash,
@@ -43,6 +43,7 @@ import {useSettings} from '../components/context/Provider';
 import ShowType from '../components/test/ShowType';
 import {useLocalization} from '../components/context/LocalizationProvider';
 import {lang} from '../localization/lang';
+import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const LessonScreen = props => {
   const {localization} = useLocalization();
@@ -342,8 +343,11 @@ const LessonScreen = props => {
     return <UniversalView style={styles.isCapturedContainer} />;
   }
 
+  console.log('Data: ', data)
+
   return (
     <UniversalView>
+      <SmallHeaderBar title={data?.chapter?.title} />
       <FlatList
         data={comments}
         style={styles.container}
@@ -365,14 +369,14 @@ const LessonScreen = props => {
           <TouchableOpacity
             style={styles.switchButton}
             onPress={onPressPreviousLesson}>
-            <LeftIcon color={APP_COLORS.placeholder} />
+            <LeftIcon color={APP_COLORS.white} />
           </TouchableOpacity>
         )}
         <TouchableOpacity
           style={styles.switchButton}
           onPress={onPressNextLesson}
           disabled={isModal}>
-          <RightIcon color={APP_COLORS.placeholder} />
+          <RightIcon color={APP_COLORS.white} />
         </TouchableOpacity>
       </View>
       <Overlay visible={isModal} />
@@ -607,10 +611,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   testButton: {
-    marginTop: 16,
-    marginBottom: 8,
+    marginVertical: 4,
   },
-  taskButton: {},
+  taskButton: {
+    marginVertical: 4,
+  },
   switchBar: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -618,10 +623,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     width: WIDTH,
     padding: 16,
-    paddingTop: 7,
-    paddingBottom: 50,
     justifyContent: 'space-between',
-    backgroundColor: 'white',
+    backgroundColor: APP_COLORS.primary,
     borderTopWidth: 0.75,
     borderColor: APP_COLORS.border,
   },
@@ -629,7 +632,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 100,
-    backgroundColor: APP_COLORS.input,
+    backgroundColor: APP_COLORS.gray3,
     justifyContent: 'center',
     alignItems: 'center',
   },

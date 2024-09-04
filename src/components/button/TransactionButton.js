@@ -1,8 +1,8 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import React, {useMemo} from 'react';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useMemo } from 'react';
 import RowView from '../view/RowView';
-import {APP_COLORS} from '../../constans/constants';
-import {setFontStyle} from '../../utils/utils';
+import { APP_COLORS, WIDTH } from '../../constants/constants';
+import { setFontStyle } from '../../utils/utils';
 import Price from '../Price';
 import { useSettings } from '../context/Provider';
 
@@ -18,8 +18,8 @@ const TransactionButton = ({
   style,
 }) => {
 
-  const {settings} = useSettings();
-  const memoStyle = useMemo(() => [{...styles.button, backgroundColor: settings?.color_app}, style], [style]);
+  const { settings } = useSettings();
+  const memoStyle = useMemo(() => [{ ...styles.button, backgroundColor: APP_COLORS.primary }, style], [style]);
   const memoTextStyle = useMemo(() => [styles.text, textStyle], [textStyle]);
   const memoPriceStyle = useMemo(
     () => [styles.price, priceStyle],
@@ -35,53 +35,89 @@ const TransactionButton = ({
     [priceViewStyle],
   );
 
+  console.log('transactionButtonText ---', text)
+
   return (
-    <TouchableOpacity style={memoStyle} activeOpacity={0.9} onPress={onPress}>
-      <RowView>
-        <Text numberOfLines={2} style={memoTextStyle}>
-          {text}
-        </Text>
-        {
-          price ?
+    <View style={[styles.mainView, { height: price ? 128 : 93 }]}>
+      {
+        price ?
           <Price
-            style={memoPriceViewStyle}
+            style={styles.priceView}
             price={price}
             oldPrice={oldPrice}
-            priceStyle={memoPriceStyle}
-            oldPriceStyle={memoOldPriceStyle}
+            priceStyle={styles.priceStyle}
+            oldPriceStyle={styles.oldPriceStyle}
           />
           :
           null
-        }
-      </RowView>
-    </TouchableOpacity>
+      }
+      <TouchableOpacity 
+      style={[
+        styles.button, 
+        {backgroundColor: text === 'Пройти тест' ? APP_COLORS.mediumgray : APP_COLORS.primary}
+      ]} 
+      activeOpacity={0.9} 
+      onPress={onPress}
+      >
+        <Text 
+        numberOfLines={2} 
+        style={[styles.buttonText, 
+        {color: text === 'Пройти тест' ? APP_COLORS.primary : APP_COLORS.white}]}>
+          {text}
+        </Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 export default TransactionButton;
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: APP_COLORS.primary,
-    paddingVertical: 17,
-    paddingHorizontal: 16,
-    maxHeight: 74,
+  mainView: {
+    width: WIDTH,
+    height: 128,
+    bottom: 100,
+
+    borderTopColor: 'transparent',
+    borderTopWidth: 3,
+    borderRadius: 20,
+    backgroundColor: APP_COLORS.white,
+    elevation: 2,
+
+    // iOS shadow properties
+    shadowColor: APP_COLORS.darkblack,
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 24,
+
+    justifyContent: 'center',
+    padding: 16,
   },
-  text: {
-    flex: 1,
-    ...setFontStyle(17, '600', '#fff'),
+  button: {
+    alignItems: 'center',
+    height: 46,
+    backgroundColor: APP_COLORS.primary,
+    borderRadius: 24,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+  },
+  buttonText: {
+    ...setFontStyle(14, '600', APP_COLORS.white),
+    letterSpacing: 0.4,
+    lineHeight: 14,
   },
   priceView: {
-    flexWrap:'wrap',
-    flex: 2,
-    justifyContent: 'flex-end',
-    marginLeft: 16,
+    alignItems: 'flex-end',
+    paddingVertical: 4,
+    marginBottom: 8,
   },
-  price: {
-    ...setFontStyle(17, '600', '#fff'),
+  priceStyle: {
+    ...setFontStyle(20, '700', APP_COLORS.darkblack),
+    textAlign: 'right',
   },
-  oldPrice: {
-    ...setFontStyle(17, '400', 'rgba(255,255,255,0.6)'),
+  oldPriceStyle: {
+    ...setFontStyle(14, '400', APP_COLORS.placeholder),
     textDecorationColor: 'rgba(255,255,255,0.6)',
+    textAlign: 'right',
   },
 });

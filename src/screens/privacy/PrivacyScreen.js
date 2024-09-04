@@ -8,6 +8,7 @@ import {PolicyService} from '../../services/API';
 import Empty from '../../components/Empty';
 import { useLocalization } from '../../components/context/LocalizationProvider';
 import { lang } from '../../localization/lang';
+import SmallHeaderBar from '../../components/SmallHeaderBar';
 
 const PrivacyScreen = ({navigation}) => {
 
@@ -54,6 +55,7 @@ const PrivacyScreen = ({navigation}) => {
 
   return (
     <UniversalView haveLoader={loading}>
+      <SmallHeaderBar title={lang('Политика и соглашения', localization)} />
       <FlatList
         data={dataSource?.data}
         renderItem={renderItem}

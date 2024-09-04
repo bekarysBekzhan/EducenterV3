@@ -4,18 +4,26 @@ export const WIDTH = Dimensions.get('screen').width;
 export const HEIGHT = Dimensions.get('screen').height;
 
 export const APP_COLORS = {
-  primary: '#5559F4',
+  primary: '#007AFF',
   placeholder: '#808191',
   font: '#111621',
   input: '#F5F5F5',
   border: 'rgba(0, 0, 0, 0.1)',
   gray: '#F5F5F5',
   gray2: '#FCFCFD',
+  gray3: '#FFFFFF33',
+  gray4: '#727272',
+  lightgray: '#F0F0F0',
+  darkgray: '#808080',
+  mediumgray: '#F2F3F5',
   toast: 'rgba(17, 22, 33, 0.88)',
   tabBg: '#F5F5F5',
   white: '#fff',
   transparent: 'transparent',
   label: '#808191',
+  black: '#222222',
+  darkblack: '#000000',
+  green: '#00BF00',
 };
 
 export const DOMAIN = 'https://demo.educenter.kz';

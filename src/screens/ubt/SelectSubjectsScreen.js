@@ -1,7 +1,7 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import UniversalView from '../../components/view/UniversalView';
-import {useFetching} from '../../hooks/useFetching';
-import {UBTService} from '../../services/API';
+import { useFetching } from '../../hooks/useFetching';
+import { UBTService } from '../../services/API';
 import LoadingScreen from '../../components/LoadingScreen';
 import {
   FlatList,
@@ -12,28 +12,29 @@ import {
   Modal,
 } from 'react-native';
 import Empty from '../../components/Empty';
-import {setFontStyle} from '../../utils/utils';
+import { setFontStyle } from '../../utils/utils';
 import {
   APP_COLORS,
   HEIGHT,
   TYPE_SUBCRIBES,
-} from '../../constans/constants';
+} from '../../constants/constants';
 import ModuleTestItem from '../../components/test/ModuleTestItem';
 import SimpleButton from '../../components/button/SimpleButton';
-import {down} from '../../assets/icons';
+import { down } from '../../assets/icons';
 import SelectOption from '../../components/SelectOption';
-import {useSettings} from '../../components/context/Provider';
-import {ROUTE_NAMES} from '../../components/navigation/routes';
-import {useLocalization} from '../../components/context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { useSettings } from '../../components/context/Provider';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
+import { useLocalization } from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
+import SmallHeaderBar from '../../components/SmallHeaderBar';
 
 const SelectSubjectsScreen = props => {
   const category = useRef(null);
   const category2 = useRef(null);
 
-  const {isAuth} = useSettings();
+  const { isAuth } = useSettings();
 
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const [dataSource, setDataSource] = useState({
     categories: [],
@@ -138,7 +139,7 @@ const SelectSubjectsScreen = props => {
   const renderHeader = () => {
     return (
       <View>
-        <Text style={{color: APP_COLORS.font}}>
+        <Text style={{ color: APP_COLORS.font }}>
           {lang(
             'Выберите вопросы первого и второго урока чтобы начать тест',
             localization,
@@ -158,13 +159,13 @@ const SelectSubjectsScreen = props => {
         <SimpleButton
           text={lang('Выбрать', localization)}
           onPress={fetchTests}
-          style={{marginTop: 20}}
+          style={{ marginTop: 20 }}
         />
       </View>
     );
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <ModuleTestItem
         id={item?.id}
@@ -196,16 +197,19 @@ const SelectSubjectsScreen = props => {
     return <LoadingScreen />;
   }
   return (
-    <UniversalView style={styles.container}>
-      <FlatList
-        data={category2.current ? dataSource.tests : []}
-        ListHeaderComponent={renderHeader()}
-        renderItem={renderItem}
-        ListEmptyComponent={renderEmptyComponent}
-        ListFooterComponent={renderFooter}
-        keyExtractor={(_, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-      />
+    <UniversalView>
+      <SmallHeaderBar title={lang('ЕНТ', localization)} />
+      <View style={styles.container}>
+        <FlatList
+          data={category2.current ? dataSource.tests : []}
+          ListHeaderComponent={renderHeader()}
+          renderItem={renderItem}
+          ListEmptyComponent={renderEmptyComponent}
+          ListFooterComponent={renderFooter}
+          keyExtractor={(_, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+        />
+      </View>
     </UniversalView>
   );
 };
@@ -239,7 +243,7 @@ const SelectButton = ({
     action(currentCategory);
   };
 
-  const renderCategory = ({item, index}) => {
+  const renderCategory = ({ item, index }) => {
     return (
       <SelectOption
         selectKeyPressed={onSelect}
@@ -256,7 +260,7 @@ const SelectButton = ({
         <Text
           style={[
             styles.selectText,
-            {color: currentCategory ? APP_COLORS.font : APP_COLORS.placeholder},
+            { color: currentCategory ? APP_COLORS.font : APP_COLORS.placeholder },
           ]}>
           {currentCategory ? currentCategory?.name : placeholder}
         </Text>
@@ -274,9 +278,9 @@ const SelectButton = ({
               keyExtractor={(_, index) => index.toString()}
             />
             <SimpleButton
-              text={lang('Выбрать', localization)} 
+              text={lang('Выбрать', localization)}
               onPress={onApply}
-              style={{margin: 16, marginBottom: 32}}
+              style={{ margin: 16, marginBottom: 32 }}
             />
           </View>
         </View>
@@ -288,6 +292,7 @@ const SelectButton = ({
 const styles = StyleSheet.create({
   container: {
     padding: 16,
+
   },
   select: {
     flexDirection: 'row',

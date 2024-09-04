@@ -10,10 +10,12 @@ import {ROUTE_NAMES} from '../../components/navigation/routes';
 import Price from '../../components/Price';
 import RowView from '../../components/view/RowView';
 import UniversalView from '../../components/view/UniversalView';
-import {APP_COLORS, N_STATUS, WIDTH} from '../../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../../constants/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {CourseService} from '../../services/API';
 import {setFontStyle} from '../../utils/utils';
+import SmallHeaderBar from '../../components/SmallHeaderBar';
+import { lang } from '../../localization/lang';
 
 const OfflineCourseScreen = props => {
 
@@ -69,6 +71,7 @@ const OfflineCourseScreen = props => {
 
   return (
     <UniversalView>
+      <SmallHeaderBar title={lang('Оффлайн курсы', localization)} />
       {
         nstatus === N_STATUS ? null : (
           <SearchButton

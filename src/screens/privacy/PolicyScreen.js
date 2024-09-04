@@ -4,7 +4,7 @@ import UniversalView from '../../components/view/UniversalView';
 import HtmlView from '../../components/HtmlView';
 import {useFetching} from '../../hooks/useFetching';
 import {PolicyService} from '../../services/API';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import { useLocalization } from '../../components/context/LocalizationProvider';
 import { lang } from '../../localization/lang';
 

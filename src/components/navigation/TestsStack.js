@@ -1,17 +1,16 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ROUTE_NAMES} from './routes';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ROUTE_NAMES } from './routes';
 import TestsScreen from '../../screens/bottomtab/tests/TestsScreen';
 import TestDetailScreen from '../../screens/bottomtab/tests/TestDetailScreen';
-import {useSettings} from '../context/Provider';
-import {navHeaderOptions} from './navHeaderOptions';
-import {useLocalization} from '../context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { useSettings } from '../context/Provider';
+import { useLocalization } from '../context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const TestsStack = createNativeStackNavigator();
 
 const Tests = () => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
   const TITLE = lang('Тесты', localization);
 
   const screens = [
@@ -25,7 +24,7 @@ const Tests = () => {
     },
   ];
 
-  const {settings} = useSettings();
+  const { settings } = useSettings();
 
   return (
     <TestsStack.Navigator>
@@ -34,14 +33,12 @@ const Tests = () => {
           name={screen.name}
           key={index}
           component={screen.component}
-          options={
-            screen.name === ROUTE_NAMES.tests
-              ? navHeaderOptions(settings?.logo, TITLE)
-              : {
-                  headerTitle: lang('Тесты', localization),
-                  headerBackTitleVisible: false,
-                  headerTitleAlign: 'center',
-                }
+          options={{
+            headerTitle: lang('Тесты', localization),
+            headerBackTitleVisible: false,
+            headerTitleAlign: 'center',
+            headerShown: false,
+          }
           }
         />
       ))}

@@ -4,7 +4,7 @@ import FastImage from 'react-native-fast-image';
 import RowView from './RowView';
 import { setFontStyle } from '../../utils/utils';
 import RatingStar from '../RatingStar';
-import { APP_COLORS } from '../../constans/constants';
+import { APP_COLORS } from '../../constants/constants';
 
 const ReviewItem = ({
   avatar,

@@ -1,6 +1,6 @@
 import { View, Text, Modal, StyleSheet, ActivityIndicator } from 'react-native'
 import React from 'react'
-import { APP_COLORS } from '../../constans/constants'
+import { APP_COLORS } from '../../constants/constants'
 
 const Overlay = ({ visible }) => {
   return (

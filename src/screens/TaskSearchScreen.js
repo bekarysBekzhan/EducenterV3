@@ -13,7 +13,7 @@ import UniversalView from '../components/view/UniversalView';
 import RowView from '../components/view/RowView';
 import {clear, filter, filterON, search, x} from '../assets/icons';
 import Input from '../components/Input';
-import {APP_COLORS, STORAGE, WIDTH} from '../constans/constants';
+import {APP_COLORS, STORAGE, WIDTH} from '../constants/constants';
 import {isValidText, setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
 import {useState} from 'react';
@@ -219,7 +219,7 @@ const TaskSearchScreen = props => {
           <Input
             _focus={focus}
             placeholder={lang('Поиск заданий', localization)}
-            left={<View style={styles.searchIcon}>{search('#000')}</View>}
+            left={<View style={styles.searchIcon}>{search(APP_COLORS.white)}</View>}
             right={
               value ? (
                 <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
@@ -310,7 +310,8 @@ const TaskSearchScreen = props => {
 
 const styles = StyleSheet.create({
   item: {
-    padding: 16,
+    paddingVertical: 4,
+    paddingHorizontal: 16,
   },
   contentContainer: {
     padding: 16,
@@ -319,7 +320,8 @@ const styles = StyleSheet.create({
     width: WIDTH,
     justifyContent: 'space-between',
     padding: 16,
-    paddingBottom: 6,
+    paddingBottom: 12,
+    backgroundColor: APP_COLORS.primary,
   },
   inputContainer: {
     flex: 1,
@@ -328,7 +330,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginHorizontal: 16,
   },
-  input: {...setFontStyle(15, '400')},
+  input: {
+    ...setFontStyle(15, '500', APP_COLORS.white),
+    textAlign: 'left',
+  },
   searchIcon: {
     marginRight: 10,
   },

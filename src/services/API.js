@@ -1,5 +1,5 @@
 import {Platform} from 'react-native';
-import {URLS} from '../constans/constants';
+import {URLS} from '../constants/constants';
 import {API_V2} from './axios';
 
 class MobileSettingsService {

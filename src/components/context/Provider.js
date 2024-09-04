@@ -7,7 +7,7 @@ import {
   N_ICON,
   N_MY_COURSE,
   N_COURSE,
-} from '../../constans/constants';
+} from '../../constants/constants';
 
 const Settings = createContext({});
 

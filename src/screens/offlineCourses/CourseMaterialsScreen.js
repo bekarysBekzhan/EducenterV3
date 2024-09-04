@@ -3,7 +3,7 @@ import {FlatList, StyleSheet} from 'react-native';
 import Empty from '../../components/Empty';
 import FileItem from '../../components/FileItem';
 import UniversalView from '../../components/view/UniversalView';
-import {WIDTH} from '../../constans/constants';
+import {WIDTH} from '../../constants/constants';
 
 const CourseMaterialScreen = props => {
   const data = props.route.params;

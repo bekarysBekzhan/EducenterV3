@@ -7,7 +7,7 @@ import {
   HEIGHT,
   RESULT_TYPES,
   WIDTH,
-} from '../../constans/constants';
+} from '../../constants/constants';
 import SimpleButton from '../../components/button/SimpleButton';
 import FastImage from 'react-native-fast-image';
 import {useFetching} from '../../hooks/useFetching';

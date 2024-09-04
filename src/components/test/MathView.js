@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { MathJaxSvg } from 'react-native-mathjax-html-to-svg';
-import { APP_COLORS } from '../../constans/constants';
+import { APP_COLORS } from '../../constants/constants';
 
 const MathView = ({
     text,

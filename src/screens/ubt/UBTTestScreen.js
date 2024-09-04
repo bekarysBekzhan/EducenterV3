@@ -19,7 +19,7 @@ import Overlay from '../../components/view/Overlay';
 import RowView from '../../components/view/RowView';
 import {down, TimeIcon, up} from '../../assets/icons';
 import Timer from '../../components/test/Timer';
-import {APP_COLORS, WIDTH} from '../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../constants/constants';
 import {Modal} from 'react-native';
 import {getSeconds, setFontStyle} from '../../utils/utils';
 import LoadingScreen from '../../components/LoadingScreen';

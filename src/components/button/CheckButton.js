@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 import RowView from '../view/RowView';
 import {check} from '../../assets/icons';
@@ -17,7 +17,7 @@ const CheckButton = ({checked = false, onPress, text, textStyle, style}) => {
     style={{
       ...style,
       ...styles.button,
-      borderColor: checked ? settings?.color_app : APP_COLORS.border,
+      borderColor: checked ? APP_COLORS.primary : APP_COLORS.border,
     }}>
     <RowView style={styles.row}>
       {checked ? check(1, APP_COLORS.primary) : null}

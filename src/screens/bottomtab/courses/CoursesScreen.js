@@ -1,28 +1,32 @@
-import {View, StyleSheet, FlatList, ActivityIndicator} from 'react-native';
+import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import React from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import SearchButton from '../../../components/button/SearchButton';
-import {useFetching} from '../../../hooks/useFetching';
-import {CourseService} from '../../../services/API';
-import {useState} from 'react';
-import {APP_COLORS, N_STATUS, WIDTH} from '../../../constans/constants';
-import {useEffect} from 'react';
-import {setFontStyle} from '../../../utils/utils';
+import { useFetching } from '../../../hooks/useFetching';
+import { CourseService } from '../../../services/API';
+import { useState } from 'react';
+import { APP_COLORS, N_STATUS, WIDTH } from '../../../constants/constants';
+import { useEffect } from 'react';
+import { setFontStyle } from '../../../utils/utils';
 import LoadingScreen from '../../../components/LoadingScreen';
 import Empty from '../../../components/Empty';
 import WhatsappButton from '../../../components/button/WhatsappButton';
-import {useSettings} from '../../../components/context/Provider';
-import {DefaultCard} from './designType/DefaultCard';
-import {MiniCard} from './designType/MiniCard';
-import {DoubleCard} from './designType/DoubleCard';
+import { useSettings } from '../../../components/context/Provider';
+import { DefaultCard } from './designType/DefaultCard';
+import { MiniCard } from './designType/MiniCard';
+import { DoubleCard } from './designType/DoubleCard';
+import HeaderBar from '../../../components/HeaderBar';
+import { lang } from '../../../localization/lang';
+import { useLocalization } from '../../../components/context/LocalizationProvider';
 
 const CoursesScreen = props => {
-  const {nstatus, nCourse} = useSettings();
+  const { nstatus, nCourse } = useSettings();
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState(null);
   const [lastPage, setLastPage] = useState(1);
   const [data, setData] = useState([]);
   const [loadingNext, setLoadingNext] = useState(false);
+  const localization = useLocalization();
   const [fetchCourses, isLoading, coursesError] = useFetching(async () => {
     const response = await CourseService.fetchCourses();
     setData(response.data?.data);
@@ -51,7 +55,7 @@ const CoursesScreen = props => {
     }
   };
 
-  const renderCourse = ({item, index}) => {
+  const renderCourse = ({ item, index }) => {
     if (nCourse == '1') {
       return (
         <MiniCard item={item} index={index} navigation={props?.navigation} />
@@ -79,38 +83,43 @@ const CoursesScreen = props => {
   }
 
   return (
-    <UniversalView>
-        <SearchButton
-          navigation={props.navigation}
-          type={'course'}
-          filters={filters}
+    <UniversalView style={styles.universalView}>
+      <HeaderBar title={lang('Курсы', localization)} filters={filters} />
+      <View style={styles.primaryView}>
+        <FlatList
+          data={data}
+          numColumns={nCourse === '2' ? 2 : 1}
+          renderItem={renderCourse}
+          ListFooterComponent={renderFooter}
+          ListEmptyComponent={<Empty />}
+          keyExtractor={(_, index) => index.toString()}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.contentContainer}
+          onEndReached={onEndReached}
+          refreshing={isLoading}
+          onRefresh={() => {
+            if (page === 1) {
+              fetchCourses();
+            }
+            setPage(1);
+          }}
         />
-      <FlatList
-        data={data}
-        numColumns={nCourse === '2' ? 2 : 1}
-        renderItem={renderCourse}
-        ListFooterComponent={renderFooter}
-        ListEmptyComponent={<Empty />}
-        keyExtractor={(_, index) => index.toString()}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.contentContainer}
-        onEndReached={onEndReached}
-        refreshing={isLoading}
-        onRefresh={() => {
-          if (page === 1) {
-            fetchCourses();
-          }
-          setPage(1);
-        }}
-      />
+      </View>
       {nstatus === N_STATUS ? null : <WhatsappButton />}
     </UniversalView>
   );
 };
 
 export const styles = StyleSheet.create({
+  universalView: {
+    backgroundColor: APP_COLORS.primary,
+  },
+  primaryView: {
+    borderRadius: 20,
+    backgroundColor: APP_COLORS.white,
+  },
   contentContainer: {
-    paddingTop: 13,
+    padding: 16,
   },
   footer: {
     width: WIDTH - 32,

@@ -2,7 +2,7 @@ import messaging from '@react-native-firebase/messaging';
 import {Platform} from 'react-native';
 import {navigate} from '../components/navigation/RootNavigation';
 import {ROUTE_NAMES} from '../components/navigation/routes';
-import {NOTIFICATION_TYPE, STORAGE} from '../constans/constants';
+import {NOTIFICATION_TYPE, STORAGE} from '../constants/constants';
 import {getString, storeObject, storeString} from '../storage/AsyncStorage';
 import {MobileSettingsService} from './API';
 import {LocalNotificationService} from './LocalNotificationService';

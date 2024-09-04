@@ -5,7 +5,7 @@ import TrackPlayer from 'react-native-track-player';
 import {useFetching} from '../hooks/useFetching';
 import Question from '../components/test/Question';
 import {CourseService} from '../services/API';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS} from '../constants/constants';
 import SimpleButton from '../components/button/SimpleButton';
 import RowView from '../components/view/RowView';
 import {TimeIcon} from '../assets/icons';

@@ -5,7 +5,7 @@ import { WebView } from 'react-native-webview';
 import IframeRenderer, { iframeModel } from '@native-html/iframe-plugin';
 import TableRenderer, { tableModel } from '@native-html/table-plugin';
 import TrackPlayer, { State } from 'react-native-track-player';
-import { APP_COLORS } from '../constans/constants';
+import { APP_COLORS } from '../constants/constants';
 
 const HtmlView = ({
   html,

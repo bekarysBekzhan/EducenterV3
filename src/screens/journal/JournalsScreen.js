@@ -6,7 +6,7 @@ import JournalItem from '../../components/item/JournalItem';
 import Loader from '../../components/Loader';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import UniversalView from '../../components/view/UniversalView';
-import {TYPE_SUBCRIBES} from '../../constans/constants';
+import {TYPE_SUBCRIBES} from '../../constants/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {JournalService} from '../../services/API';
 

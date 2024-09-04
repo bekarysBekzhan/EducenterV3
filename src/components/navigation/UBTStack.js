@@ -1,14 +1,13 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ROUTE_NAMES} from './routes';
-import {useSettings} from '../context/Provider';
-import {navHeaderOptions} from './navHeaderOptions';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ROUTE_NAMES } from './routes';
+import { useSettings } from '../context/Provider';
 import SelectSubjectsScreen from '../../screens/ubt/SelectSubjectsScreen';
 
 const UBTStack = createNativeStackNavigator();
 
 const UBT = props => {
-  const {settings} = useSettings();
+  const { settings } = useSettings();
 
   const screens = [
     {
@@ -24,16 +23,10 @@ const UBT = props => {
           name={screen.name}
           component={screen.component}
           key={index}
-          options={
-            screen.name === ROUTE_NAMES.selectSubjects
-              ? navHeaderOptions(
-                  settings?.logo,
-                  settings?.modules_enabled_ubt_title,
-                )
-              : {
-                  headerTitleAlign: 'center',
-                  headerBackTitleVisible: false,
-                }
+          options={{
+            headerTitleAlign: 'center',
+            headerBackTitleVisible: false,
+          }
           }
         />
       ))}

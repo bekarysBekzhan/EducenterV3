@@ -1,7 +1,7 @@
 import {ActivityIndicator, StyleSheet } from 'react-native'
 import React from 'react'
 import UniversalView from './view/UniversalView'
-import { APP_COLORS } from '../constans/constants'
+import { APP_COLORS } from '../constants/constants'
 
 const LoadingScreen = () => {
   return (

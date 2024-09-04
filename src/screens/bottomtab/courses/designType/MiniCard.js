@@ -1,6 +1,6 @@
 import {Text, TouchableOpacity, StyleSheet, View} from 'react-native';
 import React from 'react';
-import {APP_COLORS, N_STATUS, WIDTH} from '../../../../constans/constants';
+import {APP_COLORS, N_STATUS, WIDTH} from '../../../../constants/constants';
 import FastImage from 'react-native-fast-image';
 import RowView from '../../../../components/view/RowView';
 import Price from '../../../../components/Price';

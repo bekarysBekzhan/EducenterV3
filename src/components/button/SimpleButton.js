@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 import { useSettings } from '../context/Provider';
 
@@ -19,7 +19,7 @@ const SimpleButton = ({
 }) => {
   
   const {settings} = useSettings();
-  const memoStyle = useMemo(() => [{...styles.button, backgroundColor: settings?.color_app}, style], [style]);
+  const memoStyle = useMemo(() => [{...styles.button, backgroundColor: APP_COLORS.primary}, style], [style]);
   const memoTextStyle = useMemo(() => [styles.text, textStyle], [textStyle]);
 
   return (

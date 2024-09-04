@@ -5,7 +5,7 @@ import {useSettings} from '../../components/context/Provider';
 import Input from '../../components/Input';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import UniversalView from '../../components/view/UniversalView';
-import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constans/constants';
+import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constants/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {ProfileService} from '../../services/API';
 import {API_V2} from '../../services/axios';

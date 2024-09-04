@@ -1,7 +1,7 @@
 import React, {memo} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 import Price from '../Price';
 import RowView from '../view/RowView';

@@ -21,7 +21,7 @@ import {useSettings} from '../../components/context/Provider';
 import Divider from '../../components/Divider';
 import Loader from '../../components/Loader';
 import UniversalView from '../../components/view/UniversalView';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {useFetching} from '../../hooks/useFetching';
 import {OperationService} from '../../services/API';
 import {setFontStyle, wordLocalization} from '../../utils/utils';

@@ -9,7 +9,7 @@ import {ExitIcon} from '../assets/icons';
 import RowView from '../components/view/RowView';
 import {setFontStyle} from '../utils/utils';
 import {API_V2} from '../services/axios';
-import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../constans/constants';
+import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../constants/constants';
 import {
   getObject,
   removeStorage,
@@ -26,6 +26,7 @@ import SimpleButton from '../components/button/SimpleButton';
 import {useToggle} from '../hooks/useToggle';
 import {useLocalization} from '../components/context/LocalizationProvider';
 import {lang} from '../localization/lang';
+import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const SettingsScreen = ({navigation, route}) => {
   const {localization} = useLocalization();
@@ -192,6 +193,7 @@ const SettingsScreen = ({navigation, route}) => {
 
   return (
     <UniversalView haveLoader={isLoading}>
+      <SmallHeaderBar title={lang('Настройки', localization)} />
       <FlatList
         data={dataSource?.list}
         renderItem={renderItem}

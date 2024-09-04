@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
-import { APP_COLORS } from '../../constans/constants'
+import { APP_COLORS } from '../../constants/constants'
 import { setFontStyle } from '../../utils/utils'
 
 const SectionView = ({label}) => {
@@ -16,11 +16,17 @@ const SectionView = ({label}) => {
 const styles = StyleSheet.create({
     container: {
         width: "100%",
-        backgroundColor: APP_COLORS.input,
+        backgroundColor: APP_COLORS.white,
         padding: 16,
-        paddingVertical: 14
     },
-    text: {...setFontStyle(13, "400", APP_COLORS.placeholder)},
+    text: {
+      ...setFontStyle(14, "400", APP_COLORS.darkgray),
+      textTransform: 'uppercase',
+      letterSpacing: 0.2,
+    },
 })
 
 export default SectionView
+
+
+

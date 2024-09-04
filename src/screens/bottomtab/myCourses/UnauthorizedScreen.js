@@ -2,7 +2,7 @@ import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import FastImage from 'react-native-fast-image';
-import {WIDTH} from '../../../constans/constants';
+import {WIDTH} from '../../../constants/constants';
 import OutlineButton from '../../../components/button/OutlineButton';
 import {setFontStyle} from '../../../utils/utils';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';

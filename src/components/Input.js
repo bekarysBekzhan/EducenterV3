@@ -2,7 +2,7 @@ import {StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import React, {useMemo, useState} from 'react';
 import {TextInputMask} from 'react-native-masked-text';
 import RowView from './view/RowView';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS} from '../constants/constants';
 import {setFontStyle} from '../utils/utils';
 import { useSettings } from './context/Provider';
 
@@ -40,7 +40,7 @@ const Input = ({
       {left}
       {mask === undefined ? (
         <TextInput
-          placeholderTextColor={APP_COLORS.placeholder}
+          placeholderTextColor={APP_COLORS.white}
           placeholder={placeholder}
           style={memoInputStyles}
           value={value}
@@ -56,7 +56,7 @@ const Input = ({
         />
       ) : (
         <TextInputMask
-          placeholderTextColor={APP_COLORS.placeholder}
+          placeholderTextColor={APP_COLORS.white}
           placeholder={placeholder}
           style={memoInputStyles}
           type="custom"
@@ -82,21 +82,19 @@ const Input = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: APP_COLORS.input,
-    borderRadius: 8,
+    backgroundColor: APP_COLORS.gray3,
+    borderRadius: 25,
     justifyContent: 'center',
     paddingHorizontal: 12,
-    borderWidth: 1,
-    borderColor: APP_COLORS.input,
-    height: 48,
+    height: 44,
   },
   input: {
     flex: 1,
     ...setFontStyle(17),
   },
   focus: {
-    borderWidth: 1,
-    borderColor: APP_COLORS.primary,
+    borderWidth: 5,
+    borderColor: APP_COLORS.white,
   },
 });
 

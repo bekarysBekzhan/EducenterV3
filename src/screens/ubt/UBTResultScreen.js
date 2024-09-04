@@ -13,7 +13,7 @@ import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
 import {UBTService} from '../../services/API';
 import Question from '../../components/test/Question';
-import {APP_COLORS, RESULT_TYPES, WIDTH} from '../../constans/constants';
+import {APP_COLORS, RESULT_TYPES, WIDTH} from '../../constants/constants';
 import {useHeaderHeight} from '@react-navigation/elements';
 import {Modal} from 'react-native';
 import {setFontStyle} from '../../utils/utils';

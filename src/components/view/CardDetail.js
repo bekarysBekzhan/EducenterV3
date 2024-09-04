@@ -1,7 +1,7 @@
 import React, {useMemo} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import {CopyIcon} from '../../assets/icons';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 import RowView from './RowView';
 

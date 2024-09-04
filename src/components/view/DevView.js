@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet} from 'react-native';
 import React from 'react';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {getVersion} from 'react-native-device-info';
 import {useLocalization} from '../context/LocalizationProvider';
 import {lang} from '../../localization/lang';

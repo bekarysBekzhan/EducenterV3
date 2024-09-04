@@ -2,7 +2,7 @@ import React, {memo} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {setFontStyle} from '../../utils/utils';
 import {check, x} from '../../assets/icons';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 
 const PacketItem = ({style, name, nameStyle, selected = false, onPress}) => (
   <TouchableOpacity activeOpacity={0.9} onPress={onPress}>

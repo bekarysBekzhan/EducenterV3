@@ -2,7 +2,7 @@ import {Text, TouchableOpacity, StyleSheet} from 'react-native';
 import React from 'react';
 import {search} from '../../assets/icons';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS, WIDTH} from '../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../constants/constants';
 import {ROUTE_NAMES} from '../navigation/routes';
 import {lang} from '../../localization/lang';
 import {useLocalization} from '../context/LocalizationProvider';

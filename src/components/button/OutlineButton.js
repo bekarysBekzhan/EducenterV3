@@ -6,7 +6,7 @@ import {
 } from 'react-native';
 import React, {useMemo} from 'react';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import { useSettings } from '../context/Provider';
 
 const OutlineButton = ({
@@ -19,8 +19,8 @@ const OutlineButton = ({
   ...props
 }) => {
   const {settings} = useSettings();
-  const memoStyle = useMemo(() => [styles.button, style], [style]);
-  const memoTextStyle = useMemo(() => [{...styles.text, color: settings?.color_app}, textStyle], [textStyle]);
+  const memoStyle = useMemo(() => [styles.buttonStyle, style], [style]);
+  const memoTextStyle = useMemo(() => [{...styles.text, color: APP_COLORS.primary}, textStyle], [textStyle]);
 
   return (
     <TouchableOpacity
@@ -32,7 +32,7 @@ const OutlineButton = ({
       {loading ? (
         <ActivityIndicator color={colorIndicator} />
       ) : (
-        <Text numberOfLines={2} style={memoTextStyle}>
+        <Text numberOfLines={2} style={styles.textStyle}>
           {text}
         </Text>
       )}
@@ -43,19 +43,23 @@ const OutlineButton = ({
 export default OutlineButton;
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: '#fff',
-    paddingVertical: 12,
-    paddingHorizontal: 14,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#F5F5F5',
+  buttonStyle: {
+    backgroundColor: APP_COLORS.primary,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     maxHeight: 64,
+    elevation: 4,
+    // shadowColor: '#0001531A',
+    // shadowOffset: { width: 0, height: 4 },
+    // shadowOpacity: 0.1,
+    // shadowRadius: 92,
   },
-  text: {
-    ...setFontStyle(17, '600', APP_COLORS.primary),
+  textStyle: {
+    ...setFontStyle(14, '600', APP_COLORS.white),
     textAlign: 'center',
+    letterSpacing: 0.2,
   },
 });

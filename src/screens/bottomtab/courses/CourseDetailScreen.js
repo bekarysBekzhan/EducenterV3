@@ -1,27 +1,29 @@
-import {Text, FlatList, StyleSheet} from 'react-native';
+import { Text, FlatList, StyleSheet, View, Switch } from 'react-native';
 import React from 'react';
 import UniversalView from '../../../components/view/UniversalView';
-import {useFetching} from '../../../hooks/useFetching';
-import {CourseService} from '../../../services/API';
-import {useState} from 'react';
-import {useEffect} from 'react';
-import {generateHash, setFontStyle} from '../../../utils/utils';
+import { useFetching } from '../../../hooks/useFetching';
+import { CourseService } from '../../../services/API';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { generateHash, setFontStyle } from '../../../utils/utils';
 import Divider from '../../../components/Divider';
-import {useSettings} from '../../../components/context/Provider';
+import { useSettings } from '../../../components/context/Provider';
 import TransactionButton from '../../../components/button/TransactionButton';
 import DetailView from '../../../components/view/DetailView';
-import {ROUTE_NAMES} from '../../../components/navigation/routes';
+import { ROUTE_NAMES } from '../../../components/navigation/routes';
 import Footer from '../../../components/course/Footer';
 import LoadingScreen from '../../../components/LoadingScreen';
 import CourseChapter from '../../../components/course/CourseChapter';
-import {N_STATUS, TYPE_SUBCRIBES} from '../../../constans/constants';
+import { APP_COLORS, N_STATUS, TYPE_SUBCRIBES } from '../../../constants/constants';
 import MyCourseChapter from '../../../components/course/MyCourseChapter';
-import {useLocalization} from '../../../components/context/LocalizationProvider';
-import {lang} from '../../../localization/lang';
+import { useLocalization } from '../../../components/context/LocalizationProvider';
+import { lang } from '../../../localization/lang';
+import SmallHeaderBar from '../../../components/SmallHeaderBar';
+import RowView from '../../../components/view/RowView';
 
 const CourseDetailScreen = props => {
-  const {localization} = useLocalization();
-  const {isAuth, nstatus} = useSettings();
+  const { localization } = useLocalization();
+  const { isAuth, nstatus } = useSettings();
 
   const courseID = props.route?.params?.courseID;
 
@@ -78,10 +80,10 @@ const CourseDetailScreen = props => {
   };
 
   const renderHeader = () => {
-    return <CourseListHeader data={data} />;
+    return <CourseListHeader data={data} />
   };
 
-  const renderChapter = ({item, index}) => {
+  const renderChapter = ({ item, index }) => {
     if (data?.has_subscribed) {
       return (
         <MyCourseChapter
@@ -141,9 +143,11 @@ const CourseDetailScreen = props => {
   );
 };
 
-const CourseListHeader = ({data, localization}) => {
+const CourseListHeader = ({ data, localization }) => {
+  const [isFilter, setIsFilter] = useState(false);
   return (
     <UniversalView>
+      <SmallHeaderBar title={data?.title} />
       <DetailView
         poster={data?.poster}
         category={data?.category?.name}
@@ -154,16 +158,37 @@ const CourseListHeader = ({data, localization}) => {
         description={data?.description}
       />
       <Divider isAbsolute={false} />
-      <Text style={styles.courseProgram}>{lang('Программа курса', localization)}</Text>
+      <View style={styles.courseInfoContainer}>
+          <Text style={styles.courseProgram}>
+            {lang('Программа курса', localization)}
+          </Text>
+          <RowView style={{ justifyContent: 'space-between', margin: 16 }}>
+            <Text style={{ color: APP_COLORS.font }}>
+              {lang('Скрыть пройденные курсы', localization)}
+            </Text>
+            <Switch
+              value={isFilter}
+              onValueChange={value => setIsFilter(value)}
+              thumbColor={isFilter ? APP_COLORS.primary : APP_COLORS.placeholder}
+              trackColor={{ true: '#EBEBFE', false: '#eee' }}
+            />
+          </RowView>
+        </View>
     </UniversalView>
   );
 };
 
 const styles = StyleSheet.create({
+  headerStyle: {
+    flex: 1,
+  },
   listContent: {
     paddingBottom: 50,
   },
   container: {},
+  courseInfoContainer: {
+    paddingHorizontal: 8,
+  },
   courseProgram: {
     margin: 16,
     ...setFontStyle(21, '700'),

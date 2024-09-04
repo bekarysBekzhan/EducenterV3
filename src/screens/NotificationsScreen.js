@@ -8,7 +8,7 @@ import {NotificationService} from '../services/API';
 import RowView from '../components/view/RowView';
 import {NotificationItemIcon} from '../assets/icons';
 import {containsHTML, setFontStyle} from '../utils/utils';
-import {APP_COLORS, NOTIFICATION_TYPE} from '../constans/constants';
+import {APP_COLORS, NOTIFICATION_TYPE} from '../constants/constants';
 import Loader from '../components/Loader';
 import Divider from '../components/Divider';
 import HtmlView from '../components/HtmlView';

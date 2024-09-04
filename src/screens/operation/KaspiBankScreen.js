@@ -16,7 +16,7 @@ import {shadowStyle} from '../../utils/shadowStyle';
 import {checkPrice} from '../../utils/checkPrice';
 import CardDetail from '../../components/view/CardDetail';
 import {ClipCheckIcon} from '../../assets/icons';
-import {URLS} from '../../constans/constants';
+import {URLS} from '../../constants/constants';
 import {useSettings} from '../../components/context/Provider';
 import {useLocalization} from './../../components/context/LocalizationProvider';
 import {lang} from './../../localization/lang';

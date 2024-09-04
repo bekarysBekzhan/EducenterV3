@@ -4,7 +4,7 @@ import {
   ANSWER_STATES,
   APP_COLORS,
   RESULT_TYPES,
-} from '../../constans/constants';
+} from '../../constants/constants';
 import {check, x} from '../../assets/icons';
 import {getAudioUrl, selectComponent} from '../../utils/utils';
 import MathView from './MathView';

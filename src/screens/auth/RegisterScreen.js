@@ -12,7 +12,7 @@ import {
   N_STATUS,
   REQUEST_HEADERS,
   STORAGE,
-} from '../../constans/constants';
+} from '../../constants/constants';
 import {API_V2} from '../../services/axios';
 import {useSettings} from '../../components/context/Provider';
 import {ROUTE_NAMES} from '../../components/navigation/routes';

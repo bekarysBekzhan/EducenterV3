@@ -2,7 +2,7 @@ import {StyleSheet, TouchableOpacity, Text} from 'react-native';
 import React, {useMemo} from 'react';
 import {iconNext} from '../../assets/icons';
 import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 
 const NavButtonRow = ({
   item,

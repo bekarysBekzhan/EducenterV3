@@ -8,9 +8,10 @@ import Person from '../../../components/Person';
 import TransactionButton from '../../../components/button/TransactionButton';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
-import {N_STATUS, TYPE_SUBCRIBES} from '../../../constans/constants';
+import {N_STATUS, TYPE_SUBCRIBES} from '../../../constants/constants';
 import { useLocalization } from '../../../components/context/LocalizationProvider';
 import { lang } from '../../../localization/lang';
+import SmallHeaderBar from '../../../components/SmallHeaderBar'
 
 const TaskDetailScreen = props => {
   const {localization} = useLocalization()
@@ -73,8 +74,13 @@ const TaskDetailScreen = props => {
     return <LoadingScreen />;
   }
 
+  console.log('Data: ', data)
+  
+  console.log('Transaction text: ', getTransactionText())
+  
   return (
     <UniversalView>
+      <SmallHeaderBar title={lang('Задания', localization)} />
       <UniversalView haveScroll>
         <DetailView
           title={data?.title}
@@ -86,12 +92,8 @@ const TaskDetailScreen = props => {
         <Person
           name={data?.author?.name}
           image={data?.author?.avatar}
-          status={lang('Автор задания', localization)}
+          status={lang('Автор теста', localization)}
           description={data?.author?.description}
-          extraStyles={{
-            margin: 16,
-            marginTop: 32,
-          }}
         />
       </UniversalView>
       <TransactionButton

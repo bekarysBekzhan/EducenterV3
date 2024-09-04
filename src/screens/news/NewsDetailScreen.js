@@ -8,7 +8,7 @@ import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../utils/utils';
 import DateFormat from '../../components/DateFormat';
 import {storeObject} from '../../storage/AsyncStorage';
-import {STORAGE} from '../../constans/constants';
+import {STORAGE} from '../../constants/constants';
 import {useSettings} from '../../components/context/Provider';
 
 const NewsDetailScreen = ({navigation, route}) => {

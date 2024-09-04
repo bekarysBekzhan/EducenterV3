@@ -11,7 +11,7 @@ import UniversalView from '../../../components/view/UniversalView';
 import {useFetching} from '../../../hooks/useFetching';
 import LoadingScreen from '../../../components/LoadingScreen';
 import {MyCourseService} from '../../../services/API';
-import {APP_COLORS} from '../../../constans/constants';
+import {APP_COLORS} from '../../../constants/constants';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {check, down, lock, PlayIcon, TimeIcon, up} from '../../../assets/icons';
 import RowView from '../../../components/view/RowView';
@@ -214,16 +214,6 @@ const ModuleMyTestItem = ({
         attempts: usedAttempts() + 1,
       };
       data.push(currentAttempt);
-      for (
-        let attempt = 0;
-        attempt < attempts - currentAttempt.attempts;
-        attempt++
-      ) {
-        data.push({
-          status: LOCKED,
-          attempts: currentAttempt.attempts + attempt + 1,
-        });
-      }
     }
     return data;
   };
@@ -240,7 +230,7 @@ const ModuleMyTestItem = ({
       <View
         style={[
           testItem.icon,
-          {backgroundColor: 'green', paddingHorizontal: 5},
+          {backgroundColor: APP_COLORS.green, paddingHorizontal: 5},
         ]}>
         {check()}
       </View>
@@ -264,7 +254,7 @@ const ModuleMyTestItem = ({
         onPress={() => undefined}
         style={testItem.button}
         text={lang('Тест пройден', localization)}
-        textStyle={[testItem.buttonText, {color: 'green'}]}
+        textStyle={[testItem.buttonText, {color: APP_COLORS.green}]}
       />
     );
   };
@@ -356,7 +346,7 @@ const ModuleMyTestItem = ({
         <RowView style={testItem.row1}>
           {renderIcon()}
           {renderText()}
-        </RowView>
+        </RowView> 
         <TouchableOpacity
           onPress={() => setIsCollapsed(prev => !prev)}
           activeOpacity={0.7}>

@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import React, {useLayoutEffect, useState} from 'react';
 import UniversalView from '../../components/view/UniversalView';
-import {APP_COLORS, STORAGE} from '../../constans/constants';
+import {APP_COLORS, STORAGE} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 import {storeString} from '../../storage/AsyncStorage';
 import {useFetching} from '../../hooks/useFetching';

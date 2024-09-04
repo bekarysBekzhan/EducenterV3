@@ -1,6 +1,6 @@
 import React, {memo, useMemo} from 'react';
 import {StyleSheet, Switch, Text, View} from 'react-native';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 import Divider from '../Divider';
 import RowView from '../view/RowView';

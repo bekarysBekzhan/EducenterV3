@@ -1,11 +1,14 @@
-import {FlatList, StyleSheet} from 'react-native';
-import React, {useCallback, useEffect, useState} from 'react';
+import { FlatList, StyleSheet } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import UniversalView from '../components/view/UniversalView';
-import {useFetching} from '../hooks/useFetching';
+import { useFetching } from '../hooks/useFetching';
 import HistoryItem from '../components/HistoryItem';
-import {HistoryService} from '../services/API';
+import { HistoryService } from '../services/API';
 import Loader from '../components/Loader';
 import Empty from '../components/Empty';
+import SmallHeaderBar from '../components/SmallHeaderBar';
+import { useNavigation } from '@react-navigation/native';
+import { lang } from '../localization/lang';
 
 const HistoryScreen = () => {
   const [dataSource, setDataSource] = useState({
@@ -54,7 +57,7 @@ const HistoryScreen = () => {
   const keyExtractor = useCallback(item => item?.id?.toString(), []);
 
   const renderItem = useCallback(
-    ({item}) => (
+    ({ item }) => (
       <HistoryItem
         title={item?.entity?.title}
         date={item?.added_at}
@@ -101,6 +104,7 @@ const HistoryScreen = () => {
 
   return (
     <UniversalView haveLoader={isLoading}>
+      <SmallHeaderBar title={lang('История оплаты', localization)}/>
       <FlatList
         data={dataSource?.data}
         renderItem={renderItem}

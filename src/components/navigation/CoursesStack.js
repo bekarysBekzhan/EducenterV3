@@ -1,17 +1,16 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ROUTE_NAMES} from './routes';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ROUTE_NAMES } from './routes';
 import CoursesScreen from '../../screens/bottomtab/courses/CoursesScreen';
 import CourseDetailScreen from '../../screens/bottomtab/courses/CourseDetailScreen';
-import {useSettings} from '../context/Provider';
-import {navHeaderOptions} from './navHeaderOptions';
-import {useLocalization} from '../context/LocalizationProvider';
+import { useSettings } from '../context/Provider';
+import { useLocalization } from '../context/LocalizationProvider';
 import { lang } from '../../localization/lang';
 
 const CoursesStack = createNativeStackNavigator();
 
 const Courses = () => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const TITLE = lang('Курсы', localization);
 
@@ -26,7 +25,7 @@ const Courses = () => {
     },
   ];
 
-  const {settings} = useSettings();
+  const { settings } = useSettings();
 
   return (
     <CoursesStack.Navigator>
@@ -35,14 +34,12 @@ const Courses = () => {
           name={screen.name}
           component={screen.component}
           key={index}
-          options={
-            screen.name === ROUTE_NAMES.courses
-              ? navHeaderOptions(settings?.logo, TITLE)
-              : {
-                  headerTitle: lang('Курс', localization),
-                  headerBackTitleVisible: false,
-                  headerTitleAlign: 'center',
-                }
+          options={{
+            headerTitle: lang('Курс', localization),
+            headerBackTitleVisible: false,
+            headerTitleAlign: 'center',
+            headerShown: false,
+          }
           }
         />
       ))}

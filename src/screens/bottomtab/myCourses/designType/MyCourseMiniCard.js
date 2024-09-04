@@ -4,7 +4,7 @@ import FastImage from 'react-native-fast-image';
 import RowView from '../../../../components/view/RowView';
 import {setFontStyle} from '../../../../utils/utils';
 import {ROUTE_NAMES} from '../../../../components/navigation/routes';
-import {APP_COLORS, WIDTH} from '../../../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../../../constants/constants';
 import ItemRating from '../../../../components/ItemRating';
 
 export const MyCourseMiniCard = ({item, index, navigation}) => {

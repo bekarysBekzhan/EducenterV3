@@ -3,7 +3,7 @@ import React, {useEffect} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {useSettings} from '../../components/context/Provider';
 import {setFontStyle, wordLocalization} from '../../utils/utils';
-import {APP_COLORS, N_STATUS, STORAGE} from '../../constans/constants';
+import {APP_COLORS, N_STATUS, STORAGE} from '../../constants/constants';
 import SimpleButton from '../../components/button/SimpleButton';
 import OutlineButton from '../../components/button/OutlineButton';
 import {ROUTE_NAMES} from '../../components/navigation/routes';

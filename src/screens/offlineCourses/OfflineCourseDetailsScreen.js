@@ -3,7 +3,7 @@ import React, {Fragment, useCallback, useState, useEffect, useRef} from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import {useFetching} from '../../hooks/useFetching';
 import {CourseService} from '../../services/API';
-import {TYPE_SUBCRIBES} from '../../constans/constants';
+import {TYPE_SUBCRIBES} from '../../constants/constants';
 import {fileDownloader, setFontStyle} from '../../utils/utils';
 import {JournalIcon} from '../../assets/icons';
 import {useSettings} from '../../components/context/Provider';

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text} from 'react-native';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {checkPrice} from '../../utils/checkPrice';
 import {setFontStyle} from '../../utils/utils';
 import {useSettings} from '../context/Provider';

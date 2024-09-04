@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {CallCenterIcon, x} from '../../assets/icons';
-import {APP_COLORS, HEIGHT, WIDTH} from '../../constans/constants';
+import {APP_COLORS, HEIGHT, WIDTH} from '../../constants/constants';
 import {getWhatsappNumber} from '../../utils/utils';
 import OutlineButton from '../button/OutlineButton';
 import SimpleButton from '../button/SimpleButton';

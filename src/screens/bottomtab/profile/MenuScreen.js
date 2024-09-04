@@ -15,23 +15,16 @@ import NavButtonRow from '../../../components/view/NavButtonRow';
 import RowView from '../../../components/view/RowView';
 import FastImage from 'react-native-fast-image';
 import {setFontStyle} from '../../../utils/utils';
-import {APP_COLORS, N_STATUS} from '../../../constans/constants';
+import {APP_COLORS, N_STATUS} from '../../../constants/constants';
 import DevView from '../../../components/view/DevView';
 import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
-import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
 import {useLocalization} from '../../../components/context/LocalizationProvider';
 import {lang} from '../../../localization/lang';
 
 const MenuScreen = ({navigation}) => {
   const {settings, nstatus, isAuth} = useSettings();
   const {localization} = useLocalization();
-
-  useLayoutEffect(() => {
-    navigation.setOptions(
-      navHeaderOptions(settings?.logo, lang('Меню', localization)),
-    );
-  }, []);
 
   const MENU = [
     {

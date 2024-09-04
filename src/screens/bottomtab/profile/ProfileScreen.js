@@ -1,6 +1,7 @@
 import {
   Linking,
   RefreshControl,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -24,51 +25,42 @@ import {
   iconNext,
   JournalIcon,
   NewsIcon,
+  OfflineCoursesIcon,
   Password,
   RatingIcon,
   ReclamentIcon,
+  ScheduleIcon,
   Settings,
   UbtIcon,
 } from '../../../assets/icons';
-import {useSettings} from '../../../components/context/Provider';
-import {ROUTE_NAMES} from '../../../components/navigation/routes';
+import { useSettings } from '../../../components/context/Provider';
+import { ROUTE_NAMES } from '../../../components/navigation/routes';
 import DevView from '../../../components/view/DevView';
 import FastImage from 'react-native-fast-image';
 import RowView from '../../../components/view/RowView';
-import {useFetching} from '../../../hooks/useFetching';
-import {ProfileService} from '../../../services/API';
-import {setFontStyle} from '../../../utils/utils';
-import {APP_COLORS, N_STATUS, STORAGE} from '../../../constans/constants';
-import {navHeaderOptions} from '../../../components/navigation/navHeaderOptions';
+import { useFetching } from '../../../hooks/useFetching';
+import { ProfileService } from '../../../services/API';
+import { setFontStyle } from '../../../utils/utils';
+import { APP_COLORS, N_STATUS, STORAGE } from '../../../constants/constants';
 import LoadingScreen from '../../../components/LoadingScreen';
-import {storeObject} from '../../../storage/AsyncStorage';
-import {lang} from '../../../localization/lang';
-import {useLocalization} from '../../../components/context/LocalizationProvider';
+import { storeObject } from '../../../storage/AsyncStorage';
+import { lang } from '../../../localization/lang';
+import { useLocalization } from '../../../components/context/LocalizationProvider';
+import ProfileHeaderBar from '../../../components/ProfileHeaderBar';
 
-const ProfileScreen = ({navigation, route}) => {
-  const {profile} = route.params;
-  const {localization} = useLocalization();
+const ProfileScreen = ({ navigation, route }) => {
+  const { profile } = route.params;
+  const { localization } = useLocalization();
 
-  const {settings, isRead, setIsRead, nstatus} = useSettings();
+  const { settings, isRead, setIsRead, nstatus } = useSettings();
   const [dataSource, setDataSource] = useState({
     data: null,
     refreshing: false,
   });
 
-  useLayoutEffect(() => {
-    let navigationOptions = navHeaderOptions(
-      settings?.logo,
-      lang('Меню', localization),
-    );
-    if (nstatus !== N_STATUS) {
-      navigationOptions.headerRight = renderHeaderRight;
-    }
-    navigation.setOptions(navigationOptions);
-  }, [isRead]);
-
   const MENU = [
     {
-      section: lang('Мои профиль', localization),
+      section: lang('МОЙ ПРОФИЛЬ', localization),
       enabled: true,
       data: [
         {
@@ -82,21 +74,13 @@ const ProfileScreen = ({navigation, route}) => {
         {
           id: 2,
           text: lang('Расписание', localization),
-          iconLeft: <CalendarIcon />,
+          iconLeft: <ScheduleIcon />,
           enabled: nstatus !== N_STATUS,
           route: ROUTE_NAMES.scheduleNavigator,
           action: 'navigation',
         },
         {
           id: 3,
-          text: lang('Сменить пароль', localization),
-          iconLeft: <Password />,
-          enabled: true,
-          action: 'navigation',
-          route: ROUTE_NAMES.changePassword,
-        },
-        {
-          id: 4,
           text: lang('Настройки', localization),
           iconLeft: <Settings />,
           enabled: true,
@@ -106,7 +90,7 @@ const ProfileScreen = ({navigation, route}) => {
       ],
     },
     {
-      section: lang('Меню', localization),
+      section: lang('МЕНЮ', localization),
       enabled: true,
       data: [
         {
@@ -157,7 +141,7 @@ const ProfileScreen = ({navigation, route}) => {
         {
           id: 6,
           text: lang('Офлайн курсы', localization),
-          iconLeft: <ReclamentIcon />,
+          iconLeft: <OfflineCoursesIcon />,
           action: 'navigation',
           enabled:
             nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
@@ -175,7 +159,7 @@ const ProfileScreen = ({navigation, route}) => {
       ],
     },
     {
-      section: lang('Помощь', localization),
+      section: lang('ПОМОЩЬ', localization),
       enabled: nstatus !== N_STATUS && settings?.phone?.length,
       data: [
         {
@@ -190,7 +174,7 @@ const ProfileScreen = ({navigation, route}) => {
   ];
 
   const onAction = item => {
-    const {navigate} = navigation;
+    const { navigate } = navigation;
     switch (item?.action) {
       case 'navigation':
         if (item?.route == ROUTE_NAMES.settings) {
@@ -251,12 +235,6 @@ const ProfileScreen = ({navigation, route}) => {
     navigation.navigate(ROUTE_NAMES.notifications);
   };
 
-  const renderHeaderRight = () => (
-    <TouchableOpacity activeOpacity={0.65} onPress={onPressNotification}>
-      <BellIcon isRead={isRead} />
-    </TouchableOpacity>
-  );
-
   if (isLoading) {
     return <LoadingScreen />;
   }
@@ -269,59 +247,71 @@ const ProfileScreen = ({navigation, route}) => {
           refreshing={dataSource?.refreshing}
           onRefresh={onRefresh}
         />
-      }>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.setParams({profile: false});
-          navigation.navigate(ROUTE_NAMES.profileEdit, {
-            profileEdit: dataSource?.data,
-          });
-        }}
-        activeOpacity={0.9}>
-        <RowView style={styles.profileView}>
-          <FastImage
-            source={{
-              uri: dataSource?.data?.avatar,
-              priority: 'high',
-            }}
-            style={styles.avatar}
-          />
-          <View style={styles.profileInfoView}>
-            <Text numberOfLines={2} style={styles.name}>
+      }
+    >
+      <StatusBar backgroundColor={APP_COLORS.primary} barStyle="light-content" />
+      <ProfileHeaderBar title={lang('Мой профиль', localization)} />
+      <View style={styles.avatarContainer}>
+        <View style={styles.avatar}>
+          <Text style={styles.avatarText}>AA</Text>
+        </View>
+      </View>
+      <View style={styles.primaryBackgroundView}>
+        <View style={styles.mainView}>
+
+          <View style={styles.profileInfoContainer}>
+            <Text style={styles.profileName}>
               {dataSource?.data?.name}
             </Text>
-            <Text numberOfLines={1} style={styles.email}>
+            <Text style={styles.profileEmailPhone}>
               {dataSource?.data?.email}
             </Text>
-            <Text numberOfLines={1} style={styles.phone}>
+            <Text style={styles.profileEmailPhone}>
               {dataSource?.data?.phone}
             </Text>
-            <Text style={styles.editButton}>
-              {lang('Редактировать профиль', localization)}
-            </Text>
+
+            <TouchableOpacity
+              onPress={() => {
+                navigation.setParams({ profile: false });
+                navigation.navigate(ROUTE_NAMES.profileEdit, {
+                  profileEdit: dataSource?.data,
+                });
+              }}
+              activeOpacity={0.9}
+              style={styles.editProfileButton}
+            >
+              <Text style={styles.editProfileButtonText}>
+                {lang('Редактировать профиль', localization)}
+              </Text>
+            </TouchableOpacity>
           </View>
-          {iconNext}
-        </RowView>
-      </TouchableOpacity>
-      {MENU.filter(m => m?.enabled).map((s, sKey) => (
-        <Fragment key={sKey.toString()}>
-          <SectionView label={s.section} />
-          {s.data
-            .filter(fd => fd?.enabled)
-            .map((d, dKey) => {
-              return (
-                <NavButtonRow
-                  key={dKey.toString()}
-                  leftIcon={d.iconLeft}
-                  title={d.text}
-                  style={styles.view}
-                  item={d}
-                  onPress={onAction}
-                />
-              );
-            })}
-        </Fragment>
-      ))}
+
+          {MENU.filter(m => m?.enabled).map((s, sKey) => (
+            <View style={styles.mainView}>
+              <Fragment key={sKey.toString()}>
+                <SectionView label={s.section} />
+                <View style={styles.niceCirclyView}>
+                  {s.data
+                    .filter(fd => fd?.enabled)
+                    .map((d, dKey) => {
+                      return (
+                        <NavButtonRow
+                          key={dKey.toString()}
+                          leftIcon={d.iconLeft}
+                          title={d.text}
+                          style={styles.view}
+                          item={d}
+                          onPress={onAction}
+                        />
+                      );
+                    })}
+                </View>
+              </Fragment>
+            </View>
+          ))}
+
+        </View>
+      </View>
       {nstatus !== N_STATUS && settings?.field_enabled_logo_buginsoft ? (
         <DevView />
       ) : null}
@@ -346,12 +336,6 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     marginRight: 12,
   },
-  avatar: {
-    alignSelf: 'flex-start',
-    width: 56,
-    height: 56,
-    borderRadius: 56,
-  },
   name: {
     ...setFontStyle(17, '600'),
     marginBottom: 4,
@@ -365,6 +349,104 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   editButton: {
-    ...setFontStyle(15, '400', APP_COLORS.primary),
+    width: 343,
+    height: 44,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    gap: 10,
+    borderRadius: 24,
+    backgroundColor: APP_COLORS.lightgray,
   },
+  editButtonText: {
+    ...setFontStyle(14, '600', APP_COLORS.primary),
+    lineHeight: 12,
+    letterSpacing: 0.16,
+    textAlign: 'center',
+  },
+  universalView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mainView: {
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: APP_COLORS.white,
+    paddingBottom: 12,
+  },
+  primaryBackgroundView: {
+    backgroundColor: APP_COLORS.primary,
+  },
+  avatarContainer: {
+    position: 'absolute',
+    top: 85,
+    zIndex: 1,
+  },
+  avatar: {
+    width: 120,
+    height: 120,
+    top: 12,
+    left: 134,
+    paddingVertical: 40,
+    paddingHorizontal: 22,
+    borderRadius: 100,
+    borderWidth: 2,
+    borderColor: APP_COLORS.gray,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FF6B00',
+  },
+  avatarText: {
+    fontSize: 40,
+    color: APP_COLORS.white,
+    fontWeight: '500',
+    lineHeight: 40,
+    letterSpacing: 0.16,
+    textAlign: 'center',
+  },
+  profileInfoContainer: {
+    marginTop: 60, // Adjust according to the avatar height
+    alignItems: 'center',
+    gap: 12,
+    marginBottom: 12,
+  },
+  profileName: {
+    ...setFontStyle(18, '500', APP_COLORS.black),
+    textAlign: 'center',
+    letterSpacing: 0.8,
+    marginTop: 10,
+  },
+  profileEmailPhone: {
+    ...setFontStyle(12, '500', APP_COLORS.darkgray),
+    marginTop: 5,
+    textAlign: 'center',
+    letterSpacing: 0.6,
+  },
+  editProfileButton: {
+    width: 343,
+    height: 46,
+    marginTop: 15,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    gap: 10,
+    borderRadius: 24,
+    backgroundColor: APP_COLORS.lightgray,
+  },
+  editProfileButtonText: {
+    ...setFontStyle(14, '600', APP_COLORS.primary),
+    lineHeight: 14,
+    letterSpacing: 0.25,
+    textAlign: 'center',
+  },
+  niceCirclyView: {
+    marginHorizontal: 16,
+    gap: 0,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: APP_COLORS.lightgray,
+  }
 });
+
+
+
+

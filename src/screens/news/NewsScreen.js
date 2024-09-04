@@ -7,6 +7,8 @@ import NewsCard from '../../components/news/NewsCard';
 import Loader from '../../components/Loader';
 import {ROUTE_NAMES} from '../../components/navigation/routes';
 import Empty from '../../components/Empty';
+import SmallHeaderBar from '../../components/SmallHeaderBar';
+import { lang } from '../../localization/lang';
 
 const NewsScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -106,6 +108,7 @@ const NewsScreen = ({navigation}) => {
 
   return (
     <UniversalView haveLoader={isLoading}>
+      <SmallHeaderBar title={lang('Новости', localization)} /> 
       <FlatList
         data={dataSource?.data}
         renderItem={renderItem}

@@ -13,11 +13,11 @@ import UniversalView from '../components/view/UniversalView';
 import RowView from '../components/view/RowView';
 import {clear, filter, filterON, search, x} from '../assets/icons';
 import Input from '../components/Input';
-import {APP_COLORS, STORAGE, WIDTH} from '../constans/constants';
+import {APP_COLORS, STORAGE, WIDTH} from '../constants/constants';
 import {isValidText, setFontStyle} from '../utils/utils';
 import SectionView from '../components/view/SectionView';
 import {useState} from 'react';
-import CourseRow from '../components/CourseRow';
+import SearchCourseRow from '../components/SearchCourseRow';
 import {CourseService} from '../services/API';
 import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 import BottomSheetStack from '../components/navigation/BottomSheetStack';
@@ -142,15 +142,13 @@ const OfflineCourseSearchScreen = props => {
       await storeObject(STORAGE.courseSearchHistory, historyList);
     }
 
-    props.navigation.navigate(ROUTE_NAMES.offlineCourseDetailsScreen, {
-      courseID: id,
-    });
+    props.navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: id,});
   };
 
   const renderItem = ({item, index}) => {
     return (
       <View style={styles.item}>
-        <CourseRow
+        <SearchCourseRow
           id={item?.id}
           title={item?.title}
           poster={item?.poster}
@@ -222,7 +220,7 @@ const OfflineCourseSearchScreen = props => {
           <Input
             _focus={focus}
             placeholder={lang('Поиск курсов', localization)}
-            left={<View style={styles.searchIcon}>{search('#000')}</View>}
+            left={<View style={styles.searchIcon}>{search(APP_COLORS.white)}</View>}
             right={
               value ? (
                 <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
@@ -311,13 +309,15 @@ const OfflineCourseSearchScreen = props => {
 
 const styles = StyleSheet.create({
   item: {
-    padding: 16,
+    paddingVertical: 4,
+    paddingHorizontal: 16,
   },
   searchBar: {
     width: WIDTH,
     justifyContent: 'space-between',
     padding: 16,
-    paddingBottom: 6,
+    paddingBottom: 12,
+    backgroundColor: APP_COLORS.primary,
   },
   inputContainer: {
     flex: 1,
@@ -326,7 +326,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginHorizontal: 16,
   },
-  input: {...setFontStyle(15, '400')},
+  input: {
+    ...setFontStyle(15, '500', APP_COLORS.white),
+    textAlign: 'left',
+  },
   searchIcon: {
     marginRight: 10,
   },

@@ -1,31 +1,32 @@
-import {Text, FlatList, StyleSheet, Switch} from 'react-native';
-import React, {useCallback, useRef} from 'react';
+import { Text, FlatList, StyleSheet, Switch, View } from 'react-native';
+import React, { useCallback, useRef } from 'react';
 import UniversalView from '../../../components/view/UniversalView';
-import {useFetching} from '../../../hooks/useFetching';
-import {CourseService} from '../../../services/API';
-import {useState} from 'react';
-import {useEffect} from 'react';
-import {APP_COLORS} from '../../../constans/constants';
-import {fileDownloader, setFontStyle} from '../../../utils/utils';
+import { useFetching } from '../../../hooks/useFetching';
+import { CourseService } from '../../../services/API';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { APP_COLORS } from '../../../constants/constants';
+import { fileDownloader, setFontStyle } from '../../../utils/utils';
 import RowView from '../../../components/view/RowView';
 import Divider from '../../../components/Divider';
-import {useSettings} from '../../../components/context/Provider';
+import { useSettings } from '../../../components/context/Provider';
 import TransactionButton from '../../../components/button/TransactionButton';
 import DetailView from '../../../components/view/DetailView';
-import {ROUTE_NAMES} from '../../../components/navigation/routes';
+import { ROUTE_NAMES } from '../../../components/navigation/routes';
 import RNFS from 'react-native-fs';
 import Downloader from '../../../components/Downloader';
 import Footer from '../../../components/course/Footer';
 import LoadingScreen from '../../../components/LoadingScreen';
 import MyCourseChapter from '../../../components/course/MyCourseChapter';
-import {useLocalization} from '../../../components/context/LocalizationProvider';
-import {lang} from '../../../localization/lang';
+import { useLocalization } from '../../../components/context/LocalizationProvider';
+import { lang } from '../../../localization/lang';
+import SmallHeaderBar from '../../../components/SmallHeaderBar';
 
 const MyCourseDetailScreen = props => {
   const courseID = props.route?.params?.courseID;
 
-  const {settings} = useSettings();
-  const {localization} = useLocalization();
+  const { settings } = useSettings();
+  const { localization } = useLocalization();
 
   const [visible, setVisible] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
@@ -91,6 +92,7 @@ const MyCourseDetailScreen = props => {
   const renderHeader = () => {
     return (
       <UniversalView>
+        <SmallHeaderBar title={data?.title} />
         <DetailView
           poster={data?.poster}
           category={data?.category?.name}
@@ -101,25 +103,27 @@ const MyCourseDetailScreen = props => {
           description={data?.description}
         />
         <Divider isAbsolute={false} />
-        <Text style={styles.courseProgram}>
-          {lang('Программа курса', localization)}
-        </Text>
-        <RowView style={{justifyContent: 'space-between', margin: 16}}>
-          <Text style={{color: APP_COLORS.font}}>
-            {lang('Скрыть пройденные курсы', localization)}
+        <View style={styles.courseInfoContainer}>
+          <Text style={styles.courseProgram}>
+            {lang('Программа курса', localization)}
           </Text>
-          <Switch
-            value={isFilter}
-            onValueChange={value => setIsFilter(value)}
-            thumbColor={isFilter ? APP_COLORS.primary : APP_COLORS.placeholder}
-            trackColor={{true: '#EBEBFE', false: '#eee'}}
-          />
-        </RowView>
+          <RowView style={{ justifyContent: 'space-between', margin: 16 }}>
+            <Text style={{ color: APP_COLORS.font }}>
+              {lang('Скрыть пройденные курсы', localization)}
+            </Text>
+            <Switch
+              value={isFilter}
+              onValueChange={value => setIsFilter(value)}
+              thumbColor={isFilter ? APP_COLORS.primary : APP_COLORS.placeholder}
+              trackColor={{ true: '#EBEBFE', false: '#eee' }}
+            />
+          </RowView>
+        </View>
       </UniversalView>
     );
   };
 
-  const renderChapter = ({item, index}) => {
+  const renderChapter = ({ item, index }) => {
     if (isFilter && getProgressPercent(item) === 100) {
       return null;
     }
@@ -150,8 +154,8 @@ const MyCourseDetailScreen = props => {
       return (
         <TransactionButton
           text={lang('Скачать сертификат', localization)}
-          style={{backgroundColor: 'green'}}
-          textStyle={{textTransform: 'uppercase'}}
+          style={{ backgroundColor: 'green' }}
+          textStyle={{ textTransform: 'uppercase' }}
           onPress={downloader}
         />
       );
@@ -196,6 +200,9 @@ const MyCourseDetailScreen = props => {
 };
 
 const styles = StyleSheet.create({
+  courseInfoContainer: {
+    paddingHorizontal: 8,
+  },
   listContent: {
     paddingBottom: 50,
   },

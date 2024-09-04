@@ -1,4 +1,4 @@
-import {Text, StyleSheet} from 'react-native';
+import { Text, StyleSheet } from 'react-native';
 import React, {
   useCallback,
   useEffect,
@@ -7,21 +7,22 @@ import React, {
   useState,
 } from 'react';
 import UniversalView from '../components/view/UniversalView';
-import {useFetching} from '../hooks/useFetching';
-import {CourseService} from '../services/API';
+import { useFetching } from '../hooks/useFetching';
+import { CourseService } from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
-import {fileDownloader, setFontStyle, wordLocalization} from '../utils/utils';
+import { fileDownloader, setFontStyle, wordLocalization } from '../utils/utils';
 import CourseRow from '../components/CourseRow';
 import SimpleButton from '../components/button/SimpleButton';
-import {APP_COLORS, WIDTH} from '../constans/constants';
-import {ROUTE_NAMES} from '../components/navigation/routes';
+import { APP_COLORS, WIDTH } from '../constants/constants';
+import { ROUTE_NAMES } from '../components/navigation/routes';
 import RNFS from 'react-native-fs';
 import Downloader from '../components/Downloader';
-import {useLocalization} from '../components/context/LocalizationProvider';
-import {lang} from '../localization/lang';
+import { useLocalization } from '../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
+import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const CourseCompletedScreen = props => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const id = props.route?.params?.id;
 
@@ -83,7 +84,7 @@ const CourseCompletedScreen = props => {
   }, []);
 
   const onReview = () => {
-    props.navigation.navigate(ROUTE_NAMES.courseLeaveReview, {id});
+    props.navigation.navigate(ROUTE_NAMES.courseLeaveReview, { id });
   };
 
   if (isFetching) {
@@ -91,55 +92,58 @@ const CourseCompletedScreen = props => {
   }
 
   return (
-    <UniversalView style={styles.container}>
-      <Text style={styles.congrats}>{lang('Поздравляем!', localization)}</Text>
-      <Text style={styles.text}>
-        {wordLocalization(
-          lang(
-            'Вы прошли курс “:course_name”. Оставтье отзыв о курсе, тем самым вы поможете улучшить нам сервис',
-            localization,
-          ),
-          {
-            course_name: data?.title,
-          },
-        )}
-      </Text>
-      <CourseRow
-        poster={data?.poster}
-        title={data?.title}
-        category_name={data?.category?.name}
-        reviewCount={data?.reviews_count}
-        rating={data?.rating}
-        disabled={true}
-        containerStyle={styles.courseRowStyle}
-      />
-      {data?.certification ? (
-        <Text style={[styles.text, {textAlign: 'center'}]}>
-          {lang(
-            'Твой сертификат доступен в твоем личном кабинете',
-            localization,
+    <UniversalView>
+      <SmallHeaderBar title={lang('Завершение курса', localization)} />
+      <UniversalView style={styles.container}>
+        <Text style={styles.congrats}>{lang('Поздравляем!', localization)}</Text>
+        <Text style={styles.text}>
+          {wordLocalization(
+            lang(
+              'Вы прошли курс “:course_name”. Оставтье отзыв о курсе, тем самым вы поможете улучшить нам сервис',
+              localization,
+            ),
+            {
+              course_name: data?.title,
+            },
           )}
         </Text>
-      ) : null}
-      {data?.certification ? (
-        <SimpleButton
-          text={lang('Скачать сертификат', localization)}
-          style={styles.downloadButton}
-          textStyle={styles.downloadText}
-          onPress={downloader}
+        <CourseRow
+          poster={data?.poster}
+          title={data?.title}
+          category_name={data?.category?.name}
+          reviewCount={data?.reviews_count}
+          rating={data?.rating}
+          disabled={true}
+          containerStyle={styles.courseRowStyle}
         />
-      ) : null}
-      <SimpleButton
-        text={lang('Оставить отзыв', localization)}
-        style={styles.reviewButton}
-        textStyle={styles.reviewText}
-        onPress={onReview}
-      />
-      <Downloader
-        visible={visible}
-        progress={progress}
-        onPressCancel={cancelDownloader}
-      />
+        {data?.certification ? (
+          <Text style={[styles.text, { textAlign: 'center' }]}>
+            {lang(
+              'Твой сертификат доступен в твоем личном кабинете',
+              localization,
+            )}
+          </Text>
+        ) : null}
+        {data?.certification ? (
+          <SimpleButton
+            text={lang('Скачать сертификат', localization)}
+            style={styles.downloadButton}
+            textStyle={styles.downloadText}
+            onPress={downloader}
+          />
+        ) : null}
+        <SimpleButton
+          text={lang('Оставить отзыв', localization)}
+          style={styles.reviewButton}
+          textStyle={styles.reviewText}
+          onPress={onReview}
+        />
+        <Downloader
+          visible={visible}
+          progress={progress}
+          onPressCancel={cancelDownloader}
+        />
+      </UniversalView>
     </UniversalView>
   );
 };
@@ -171,7 +175,7 @@ const styles = StyleSheet.create({
     height: 200,
     backgroundColor: 'yellow',
   },
-  courseRowStyle: {marginBottom: 20},
+  courseRowStyle: { marginBottom: 20 },
 });
 
 export default CourseCompletedScreen;

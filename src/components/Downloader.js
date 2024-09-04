@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { APP_COLORS } from '../constans/constants';
+import { APP_COLORS } from '../constants/constants';
 import * as Progress from 'react-native-progress';
 import { CancelIcon } from '../assets/icons';
 

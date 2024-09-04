@@ -2,7 +2,7 @@ import React, {useLayoutEffect, useMemo, useState} from 'react';
 import {Alert, Dimensions, Linking, StyleSheet} from 'react-native';
 import Pdf from 'react-native-pdf';
 import UniversalView from '../../components/view/UniversalView';
-import {APP_COLORS} from '../../constans/constants';
+import {APP_COLORS} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 
 import {useLocalization} from './../../components/context/LocalizationProvider';

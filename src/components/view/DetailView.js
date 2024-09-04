@@ -1,16 +1,16 @@
-import {View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
-import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS, HEIGHT, WIDTH} from '../../constans/constants';
+import { setFontStyle } from '../../utils/utils';
+import { APP_COLORS, HEIGHT, WIDTH } from '../../constants/constants';
 import TextButton from '../button/TextButton';
 import HtmlView from '../HtmlView';
 import ItemRating from '../ItemRating';
 import FastImage from 'react-native-fast-image';
-import {useState} from 'react';
+import { useState } from 'react';
 import RowView from './RowView';
-import {time} from '../../assets/icons';
-import {useLocalization} from '../context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { time } from '../../assets/icons';
+import { useLocalization } from '../context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
 const DetailView = ({
   poster,
@@ -21,7 +21,7 @@ const DetailView = ({
   rating,
   reviewCount,
 }) => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const [isDescriptionMore, setDescriptionMore] = useState(false);
 
@@ -29,54 +29,15 @@ const DetailView = ({
     <View style={styles.container}>
       {poster ? (
         <FastImage
-          source={{uri: poster, priority: 'high'}}
+          source={{ uri: poster, priority: 'high' }}
           style={styles.poster}
         />
-      ) : null}
-      <View
-        style={{
-          padding: 16,
-        }}>
+      ) : (
+        <View style={styles.emptyPoster} />
+      )}
+      <View style={styles.mainView}>
         {category ? <Text style={styles.category}>{category}</Text> : null}
         <Text style={styles.title}>{title}</Text>
-        <RowView>
-          {time()}
-          <Text style={styles.time}>
-            {duration ? duration : 30} {lang('мин', localization)}.
-          </Text>
-          {rating !== undefined || reviewCount !== undefined ? (
-            <ItemRating
-              rating={rating}
-              reviewCount={reviewCount}
-              starSize={16}
-              word={true}
-            />
-          ) : null}
-        </RowView>
-        <View
-          style={
-            isDescriptionMore
-              ? styles.descriptionViewShow
-              : styles.descriptionViewHidden
-          }>
-          {description ? (
-            <HtmlView
-              html={description}
-              tagsStyles={{
-                p: {color: APP_COLORS.font},
-                span: {color: APP_COLORS.font},
-              }}
-            />
-          ) : null}
-        </View>
-        {description && !isDescriptionMore ? (
-          <TextButton
-            text={lang('Подробнее', localization)}
-            style={styles.moreButton}
-            textStyle={styles.moreButtonText}
-            onPress={() => setDescriptionMore(true)}
-          />
-        ) : null}
       </View>
     </View>
   );
@@ -84,24 +45,68 @@ const DetailView = ({
 
 const styles = StyleSheet.create({
   container: {
-    borderBottomWidth: 0.2,
-    borderColor: APP_COLORS.border,
+    padding: 16,
+    alignItems: 'center'
   },
   category: {
-    textTransform: 'uppercase',
-    ...setFontStyle(14, '700', APP_COLORS.placeholder),
+    ...setFontStyle(14, '600', APP_COLORS.primary),
+    letterSpacing: 0.4,
+    textAlign: 'left',
   },
   title: {
-    ...setFontStyle(21, '700'),
+    ...setFontStyle(20, '600', APP_COLORS.black),
     marginVertical: 8,
+    letterSpacing: 0.4,
+    textAlign: 'left',
   },
   counts: {
     ...setFontStyle(13, '400', APP_COLORS.placeholder),
     marginBottom: 8,
   },
   poster: {
-    width: WIDTH,
-    height: HEIGHT / 3.6,
+    width: '100%',
+    height: HEIGHT / 4.15,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: APP_COLORS.border,
+    backgroundColor: APP_COLORS.primary,
+    padding: 16,
+
+    shadowOpacity: 0.1,
+    shadowRadius: 92,
+    shadowColor: '#000153',
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 10,
+
+    marginBottom: 16,
+  },
+  emptyPoster: {
+    width: '100%',
+    height: HEIGHT / 4.15,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: APP_COLORS.border,
+    backgroundColor: APP_COLORS.primary,
+    padding: 16,
+
+    shadowOpacity: 0.1,
+    shadowRadius: 92,
+    shadowColor: '#000153',
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 10,
+  },
+  mainView: {
+    width: '100%',
+    height: 79,
+    borderRadius: 16,
+    backgroundColor: APP_COLORS.white,
+    padding: 16,
+
+    shadowOpacity: 0.1,
+    shadowRadius: 92,
+    shadowColor: '#000153',
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
   },
   time: {
     marginHorizontal: 4,

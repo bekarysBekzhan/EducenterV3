@@ -1,7 +1,7 @@
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {setFontStyle} from '../utils/utils';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS} from '../constants/constants';
 import {check} from '../assets/icons';
 import { useSettings } from './context/Provider';
 
@@ -25,7 +25,7 @@ const SelectOption = ({
           styles.box,
           {
             backgroundColor:
-              value === currentKey ? settings?.color_app : APP_COLORS.input,
+              value === currentKey ? APP_COLORS.primary : APP_COLORS.input,
           },
         ]}>
         {check(1.3, value === currentKey ? 'white' : APP_COLORS.input)}

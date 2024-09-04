@@ -23,7 +23,7 @@ import Person from '../components/Person';
 import RowView from '../components/view/RowView';
 import {AttachIcon, MicrophoneIcon, SendIcon, x} from '../assets/icons';
 import Input from '../components/Input';
-import {APP_COLORS, WIDTH} from '../constans/constants';
+import {APP_COLORS, WIDTH} from '../constants/constants';
 import Divider from '../components/Divider';
 import FastImage from 'react-native-fast-image';
 import DocumentPicker from 'react-native-document-picker';

@@ -5,7 +5,7 @@ import notifee, {
 } from '@notifee/react-native';
 import {navigate} from '../components/navigation/RootNavigation';
 import {ROUTE_NAMES} from '../components/navigation/routes';
-import {APP_COLORS, NOTIFICATION_TYPE, STORAGE} from '../constans/constants';
+import {APP_COLORS, NOTIFICATION_TYPE, STORAGE} from '../constants/constants';
 import {storeObject} from '../storage/AsyncStorage';
 
 export class LocalNotificationService {

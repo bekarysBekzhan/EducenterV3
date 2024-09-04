@@ -11,33 +11,33 @@ import {
 import React from 'react';
 import UniversalView from '../components/view/UniversalView';
 import RowView from '../components/view/RowView';
-import {clear, filter, filterON, search, x} from '../assets/icons';
+import { clear, filter, filterON, search, x } from '../assets/icons';
 import Input from '../components/Input';
-import {APP_COLORS, STORAGE, WIDTH} from '../constans/constants';
-import {isValidText, setFontStyle} from '../utils/utils';
+import { APP_COLORS, STORAGE, WIDTH } from '../constants/constants';
+import { isValidText, setFontStyle } from '../utils/utils';
 import SectionView from '../components/view/SectionView';
-import {useState} from 'react';
-import {TestService} from '../services/API';
-import BottomSheet, {BottomSheetBackdrop} from '@gorhom/bottom-sheet';
+import { useState } from 'react';
+import { TestService } from '../services/API';
+import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
 import BottomSheetStack from '../components/navigation/BottomSheetStack';
-import {useRef} from 'react';
-import {useMemo} from 'react';
-import {useCallback} from 'react';
-import {useFetching} from '../hooks/useFetching';
-import {useEffect} from 'react';
+import { useRef } from 'react';
+import { useMemo } from 'react';
+import { useCallback } from 'react';
+import { useFetching } from '../hooks/useFetching';
+import { useEffect } from 'react';
 import ModuleTestItem from '../components/test/ModuleTestItem';
-import {ROUTE_NAMES} from '../components/navigation/routes';
-import {getObject, storeObject} from '../storage/AsyncStorage';
-import {useSettings} from '../components/context/Provider';
-import {useLocalization} from '../components/context/LocalizationProvider';
-import {lang} from '../localization/lang';
+import { ROUTE_NAMES } from '../components/navigation/routes';
+import { getObject, storeObject } from '../storage/AsyncStorage';
+import { useSettings } from '../components/context/Provider';
+import { useLocalization } from '../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
 
 const MAX_HISTORY_SIZE = 7;
 
 const TestSearchScreen = props => {
   const filters = props.route?.params?.filters;
-  const {settings} = useSettings();
-  const {localization} = useLocalization();
+  const { settings } = useSettings();
+  const { localization } = useLocalization();
 
   const [focus, setFocus] = useState(true);
   const [value, setValue] = useState('');
@@ -140,10 +140,10 @@ const TestSearchScreen = props => {
       await storeObject(STORAGE.testSearchHistory, historyList);
     }
 
-    props.navigation.navigate(ROUTE_NAMES.testDetail, {id: item?.id});
+    props.navigation.navigate(ROUTE_NAMES.testDetail, { id: item?.id });
   };
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <ModuleTestItem
         index={index}
@@ -207,7 +207,7 @@ const TestSearchScreen = props => {
 
   return (
     <UniversalView>
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <RowView style={styles.searchBar}>
           <TouchableOpacity
             onPress={() => props.navigation.goBack()}
@@ -217,7 +217,7 @@ const TestSearchScreen = props => {
           <Input
             _focus={focus}
             placeholder={lang('Поиск тестов', localization)}
-            left={<View style={styles.searchIcon}>{search('#000')}</View>}
+            left={<View style={styles.searchIcon}>{search(APP_COLORS.white)}</View>}
             right={
               value ? (
                 <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
@@ -268,7 +268,7 @@ const TestSearchScreen = props => {
         ) : isFetchingHistory ? (
           <ActivityIndicator
             color={APP_COLORS.primary}
-            style={{marginTop: 100}}
+            style={{ marginTop: 100 }}
           />
         ) : (
           history.map((item, index) => (
@@ -308,7 +308,8 @@ const TestSearchScreen = props => {
 
 const styles = StyleSheet.create({
   item: {
-    padding: 16,
+    paddingVertical: 4,
+    paddingHorizontal: 16,
   },
   contentContainer: {
     padding: 16,
@@ -317,7 +318,8 @@ const styles = StyleSheet.create({
     width: WIDTH,
     justifyContent: 'space-between',
     padding: 16,
-    paddingBottom: 6,
+    paddingBottom: 12,
+    backgroundColor: APP_COLORS.primary,
   },
   inputContainer: {
     flex: 1,
@@ -326,7 +328,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginHorizontal: 16,
   },
-  input: {...setFontStyle(15, '400')},
+  input: {
+    ...setFontStyle(15, '500', APP_COLORS.white),
+    textAlign: 'left',
+  },
   searchIcon: {
     marginRight: 10,
   },

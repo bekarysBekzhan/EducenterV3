@@ -4,8 +4,9 @@ import {starIcon} from '../assets/icons';
 import {setFontStyle} from '../utils/utils';
 import {useLocalization} from './context/LocalizationProvider';
 import {lang} from '../localization/lang';
+import { APP_COLORS } from '../constants/constants';
 
-const ItemRating = ({rating, reviewCount, starSize, word = false}) => {
+const ItemRating = ({rating, reviewCount, starSize, word = true}) => {
   const {localization} = useLocalization();
 
   return (
@@ -15,7 +16,7 @@ const ItemRating = ({rating, reviewCount, starSize, word = false}) => {
       <Text style={[setFontStyle(10, '400'), {marginRight: 2.5}]}>
         {rating}
       </Text>
-      <Text style={[setFontStyle(10, '400', '#111621'), {}]}>
+      <Text style={[setFontStyle(10, '400', APP_COLORS.gray4), {}]}>
         ({reviewCount}
         {word ? ' ' + lang('отзывов', localization) : ''})
       </Text>

@@ -1,53 +1,60 @@
 import React from 'react';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {StyleSheet} from 'react-native';
-import {useSettings} from '../context/Provider';
-import {APP_COLORS} from '../../constans/constants';
-import {ROUTE_NAMES} from './routes';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { StyleSheet, View } from 'react-native';
+import { useSettings } from '../context/Provider';
+import { APP_COLORS } from '../../constants/constants';
+import { ROUTE_NAMES } from './routes';
 import JournalsScreen from '../../screens/journal/JournalsScreen';
 import MyJournalScreen from '../../screens/journal/MyJournalScreen';
-import {useLocalization} from '../context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { useLocalization } from '../context/LocalizationProvider';
+import { lang } from '../../localization/lang';
+import SmallHeaderBar from '../SmallHeaderBar';
 
 const Tab = createMaterialTopTabNavigator();
 
 const JournalNavigator = () => {
-  const {isAuth} = useSettings();
+  const { isAuth } = useSettings();
 
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   return (
-    <Tab.Navigator
-      style={styles.screen}
-      screenOptions={{
-        tabBarStyle: styles.tabBarStyle,
-        tabBarItemStyle: styles.tabBarItemStyle,
-        tabBarLabelStyle: styles.tabBarLabelStyle,
-        tabBarIndicatorContainerStyle: styles.tabBarIndicatorContainerStyle,
-        tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
-        tabBarInactiveTintColor: APP_COLORS.label,
-        tabBarActiveTintColor: APP_COLORS.fontColor,
-        swipeEnabled: false,
-      }}>
-      <Tab.Screen
-        name={ROUTE_NAMES.journals}
-        component={JournalsScreen}
-        options={{
-          title: lang('Все журналы', localization),
-        }}
-      />
-      <Tab.Screen
-        name={ROUTE_NAMES.myJournlas}
-        component={MyJournalScreen}
-        options={{
-          title: lang('Купленные журналы', localization),
-        }}
-      />
-    </Tab.Navigator>
+    <View style={styles.mainView}>
+      <SmallHeaderBar title={lang('Все журналы', localization)} />
+      <Tab.Navigator
+        style={styles.screen}
+        screenOptions={{
+          tabBarStyle: styles.tabBarStyle,
+          tabBarItemStyle: styles.tabBarItemStyle,
+          tabBarLabelStyle: styles.tabBarLabelStyle,
+          tabBarIndicatorContainerStyle: styles.tabBarIndicatorContainerStyle,
+          tabBarIndicatorStyle: styles.tabBarIndicatorStyle,
+          tabBarInactiveTintColor: APP_COLORS.label,
+          tabBarActiveTintColor: APP_COLORS.fontColor,
+          swipeEnabled: false,
+        }}>
+        <Tab.Screen
+          name={ROUTE_NAMES.journals}
+          component={JournalsScreen}
+          options={{
+            title: lang('Все журналы', localization),
+          }}
+        />
+        <Tab.Screen
+          name={ROUTE_NAMES.myJournlas}
+          component={MyJournalScreen}
+          options={{
+            title: lang('Купленные журналы', localization),
+          }}
+        />
+      </Tab.Navigator>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  mainView: {
+    flex: 1,
+  },
   screen: {
     backgroundColor: '#fff',
   },

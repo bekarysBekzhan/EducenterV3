@@ -3,7 +3,7 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import TrackPlayer, {State, useProgress} from 'react-native-track-player';
 import Slider from '@react-native-community/slider';
 import RowView from './view/RowView';
-import {APP_COLORS} from '../constans/constants';
+import {APP_COLORS} from '../constants/constants';
 import {setFontStyle} from '../utils/utils';
 import {PauseIcon, PlayIcon} from '../assets/icons';
 import {getFormattedTime} from '../utils/utils';

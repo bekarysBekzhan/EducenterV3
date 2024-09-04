@@ -8,7 +8,7 @@ import App from './App';
 import { name as appName } from './app.json';
 import TrackPlayer from 'react-native-track-player';
 import {  storeObject  } from './src/storage/AsyncStorage';
-import { STORAGE } from './src/constans/constants';
+import { STORAGE } from './src/constants/constants';
 import { PlaybackService } from './src/services/trackPlayerService';
 
 messaging().setBackgroundMessageHandler(async remoteMessage => {

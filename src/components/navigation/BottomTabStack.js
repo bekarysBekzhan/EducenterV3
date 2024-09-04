@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
-import {useSettings} from '../context/Provider';
-import {ROUTE_NAMES} from './routes';
+import React, { useEffect } from 'react';
+import { useSettings } from '../context/Provider';
+import { ROUTE_NAMES } from './routes';
 import {
   coursesTabIcon,
   coursesTabIcon2,
@@ -18,30 +18,31 @@ import {
   testsTabIcon2,
   testsTabIcon3,
 } from '../../assets/icons';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import {
   APP_COLORS,
   NOTIFICATION_TYPE,
   N_STATUS,
-} from '../../constans/constants';
+} from '../../constants/constants';
 import Courses from './CoursesStack';
 import MenuStack from './MenuStack';
 import Tests from './TestsStack';
 import Tasks from './TasksStack';
 import MyCourses from './MyCoursesStack';
-import {firebaseService} from '../../services/FirebaseService';
-import {useNavigation} from '@react-navigation/native';
-import {useLocalization} from '../context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { firebaseService } from '../../services/FirebaseService';
+import { useNavigation } from '@react-navigation/native';
+import { useLocalization } from '../context/LocalizationProvider';
+import { lang } from '../../localization/lang';
+import { StyleSheet } from 'react-native';
 
 const BottomTabStack = createBottomTabNavigator();
 
 const BottomTab = props => {
   const onNotification = props.route?.params?.onNotification;
-  const {settings, isAuth, nstatus, nIcon} = useSettings();
-  const {navigate} = useNavigation();
+  const { settings, isAuth, nstatus, nIcon } = useSettings();
+  const { navigate } = useNavigation();
 
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const coursesTabFunc = () => {
     if (nIcon === '1') {
@@ -118,7 +119,7 @@ const BottomTab = props => {
       name: ROUTE_NAMES.menuStack,
       component: MenuStack,
       icon: profileTabFunc(),
-      label: lang('Меню', localization),
+      label: lang('Профиль', localization),
     },
   ];
 
@@ -142,19 +143,22 @@ const BottomTab = props => {
         const notificationData = remoteMessage?.data;
         if (notificationData?.type === NOTIFICATION_TYPE.news) {
           console.log('type : ', notificationData?.type);
-          navigate(ROUTE_NAMES.newsDetail, {newsId: notificationData?.id});
+          navigate(ROUTE_NAMES.newsDetail, { newsId: notificationData?.id });
         } else {
-          navigate(ROUTE_NAMES.bottomTab, {onNotification: true});
+          navigate(ROUTE_NAMES.bottomTab, { onNotification: true });
         }
       }
     });
   }, []);
 
+  console.log('Settings: ', settings)
+
   return (
     <BottomTabStack.Navigator
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: settings.color_app,
+        tabBarStyle: styles.tabBarStyle,
+        tabBarActiveTintColor: APP_COLORS.primary,
         tabBarInactiveTintColor: APP_COLORS.placeholder,
       }}
       initialRouteName={getInitialRouteName()}>
@@ -166,8 +170,8 @@ const BottomTab = props => {
             key={index}
             options={{
               ...route?.options,
-              tabBarIcon: ({focused}) =>
-                route.icon(focused, settings?.color_app),
+              tabBarIcon: ({ focused }) =>
+                route.icon(focused, APP_COLORS.primary),
               tabBarLabel: route.label,
             }}
           />
@@ -187,13 +191,13 @@ const BottomTab = props => {
         //     return null
         //   }
         // }
-        else if (route.name === ROUTE_NAMES.tasksStack) {
-          if (nstatus !== N_STATUS && settings?.modules_enabled_tasks) {
-            return screen;
-          } else {
-            return null;
-          }
-        }
+        // else if (route.name === ROUTE_NAMES.tasksStack) {
+        //   if (nstatus !== N_STATUS && settings?.modules_enabled_tasks) {
+        //     return screen;
+        //   } else {
+        //     return null;
+        //   }
+        // }
 
         return screen;
       })}
@@ -202,3 +206,27 @@ const BottomTab = props => {
 };
 
 export default BottomTab;
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    height: 88,
+    position: 'absolute',
+    borderTopWidth: 0,
+    elevation: 12, 
+
+    paddingTop: 15,
+    paddingBottom: 25,
+
+    borderTopColor: 'transparent',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    backgroundColor: '#FFFFFF',
+
+    // iOS shadow properties
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.1, 
+    shadowRadius: 24, 
+  },
+});
+

@@ -2,7 +2,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
 import {Modal} from 'react-native';
 import SelectOption from '../SelectOption';
-import {APP_COLORS, SHOW_TYPE} from '../../constans/constants';
+import {APP_COLORS, SHOW_TYPE} from '../../constants/constants';
 import {setFontStyle} from '../../utils/utils';
 import {useLocalization} from '../context/LocalizationProvider';
 import {lang} from '../../localization/lang';

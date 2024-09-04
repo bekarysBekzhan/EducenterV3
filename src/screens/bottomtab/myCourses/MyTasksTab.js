@@ -4,7 +4,7 @@ import UniversalView from '../../../components/view/UniversalView';
 import {useFetching} from '../../../hooks/useFetching';
 import {MyCourseService} from '../../../services/API';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
-import {APP_COLORS, WIDTH} from '../../../constans/constants';
+import {APP_COLORS, WIDTH} from '../../../constants/constants';
 import LoadingScreen from '../../../components/LoadingScreen';
 import {setFontStyle, wordLocalization} from '../../../utils/utils';
 import Divider from '../../../components/Divider';

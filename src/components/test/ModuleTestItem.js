@@ -1,17 +1,22 @@
-import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import React from 'react';
 import RowView from '../view/RowView';
-import {TimeIcon} from '../../assets/icons';
+import { TimeIcon } from '../../assets/icons';
 import Price from '../Price';
 import TextButton from '../button/TextButton';
-import {setFontStyle} from '../../utils/utils';
-import {APP_COLORS, N_STATUS} from '../../constans/constants';
-import {useSettings} from '../context/Provider';
-import {useLocalization} from '../context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { setFontStyle } from '../../utils/utils';
+import { APP_COLORS, N_STATUS } from '../../constants/constants';
+import { useSettings } from '../context/Provider';
+import { useLocalization } from '../context/LocalizationProvider';
+import { lang } from '../../localization/lang';
+import FastImage from 'react-native-fast-image';
+import { WIDTH } from '../../constants/constants';
+import { HEIGHT } from '../../constants/constants';
 
 const ModuleTestItem = ({
   categoryName,
+  author,
+  poster,
   type = 'test',
   time,
   title,
@@ -21,20 +26,26 @@ const ModuleTestItem = ({
   hasSubscribed = false,
   onPress = () => undefined,
 }) => {
-  const {localization} = useLocalization();
-  const {nstatus} = useSettings();
+  const { localization } = useLocalization();
+  const { nstatus } = useSettings();
 
   const getText = () => {
     if (nstatus === N_STATUS) {
-      return lang('Пройти', localization);
+      return lang('Пройти тест', localization);
     }
 
     const buyText = {
       test: lang('Купить тест', localization),
       task: lang('Купить задание', localization),
     };
+    
+    const doText = {
+      test: lang('Пройти тест', localization),
+      task: lang('Пройти задание', localization),
+    };
+
     if (hasSubscribed) {
-      return lang('Пройти', localization);
+      return doText[type];
     }
     if (price) {
       return buyText[type];
@@ -48,19 +59,17 @@ const ModuleTestItem = ({
       onPress={onPress}
       activeOpacity={0.9}>
       <RowView style={styles.row1}>
-        <Text style={styles.category}>{categoryName}</Text>
-        <RowView>
-          <TimeIcon color={APP_COLORS.placeholder} size={16} />
-          <Text style={styles.time}>
-            {time ? time : 30} {lang('мин', localization)}
-          </Text>
-        </RowView>
+        <FastImage
+          source={{ uri: poster, priority: 'high' }}
+          style={styles.poster}
+        />
+        <View style={styles.infoContainer}>
+          <Text style={styles.category}>{categoryName}</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text>{author?.name}</Text>
+        </View>
       </RowView>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.attempts}>
-        {attempts ? attempts : 0} {lang('попыток', localization)}
-      </Text>
-      <RowView style={styles.row2}>
+      <View style={styles.row2}>
         {price === 0 || hasSubscribed ? (
           <View />
         ) : (
@@ -69,10 +78,10 @@ const ModuleTestItem = ({
         <TextButton
           text={getText()}
           onPress={onPress}
-          style={styles.button}
-          textStyle={styles.buttonText}
+          style={[styles.button, {backgroundColor: hasSubscribed ? APP_COLORS.mediumgray : APP_COLORS.primary}]}
+          textStyle={[styles.buttonText, {color: hasSubscribed ? APP_COLORS.primary : APP_COLORS.white}]}
         />
-      </RowView>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -81,14 +90,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingVertical: 12,
-    borderBottomWidth: 0.45,
+    borderRadius: 16,
+    marginBottom: 16,
+
+    backgroundColor: '#fff',
+    padding: 16,
+    shadowColor: '#000153',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 46,
+    elevation: 5,
+  },
+  poster: {
+    width: WIDTH / 4,
+    height: HEIGHT / 13.6,
+    gap: 0,
+    borderRadius: 8,
+    marginRight: 12,
+  },
+  taskPhoto: {
+    width: 97,
+    height: 61,
+    gap: 0,
+    borderRadius: 8,
+    borderWidth: 3,
     borderColor: APP_COLORS.border,
+    marginRight: 12,
+  },
+  infoContainer: {
+    flex: 1,
   },
   row1: {
-    justifyContent: 'space-between',
+    paddingBottom: 16,
+    paddingTop: 4,
   },
   category: {
-    ...setFontStyle(11, '600', APP_COLORS.placeholder),
+    ...setFontStyle(11, '600', APP_COLORS.primary),
     textTransform: 'uppercase',
   },
   time: {
@@ -98,20 +135,31 @@ const styles = StyleSheet.create({
   title: {
     ...setFontStyle(17, '600'),
     marginVertical: 5,
+    flexWrap: 'wrap',
   },
   attempts: {
-    ...setFontStyle(12, '500', APP_COLORS.placeholder),
+    ...setFontStyle(14, '400', APP_COLORS.placeholder),
   },
   row2: {
     justifyContent: 'space-between',
   },
   button: {
-    marginTop: 5,
+    marginTop: 8,
+    width: 311,
+    height: 46,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    borderRadius: 24,
+    backgroundColor: APP_COLORS.primary,
+    marginBottom: 4,
   },
   buttonText: {
-    ...setFontStyle(14, '600', APP_COLORS.primary),
-    textTransform: 'uppercase',
+    ...setFontStyle(14, '600', APP_COLORS.white),
+    lineHeight: 14,
+    letterSpacing: 0.2,
+    textAlign: 'center',
   },
 });
 
 export default ModuleTestItem;
+
