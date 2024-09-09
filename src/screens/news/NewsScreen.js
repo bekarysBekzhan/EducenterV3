@@ -9,6 +9,7 @@ import {ROUTE_NAMES} from '../../components/navigation/routes';
 import Empty from '../../components/Empty';
 import SmallHeaderBar from '../../components/SmallHeaderBar';
 import { lang } from '../../localization/lang';
+import { useLocalization } from '../../components/context/LocalizationProvider';
 
 const NewsScreen = ({navigation}) => {
   const [dataSource, setDataSource] = useState({
@@ -105,6 +106,8 @@ const NewsScreen = ({navigation}) => {
     }
     return null;
   };
+
+  const { localization } = useLocalization();
 
   return (
     <UniversalView haveLoader={isLoading}>

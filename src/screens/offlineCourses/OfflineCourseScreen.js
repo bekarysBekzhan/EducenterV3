@@ -16,6 +16,7 @@ import {CourseService} from '../../services/API';
 import {setFontStyle} from '../../utils/utils';
 import SmallHeaderBar from '../../components/SmallHeaderBar';
 import { lang } from '../../localization/lang';
+import { useLocalization } from '../../components/context/LocalizationProvider';
 
 const OfflineCourseScreen = props => {
 
@@ -64,6 +65,8 @@ const OfflineCourseScreen = props => {
       {loadingNext ? <ActivityIndicator color={APP_COLORS.primary} /> : null}
     </View>
   );
+
+  const { localization } = useLocalization();
 
   if (isLoading) {
     return <LoadingScreen />;

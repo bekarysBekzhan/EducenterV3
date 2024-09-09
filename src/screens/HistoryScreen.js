@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import Empty from '../components/Empty';
 import SmallHeaderBar from '../components/SmallHeaderBar';
 import { useNavigation } from '@react-navigation/native';
+import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
 
 const HistoryScreen = () => {
@@ -101,6 +102,8 @@ const HistoryScreen = () => {
     }
     return null;
   };
+
+  const { localization } = useLocalization();
 
   return (
     <UniversalView haveLoader={isLoading}>
