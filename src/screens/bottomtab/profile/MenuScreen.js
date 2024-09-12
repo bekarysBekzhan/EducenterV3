@@ -26,6 +26,12 @@ const MenuScreen = ({navigation}) => {
   const {settings, nstatus, isAuth} = useSettings();
   const {localization} = useLocalization();
 
+  useLayoutEffect(() => {
+    navigation.setOptions(
+      navHeaderOptions(lang('Меню', localization)),
+    );
+  }, []);
+
   const MENU = [
     {
       section: lang('Меню', localization),

@@ -45,7 +45,6 @@ const MyTestDetailScreen = props => {
 
   return (
     <UniversalView>
-      <SmallHeaderBar title={lang('Задания', localization)} />
       <UniversalView haveScroll>
         <DetailView
           title={data?.title}

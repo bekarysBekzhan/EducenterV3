@@ -4,8 +4,9 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
+  TouchableOpacity,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import { useFetching } from '../../../hooks/useFetching';
 import LoadingScreen from '../../../components/LoadingScreen';
@@ -21,6 +22,8 @@ import HeaderBar from '../../../components/HeaderBar';
 import { useNavigation } from '@react-navigation/native';
 import { lang } from '../../../localization/lang';
 import { useLocalization } from '../../../components/context/LocalizationProvider';
+import { navHeaderOptions } from '../../../components/navigation/navHeaderOptions';
+import { SearchIcon } from '../../../assets/icons';
 
 const TasksScreen = props => {
   const { nstatus, isAuth } = useSettings();
@@ -30,6 +33,7 @@ const TasksScreen = props => {
   const [lastPage, setLastPage] = useState(1);
   const navigation = useNavigation();
   const localization = useLocalization();
+  let route = ROUTE_NAMES.taskSearch;
   const [fetchTasks, isFetching] = useFetching(async () => {
     const response = await TaskService.fetchTasks();
     setData(response.data?.data);
@@ -42,6 +46,16 @@ const TasksScreen = props => {
       setData(prev => prev.concat(response.data?.data));
     },
   );
+
+  useLayoutEffect(() => {
+    let navigationOptions = navHeaderOptions(
+      lang('Задания', localization),
+    );
+    navigationOptions.headerRight = renderHeaderRight;
+    navigationOptions.headerLeft = null;
+    navigationOptions.headerTitleAlign = 'center';
+    props.navigation.setOptions(navigationOptions);
+  }, []);
 
   useEffect(() => {
     global.fetchTasks = fetchTasks;
@@ -63,6 +77,15 @@ const TasksScreen = props => {
     }
   };
 
+  const renderHeaderRight = () => (
+    <TouchableOpacity
+      onPress={() => props.navigation.navigate(route, { filters })}
+      style={styles.iconButton}
+      activeOpacity={0.65}
+    >
+      <SearchIcon />
+    </TouchableOpacity>
+  );
   
   const renderTask = ({ item, index }) => {
     console.log('Item: ', item)
@@ -102,12 +125,7 @@ const TasksScreen = props => {
   }
 
   return (
-    <UniversalView>
-      <HeaderBar
-        title={lang('Задания', localization)}
-        type="task"
-        filters={filters}
-      />
+    <UniversalView style={styles.universalView}>
       <View style={styles.primaryView}>
         <FlatList
           data={data}
@@ -133,19 +151,34 @@ const TasksScreen = props => {
 };
 
 const styles = StyleSheet.create({
-  primaryView: {
+  universalView: {
     backgroundColor: APP_COLORS.primary,
+  },
+  primaryView: {
+    borderRadius: 20,
+    backgroundColor: APP_COLORS.white,
   },
   container: {
     padding: 16,
-    borderRadius: 20,
-    backgroundColor: APP_COLORS.white,
   },
   footer: {
     width: WIDTH - 32,
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  iconButton: {
+    position: 'absolute',
+    right: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+    marginLeft: 8,
   },
 });
 

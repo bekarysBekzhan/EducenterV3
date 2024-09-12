@@ -11,7 +11,6 @@ import { CourseService, TestService, UBTService } from '../services/API';
 import LoadingScreen from '../components/LoadingScreen';
 import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
-import SmallHeaderBar from '../components/SmallHeaderBar';
 import { ClockIcon, DoneBoxIcon, ExclamationCircle } from '../assets/icons';
 
 const PreviewTestScreen = props => {
@@ -73,7 +72,6 @@ const PreviewTestScreen = props => {
   return (
     <UniversalView>
       <View style={styles.primaryView}>
-        <SmallHeaderBar title={lessonTitle} />
         <View style={styles.container}>
           <View style={styles.testInfoCard}>
             <Text style={styles.onlineTest}>{lang('Онлайн тест', localization)}</Text>

@@ -19,7 +19,6 @@ import RNFS from 'react-native-fs';
 import Downloader from '../components/Downloader';
 import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
-import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const CourseCompletedScreen = props => {
   const { localization } = useLocalization();
@@ -93,7 +92,6 @@ const CourseCompletedScreen = props => {
 
   return (
     <UniversalView>
-      <SmallHeaderBar title={lang('Завершение курса', localization)} />
       <UniversalView style={styles.container}>
         <Text style={styles.congrats}>{lang('Поздравляем!', localization)}</Text>
         <Text style={styles.text}>

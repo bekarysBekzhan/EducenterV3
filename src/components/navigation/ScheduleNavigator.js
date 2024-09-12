@@ -8,7 +8,6 @@ import ScheduleVisitsScreen from '../../screens/schedule/ScheduleVisitsScreen';
 import { useNavigation } from '@react-navigation/native';
 import { useLocalization } from '../context/LocalizationProvider';
 import { lang } from '../../localization/lang';
-import SmallHeaderBar from '../SmallHeaderBar';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -24,8 +23,6 @@ const ScheduleNavigator = () => {
 
   return (
     <View style={styles.mainView}>
-
-      <SmallHeaderBar title={lang('Расписание', localization)} />
 
       <Tab.Navigator
         style={styles.screen}

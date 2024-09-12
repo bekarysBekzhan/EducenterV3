@@ -55,7 +55,6 @@ const PrivacyScreen = ({navigation}) => {
 
   return (
     <UniversalView haveLoader={loading}>
-      <SmallHeaderBar title={lang('Политика и соглашения', localization)} />
       <FlatList
         data={dataSource?.data}
         renderItem={renderItem}

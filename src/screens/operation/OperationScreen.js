@@ -10,38 +10,40 @@ import {
   Alert,
   Dimensions,
   FlatList,
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import {KeyboardAwareFlatList} from 'react-native-keyboard-aware-scroll-view';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 import Input from '../../components/Input';
 import CheckButton from '../../components/button/CheckButton';
-import {useSettings} from '../../components/context/Provider';
+import { useSettings } from '../../components/context/Provider';
 import Divider from '../../components/Divider';
 import Loader from '../../components/Loader';
 import UniversalView from '../../components/view/UniversalView';
-import {APP_COLORS} from '../../constants/constants';
-import {useFetching} from '../../hooks/useFetching';
-import {OperationService} from '../../services/API';
-import {setFontStyle, wordLocalization} from '../../utils/utils';
+import { APP_COLORS } from '../../constants/constants';
+import { useFetching } from '../../hooks/useFetching';
+import { OperationService } from '../../services/API';
+import { setFontStyle, wordLocalization } from '../../utils/utils';
 import PromoRow from '../../components/view/PromoRow';
 import MenuItem from '../../components/item/MenuItem';
 import PacketItem from '../../components/item/PacketItem';
 import SearchItem from '../../components/item/SearchItem';
-import {ROUTE_NAMES} from '../../components/navigation/routes';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
 import { TabActions } from '@react-navigation/native';
 import { useLocalization } from '../../components/context/LocalizationProvider';
 import { lang } from '../../localization/lang';
+import SmallHeaderBar from '../../components/SmallHeaderBar';
 
-const {width} = Dimensions.get('screen');
+const { width } = Dimensions.get('screen');
 
-const OperationScreen = ({navigation, route}) => {
-  const {localization} = useLocalization();
+const OperationScreen = ({ navigation, route }) => {
+  const { localization } = useLocalization();
 
-  const {settings} = useSettings();
+  const { settings } = useSettings();
 
-  const {operation, type, onRefresh} = route.params;
+  const { operation, type, onRefresh } = route.params;
   const previousScreen = route.params?.previousScreen;
   console.log('params operation: ', operation);
 
@@ -65,7 +67,7 @@ const OperationScreen = ({navigation, route}) => {
   const refPromocode = useRef('');
 
   useLayoutEffect(() => {
-    navigation.setOptions({title: lang('Купить', localization), headerTitleAlign: 'center'});
+    navigation.setOptions({ title: lang('Купить', localization), headerTitleAlign: 'center' });
   }, []);
 
   const [fetchOperation, loading] = useFetching(async () => {
@@ -78,7 +80,7 @@ const OperationScreen = ({navigation, route}) => {
           onPress: () => {
             let params = {};
             let nextScreen;
-            switch(previousScreen) {
+            switch (previousScreen) {
               case ROUTE_NAMES.testDetail:
                 params.reloadTest = true;
                 params.id = operation?.id;
@@ -357,7 +359,7 @@ const OperationScreen = ({navigation, route}) => {
   );
 
   const onSubmitEditing = useCallback(
-    ({nativeEvent}) => {
+    ({ nativeEvent }) => {
       if (nativeEvent.text) {
         refPromocode.current = nativeEvent.text;
         fetchPromoCode(nativeEvent.text);
@@ -414,7 +416,7 @@ const OperationScreen = ({navigation, route}) => {
   }, [refUsedBonuses.current]);
 
   // Layout
-  const renderItem = ({item, index}) => (
+  const renderItem = ({ item, index }) => (
     <MenuItem
       poster={item?.logo}
       text={item?.title}
@@ -422,7 +424,7 @@ const OperationScreen = ({navigation, route}) => {
     />
   );
 
-  const renderItemPackets = ({item, index}) => (
+  const renderItemPackets = ({ item, index }) => (
     <PacketItem
       style={item?.selected ? styles.packetItemSelected : styles.packetItem}
       name={
@@ -456,7 +458,7 @@ const OperationScreen = ({navigation, route}) => {
         <Text style={styles.labelPeriod}>
           {dataSource?.periods?.length
             ? lang('Выберите период подписки', localization)
-            : lang('Выберите пакет', localization)} 
+            : lang('Выберите пакет', localization)}
         </Text>
       ) : null}
 
@@ -549,13 +551,16 @@ const OperationScreen = ({navigation, route}) => {
 
   return (
     <UniversalView haveLoader={loading}>
-      <KeyboardAwareFlatList
-        data={dataSource?.list}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        ListHeaderComponent={renderHeader}
-        ListFooterComponent={renderFooter}
-      />
+      <SafeAreaView>
+        <SmallHeaderBar title={lang('Купить', localization)} />
+        <KeyboardAwareFlatList
+          data={dataSource?.list}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          ListHeaderComponent={renderHeader}
+          ListFooterComponent={renderFooter}
+        />
+      </SafeAreaView>
     </UniversalView>
   );
 };

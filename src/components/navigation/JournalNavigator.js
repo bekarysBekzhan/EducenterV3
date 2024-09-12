@@ -8,7 +8,6 @@ import JournalsScreen from '../../screens/journal/JournalsScreen';
 import MyJournalScreen from '../../screens/journal/MyJournalScreen';
 import { useLocalization } from '../context/LocalizationProvider';
 import { lang } from '../../localization/lang';
-import SmallHeaderBar from '../SmallHeaderBar';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,7 +18,6 @@ const JournalNavigator = () => {
 
   return (
     <View style={styles.mainView}>
-      <SmallHeaderBar title={lang('Все журналы', localization)} />
       <Tab.Navigator
         style={styles.screen}
         screenOptions={{

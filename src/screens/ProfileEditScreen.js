@@ -12,7 +12,6 @@ import { ProfileService } from '../services/API';
 import { ROUTE_NAMES } from '../components/navigation/routes';
 import { useLocalization } from './../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
-import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const ProfieEditScreen = ({ route, navigation }) => {
   const { localization } = useLocalization();
@@ -85,7 +84,6 @@ const ProfieEditScreen = ({ route, navigation }) => {
 
   return (
     <UniversalView>
-      <SmallHeaderBar title={lang('Редактировать профиль', localization)} />
       <UniversalView haveScroll contentContainerStyle={styles.view}>
         <RowView>
           <TouchableOpacity activeOpacity={0.9} onPress={changeAvatar}>

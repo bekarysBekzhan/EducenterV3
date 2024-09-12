@@ -110,8 +110,7 @@ const NewsScreen = ({navigation}) => {
   const { localization } = useLocalization();
 
   return (
-    <UniversalView haveLoader={isLoading}>
-      <SmallHeaderBar title={lang('Новости', localization)} /> 
+    <UniversalView haveLoader={isLoading}> 
       <FlatList
         data={dataSource?.data}
         renderItem={renderItem}

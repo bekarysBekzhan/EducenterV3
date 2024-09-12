@@ -18,7 +18,6 @@ import { APP_COLORS } from '../constants/constants';
 import { useLocalization } from './../components/context/LocalizationProvider';
 import { lang } from './../localization/lang';
 import UniversalView from '../components/view/UniversalView';
-import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const WriteReviewScreen = props => {
   const { localization } = useLocalization();
@@ -82,7 +81,6 @@ const WriteReviewScreen = props => {
 
   return (
     <UniversalView>
-      <SmallHeaderBar title={lang('Оставить отзыв', localization)} />
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS == 'android' ? null : 'padding'}

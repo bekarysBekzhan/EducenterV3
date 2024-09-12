@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {View, Text, StyleSheet, FlatList, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import SearchButton from '../../components/button/SearchButton';
@@ -17,6 +17,8 @@ import {setFontStyle} from '../../utils/utils';
 import SmallHeaderBar from '../../components/SmallHeaderBar';
 import { lang } from '../../localization/lang';
 import { useLocalization } from '../../components/context/LocalizationProvider';
+import { navHeaderOptions } from '../../components/navigation/navHeaderOptions';
+import { SearchIcon } from '../../assets/icons';
 
 const OfflineCourseScreen = props => {
 
@@ -26,12 +28,32 @@ const OfflineCourseScreen = props => {
   const [lastPage, setLastPage] = useState(1);
   const [data, setData] = useState([]);
   const [loadingNext, setLoadingNext] = useState(false);
+  let route = ROUTE_NAMES.offlineCourseSearchScreen;
   const [fetchCourses, isLoading, coursesError] = useFetching(async () => {
     const response = await CourseService.fetchOfflineCourses();
     setData(response.data?.data);
     setFilters(response.data?.filters);
     setLastPage(response.data?.last_page);
   });
+
+  useLayoutEffect(() => {
+    let navigationOptions = navHeaderOptions(
+      lang('Офлайн курсы', localization),
+    );
+    navigationOptions.headerRight = renderHeaderRight;
+    navigationOptions.headerTitleAlign = 'center';
+    props.navigation.setOptions(navigationOptions);
+  }, []);
+  
+  const renderHeaderRight = () => (
+    <TouchableOpacity
+      onPress={() => props.navigation.navigate(route, { filters })}
+      style={styles.iconButton}
+      activeOpacity={0.65}
+    >
+      <SearchIcon />
+    </TouchableOpacity>
+  );
 
   useEffect(() => {
     if (page === 1) {
@@ -74,16 +96,6 @@ const OfflineCourseScreen = props => {
 
   return (
     <UniversalView>
-      <SmallHeaderBar title={lang('Оффлайн курсы', localization)} />
-      {
-        nstatus === N_STATUS ? null : (
-          <SearchButton
-            navigation={props.navigation}
-            type={'offlineCourse'}
-            filters={filters}
-          />
-        )
-      }
       <FlatList
         data={data}
         renderItem={renderCourse}
@@ -190,6 +202,19 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  iconButton: {
+    position: 'absolute',
+    right: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+    marginLeft: 8,
   },
 });
 

@@ -290,7 +290,6 @@ const CalendarScreen = ({ navigation }) => {
 
   return (
     <UniversalView haveLoader={loading}>
-      <SmallHeaderBar title={lang('Календарь', localization)} />
       <FlatList
         data={dataSource?.data}
         renderItem={renderItem}

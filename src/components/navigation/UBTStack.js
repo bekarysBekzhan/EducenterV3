@@ -23,10 +23,15 @@ const UBT = props => {
           name={screen.name}
           component={screen.component}
           key={index}
-          options={{
-            headerTitleAlign: 'center',
-            headerBackTitleVisible: false,
-          }
+          options={
+            screen.name === ROUTE_NAMES.selectSubjects
+              ? navHeaderOptions(
+                settings?.modules_enabled_ubt_title,
+              )
+              : {
+                headerTitleAlign: 'center',
+                headerBackTitleVisible: false,
+              }
           }
         />
       ))}

@@ -6,14 +6,15 @@ import {
   TextInput,
   FlatList,
   Platform,
+  SafeAreaView,
 } from 'react-native';
-import React, {useLayoutEffect, useRef} from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import UniversalView from '../components/view/UniversalView';
-import {useEffect} from 'react';
-import {useFetching} from '../hooks/useFetching';
-import {CourseService} from '../services/API';
-import {useState} from 'react';
-import {APP_COLORS, N_STATUS, SHOW_TYPE, WIDTH} from '../constants/constants';
+import { useEffect } from 'react';
+import { useFetching } from '../hooks/useFetching';
+import { CourseService } from '../services/API';
+import { useState } from 'react';
+import { APP_COLORS, N_STATUS, SHOW_TYPE, WIDTH } from '../constants/constants';
 import HtmlView from '../components/HtmlView';
 import {
   generateHash,
@@ -24,9 +25,9 @@ import {
 } from '../utils/utils';
 import RowView from '../components/view/RowView';
 import OutlineButton from '../components/button/OutlineButton';
-import {CourseProgramIcon, LeftIcon, RightIcon, x} from '../assets/icons';
-import {ROUTE_NAMES} from '../components/navigation/routes';
-import {useIsCaptured} from 'react-native-is-screen-captured-ios';
+import { CourseProgramIcon, LeftIcon, RightIcon, x } from '../assets/icons';
+import { ROUTE_NAMES } from '../components/navigation/routes';
+import { useIsCaptured } from 'react-native-is-screen-captured-ios';
 import AudioPlayer from '../components/AudioPlayer';
 import TrackPlayer from 'react-native-track-player';
 import Overlay from '../components/view/Overlay';
@@ -35,23 +36,23 @@ import SimpleButton from '../components/button/SimpleButton';
 import Empty from '../components/Empty';
 import LoadingScreen from '../components/LoadingScreen';
 import Divider from '../components/Divider';
-import {Modal} from 'react-native';
+import { Modal } from 'react-native';
 import MyCourseChapter from '../components/course/MyCourseChapter';
 import CourseChapter from '../components/course/CourseChapter';
-import {useHeaderHeight} from '@react-navigation/elements';
-import {useSettings} from '../components/context/Provider';
+import { useHeaderHeight } from '@react-navigation/elements';
+import { useSettings } from '../components/context/Provider';
 import ShowType from '../components/test/ShowType';
-import {useLocalization} from '../components/context/LocalizationProvider';
-import {lang} from '../localization/lang';
+import { useLocalization } from '../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
 import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const LessonScreen = props => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const id = props.route?.params?.id;
   const chapterTitle = props.route?.params?.title;
 
-  const {nstatus, settings} = useSettings();
+  const { nstatus, settings } = useSettings();
   const [data, setData] = useState(null);
   const [comments, setComments] = useState([]);
   const [course, setCourse] = useState(null);
@@ -151,7 +152,7 @@ const LessonScreen = props => {
 
   const onLayoutSwitchBar = ({
     nativeEvent: {
-      layout: {height},
+      layout: { height },
     },
   }) => {
     setPadding(height + 16);
@@ -225,14 +226,14 @@ const LessonScreen = props => {
             _index={1}
             url={data?.audio}
             onTrackChange={() => undefined}
-            style={{padding: 0}}
+            style={{ padding: 0 }}
           />
         ) : null}
         {data?.files.map((file, index) => (
           <FileItem
             fileName={file?.file_name}
             urlFile={file?.link}
-            style={{marginVertical: 16}}
+            style={{ marginVertical: 16 }}
             key={index}
           />
         ))}
@@ -272,7 +273,7 @@ const LessonScreen = props => {
     );
   };
 
-  const renderComment = ({item, index}) => {
+  const renderComment = ({ item, index }) => {
     if (!settings?.modules_enable_comments_lesson) return null;
     return (
       <Comment
@@ -288,7 +289,7 @@ const LessonScreen = props => {
     );
   };
 
-  const renderBottomPadding = () => <View style={{height: padding}} />;
+  const renderBottomPadding = () => <View style={{ height: padding }} />;
 
   const renderEmptyComponent = () => {
     if (!settings?.modules_enable_comments_lesson) return null;
@@ -306,7 +307,7 @@ const LessonScreen = props => {
     );
   };
 
-  const renderChapter = ({item, index}) => {
+  const renderChapter = ({ item, index }) => {
     if (course?.has_subscribed) {
       return (
         <MyCourseChapter
@@ -347,60 +348,63 @@ const LessonScreen = props => {
 
   return (
     <UniversalView>
-      <SmallHeaderBar title={data?.chapter?.title} />
-      <FlatList
-        data={comments}
-        style={styles.container}
-        renderItem={renderComment}
-        keyExtractor={(_, index) => index.toString()}
-        ItemSeparatorComponent={() => <Divider isAbsolute={false} />}
-        showsVerticalScrollIndicator={false}
-        ListHeaderComponent={renderHeader}
-        ListFooterComponent={renderBottomPadding}
-        ListEmptyComponent={renderEmptyComponent}
-        contentContainerStyle={styles.listContent}
-        removeClippedSubviews={true}
-        overScrollMode="never"
-      />
-      <View style={styles.switchBar} onLayout={onLayoutSwitchBar}>
-        {data?.isFirst ? (
-          <View />
-        ) : (
+      <SafeAreaView>
+
+        <SmallHeaderBar title={data?.chapter?.title} />
+        <FlatList
+          data={comments}
+          style={styles.container}
+          renderItem={renderComment}
+          keyExtractor={(_, index) => index.toString()}
+          ItemSeparatorComponent={() => <Divider isAbsolute={false} />}
+          showsVerticalScrollIndicator={false}
+          ListHeaderComponent={renderHeader}
+          ListFooterComponent={renderBottomPadding}
+          ListEmptyComponent={renderEmptyComponent}
+          contentContainerStyle={styles.listContent}
+          removeClippedSubviews={true}
+          overScrollMode="never"
+        />
+        <View style={styles.switchBar} onLayout={onLayoutSwitchBar}>
+          {data?.isFirst ? (
+            <View />
+          ) : (
+            <TouchableOpacity
+              style={styles.switchButton}
+              onPress={onPressPreviousLesson}>
+              <LeftIcon color={APP_COLORS.white} />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity
             style={styles.switchButton}
-            onPress={onPressPreviousLesson}>
-            <LeftIcon color={APP_COLORS.white} />
+            onPress={onPressNextLesson}
+            disabled={isModal}>
+            <RightIcon color={APP_COLORS.white} />
           </TouchableOpacity>
-        )}
-        <TouchableOpacity
-          style={styles.switchButton}
-          onPress={onPressNextLesson}
-          disabled={isModal}>
-          <RightIcon color={APP_COLORS.white} />
-        </TouchableOpacity>
-      </View>
-      <Overlay visible={isModal} />
-      <Modal transparent={true} animationType="fade" visible={isCourseProgram}>
-        <View style={modal.container}>
-          <View style={{height: navigationHeight}} />
-          <View style={modal.listContainer}>
-            <FlatList
-              data={course?.chapters}
-              ListHeaderComponent={renderModalHeader}
-              renderItem={renderChapter}
-              ListFooterComponent={() => <View style={{height: 50}} />}
-              ItemSeparatorComponent={() => <Divider />}
-              keyExtractor={(_, index) => index.toString()}
-              showsVerticalScrollIndicator={false}
-            />
-          </View>
         </View>
-      </Modal>
-      <ShowType
-        visible={isShowType}
-        onHide={onShowTypeBackDrop}
-        onSelect={onShowTypeSelect}
-      />
+        <Overlay visible={isModal} />
+        <Modal transparent={true} animationType="fade" visible={isCourseProgram}>
+          <View style={modal.container}>
+            <View style={{ height: navigationHeight }} />
+            <View style={modal.listContainer}>
+              <FlatList
+                data={course?.chapters}
+                ListHeaderComponent={renderModalHeader}
+                renderItem={renderChapter}
+                ListFooterComponent={() => <View style={{ height: 50 }} />}
+                ItemSeparatorComponent={() => <Divider />}
+                keyExtractor={(_, index) => index.toString()}
+                showsVerticalScrollIndicator={false}
+              />
+            </View>
+          </View>
+        </Modal>
+        <ShowType
+          visible={isShowType}
+          onHide={onShowTypeBackDrop}
+          onSelect={onShowTypeSelect}
+        />
+      </SafeAreaView>
     </UniversalView>
   );
 };
@@ -526,7 +530,7 @@ const Comment = ({
     );
   };
 
-  const renderReply = ({item, index}) => {
+  const renderReply = ({ item, index }) => {
     return (
       <View style={comment.reply}>
         <Text style={comment.name}>{item?.user?.name}</Text>

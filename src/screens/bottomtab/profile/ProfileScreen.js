@@ -31,6 +31,7 @@ import {
   ReclamentIcon,
   ScheduleIcon,
   Settings,
+  SettingsIcon,
   UbtIcon,
 } from '../../../assets/icons';
 import { useSettings } from '../../../components/context/Provider';
@@ -47,6 +48,7 @@ import { storeObject } from '../../../storage/AsyncStorage';
 import { lang } from '../../../localization/lang';
 import { useLocalization } from '../../../components/context/LocalizationProvider';
 import ProfileHeaderBar from '../../../components/ProfileHeaderBar';
+import { navHeaderOptions } from '../../../components/navigation/navHeaderOptions';
 
 const ProfileScreen = ({ navigation, route }) => {
   const { profile } = route.params;
@@ -57,6 +59,15 @@ const ProfileScreen = ({ navigation, route }) => {
     data: null,
     refreshing: false,
   });
+
+  useLayoutEffect(() => {
+    let navigationOptions = navHeaderOptions(
+      lang('Мой профиль', localization),
+    );
+    navigationOptions.headerLeft = renderHeaderLeft;
+    navigationOptions.headerRight = renderHeaderRight;
+    navigation.setOptions(navigationOptions);
+  }, [isRead]);
 
   const MENU = [
     {
@@ -235,6 +246,25 @@ const ProfileScreen = ({ navigation, route }) => {
     navigation.navigate(ROUTE_NAMES.notifications);
   };
 
+  const renderHeaderLeft = () => (
+    <TouchableOpacity
+      activeOpacity={0.65}
+      onPress={onPressNotification}
+      style={styles.iconNotifications}
+    >
+      <BellIcon isRead={isRead} color={APP_COLORS.gray} />
+    </TouchableOpacity>
+  );
+
+  const renderHeaderRight = () => (
+    <TouchableOpacity
+      activeOpacity={0.65}
+      style={styles.iconSettings}
+    >
+      <SettingsIcon color={APP_COLORS.gray} />
+    </TouchableOpacity>
+  );
+
   if (isLoading) {
     return <LoadingScreen />;
   }
@@ -250,7 +280,7 @@ const ProfileScreen = ({ navigation, route }) => {
       }
     >
       <StatusBar backgroundColor={APP_COLORS.primary} barStyle="light-content" />
-      <ProfileHeaderBar title={lang('Мой профиль', localization)} />
+      <View style={styles.header} />
       <View style={styles.avatarContainer}>
         <View style={styles.avatar}>
           <Text style={styles.avatarText}>AA</Text>
@@ -322,6 +352,15 @@ const ProfileScreen = ({ navigation, route }) => {
 export default ProfileScreen;
 
 const styles = StyleSheet.create({
+  header: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+    paddingBottom: 90,
+    backgroundColor: APP_COLORS.primary,
+  },
   view: {
     paddingLeft: 20,
     paddingRight: 16,
@@ -379,7 +418,7 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     position: 'absolute',
-    top: 85,
+    top: 25,
     zIndex: 1,
   },
   avatar: {
@@ -444,7 +483,33 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: APP_COLORS.lightgray,
-  }
+  },
+  iconNotifications: {
+    position: 'absolute',
+    right: -190,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+    marginLeft: 30,
+  },
+  iconSettings: {
+    position: 'absolute',
+    right: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+    marginLeft: 8,
+  },
 });
 
 

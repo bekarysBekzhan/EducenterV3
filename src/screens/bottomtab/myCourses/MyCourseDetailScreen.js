@@ -92,7 +92,6 @@ const MyCourseDetailScreen = props => {
   const renderHeader = () => {
     return (
       <UniversalView>
-        <SmallHeaderBar title={data?.title} />
         <DetailView
           poster={data?.poster}
           category={data?.category?.name}

@@ -147,7 +147,6 @@ const CourseListHeader = ({ data, localization }) => {
   const [isFilter, setIsFilter] = useState(false);
   return (
     <UniversalView>
-      <SmallHeaderBar title={data?.title} />
       <DetailView
         poster={data?.poster}
         category={data?.category?.name}

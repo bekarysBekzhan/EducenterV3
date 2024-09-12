@@ -198,7 +198,6 @@ const SelectSubjectsScreen = props => {
   }
   return (
     <UniversalView>
-      <SmallHeaderBar title={lang('ЕНТ', localization)} />
       <View style={styles.container}>
         <FlatList
           data={category2.current ? dataSource.tests : []}

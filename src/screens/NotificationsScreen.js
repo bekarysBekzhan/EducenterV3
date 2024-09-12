@@ -1,24 +1,25 @@
-import {Text, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import { Text, FlatList, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import UniversalView from '../components/view/UniversalView';
 
-import {useFetching} from '../hooks/useFetching';
+import { useFetching } from '../hooks/useFetching';
 import LoadingScreen from '../components/LoadingScreen';
-import {NotificationService} from '../services/API';
+import { NotificationService } from '../services/API';
 import RowView from '../components/view/RowView';
-import {NotificationItemIcon} from '../assets/icons';
-import {containsHTML, setFontStyle} from '../utils/utils';
-import {APP_COLORS, NOTIFICATION_TYPE} from '../constants/constants';
+import { NotificationItemIcon } from '../assets/icons';
+import { containsHTML, setFontStyle } from '../utils/utils';
+import { APP_COLORS, NOTIFICATION_TYPE } from '../constants/constants';
 import Loader from '../components/Loader';
 import Divider from '../components/Divider';
 import HtmlView from '../components/HtmlView';
-import {ROUTE_NAMES} from '../components/navigation/routes';
+import { ROUTE_NAMES } from '../components/navigation/routes';
 import Empty from '../components/Empty';
-import {useLocalization} from '../components/context/LocalizationProvider';
-import {lang} from '../localization/lang';
+import { useLocalization } from '../components/context/LocalizationProvider';
+import { lang } from '../localization/lang';
+import SmallHeaderBar from '../components/SmallHeaderBar';
 
-const NotificationsScreen = ({navigation}) => {
-  const {localization} = useLocalization();
+const NotificationsScreen = ({ navigation }) => {
+  const { localization } = useLocalization();
 
   const [notifications, setNotifications] = useState(null);
   const [page, setPage] = useState(1);
@@ -69,7 +70,7 @@ const NotificationsScreen = ({navigation}) => {
     });
   }, []);
 
-  const renderItem = ({item, index}) => {
+  const renderItem = ({ item, index }) => {
     return (
       <NotificationItem
         type={item?.type}
@@ -110,51 +111,54 @@ const NotificationsScreen = ({navigation}) => {
 
   return (
     <UniversalView>
-      <FlatList
-        data={notifications}
-        renderItem={renderItem}
-        keyExtractor={(_, index) => index.toString()}
-        ListEmptyComponent={() => <Empty />}
-        showsVerticalScrollIndicator={false}
-        onEndReachedThreshold={0.2}
-        ItemSeparatorComponent={() => <Divider />}
-        onEndReached={onEndReached}
-        onRefresh={onRefresh}
-        refreshing={isFetching}
-        initialNumToRender={20}
-        ListFooterComponent={renderFooter}
-      />
+      <SafeAreaView>
+        <SmallHeaderBar title={lang('Уведомления', localization)} />
+        <FlatList
+          data={notifications}
+          renderItem={renderItem}
+          keyExtractor={(_, index) => index.toString()}
+          ListEmptyComponent={() => <Empty />}
+          showsVerticalScrollIndicator={false}
+          onEndReachedThreshold={0.2}
+          ItemSeparatorComponent={() => <Divider />}
+          onEndReached={onEndReached}
+          onRefresh={onRefresh}
+          refreshing={isFetching}
+          initialNumToRender={20}
+          ListFooterComponent={renderFooter}
+        />
+      </SafeAreaView>
     </UniversalView>
   );
 };
 
-const NotificationItem = ({message, date, type, modelID, navigation}) => {
+const NotificationItem = ({ message, date, type, modelID, navigation }) => {
   const onPress = () => {
     switch (type) {
       case NOTIFICATION_TYPE.course:
-        navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: modelID});
+        navigation.navigate(ROUTE_NAMES.myCourseDetail, { courseID: modelID });
         break;
       case NOTIFICATION_TYPE.buy:
-        navigation.navigate(ROUTE_NAMES.myCourseDetail, {courseID: modelID});
+        navigation.navigate(ROUTE_NAMES.myCourseDetail, { courseID: modelID });
         break;
       case NOTIFICATION_TYPE.news:
-        navigation.navigate(ROUTE_NAMES.newsDetail, {newsId: modelID});
+        navigation.navigate(ROUTE_NAMES.newsDetail, { newsId: modelID });
         break;
       case NOTIFICATION_TYPE.task:
-        navigation.navigate(ROUTE_NAMES.moduleTask, {id: 19});
+        navigation.navigate(ROUTE_NAMES.moduleTask, { id: 19 });
         break;
       case NOTIFICATION_TYPE.test:
-        navigation.navigate(ROUTE_NAMES.testResult, {id: modelID});
+        navigation.navigate(ROUTE_NAMES.testResult, { id: modelID });
         break;
       case NOTIFICATION_TYPE.complete:
-        navigation.navigate(ROUTE_NAMES.courseFinish, {id: modelID});
+        navigation.navigate(ROUTE_NAMES.courseFinish, { id: modelID });
         break;
       default:
         break;
     }
   };
 
-  const renderButton = ({TDefaultRenderer, ...props}) => {
+  const renderButton = ({ TDefaultRenderer, ...props }) => {
     return <Text style={notification.highlight}>{props.tnode?.data}</Text>;
   };
 
@@ -168,9 +172,9 @@ const NotificationItem = ({message, date, type, modelID, navigation}) => {
     messageComponent = (
       <HtmlView
         html={'<p>' + message + '</p>'}
-        renderers={{span: renderButton}}
+        renderers={{ span: renderButton }}
         tagsStyles={{
-          p: {...setFontStyle(15, '500', APP_COLORS.font), marginTop: 0},
+          p: { ...setFontStyle(15, '500', APP_COLORS.font), marginTop: 0 },
         }}
       />
     );

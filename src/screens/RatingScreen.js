@@ -22,7 +22,6 @@ import BottomSheetRatingStack from '../components/navigation/BottomSheetRatingSt
 import {useSettings} from '../components/context/Provider';
 import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
-import SmallHeaderBar from '../components/SmallHeaderBar';
 
 const RatingScreen = ({}) => {
   const {localization} = useLocalization();
@@ -179,13 +178,12 @@ const RatingScreen = ({}) => {
 
   return (
     <UniversalView>
-      <SmallHeaderBar title={lang('Рейтинг', localization)}/>
       {nstatus === N_STATUS ? null : (
         <RowView style={styles.searchBar}>
           <Input
             // _focus={focus}
             placeholder={lang('Поиск тестов', localization)}
-            left={<View style={styles.searchIcon}>{search('#000')}</View>}
+            left={<View style={styles.searchIcon}>{search(APP_COLORS.white)}</View>}
             right={ value ? 
               <TouchableOpacity activeOpacity={0.8} onPress={clearTapped}>
                 {clear()}
@@ -254,14 +252,16 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   item: {
-    padding: 16,
+    paddingVertical: 4,
+    paddingHorizontal: 16,
   },
   searchBar: {
     width: WIDTH,
     justifyContent: 'space-between',
     padding: 16,
     paddingLeft: 0,
-    paddingBottom: 6,
+    paddingBottom: 12,
+    backgroundColor: APP_COLORS.primary,
   },
   inputContainer: {
     flex: 1,
@@ -270,7 +270,10 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginHorizontal: 16,
   },
-  input: {...setFontStyle(15, '400')},
+  input: {
+    ...setFontStyle(15, '500', APP_COLORS.white),
+    textAlign: 'left',
+  },
   searchIcon: {
     marginRight: 10,
   },

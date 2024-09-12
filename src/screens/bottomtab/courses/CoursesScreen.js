@@ -1,5 +1,5 @@
-import { View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
-import React from 'react';
+import { View, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity } from 'react-native';
+import React, { useLayoutEffect } from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import SearchButton from '../../../components/button/SearchButton';
 import { useFetching } from '../../../hooks/useFetching';
@@ -18,6 +18,9 @@ import { DoubleCard } from './designType/DoubleCard';
 import HeaderBar from '../../../components/HeaderBar';
 import { lang } from '../../../localization/lang';
 import { useLocalization } from '../../../components/context/LocalizationProvider';
+import { navHeaderOptions } from '../../../components/navigation/navHeaderOptions';
+import { SearchIcon } from '../../../assets/icons';
+import { ROUTE_NAMES } from '../../../components/navigation/routes';
 
 const CoursesScreen = props => {
   const { nstatus, nCourse } = useSettings();
@@ -27,12 +30,33 @@ const CoursesScreen = props => {
   const [data, setData] = useState([]);
   const [loadingNext, setLoadingNext] = useState(false);
   const localization = useLocalization();
+  let route = ROUTE_NAMES.courseSearch;
   const [fetchCourses, isLoading, coursesError] = useFetching(async () => {
     const response = await CourseService.fetchCourses();
     setData(response.data?.data);
     setFilters(response.data?.filters);
     setLastPage(response.data?.last_page);
   });
+
+  useLayoutEffect(() => {
+    let navigationOptions = navHeaderOptions(
+      lang('Курсы', localization),
+    );
+    navigationOptions.headerRight = renderHeaderRight;
+    navigationOptions.headerLeft = null;
+    navigationOptions.headerTitleAlign = 'center';
+    props.navigation.setOptions(navigationOptions);
+  }, []);
+
+  const renderHeaderRight = () => (
+    <TouchableOpacity
+      onPress={() => props.navigation.navigate(route, { filters })}
+      style={styles.iconButton}
+      activeOpacity={0.65}
+    >
+      <SearchIcon />
+    </TouchableOpacity>
+  );
 
   useEffect(() => {
     if (page === 1) {
@@ -84,7 +108,6 @@ const CoursesScreen = props => {
 
   return (
     <UniversalView style={styles.universalView}>
-      <HeaderBar title={lang('Курсы', localization)} filters={filters} />
       <View style={styles.primaryView}>
         <FlatList
           data={data}
@@ -126,6 +149,19 @@ export const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  iconButton: {
+    position: 'absolute',
+    right: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+    marginLeft: 8,
   },
 });
 

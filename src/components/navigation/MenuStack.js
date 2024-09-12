@@ -1,11 +1,11 @@
 import React from 'react';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {ROUTE_NAMES} from './routes';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ROUTE_NAMES } from './routes';
 import MenuScreen from '../../screens/bottomtab/profile/MenuScreen';
 import NewsScreen from '../../screens/news/NewsScreen';
 import ProfileScreen from '../../screens/bottomtab/profile/ProfileScreen';
-import {useSettings} from '../context/Provider';
-import {setFontStyle} from '../../utils/utils';
+import { useSettings } from '../context/Provider';
+import { setFontStyle } from '../../utils/utils';
 import HistoryScreen from '../../screens/HistoryScreen';
 import ChangePassword from '../../screens/ChangePasswordScreen';
 import ProfieEditScreen from '../../screens/ProfileEditScreen';
@@ -22,14 +22,18 @@ import RatingScreen from '../../screens/RatingScreen';
 import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
 import PolicyScreen from '../../screens/privacy/PolicyScreen';
 import DeleteAccountScreen from '../../screens/deleteAccount/DeleteAccountScreen';
-import {useLocalization} from '../context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { useLocalization } from '../context/LocalizationProvider';
+import { lang } from '../../localization/lang';
+import { APP_COLORS } from '../../constants/constants';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { BellIcon, LeftArrowIcon, SearchIcon, SettingsIcon } from '../../assets/icons';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
-const MenuStack = ({navigation}) => {
-  const {localization} = useLocalization();
-  const {isAuth, settings} = useSettings();
+const MenuStack = ({ navigation }) => {
+  const { localization } = useLocalization();
+  const { isAuth, settings, isRead, setIsRead, nstatus } = useSettings();
 
   const screens = [
     {
@@ -53,7 +57,7 @@ const MenuStack = ({navigation}) => {
     {
       name: ROUTE_NAMES.profile,
       component: ProfileScreen,
-      initialParams: {profile: false},
+      initialParams: { profile: false },
     },
     {
       name: ROUTE_NAMES.history,
@@ -167,14 +171,27 @@ const MenuStack = ({navigation}) => {
 
   return (
     <Stack.Navigator
-      initialRouteName={isAuth ? ROUTE_NAMES.profile : ROUTE_NAMES.menu}
+      initialRouteName={ROUTE_NAMES.profile}
       screenOptions={{
-        headerShown: false,
+        headerShown: true,
         headerTitleAlign: 'center',
         headerTitleStyle: {
-          ...setFontStyle(7, '100'),
+          ...setFontStyle(20, '700', APP_COLORS.white),
         },
         headerBackTitleVisible: true,
+        headerStyle: {
+          backgroundColor: APP_COLORS.primary,
+        },
+        headerShadowVisible: false,
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.pop()}
+            style={styles.iconButton}
+            activeOpacity={0.65}
+          >
+            <LeftArrowIcon />
+          </TouchableOpacity>
+        ),
       }}>
       {screens.map((screen, index) => (
         <Stack.Screen
@@ -190,3 +207,18 @@ const MenuStack = ({navigation}) => {
 };
 
 export default MenuStack;
+
+const styles = StyleSheet.create({
+  iconButton: {
+    position: 'absolute',
+    left: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+  },
+})

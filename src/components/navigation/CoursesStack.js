@@ -6,11 +6,17 @@ import CourseDetailScreen from '../../screens/bottomtab/courses/CourseDetailScre
 import { useSettings } from '../context/Provider';
 import { useLocalization } from '../context/LocalizationProvider';
 import { lang } from '../../localization/lang';
+import { setFontStyle } from '../../utils/utils';
+import { APP_COLORS } from '../../constants/constants';
+import { StyleSheet, TouchableOpacity } from 'react-native';
+import { SearchIcon } from '../../assets/icons';
+import { useNavigation } from '@react-navigation/native';
 
 const CoursesStack = createNativeStackNavigator();
 
 const Courses = () => {
   const { localization } = useLocalization();
+  const navigation = useNavigation();
 
   const TITLE = lang('Курсы', localization);
 
@@ -35,10 +41,23 @@ const Courses = () => {
           component={screen.component}
           key={index}
           options={{
-            headerTitle: lang('Курс', localization),
+            headerTitle: lang('Курсы', localization),
             headerBackTitleVisible: false,
             headerTitleAlign: 'center',
-            headerShown: false,
+            headerShown: true,
+            headerTitleStyle: {
+              ...setFontStyle(20, '700', APP_COLORS.white),
+            },
+            headerStyle: { backgroundColor: APP_COLORS.primary },
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => navigation.navigate(route, { filters })}
+                style={styles.iconButton}
+                activeOpacity={0.65}
+              >
+                <SearchIcon />
+              </TouchableOpacity>
+            )
           }
           }
         />
@@ -46,5 +65,21 @@ const Courses = () => {
     </CoursesStack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  iconButton: {
+    position: 'absolute',
+    right: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+})
 
 export default Courses;

@@ -9,11 +9,18 @@ import MyTestDetailScreen from '../../screens/bottomtab/myCourses/MyTestDetailSc
 import { useLocalization } from '../context/LocalizationProvider';
 import { lang } from '../../localization/lang';
 import SmallHeaderBar from '../../components/SmallHeaderBar'
+import { setFontStyle } from '../../utils/utils';
+import { APP_COLORS } from '../../constants/constants';
+import { StyleSheet } from 'react-native';
+import { TouchableOpacity } from 'react-native';
+import { LeftArrowIcon, SearchIcon } from '../../assets/icons';
+import { useNavigation } from '@react-navigation/native';
 
 const MyCoursesStack = createNativeStackNavigator();
 
 const MyCourses = () => {
   const { localization } = useLocalization();
+  const navigation = useNavigation();
 
   const TITLE = lang('Мои курсы', localization);
   const { settings, isAuth } = useSettings();
@@ -43,10 +50,26 @@ const MyCourses = () => {
           component={screen.component}
           key={index}
           options={{
-            headerTitle: screen?.title,
-            headerBackTitleVisible: false,
+            headerShown: true,
+            headerTitle: screen.name == ROUTE_NAMES.myCourseDetail ? lang('Курс', localization) : lang('Тест', localization),
             headerTitleAlign: 'center',
-            headerShown: false,
+            headerTitleStyle: {
+              ...setFontStyle(20, '700', APP_COLORS.white),
+            },
+            headerBackTitleVisible: true,
+            headerStyle: {
+              backgroundColor: APP_COLORS.primary,
+            },
+            headerShadowVisible: false,
+            headerLeft: () => (
+              <TouchableOpacity
+                onPress={() => navigation.pop()}
+                style={styles.iconButton}
+                activeOpacity={0.65}
+              >
+                <LeftArrowIcon />
+              </TouchableOpacity>
+            ),
           }
           }
         />
@@ -54,5 +77,20 @@ const MyCourses = () => {
     </MyCoursesStack.Navigator>
   );
 };
+
+const styles = StyleSheet.create({
+  iconButton: {
+    position: 'absolute',
+    left: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+  },
+})
 
 export default MyCourses;

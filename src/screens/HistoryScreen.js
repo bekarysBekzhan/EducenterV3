@@ -6,10 +6,7 @@ import HistoryItem from '../components/HistoryItem';
 import { HistoryService } from '../services/API';
 import Loader from '../components/Loader';
 import Empty from '../components/Empty';
-import SmallHeaderBar from '../components/SmallHeaderBar';
-import { useNavigation } from '@react-navigation/native';
 import { useLocalization } from '../components/context/LocalizationProvider';
-import { lang } from '../localization/lang';
 
 const HistoryScreen = () => {
   const [dataSource, setDataSource] = useState({
@@ -107,7 +104,6 @@ const HistoryScreen = () => {
 
   return (
     <UniversalView haveLoader={isLoading}>
-      <SmallHeaderBar title={lang('История оплаты', localization)}/>
       <FlatList
         data={dataSource?.data}
         renderItem={renderItem}
