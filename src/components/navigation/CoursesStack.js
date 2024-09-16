@@ -49,6 +49,7 @@ const Courses = () => {
               ...setFontStyle(20, '700', APP_COLORS.white),
             },
             headerStyle: { backgroundColor: APP_COLORS.primary },
+            headerShadowVisible: false,
             headerRight: () => (
               <TouchableOpacity
                 onPress={() => navigation.navigate(route, { filters })}

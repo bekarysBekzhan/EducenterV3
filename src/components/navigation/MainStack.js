@@ -1,19 +1,19 @@
-import React, {useEffect, useLayoutEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {useFetching} from '../../hooks/useFetching';
-import {MobileSettingsService, SettingsService} from '../../services/API';
-import {useSettings} from '../context/Provider';
-import {ROUTE_NAMES} from './routes';
-import {getObject, getString} from '../../storage/AsyncStorage';
+import React, { useEffect, useLayoutEffect } from 'react';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useFetching } from '../../hooks/useFetching';
+import { MobileSettingsService, SettingsService } from '../../services/API';
+import { useSettings } from '../context/Provider';
+import { ROUTE_NAMES } from './routes';
+import { getObject, getString } from '../../storage/AsyncStorage';
 import Splash from './SplashStack';
 import BottomTab from './BottomTabStack';
 import LessonScreen from '../../screens/LessonScreen';
 import PreviewTestScreen from '../../screens/PreviewTestScreen';
 import CourseTestScreen from '../../screens/CourseTestScreen';
-import {API_V2} from '../../services/axios';
+import { API_V2 } from '../../services/axios';
 import CourseTaskScreen from '../../screens/CourseTaskScreen';
-import {REQUEST_HEADERS, STORAGE} from '../../constants/constants';
+import { APP_COLORS, REQUEST_HEADERS, STORAGE } from '../../constants/constants';
 import CourseSearchScreen from '../../screens/CourseSearchScreen';
 import TestSearchScreen from '../../screens/TestSearchScreen';
 import TaskSearchScreen from '../../screens/TaskSearchScreen';
@@ -35,16 +35,19 @@ import UBTTestScreen from '../../screens/ubt/UBTTestScreen';
 import UBTCompletedScreen from '../../screens/ubt/UBTCompletedScreen';
 import UBTResultScreen from '../../screens/ubt/UBTResultScreen';
 import ModuleTestCompletedScreen from '../../screens/ModuleTestCompletedScreen';
-import {navigationRef} from './RootNavigation';
+import { navigationRef } from './RootNavigation';
 import NewsDetailScreen from '../../screens/news/NewsDetailScreen';
 import OfflineCourseSearchScreen from '../../screens/OfflineCourseSearchScreen';
 import NotificationsScreen from '../../screens/NotificationsScreen';
 import ModuleTaskScreen from '../../screens/ModuleTaskScreen';
 import PrivacyScreen from '../../screens/privacy/PrivacyScreen';
 import PolicyScreen from '../../screens/privacy/PolicyScreen';
-import {Platform} from 'react-native';
-import {useLocalization} from '../context/LocalizationProvider';
-import {strings} from '../../localization';
+import { Platform, StyleSheet } from 'react-native';
+import { useLocalization } from '../context/LocalizationProvider';
+import { strings } from '../../localization';
+import { setFontStyle } from '../../utils/utils';
+import { TouchableOpacity } from 'react-native';
+import { LeftArrowIcon } from '../../assets/icons';
 
 const MainStack = createNativeStackNavigator();
 
@@ -211,7 +214,7 @@ const Navigation = () => {
     setNIcon,
   } = useSettings();
 
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const [fetchSettings, isLoading, settingsError] = useFetching(async () => {
     const response = await MobileSettingsService.fetchSettings();
@@ -273,6 +276,7 @@ const Navigation = () => {
   if (isLoading || settingsError) {
     return <LoadingScreen />;
   }
+
   return (
     <NavigationContainer ref={navigationRef}>
       <MainStack.Navigator
@@ -289,38 +293,64 @@ const Navigation = () => {
             options={{
               animation:
                 route.name === ROUTE_NAMES.courseSearch ||
-                route.name === ROUTE_NAMES.testSearch ||
-                route.name === ROUTE_NAMES.taskSearch
+                  route.name === ROUTE_NAMES.testSearch ||
+                  route.name === ROUTE_NAMES.taskSearch
                   ? 'fade_from_bottom'
                   : 'default',
               headerBackTitleVisible: false,
 
               headerShown:
                 route.name === ROUTE_NAMES.login ||
-                route.name === ROUTE_NAMES.register ||
-                route.name === ROUTE_NAMES.recovery ||
-                route.name === ROUTE_NAMES.reviews ||
-                route.name === ROUTE_NAMES.privacy ||
-                route.name === ROUTE_NAMES.privacyPolicy
+                  route.name === ROUTE_NAMES.register ||
+                  route.name === ROUTE_NAMES.recovery ||
+                  route.name === ROUTE_NAMES.reviews ||
+                  route.name === ROUTE_NAMES.privacy ||
+                  route.name === ROUTE_NAMES.privacyPolicy
                   ? true
                   : false,
+              headerStyle: {
+                backgroundColor: APP_COLORS.primary,
+              },
+              headerTitleStyle: {
+                ...setFontStyle(20, '700', APP_COLORS.white),
+              },
             }}
             initialParams={route?.initialParams}
           />
         ))}
         {isAuth
           ? PRIVATE.map((route, index) => (
-              <MainStack.Screen
-                name={route.name}
-                component={route.component}
-                key={index}
-                options={{
-                  headerShown: false,
-                  headerBackTitleVisible: false,
-                }}
-                initialParams={route?.initialParams}
-              />
-            ))
+            <MainStack.Screen
+              name={route.name}
+              component={route.component}
+              key={index}
+              options={{
+                headerShown: true,
+                headerBackTitleVisible: false,
+                headerStyle: {
+                  backgroundColor: APP_COLORS.primary,
+                },
+                headerTitleStyle: {
+                  ...setFontStyle(20, '700', APP_COLORS.white),
+                },
+                headerShadowVisible: false,
+                headerLeft: () => {
+                  const navigation = useNavigation();
+
+                  return (
+                    <TouchableOpacity
+                      onPress={() => navigation.goBack()}
+                      style={styles.iconButton}
+                      activeOpacity={0.65}
+                    >
+                      <LeftArrowIcon />
+                    </TouchableOpacity>
+                  );
+                },
+              }}
+              initialParams={route?.initialParams}
+            />
+          ))
           : null}
       </MainStack.Navigator>
     </NavigationContainer>
@@ -328,3 +358,40 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+const styles = StyleSheet.create({
+  iconButton: {
+    position: 'absolute',
+    left: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
+  },
+})
+
+
+// headerShown: true,
+// headerTitle: lang('Тесты', localization),
+// headerTitleAlign: 'center',
+// headerTitleStyle: {
+//   ...setFontStyle(20, '700', APP_COLORS.white),
+// },
+// headerBackTitleVisible: true,
+// headerStyle: {
+//   backgroundColor: APP_COLORS.primary,
+// },
+// headerShadowVisible: false,
+// headerLeft: () => (
+//   <TouchableOpacity
+//     onPress={() => navigation.pop()}
+//     style={styles.iconButton}
+//     activeOpacity={0.65}
+//   >
+//     <LeftArrowIcon />
+//   </TouchableOpacity>
+// ),

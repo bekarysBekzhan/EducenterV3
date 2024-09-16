@@ -88,6 +88,7 @@ const LoginScreen = ({navigation}) => {
         <Input
           extraStyle={styles.input}
           placeholder={lang('Email', localization)}
+          placeholderTextColor={APP_COLORS.placeholder}
           onChangeText={onChangeEmailOrPhone}
           value={dataSource?.email}
           autoCapitalize="none"
@@ -99,6 +100,7 @@ const LoginScreen = ({navigation}) => {
         <Input
           extraStyle={styles.input}
           placeholder={lang('Номер телефона', localization)}
+          placeholderTextColor={APP_COLORS.placeholder}
           onChangeText={onChangeEmailOrPhone}
           editable={!isLoading}
           value={dataSource?.email}
@@ -111,6 +113,7 @@ const LoginScreen = ({navigation}) => {
       <Input
         extraStyle={styles.input}
         placeholder={lang('E-mail или телефон', localization)}
+        placeholderTextColor={APP_COLORS.placeholder}
         onChangeText={onChangeEmailOrPhone}
         value={dataSource?.email}
         autoCapitalize="none"
@@ -131,6 +134,7 @@ const LoginScreen = ({navigation}) => {
       <Input
         extraStyle={styles.input}
         placeholder={lang('Пароль', localization)}
+        placeholderTextColor={APP_COLORS.placeholder}
         onChangeText={onChangePassword}
         value={dataSource?.password}
         secureTextEntry={togglePassword}
@@ -169,6 +173,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 8,
+    backgroundColor: APP_COLORS.input,
   },
   button: {
     marginTop: 16,

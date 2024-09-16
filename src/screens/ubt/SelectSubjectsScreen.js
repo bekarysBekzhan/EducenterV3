@@ -291,7 +291,6 @@ const SelectButton = ({
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-
   },
   select: {
     flexDirection: 'row',

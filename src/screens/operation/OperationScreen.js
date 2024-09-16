@@ -552,7 +552,6 @@ const OperationScreen = ({ navigation, route }) => {
   return (
     <UniversalView haveLoader={loading}>
       <SafeAreaView>
-        <SmallHeaderBar title={lang('Купить', localization)} />
         <KeyboardAwareFlatList
           data={dataSource?.list}
           renderItem={renderItem}

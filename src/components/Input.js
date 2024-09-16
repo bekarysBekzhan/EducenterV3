@@ -8,6 +8,7 @@ import { useSettings } from './context/Provider';
 
 const Input = ({
   placeholder = '',
+  placeholderTextColor = APP_COLORS.white,
   _focus = false,
   mask,
   keyboardType = 'default',
@@ -40,7 +41,7 @@ const Input = ({
       {left}
       {mask === undefined ? (
         <TextInput
-          placeholderTextColor={APP_COLORS.white}
+          placeholderTextColor={placeholderTextColor}
           placeholder={placeholder}
           style={memoInputStyles}
           value={value}
@@ -56,7 +57,7 @@ const Input = ({
         />
       ) : (
         <TextInputMask
-          placeholderTextColor={APP_COLORS.white}
+          placeholderTextColor={placeholderTextColor}
           placeholder={placeholder}
           style={memoInputStyles}
           type="custom"
@@ -93,8 +94,8 @@ const styles = StyleSheet.create({
     ...setFontStyle(17),
   },
   focus: {
-    borderWidth: 5,
-    borderColor: APP_COLORS.white,
+    borderWidth: 1,
+    borderColor: APP_COLORS.primary,
   },
 });
 

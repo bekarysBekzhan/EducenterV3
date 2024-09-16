@@ -64,8 +64,8 @@ const ProfileScreen = ({ navigation, route }) => {
     let navigationOptions = navHeaderOptions(
       lang('Мой профиль', localization),
     );
-    navigationOptions.headerLeft = renderHeaderLeft;
     navigationOptions.headerRight = renderHeaderRight;
+    navigationOptions.headerLeft = null;
     navigation.setOptions(navigationOptions);
   }, [isRead]);
 
@@ -92,6 +92,14 @@ const ProfileScreen = ({ navigation, route }) => {
         },
         {
           id: 3,
+          text: lang('Сменить пароль', localization),
+          iconLeft: <Password />,
+          enabled: true,
+          action: 'navigation',
+          route: ROUTE_NAMES.changePassword,
+        },
+        {
+          id: 4,
           text: lang('Настройки', localization),
           iconLeft: <Settings />,
           enabled: true,
@@ -246,7 +254,7 @@ const ProfileScreen = ({ navigation, route }) => {
     navigation.navigate(ROUTE_NAMES.notifications);
   };
 
-  const renderHeaderLeft = () => (
+  const renderHeaderRight = () => (
     <TouchableOpacity
       activeOpacity={0.65}
       onPress={onPressNotification}
@@ -256,14 +264,14 @@ const ProfileScreen = ({ navigation, route }) => {
     </TouchableOpacity>
   );
 
-  const renderHeaderRight = () => (
-    <TouchableOpacity
-      activeOpacity={0.65}
-      style={styles.iconSettings}
-    >
-      <SettingsIcon color={APP_COLORS.gray} />
-    </TouchableOpacity>
-  );
+  // const renderHeaderRight = () => (
+  //   <TouchableOpacity
+  //     activeOpacity={0.65}
+  //     style={styles.iconSettings}
+  //   >
+  //     <SettingsIcon color={APP_COLORS.gray} />
+  //   </TouchableOpacity>
+  // );
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -486,7 +494,7 @@ const styles = StyleSheet.create({
   },
   iconNotifications: {
     position: 'absolute',
-    right: -190,
+    right: 0,
     padding: 10,
     backgroundColor: '#FFFFFF33',
     borderRadius: 31,
@@ -495,7 +503,7 @@ const styles = StyleSheet.create({
     paddingTop: 9,
     gap: 16,
     alignItems: 'center',
-    marginLeft: 30,
+    marginLeft: 8,
   },
   iconSettings: {
     position: 'absolute',

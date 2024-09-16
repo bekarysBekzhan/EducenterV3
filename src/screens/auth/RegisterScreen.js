@@ -19,7 +19,7 @@ import {ROUTE_NAMES} from '../../components/navigation/routes';
 import CountryPicker from 'react-native-country-picker-modal';
 import RowView from '../../components/view/RowView';
 import {firebaseService} from '../../services/FirebaseService';
-import {check, HideIcon, ShowIcon} from '../../assets/icons';
+import {check, HideIcon, LeftArrowIcon, ShowIcon} from '../../assets/icons';
 import {useToggle} from '../../hooks/useToggle';
 import {useLocalization} from '../../components/context/LocalizationProvider';
 import {lang} from '../../localization/lang';
@@ -76,8 +76,19 @@ const RegisterScreen = ({navigation}) => {
     navigation.setOptions({
       title: lang('Создать аккаунт!', localization),
       headerTitleAlign: 'center',
+      headerLeft: renderHeaderLeft,
     });
   });
+
+  const renderHeaderLeft = () => (
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={styles.iconButton}
+      activeOpacity={0.65}
+    >
+      <LeftArrowIcon />
+    </TouchableOpacity>
+  );
 
   const onCountrySelect = country => {
     setCountry({
@@ -119,6 +130,7 @@ const RegisterScreen = ({navigation}) => {
       />
       <Input
         placeholder={lang('ФИО', localization)}
+        placeholderTextColor={APP_COLORS.placeholder}
         onChangeText={setName}
         value={dataSource?.name}
         extraStyle={styles.input}
@@ -143,6 +155,7 @@ const RegisterScreen = ({navigation}) => {
         <View style={{width: 16}} />
         <Input
           placeholder={lang('Номер телефона', localization)}
+          placeholderTextColor={APP_COLORS.placeholder}
           extraStyle={styles.input}
           keyboardType={'phone-pad'}
           mask={'(999) 999 99 99'}
@@ -153,6 +166,7 @@ const RegisterScreen = ({navigation}) => {
       </RowView>
       <Input
         placeholder={lang('E-mail', localization)}
+        placeholderTextColor={APP_COLORS.placeholder}
         onChangeText={setEmail}
         value={dataSource?.email}
         extraStyle={styles.input}
@@ -161,6 +175,7 @@ const RegisterScreen = ({navigation}) => {
       />
       <Input
         placeholder={lang('Придумайте пароль', localization)}
+        placeholderTextColor={APP_COLORS.placeholder}
         onChangeText={setPassword}
         value={dataSource?.password}
         extraStyle={styles.input}
@@ -202,6 +217,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     marginBottom: 8,
+    backgroundColor: APP_COLORS.input,
   },
   button: {
     marginTop: 16,
@@ -228,5 +244,17 @@ const styles = StyleSheet.create({
   licenseAgreementTextStyle: {
     textDecorationLine: 'underline',
     color: APP_COLORS.primary,
+  },
+  iconButton: {
+    position: 'absolute',
+    left: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
   },
 });

@@ -9,6 +9,8 @@ import {useFetching} from '../hooks/useFetching';
 import {useToggle} from '../hooks/useToggle';
 import {lang} from '../localization/lang';
 import {useLocalization} from '../components/context/LocalizationProvider';
+import { APP_COLORS } from '../constants/constants';
+import { setFontStyle } from '../utils/utils';
 
 const ChangePassword = () => {
   const {localization} = useLocalization();
@@ -75,6 +77,7 @@ const ChangePassword = () => {
       <Input
         extraStyle={styles.inputView}
         placeholder={lang('Старый пароль', localization)}
+        placeholderTextColor={APP_COLORS.placeholder}
         right={toggleOldPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
         secureTextEntry={!toggleOldPassword}
@@ -87,6 +90,7 @@ const ChangePassword = () => {
       <Input
         extraStyle={styles.inputView}
         placeholder={lang('Новый пароль', localization)}
+        placeholderTextColor={APP_COLORS.placeholder}
         right={toggleNewPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
         secureTextEntry={!toggleNewPassword}
@@ -97,6 +101,7 @@ const ChangePassword = () => {
       <Input
         extraStyle={styles.inputView}
         placeholder={lang('Повторите пароль', localization)}
+        placeholderTextColor={APP_COLORS.placeholder}
         right={toggleCfmPassword ? <ShowIcon /> : <HideIcon />}
         extraInputStyle={styles.inputStyle}
         secureTextEntry={!toggleCfmPassword}
@@ -126,9 +131,11 @@ const styles = StyleSheet.create({
   },
   inputStyle: {
     marginRight: 12,
+    ...setFontStyle(17)
   },
   inputView: {
     marginBottom: 8,
+    backgroundColor: APP_COLORS.input,
   },
 });
 

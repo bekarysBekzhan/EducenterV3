@@ -79,8 +79,13 @@ const LessonScreen = props => {
   });
 
   useLayoutEffect(() => {
+    const MAX_TITLE_LENGTH = 20;
     props.navigation.setOptions({
-      title: chapterTitle ? chapterTitle : lang('урок', localization),
+      title: chapterTitle 
+      ? (chapterTitle.length > MAX_TITLE_LENGTH 
+          ? `${chapterTitle.substring(0, MAX_TITLE_LENGTH)}...` 
+          : chapterTitle) 
+      : lang('урок', localization),
       headerTitleAlign: 'center',
     });
   }, []);
@@ -348,63 +353,59 @@ const LessonScreen = props => {
 
   return (
     <UniversalView>
-      <SafeAreaView>
-
-        <SmallHeaderBar title={data?.chapter?.title} />
-        <FlatList
-          data={comments}
-          style={styles.container}
-          renderItem={renderComment}
-          keyExtractor={(_, index) => index.toString()}
-          ItemSeparatorComponent={() => <Divider isAbsolute={false} />}
-          showsVerticalScrollIndicator={false}
-          ListHeaderComponent={renderHeader}
-          ListFooterComponent={renderBottomPadding}
-          ListEmptyComponent={renderEmptyComponent}
-          contentContainerStyle={styles.listContent}
-          removeClippedSubviews={true}
-          overScrollMode="never"
-        />
-        <View style={styles.switchBar} onLayout={onLayoutSwitchBar}>
-          {data?.isFirst ? (
-            <View />
-          ) : (
-            <TouchableOpacity
-              style={styles.switchButton}
-              onPress={onPressPreviousLesson}>
-              <LeftIcon color={APP_COLORS.white} />
-            </TouchableOpacity>
-          )}
+      <FlatList
+        data={comments}
+        style={styles.container}
+        renderItem={renderComment}
+        keyExtractor={(_, index) => index.toString()}
+        ItemSeparatorComponent={() => <Divider isAbsolute={false} />}
+        showsVerticalScrollIndicator={false}
+        ListHeaderComponent={renderHeader}
+        ListFooterComponent={renderBottomPadding}
+        ListEmptyComponent={renderEmptyComponent}
+        contentContainerStyle={styles.listContent}
+        removeClippedSubviews={true}
+        overScrollMode="never"
+      />
+      <View style={styles.switchBar} onLayout={onLayoutSwitchBar}>
+        {data?.isFirst ? (
+          <View />
+        ) : (
           <TouchableOpacity
             style={styles.switchButton}
-            onPress={onPressNextLesson}
-            disabled={isModal}>
-            <RightIcon color={APP_COLORS.white} />
+            onPress={onPressPreviousLesson}>
+            <LeftIcon color={APP_COLORS.white} />
           </TouchableOpacity>
-        </View>
-        <Overlay visible={isModal} />
-        <Modal transparent={true} animationType="fade" visible={isCourseProgram}>
-          <View style={modal.container}>
-            <View style={{ height: navigationHeight }} />
-            <View style={modal.listContainer}>
-              <FlatList
-                data={course?.chapters}
-                ListHeaderComponent={renderModalHeader}
-                renderItem={renderChapter}
-                ListFooterComponent={() => <View style={{ height: 50 }} />}
-                ItemSeparatorComponent={() => <Divider />}
-                keyExtractor={(_, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-              />
-            </View>
+        )}
+        <TouchableOpacity
+          style={styles.switchButton}
+          onPress={onPressNextLesson}
+          disabled={isModal}>
+          <RightIcon color={APP_COLORS.white} />
+        </TouchableOpacity>
+      </View>
+      <Overlay visible={isModal} />
+      <Modal transparent={true} animationType="fade" visible={isCourseProgram}>
+        <View style={modal.container}>
+          <View style={{ height: navigationHeight }} />
+          <View style={modal.listContainer}>
+            <FlatList
+              data={course?.chapters}
+              ListHeaderComponent={renderModalHeader}
+              renderItem={renderChapter}
+              ListFooterComponent={() => <View style={{ height: 50 }} />}
+              ItemSeparatorComponent={() => <Divider />}
+              keyExtractor={(_, index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+            />
           </View>
-        </Modal>
-        <ShowType
-          visible={isShowType}
-          onHide={onShowTypeBackDrop}
-          onSelect={onShowTypeSelect}
-        />
-      </SafeAreaView>
+        </View>
+      </Modal>
+      <ShowType
+        visible={isShowType}
+        onHide={onShowTypeBackDrop}
+        onSelect={onShowTypeSelect}
+      />
     </UniversalView>
   );
 };

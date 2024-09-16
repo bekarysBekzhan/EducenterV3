@@ -66,7 +66,7 @@ const NotificationsScreen = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: lang('На главную', localization),
+      title: lang('Уведомления', localization),
     });
   }, []);
 
@@ -112,7 +112,6 @@ const NotificationsScreen = ({ navigation }) => {
   return (
     <UniversalView>
       <SafeAreaView>
-        <SmallHeaderBar title={lang('Уведомления', localization)} />
         <FlatList
           data={notifications}
           renderItem={renderItem}

@@ -12,6 +12,7 @@ import { ProfileService } from '../services/API';
 import { ROUTE_NAMES } from '../components/navigation/routes';
 import { useLocalization } from './../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
+import { APP_COLORS } from '../constants/constants';
 
 const ProfieEditScreen = ({ route, navigation }) => {
   const { localization } = useLocalization();
@@ -97,6 +98,7 @@ const ProfieEditScreen = ({ route, navigation }) => {
           </TouchableOpacity>
           <Input
             placeholder={lang('ФИО', localization)}
+            placeholderTextColor={APP_COLORS.placeholder}
             extraStyle={styles.input}
             onChangeText={name => setDataSource(prev => ({ ...prev, name }))}
             value={dataSource?.name}
@@ -138,6 +140,7 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     marginLeft: 16,
+    backgroundColor: APP_COLORS.input,
   },
   button: {
     marginTop: 40,

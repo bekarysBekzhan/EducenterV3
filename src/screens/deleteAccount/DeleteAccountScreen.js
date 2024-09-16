@@ -1,25 +1,25 @@
-import React, {useState} from 'react';
-import {Alert, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { Alert, StyleSheet } from 'react-native';
 import SimpleButton from '../../components/button/SimpleButton';
-import {useSettings} from '../../components/context/Provider';
+import { useSettings } from '../../components/context/Provider';
 import Input from '../../components/Input';
-import {ROUTE_NAMES} from '../../components/navigation/routes';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
 import UniversalView from '../../components/view/UniversalView';
-import {N_STATUS, REQUEST_HEADERS, STORAGE} from '../../constants/constants';
-import {useFetching} from '../../hooks/useFetching';
-import {ProfileService} from '../../services/API';
-import {API_V2} from '../../services/axios';
-import {removeStorage} from '../../storage/AsyncStorage';
-import {useLocalization} from '../../components/context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { APP_COLORS, N_STATUS, REQUEST_HEADERS, STORAGE } from '../../constants/constants';
+import { useFetching } from '../../hooks/useFetching';
+import { ProfileService } from '../../services/API';
+import { API_V2 } from '../../services/axios';
+import { removeStorage } from '../../storage/AsyncStorage';
+import { useLocalization } from '../../components/context/LocalizationProvider';
+import { lang } from '../../localization/lang';
 
-const DeleteAccountScreen = ({navigation}) => {
+const DeleteAccountScreen = ({ navigation }) => {
   const [word, setWord] = useState(null);
-  const {setIsAuth, settings, nstatus} = useSettings();
-  const {localization} = useLocalization();
+  const { setIsAuth, settings, nstatus } = useSettings();
+  const { localization } = useLocalization();
 
   const [fetchDeleteAccount, isLoading, error] = useFetching(async () => {
-    const result = await ProfileService.fetchDeleteAccount({password: word});
+    const result = await ProfileService.fetchDeleteAccount({ password: word });
 
     if (result?.data?.hasOwnProperty('errors')) {
       const value = Object.values(result.data?.errors);
@@ -37,7 +37,7 @@ const DeleteAccountScreen = ({navigation}) => {
       navigation.dispatch(
         CommonActions.reset({
           index: 0,
-          routes: [{name: ROUTE_NAMES.bottomTab}],
+          routes: [{ name: ROUTE_NAMES.bottomTab }],
         }),
       );
     } else {
@@ -47,7 +47,7 @@ const DeleteAccountScreen = ({navigation}) => {
         navigation.dispatch(
           CommonActions.reset({
             index: 0,
-            routes: [{name: ROUTE_NAMES.bottomTab}],
+            routes: [{ name: ROUTE_NAMES.bottomTab }],
           }),
         );
       }
@@ -61,7 +61,9 @@ const DeleteAccountScreen = ({navigation}) => {
         value={word}
         secureTextEntry
         placeholder={lang('Пароль', localization)}
-        extraStyle={{marginHorizontal: 16, marginVertical: 13}}></Input>
+        placeholderTextColor={APP_COLORS.placeholder}
+        extraStyle={styles.input}
+      />
       <SimpleButton
         style={styles.navButton}
         text={lang('Удалить аккаунт', localization)}
@@ -76,6 +78,14 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     marginHorizontal: 16,
   },
+  input: {
+    marginHorizontal: 16,
+    marginVertical: 13,
+    backgroundColor: APP_COLORS.input,
+  },
+  inputTextStyle: {
+
+  }
 });
 
 export default DeleteAccountScreen;
