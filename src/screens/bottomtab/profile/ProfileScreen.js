@@ -37,8 +37,6 @@ import {
 import { useSettings } from '../../../components/context/Provider';
 import { ROUTE_NAMES } from '../../../components/navigation/routes';
 import DevView from '../../../components/view/DevView';
-import FastImage from 'react-native-fast-image';
-import RowView from '../../../components/view/RowView';
 import { useFetching } from '../../../hooks/useFetching';
 import { ProfileService } from '../../../services/API';
 import { setFontStyle } from '../../../utils/utils';
@@ -47,7 +45,6 @@ import LoadingScreen from '../../../components/LoadingScreen';
 import { storeObject } from '../../../storage/AsyncStorage';
 import { lang } from '../../../localization/lang';
 import { useLocalization } from '../../../components/context/LocalizationProvider';
-import ProfileHeaderBar from '../../../components/ProfileHeaderBar';
 import { navHeaderOptions } from '../../../components/navigation/navHeaderOptions';
 
 const ProfileScreen = ({ navigation, route }) => {
@@ -64,6 +61,7 @@ const ProfileScreen = ({ navigation, route }) => {
     let navigationOptions = navHeaderOptions(
       lang('Мой профиль', localization),
     );
+    navigationOptions.headerTitleAlign = 'center',
     navigationOptions.headerRight = renderHeaderRight;
     navigationOptions.headerLeft = null;
     navigation.setOptions(navigationOptions);

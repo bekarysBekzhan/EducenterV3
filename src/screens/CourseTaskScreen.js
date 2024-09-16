@@ -152,8 +152,14 @@ const CourseTaskScreen = props => {
   });
 
   useLayoutEffect(() => {
+    const MAX_TITLE_LENGTH = 20;
     props.navigation.setOptions({
-      title: lessonTitle ? lessonTitle : lang('Задание', localization),
+      title: lessonTitle
+        ? (lessonTitle.length > MAX_TITLE_LENGTH
+          ? `${lessonTitle.substring(0, MAX_TITLE_LENGTH)}...`
+          : lessonTitle)
+        : lang('Задание', localization),
+      headerTitleAlign: 'center',
     });
   }, []);
 
@@ -556,6 +562,7 @@ const CourseTaskScreen = props => {
           onContentSizeChange={onContentSizeChange}
           onChangeText={value => setAnswer(value)}
           placeholder={lang('Напишите результаты задания', localization)}
+          placeholderTextColor={APP_COLORS.placeholder}
         />
         <TouchableOpacity
           style={styles.sendIcon}

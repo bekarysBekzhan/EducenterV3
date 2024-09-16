@@ -35,8 +35,14 @@ const PreviewTestScreen = props => {
   });
 
   useLayoutEffect(() => {
+    const MAX_TITLE_LENGTH = 20;
     props.navigation.setOptions({
-      title: lessonTitle ? lessonTitle : lang('Онлайн тест', localization),
+      title: lessonTitle
+        ? (lessonTitle.length > MAX_TITLE_LENGTH
+          ? `${lessonTitle.substring(0, MAX_TITLE_LENGTH)}...`
+          : lessonTitle)
+        : lang('Онлайн тест', localization),
+      headerTitleAlign: 'center',
     });
     fetchTestInfo();
   }, []);

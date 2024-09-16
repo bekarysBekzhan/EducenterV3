@@ -20,7 +20,7 @@ const OutlineButton = ({
 }) => {
   const {settings} = useSettings();
   const memoStyle = useMemo(() => [styles.buttonStyle, style], [style]);
-  const memoTextStyle = useMemo(() => [{...styles.text, color: APP_COLORS.primary}, textStyle], [textStyle]);
+  const memoTextStyle = useMemo(() => [{...styles.text, color: settings?.color_app}, textStyle], [textStyle]);
 
   return (
     <TouchableOpacity

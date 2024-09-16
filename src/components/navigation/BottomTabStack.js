@@ -158,7 +158,7 @@ const BottomTab = props => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBarStyle,
-        tabBarActiveTintColor: APP_COLORS.primary,
+        tabBarActiveTintColor: settings?.color_app,
         tabBarInactiveTintColor: APP_COLORS.placeholder,
       }}
       initialRouteName={getInitialRouteName()}>
@@ -171,7 +171,7 @@ const BottomTab = props => {
             options={{
               ...route?.options,
               tabBarIcon: ({ focused }) =>
-                route.icon(focused, APP_COLORS.primary),
+                route.icon(focused, settings?.color_app),
               tabBarLabel: route.label,
             }}
           />

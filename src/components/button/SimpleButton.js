@@ -19,7 +19,7 @@ const SimpleButton = ({
 }) => {
   
   const {settings} = useSettings();
-  const memoStyle = useMemo(() => [{...styles.button, backgroundColor: APP_COLORS.primary}, style], [style]);
+  const memoStyle = useMemo(() => [{...styles.button, backgroundColor: settings?.color_app}, style], [style]);
   const memoTextStyle = useMemo(() => [styles.text, textStyle], [textStyle]);
 
   return (

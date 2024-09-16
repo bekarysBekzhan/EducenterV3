@@ -487,6 +487,7 @@ const OperationScreen = ({ navigation, route }) => {
         <Input
           extraStyle={styles.input}
           placeholder={lang('Введите промокод', localization)}
+          placeholderTextColor={APP_COLORS.placeholder}
           returnKeyType="send"
           onSubmitEditing={onSubmitEditing}
         />
@@ -595,6 +596,7 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 24,
+    backgroundColor: APP_COLORS.input,
   },
   totalLabel: {
     ...setFontStyle(28, '700'),

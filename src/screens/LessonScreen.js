@@ -85,7 +85,7 @@ const LessonScreen = props => {
       ? (chapterTitle.length > MAX_TITLE_LENGTH 
           ? `${chapterTitle.substring(0, MAX_TITLE_LENGTH)}...` 
           : chapterTitle) 
-      : lang('урок', localization),
+      : lang('Урок', localization),
       headerTitleAlign: 'center',
     });
   }, []);

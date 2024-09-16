@@ -1,23 +1,23 @@
-import {View, FlatList, StyleSheet, ActivityIndicator} from 'react-native';
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import { View, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import UniversalView from '../components/view/UniversalView';
 import TrackPlayer from 'react-native-track-player';
-import {useFetching} from '../hooks/useFetching';
+import { useFetching } from '../hooks/useFetching';
 import Question from '../components/test/Question';
-import {CourseService} from '../services/API';
-import {APP_COLORS} from '../constants/constants';
+import { CourseService } from '../services/API';
+import { APP_COLORS } from '../constants/constants';
 import SimpleButton from '../components/button/SimpleButton';
 import RowView from '../components/view/RowView';
-import {TimeIcon} from '../assets/icons';
+import { TimeIcon } from '../assets/icons';
 import Timer from '../components/test/Timer';
 import Overlay from '../components/view/Overlay';
-import {ROUTE_NAMES} from '../components/navigation/routes';
-import {getSeconds} from '../utils/utils';
-import {useLocalization} from '../components/context/LocalizationProvider';
+import { ROUTE_NAMES } from '../components/navigation/routes';
+import { getSeconds } from '../utils/utils';
+import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
 
 const CourseTestScreen = props => {
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const id = props.route?.params?.id;
   const again = props.route?.params?.again;
@@ -52,8 +52,14 @@ const CourseTestScreen = props => {
   }, [testError]);
 
   useLayoutEffect(() => {
+    const MAX_TITLE_LENGTH = 20;
     props.navigation.setOptions({
-      title: lessonTitle ? lessonTitle : lang('тест', localization),
+      title: lessonTitle
+        ? (lessonTitle.length > MAX_TITLE_LENGTH
+          ? `${lessonTitle.substring(0, MAX_TITLE_LENGTH)}...`
+          : lessonTitle)
+        : lang('Тест', localization),
+      headerTitleAlign: 'center',
     });
     if (data) {
       props.navigation.setOptions({
@@ -110,7 +116,7 @@ const CourseTestScreen = props => {
     currentSetPlaying.current = setPlaying;
   };
 
-  const renderQuestion = ({item, index}) => {
+  const renderQuestion = ({ item, index }) => {
     return (
       <Question
         questionItem={item}
@@ -128,7 +134,7 @@ const CourseTestScreen = props => {
       <SimpleButton
         text={lang('Завершить тест', localization)}
         onPress={finishTest}
-        style={{marginBottom: 100}}
+        style={{ marginBottom: 100 }}
         loading={isFinishLoading}
       />
     </View>
@@ -138,7 +144,7 @@ const CourseTestScreen = props => {
     <UniversalView style={styles.container}>
       {isLoading ? (
         <ActivityIndicator
-          style={{marginTop: 120}}
+          style={{ marginTop: 120 }}
           color={APP_COLORS.primary}
         />
       ) : (
@@ -146,7 +152,7 @@ const CourseTestScreen = props => {
           data={data?.tests}
           renderItem={renderQuestion}
           ListFooterComponent={renderFooter}
-          style={{padding: 16}}
+          style={{ padding: 16 }}
           maxToRenderPerBatch={10}
           keyExtractor={(item, index) => index.toString()}
           showsVerticalScrollIndicator={false}
@@ -159,7 +165,7 @@ const CourseTestScreen = props => {
   );
 };
 
-const TestTimer = ({finishingTime, finishTest, totalSeconds}) => {
+const TestTimer = ({ finishingTime, finishTest, totalSeconds }) => {
   const [backgroundColor, setBackgroundColor] = useState('green');
   return (
     <RowView
@@ -169,7 +175,7 @@ const TestTimer = ({finishingTime, finishTest, totalSeconds}) => {
           backgroundColor: backgroundColor,
         },
       ]}>
-      <View style={{paddingRight: 4}}>
+      <View style={{ paddingRight: 4 }}>
         <TimeIcon color="white" />
       </View>
       <Timer

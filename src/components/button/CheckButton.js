@@ -17,7 +17,7 @@ const CheckButton = ({checked = false, onPress, text, textStyle, style}) => {
     style={{
       ...style,
       ...styles.button,
-      borderColor: checked ? APP_COLORS.primary : APP_COLORS.border,
+      borderColor: checked ? settings?.color_app : APP_COLORS.border,
     }}>
     <RowView style={styles.row}>
       {checked ? check(1, APP_COLORS.primary) : null}
