@@ -46,6 +46,7 @@ import { storeObject } from '../../../storage/AsyncStorage';
 import { lang } from '../../../localization/lang';
 import { useLocalization } from '../../../components/context/LocalizationProvider';
 import { navHeaderOptions } from '../../../components/navigation/navHeaderOptions';
+import FastImage from 'react-native-fast-image';
 
 const ProfileScreen = ({ navigation, route }) => {
   const { profile } = route.params;
@@ -62,7 +63,7 @@ const ProfileScreen = ({ navigation, route }) => {
       lang('Мой профиль', localization),
     );
     navigationOptions.headerTitleAlign = 'center',
-    navigationOptions.headerRight = renderHeaderRight;
+      navigationOptions.headerRight = renderHeaderRight;
     navigationOptions.headerLeft = null;
     navigation.setOptions(navigationOptions);
   }, [isRead]);
@@ -75,7 +76,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 1,
           text: lang('История оплаты', localization),
-          iconLeft: <History />,
+          iconLeft: <History color={settings?.color_app} />,
           enabled: nstatus !== N_STATUS,
           action: 'navigation',
           route: ROUTE_NAMES.history,
@@ -83,7 +84,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 2,
           text: lang('Расписание', localization),
-          iconLeft: <ScheduleIcon />,
+          iconLeft: <ScheduleIcon color={settings?.color_app} />,
           enabled: nstatus !== N_STATUS,
           route: ROUTE_NAMES.scheduleNavigator,
           action: 'navigation',
@@ -91,7 +92,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 3,
           text: lang('Сменить пароль', localization),
-          iconLeft: <Password />,
+          iconLeft: <Password color={settings?.color_app} />,
           enabled: true,
           action: 'navigation',
           route: ROUTE_NAMES.changePassword,
@@ -99,7 +100,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 4,
           text: lang('Настройки', localization),
-          iconLeft: <Settings />,
+          iconLeft: <Settings color={settings?.color_app} />,
           enabled: true,
           action: 'navigation',
           route: ROUTE_NAMES.settings,
@@ -113,7 +114,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 0,
           text: lang('ЕНТ', localization),
-          iconLeft: <UbtIcon />,
+          iconLeft: <UbtIcon color={settings?.color_app} />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_ubt,
           action: 'navigation',
           route: ROUTE_NAMES.selectSubjects,
@@ -121,7 +122,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 1,
           text: lang('Журнал', localization),
-          iconLeft: <JournalIcon />,
+          iconLeft: <JournalIcon color={settings?.color_app} />,
           enabled: nstatus !== N_STATUS && settings?.modules_enabled_journals,
           action: 'navigation',
           route: ROUTE_NAMES.journalNavigator,
@@ -129,7 +130,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 2,
           text: lang('Рейтинг', localization),
-          iconLeft: <RatingIcon />,
+          iconLeft: <RatingIcon color={settings?.color_app} />,
           enabled: settings?.modules_enabled_rating,
           action: 'navigation',
           route: ROUTE_NAMES.rating,
@@ -142,7 +143,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 4,
           text: lang('Новости', localization),
-          iconLeft: <NewsIcon />,
+          iconLeft: <NewsIcon color={settings?.color_app} />,
           enabled: settings?.modules_enabled_news,
           action: 'navigation',
           route: ROUTE_NAMES?.news,
@@ -150,7 +151,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 5,
           text: lang('Правила и соглашения', localization),
-          iconLeft: <ReclamentIcon />,
+          iconLeft: <ReclamentIcon color={settings?.color_app} />,
           enabled: true,
           action: 'navigation',
           route: ROUTE_NAMES?.privacy,
@@ -158,7 +159,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 6,
           text: lang('Офлайн курсы', localization),
-          iconLeft: <OfflineCoursesIcon />,
+          iconLeft: <OfflineCoursesIcon color={settings?.color_app} />,
           action: 'navigation',
           enabled:
             nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
@@ -167,7 +168,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 7,
           text: lang('Календарь', localization),
-          iconLeft: <CalendarIcon />,
+          iconLeft: <CalendarIcon color={settings?.color_app} />,
           action: 'navigation',
           enabled:
             nstatus !== N_STATUS && settings?.modules_enabled_offline_courses,
@@ -182,7 +183,7 @@ const ProfileScreen = ({ navigation, route }) => {
         {
           id: 1,
           text: settings?.phone,
-          iconLeft: <CallCenterIcon />,
+          iconLeft: <CallCenterIcon color={settings?.color_app} />,
           action: 'call',
           enabled: settings?.phone?.length,
         },
@@ -262,6 +263,17 @@ const ProfileScreen = ({ navigation, route }) => {
     </TouchableOpacity>
   );
 
+  const getInitials = (name = '') => {
+    const nameParts = name.trim().split(' ');
+
+    if (nameParts.length === 1) {
+      return nameParts[0].charAt(0).toUpperCase() + nameParts[0].charAt(0).toUpperCase();
+    }
+
+    return nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase();
+  };
+
+
   // const renderHeaderRight = () => (
   //   <TouchableOpacity
   //     activeOpacity={0.65}
@@ -275,6 +287,8 @@ const ProfileScreen = ({ navigation, route }) => {
     return <LoadingScreen />;
   }
 
+  console.log('Data:::', dataSource)
+
   return (
     <UniversalView
       haveScroll
@@ -285,14 +299,25 @@ const ProfileScreen = ({ navigation, route }) => {
         />
       }
     >
-      <StatusBar backgroundColor={APP_COLORS.primary} barStyle="light-content" />
-      <View style={styles.header} />
+      <StatusBar backgroundColor={settings?.color_app} barStyle="light-content" />
+      <View style={[styles.header, { backgroundColor: settings?.color_app }]} />
       <View style={styles.avatarContainer}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>AA</Text>
-        </View>
+        {dataSource?.data?.avatar ? (
+          <FastImage
+            source={{
+              uri: dataSource?.data?.avatar,
+              priority: 'high',
+            }}
+            style={styles.avatar}
+          />) : (
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>
+              {getInitials(dataSource?.data?.name)}
+            </Text>
+          </View>
+        )}
       </View>
-      <View style={styles.primaryBackgroundView}>
+      <View style={{ backgroundColor: settings?.color_app }}>
         <View style={styles.mainView}>
 
           <View style={styles.profileInfoContainer}>
@@ -316,7 +341,7 @@ const ProfileScreen = ({ navigation, route }) => {
               activeOpacity={0.9}
               style={styles.editProfileButton}
             >
-              <Text style={styles.editProfileButtonText}>
+              <Text style={[styles.editProfileButtonText, { color: settings?.color_app }]}>
                 {lang('Редактировать профиль', localization)}
               </Text>
             </TouchableOpacity>
