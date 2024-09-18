@@ -12,9 +12,11 @@ import LoadingScreen from '../components/LoadingScreen';
 import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
 import { ClockIcon, DoneBoxIcon, ExclamationCircle } from '../assets/icons';
+import { useSettings } from '../components/context/Provider';
 
 const PreviewTestScreen = props => {
   const { localization } = useLocalization();
+  const { settings } = useSettings();
 
   const id = props.route?.params?.id;
   const again = props.route?.params?.again;
@@ -77,7 +79,7 @@ const PreviewTestScreen = props => {
 
   return (
     <UniversalView>
-      <View style={styles.primaryView}>
+      <View style={{ backgroundColor: settings?.color_app }}>
         <View style={styles.container}>
           <View style={styles.testInfoCard}>
             <Text style={styles.onlineTest}>{lang('Онлайн тест', localization)}</Text>

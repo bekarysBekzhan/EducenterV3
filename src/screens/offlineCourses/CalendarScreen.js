@@ -15,10 +15,11 @@ import Loader from '../../components/Loader';
 import Empty from '../../components/Empty';
 import { useLocalization } from '../../components/context/LocalizationProvider';
 import { lang } from '../../localization/lang';
-import SmallHeaderBar from '../../components/SmallHeaderBar';
+import { useSettings } from '../../components/context/Provider';
 
 const CalendarScreen = ({ navigation }) => {
   const { localization } = useLocalization();
+  const { settings } = useSettings();
 
   const [dataSource, setDataSource] = useState({
     data: [],
@@ -61,8 +62,8 @@ const CalendarScreen = ({ navigation }) => {
         v?.count
           ? v?.color
             ? v?.color
-            : APP_COLORS.primary
-          : APP_COLORS.primary;
+            : settings?.color_app
+          : settings?.color_app;
     });
 
     dayData[dataSource?.day] = {
@@ -264,12 +265,12 @@ const CalendarScreen = ({ navigation }) => {
         selectedDayBackgroundColor:
           dataSource?.backgroundColors?.hasOwnProperty(dataSource?.day)
             ? dataSource?.backgroundColors[dataSource?.day]
-            : APP_COLORS.primary,
+            : settings?.color_app,
         todayTextColor: '#000',
         arrowColor: '#ACB4BE',
         textMonthFontSize: 15,
         textMonthFontWeight: '600',
-        monthTextColor: APP_COLORS.primary,
+        monthTextColor: settings?.color_app,
       }}
       onDayPress={onDayPress}
       firstDay={1}

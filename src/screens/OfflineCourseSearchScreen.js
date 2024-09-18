@@ -211,7 +211,7 @@ const OfflineCourseSearchScreen = props => {
   return (
     <UniversalView>
       <SafeAreaView style={{flex: 1}}>
-        <RowView style={styles.searchBar}>
+        <RowView style={[styles.searchBar, {backgroundColor: settings?.color_app}]}>
           <TouchableOpacity
             onPress={() => props.navigation.goBack()}
             activeOpacity={0.8}>
@@ -269,7 +269,7 @@ const OfflineCourseSearchScreen = props => {
           />
         ) : isFetchingHistory ? (
           <ActivityIndicator
-            color={APP_COLORS.primary}
+            color={settings?.color_app}
             style={{marginTop: 100}}
           />
         ) : (

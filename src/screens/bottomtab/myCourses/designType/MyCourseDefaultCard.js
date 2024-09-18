@@ -3,16 +3,18 @@ import React from 'react';
 import FastImage from 'react-native-fast-image';
 import RowView from '../../../../components/view/RowView';
 import * as Progress from 'react-native-progress';
-import { check, PlayIcon } from '../../../../assets/icons';
+import { check, iconPlay, PlayIcon } from '../../../../assets/icons';
 import CourseRow from '../../../../components/CourseRow';
 import { setFontStyle } from '../../../../utils/utils';
 import { ROUTE_NAMES } from '../../../../components/navigation/routes';
 import { APP_COLORS, WIDTH } from '../../../../constants/constants';
 import { useLocalization } from '../../../../components/context/LocalizationProvider';
 import { lang } from '../../../../localization/lang';
+import { useSettings } from '../../../../components/context/Provider';
 
 export const MyCourseDefaultCard = ({ item, index, navigation }) => {
   const { localization } = useLocalization();
+  const { settings } = useSettings();
 
   console.log('MyCourseDefaultCard');
   const onPressNextLesson = () => {
@@ -42,7 +44,7 @@ export const MyCourseDefaultCard = ({ item, index, navigation }) => {
               priority: 'high',
             }} />
           <View style={styles.courseInfo}>
-            <Text style={styles.position}>
+            <Text style={[styles.position, { color: settings?.color_app }]}>
               {lang('Урок', localization)}{' '}
               {item?.progress_information?.next_lesson?.position}
             </Text>
@@ -65,10 +67,10 @@ export const MyCourseDefaultCard = ({ item, index, navigation }) => {
             </RowView>
           ) : (
             <RowView>
-              <View style={[styles.continueIcon, { paddingLeft: 7 }]}>
-                <PlayIcon size={0.6} />
+              <View style={[styles.continueIcon, { paddingLeft: 7, backgroundColor: settings?.color_app }]}>
+                {iconPlay(0.85)}
               </View>
-              <Text style={styles.continueActionText}>
+              <Text style={[styles.continueActionText, { color: settings?.color_app }]}>
                 {lang('Продолжить урок', localization)}
               </Text>
             </RowView>
@@ -85,7 +87,7 @@ export const MyCourseDefaultCard = ({ item, index, navigation }) => {
             borderWidth={4}
             borderColor={APP_COLORS.white}
             unfilledColor={APP_COLORS.gray}
-            color={item?.progress_information?.finished ? APP_COLORS.green : APP_COLORS.primary}
+            color={item?.progress_information?.finished ? APP_COLORS.green : settings?.color_app}
             style={styles.progressBar}
           />
           <RowView style={styles.rowView}>

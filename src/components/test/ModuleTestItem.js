@@ -27,7 +27,7 @@ const ModuleTestItem = ({
   onPress = () => undefined,
 }) => {
   const { localization } = useLocalization();
-  const { nstatus } = useSettings();
+  const { nstatus, settings } = useSettings();
 
   const getText = () => {
     if (nstatus === N_STATUS) {
@@ -64,7 +64,7 @@ const ModuleTestItem = ({
           style={styles.poster}
         />
         <View style={styles.infoContainer}>
-          <Text style={styles.category}>{categoryName}</Text>
+          <Text style={[styles.category, {color: settings?.color_app}]}>{categoryName}</Text>
           <Text style={styles.title}>{title}</Text>
           <Text>{author?.name}</Text>
         </View>
@@ -78,8 +78,8 @@ const ModuleTestItem = ({
         <TextButton
           text={getText()}
           onPress={onPress}
-          style={[styles.button, {backgroundColor: hasSubscribed ? APP_COLORS.mediumgray : APP_COLORS.primary}]}
-          textStyle={[styles.buttonText, {color: hasSubscribed ? APP_COLORS.primary : APP_COLORS.white}]}
+          style={[styles.button, {backgroundColor: hasSubscribed ? APP_COLORS.mediumgray : settings?.color_app}]}
+          textStyle={[styles.buttonText, {color: hasSubscribed ? settings?.color_app : APP_COLORS.white}]}
         />
       </View>
     </TouchableOpacity>

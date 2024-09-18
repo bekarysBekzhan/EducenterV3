@@ -48,7 +48,7 @@ const Courses = () => {
             headerTitleStyle: {
               ...setFontStyle(20, '700', APP_COLORS.white),
             },
-            headerStyle: { backgroundColor: APP_COLORS.primary },
+            headerStyle: { backgroundColor: settings?.color_app },
             headerShadowVisible: false,
             headerRight: () => (
               <TouchableOpacity

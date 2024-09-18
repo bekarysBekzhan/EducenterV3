@@ -48,7 +48,7 @@ const Tests = () => {
             },
             headerBackTitleVisible: true,
             headerStyle: {
-              backgroundColor: APP_COLORS.primary,
+              backgroundColor: settings?.color_app,
             },
             headerShadowVisible: false,
             headerLeft: () => (

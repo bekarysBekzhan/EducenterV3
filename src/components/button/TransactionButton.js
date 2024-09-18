@@ -54,7 +54,7 @@ const TransactionButton = ({
       <TouchableOpacity 
       style={[
         styles.button, 
-        {backgroundColor: text === 'Пройти тест' ? APP_COLORS.mediumgray : APP_COLORS.primary}
+        {backgroundColor: text === 'Пройти тест' ? APP_COLORS.mediumgray : settings?.color_app}
       ]} 
       activeOpacity={0.9} 
       onPress={onPress}
@@ -62,7 +62,7 @@ const TransactionButton = ({
         <Text 
         numberOfLines={2} 
         style={[styles.buttonText, 
-        {color: text === 'Пройти тест' ? APP_COLORS.primary : APP_COLORS.white}]}>
+        {color: text === 'Пройти тест' ? settings?.color_app : APP_COLORS.white}]}>
           {text}
         </Text>
       </TouchableOpacity>

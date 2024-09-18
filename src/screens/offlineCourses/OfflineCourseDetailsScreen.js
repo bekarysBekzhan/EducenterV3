@@ -1,14 +1,14 @@
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import React, {Fragment, useCallback, useState, useEffect, useRef} from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { Fragment, useCallback, useState, useEffect, useRef } from 'react';
 import UniversalView from '../../components/view/UniversalView';
-import {useFetching} from '../../hooks/useFetching';
-import {CourseService} from '../../services/API';
-import {TYPE_SUBCRIBES} from '../../constants/constants';
-import {fileDownloader, setFontStyle} from '../../utils/utils';
-import {JournalIcon} from '../../assets/icons';
-import {useSettings} from '../../components/context/Provider';
+import { useFetching } from '../../hooks/useFetching';
+import { CourseService } from '../../services/API';
+import { TYPE_SUBCRIBES } from '../../constants/constants';
+import { fileDownloader, setFontStyle } from '../../utils/utils';
+import { JournalIcon } from '../../assets/icons';
+import { useSettings } from '../../components/context/Provider';
 import TransactionButton from '../../components/button/TransactionButton';
-import {ROUTE_NAMES} from '../../components/navigation/routes';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
 import Footer from '../../components/course/Footer';
 import LoadingScreen from '../../components/LoadingScreen';
 import NavButtonRow from '../../components/view/NavButtonRow';
@@ -16,14 +16,14 @@ import FastImage from 'react-native-fast-image';
 import EventItem from '../../components/item/EventItem';
 import Downloader from '../../components/Downloader';
 import RNFS from 'react-native-fs';
-import {useLocalization} from '../../components/context/LocalizationProvider';
+import { useLocalization } from '../../components/context/LocalizationProvider';
 import { lang } from '../../localization/lang';
 
 const OfflineCourseDetailsScreen = props => {
-  const {isAuth} = useSettings();
+  const { isAuth, settings } = useSettings();
   const courseID = props.route?.params?.courseID;
 
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
 
   const [data, setData] = useState(null);
   const [progress, setProgress] = useState(0);
@@ -58,19 +58,19 @@ const OfflineCourseDetailsScreen = props => {
   const maps = [
     {
       title: lang('Участники курса', localization),
-      leftIcon: <JournalIcon />,
+      leftIcon: <JournalIcon color={settings?.color_app} />,
       navigation: ROUTE_NAMES.offlineCourseMemberScreen,
       props: data?.members,
     },
     {
       title: lang('Материалы курса', localization),
-      leftIcon: <JournalIcon />,
+      leftIcon: <JournalIcon color={settings?.color_app} />,
       navigation: ROUTE_NAMES.courseMaterialScreen,
       props: data?.files,
     },
     {
       title: lang('Скачать сертификат', localization),
-      leftIcon: <JournalIcon />,
+      leftIcon: <JournalIcon color={settings?.color_app} />,
       hide: !data?.user_certificate?.file,
       type: 'certificate',
     },
@@ -99,7 +99,7 @@ const OfflineCourseDetailsScreen = props => {
   };
 
   const renderItem = useCallback(
-    ({item, index}) => (
+    ({ item, index }) => (
       <EventItem
         item={item}
         date={item?.start_time + ' - ' + item?.end_time}
@@ -125,7 +125,7 @@ const OfflineCourseDetailsScreen = props => {
             <NavButtonRow
               key={key}
               leftIcon={map.leftIcon}
-              style={{marginHorizontal: 16, marginVertical: 8}}
+              style={{ marginHorizontal: 16, marginVertical: 8 }}
               title={map.title}
               onPress={() => {
                 if (isAuth) {
@@ -195,7 +195,7 @@ const OfflineCourseDetailsScreen = props => {
   );
 };
 
-const CourseListHeader = ({data}) => {
+const CourseListHeader = ({ data }) => {
   return (
     <View>
       <FastImage

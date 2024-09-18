@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import UniversalView from '../components/view/UniversalView'
 import { useFetching } from '../hooks/useFetching'
@@ -13,9 +13,10 @@ import { setFontStyle, wordLocalization } from '../utils/utils'
 import RatingStar from '../components/RatingStar'
 import { useLocalization } from '../components/context/LocalizationProvider'
 import { lang } from '../localization/lang'
+import { LeftArrowIcon } from '../assets/icons'
 
 const ReviewsScreen = (props) => {
-    const {localization} = useLocalization();
+    const { localization } = useLocalization();
 
     const id = props.route?.params?.id
 
@@ -24,22 +25,34 @@ const ReviewsScreen = (props) => {
     const [page, setPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
 
-    const [fetchReviews, isFetching, fetchingError] = useFetching(async() => {
+    const [fetchReviews, isFetching, fetchingError] = useFetching(async () => {
         const response = await CourseService.fetchReviews(id)
         setCourse(response.data?.data?.course)
         setReviews(response.data?.data?.reviews?.data)
         setLastPage(response.data?.data?.reviews?.last_page)
     })
-    const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(async() => {
+    const [fetchNext, isFetchingNext, fetchingNextError] = useFetching(async () => {
         const response = await CourseService.fetchReviews(id, page)
         setReviews(prev => prev.concat(response.data?.data?.reviews?.data))
     })
 
     useLayoutEffect(() => {
         props.navigation.setOptions({
-            title: lang('Отзывы', localization)
+            title: lang('Отзывы', localization),
+            headerTitleAlign: 'center',
+            headerLeft: renderHeaderLeft,
         })
     }, [])
+
+    const renderHeaderLeft = () => (
+        <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={styles.iconButton}
+            activeOpacity={0.65}
+        >
+            <LeftArrowIcon />
+        </TouchableOpacity>
+    );
 
     useEffect(() => {
         if (page === 1) {
@@ -63,9 +76,9 @@ const ReviewsScreen = (props) => {
             <RowView style={styles.header}>
                 <Text style={styles.rating}>{course?.rating}</Text>
                 <View style={styles.ratingInfo}>
-                    <RatingStar 
-                        disabled={true} 
-                        maxStars={5} 
+                    <RatingStar
+                        disabled={true}
+                        maxStars={5}
                         rating={parseFloat(course?.rating)}
                         halfStarEnabled={true}
                         starSize={32}
@@ -86,7 +99,7 @@ const ReviewsScreen = (props) => {
                 startRating={item?.stars}
                 review={item?.text}
                 style={styles.reviewItem}
-                // numberOfLines={3}
+            // numberOfLines={3}
             />
         )
     }
@@ -96,10 +109,10 @@ const ReviewsScreen = (props) => {
             <View style={styles.footer}>
                 {
                     isFetchingNext
-                    ?
-                    <ActivityIndicator color={APP_COLORS.primary}/>
-                    :
-                    null
+                        ?
+                        <ActivityIndicator color={APP_COLORS.primary} />
+                        :
+                        null
                 }
             </View>
         )
@@ -113,13 +126,13 @@ const ReviewsScreen = (props) => {
     }
 
     const onEndReached = () => {
-        if(page < lastPage && !isFetchingNext) {
+        if (page < lastPage && !isFetchingNext) {
             setPage(prev => prev + 1)
         }
     }
 
     if (isFetching) {
-        return <LoadingScreen/>
+        return <LoadingScreen />
     }
 
     return (
@@ -128,7 +141,7 @@ const ReviewsScreen = (props) => {
                 data={reviews}
                 renderItem={renderReview}
                 ListHeaderComponent={renderHeader}
-                ListEmptyComponent={() => <Empty/>}
+                ListEmptyComponent={() => <Empty />}
                 ListFooterComponent={renderFooter}
                 keyExtractor={(_, index) => index.toString()}
                 showsVerticalScrollIndicator={false}
@@ -173,7 +186,19 @@ const styles = StyleSheet.create({
         height: 30,
         justifyContent: "center",
         alignItems: 'center'
-    }
+    },
+    iconButton: {
+        position: 'absolute',
+        left: 0,
+        padding: 10,
+        backgroundColor: '#FFFFFF33',
+        borderRadius: 31,
+        width: 36,
+        height: 36,
+        paddingTop: 9,
+        gap: 16,
+        alignItems: 'center',
+    },
 })
 
 export default ReviewsScreen

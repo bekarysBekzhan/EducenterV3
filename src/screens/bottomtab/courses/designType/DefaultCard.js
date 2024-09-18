@@ -11,7 +11,7 @@ import { setFontStyle } from '../../../../utils/utils';
 import { lang } from '../../../../localization/lang';
 
 export const DefaultCard = ({ item, index, navigation }) => {
-  const { nstatus } = useSettings();
+  const { nstatus, settings } = useSettings();
 
   console.log('DefaultCard');
 
@@ -33,7 +33,7 @@ export const DefaultCard = ({ item, index, navigation }) => {
         style={styles.poster}
       />
       <View style={styles.courseCardInfo}>
-        <Text style={styles.category}>{item?.category_name}</Text>
+        <Text style={[styles.category, {color: settings?.color_app}]}>{item?.category_name}</Text>
         <Text style={styles.title} numberOfLines={2}>
           {item?.title}
         </Text>

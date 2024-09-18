@@ -163,6 +163,7 @@ const SettingsScreen = ({navigation, route}) => {
           text={lang('Уведомления о действиях', localization)}
           value={isTogglePushAction}
           onValueChange={setIsTogglePushAction}
+          settings={settings}
         />
       )}
       <SimpleButton

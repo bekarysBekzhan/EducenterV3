@@ -269,7 +269,7 @@ const TaskSearchScreen = props => {
           />
         ) : isFetchingHistory ? (
           <ActivityIndicator
-            color={APP_COLORS.primary}
+            color={settings?.color_app}
             style={{marginTop: 100}}
           />
         ) : (

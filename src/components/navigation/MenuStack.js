@@ -27,7 +27,6 @@ import { lang } from '../../localization/lang';
 import { APP_COLORS } from '../../constants/constants';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BellIcon, LeftArrowIcon, SearchIcon, SettingsIcon } from '../../assets/icons';
-import { useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
@@ -122,7 +121,7 @@ const MenuStack = ({ navigation }) => {
       component: OfflineCourseDetailsScreen,
       options: {
         headerBackTitleVisible: false,
-        headerTitle: '',
+        headerTitle: lang('Курс', localization),
       },
     },
     {
@@ -180,7 +179,7 @@ const MenuStack = ({ navigation }) => {
         },
         headerBackTitleVisible: true,
         headerStyle: {
-          backgroundColor: APP_COLORS.primary,
+          backgroundColor: settings?.color_app,
         },
         headerShadowVisible: false,
         headerLeft: () => (

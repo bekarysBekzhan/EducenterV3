@@ -17,7 +17,7 @@ import { ROUTE_NAMES } from '../../../components/navigation/routes';
 import { useNavigation } from '@react-navigation/native';
 
 const MyCoursesScreen = props => {
-  const { nstatus } = useSettings();
+  const { nstatus, settings } = useSettings();
   const { localization } = useLocalization();
   const navigation = useNavigation();
   let route = ROUTE_NAMES.offlineCourseSearchScreen;
@@ -63,7 +63,7 @@ const MyCoursesScreen = props => {
   }
 
   return (
-    <UniversalView style={styles.universalView}>
+    <UniversalView style={{backgroundColor: settings?.color_app}}>
       <View style={styles.topTabContainer}>
         <TopTab screens={screens} swipeEnabled={true} />
       </View>
@@ -78,11 +78,11 @@ const styles = StyleSheet.create({
     backgroundColor: APP_COLORS.primary,
   },
   topTabContainer: {
-    flex: 1, // Ensure the container takes up the full available space
+    flex: 1, 
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    overflow: 'hidden', // Ensures content inside respects the border radius
-    backgroundColor: APP_COLORS.white, // Add the background color you want
+    overflow: 'hidden', 
+    backgroundColor: APP_COLORS.white, 
   },
   iconButton: {
     position: 'absolute',

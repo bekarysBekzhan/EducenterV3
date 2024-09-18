@@ -63,7 +63,7 @@ const MyCourseChapter = ({
             styles.completedProgress,
             {
               width: percent + '%',
-              backgroundColor: percent === 100 ? 'green' : APP_COLORS.primary,
+              backgroundColor: percent === 100 ? 'green' : settings?.color_app,
             },
           ]}
         />
@@ -145,7 +145,7 @@ const MyCourseChapter = ({
                 <RowView style={styles.lessonRow1}>
                   <View style={styles.lessonIcon}>
                     {lesson?.is_promo || hasSubscribed ? (
-                      <View style={styles.lessonPlay}>{iconPlay(0.85)}</View>
+                      <View style={[styles.lessonPlay, {backgroundColor: settings?.color_app}]}>{iconPlay(0.85)}</View>
                     ) : (
                       lock()
                     )}

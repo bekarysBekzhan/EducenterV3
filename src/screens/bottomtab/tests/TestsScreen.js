@@ -24,7 +24,7 @@ import { navHeaderOptions } from '../../../components/navigation/navHeaderOption
 import { BellIcon, SearchIcon } from '../../../assets/icons';
 
 const TestsScreen = props => {
-  const { nstatus, isAuth } = useSettings();
+  const { nstatus, isAuth, settings } = useSettings();
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState(null);
   const [page, setPage] = useState(1);
@@ -118,7 +118,7 @@ const TestsScreen = props => {
   }
 
   return (
-    <UniversalView style={styles.universalView}>
+    <UniversalView style={{backgroundColor: settings?.color_app}}>
       <View style={styles.primaryView}>
         <FlatList
           data={data}

@@ -1,12 +1,13 @@
-import React, {memo} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { memo } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {APP_COLORS} from '../../constants/constants';
-import {setFontStyle} from '../../utils/utils';
+import { APP_COLORS } from '../../constants/constants';
+import { setFontStyle } from '../../utils/utils';
 import Price from '../Price';
 import RowView from '../view/RowView';
-import {useLocalization} from '../context/LocalizationProvider';
-import {lang} from '../../localization/lang';
+import { useLocalization } from '../context/LocalizationProvider';
+import { lang } from '../../localization/lang';
+import { useSettings } from '../context/Provider';
 
 const JournalItem = ({
   item,
@@ -28,13 +29,14 @@ const JournalItem = ({
     }
   };
 
-  const {localization} = useLocalization();
+  const { localization } = useLocalization();
+  const { settings } = useSettings();
 
   return (
     <TouchableOpacity onPress={handlerPress} activeOpacity={0.9} style={style}>
       <RowView style={styles.row}>
         <FastImage
-          source={{uri: source, priority: 'high'}}
+          source={{ uri: source, priority: 'high' }}
           style={styles.poster}
         />
         <View style={styles.col}>
@@ -50,11 +52,11 @@ const JournalItem = ({
           ) : null}
           {showPrice && <Price price={price} old_price={old_price} />}
           {hasFile ? (
-            <Text style={styles.subscribe}>
+            <Text style={[styles.subscribe, { color: settings?.color_app }]}>
               {lang('Читать журнал', localization)}
             </Text>
           ) : (
-            <Text style={styles.subscribe}>
+            <Text style={[styles.subscribe, { color: settings?.color_app }]}>
               {has_subscribed
                 ? lang('Вы подписаны', localization)
                 : lang('Подписаться', localization)}

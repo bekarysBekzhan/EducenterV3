@@ -26,9 +26,10 @@ const Input = ({
 }) => {
 
   const [focus, setFocus] = useState(_focus);
+  const { settings } = useSettings();
 
   const memoStyles = useMemo(
-    () => [styles.container, focus ? styles.focus : {}, extraStyle],
+    () => [styles.container, focus ? {...styles.focus, borderColor: settings?.color_app} : {}, extraStyle],
     [focus, extraStyle],
   );
   const memoInputStyles = useMemo(

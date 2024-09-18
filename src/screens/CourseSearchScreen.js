@@ -211,7 +211,7 @@ const CourseSearchScreen = props => {
   return (
     <UniversalView>
       <SafeAreaView style={{flex: 1}}>
-        <RowView style={styles.searchBar}>
+        <RowView style={[styles.searchBar, {backgroundColor: settings?.color_app}]}>
           <TouchableOpacity
             onPress={() => props.navigation.goBack()}
             activeOpacity={0.8}>
@@ -269,7 +269,7 @@ const CourseSearchScreen = props => {
           />
         ) : isFetchingHistory ? (
           <ActivityIndicator
-            color={APP_COLORS.primary}
+            color={settings?.color_app}
             style={{marginTop: 100}}
           />
         ) : (
@@ -279,7 +279,7 @@ const CourseSearchScreen = props => {
               activeOpacity={0.65}
               onPress={() => historyItemTapped(item)}
               key={index}>
-              <Text style={styles.historyItemText}>{item}</Text>
+              <Text style={[styles.historyItemText, {color: settings?.color_app}]}>{item}</Text>
             </TouchableOpacity>
           ))
         )}

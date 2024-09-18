@@ -26,7 +26,7 @@ import { navHeaderOptions } from '../../../components/navigation/navHeaderOption
 import { SearchIcon } from '../../../assets/icons';
 
 const TasksScreen = props => {
-  const { nstatus, isAuth } = useSettings();
+  const { nstatus, isAuth, settings } = useSettings();
   const [data, setData] = useState(null);
   const [filters, setFilters] = useState(null);
   const [page, setPage] = useState(1);
@@ -125,7 +125,7 @@ const TasksScreen = props => {
   }
 
   return (
-    <UniversalView style={styles.universalView}>
+    <UniversalView style={{backgroundColor: settings?.color_app}}>
       <View style={styles.primaryView}>
         <FlatList
           data={data}

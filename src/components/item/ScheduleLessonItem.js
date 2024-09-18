@@ -8,9 +8,11 @@ import Empty from '../Empty';
 import RowView from '../view/RowView';
 import {useLocalization} from '../context/LocalizationProvider';
 import {lang} from '../../localization/lang';
+import { useSettings } from '../context/Provider';
 
 const ScheduleLessonItem = ({name, category, avatar, item, link}) => {
   const {localization} = useLocalization();
+  const { settings } = useSettings();
 
   const open = () => {
     console.log(link);
@@ -46,7 +48,7 @@ const ScheduleLessonItem = ({name, category, avatar, item, link}) => {
 
           <TextButton
             text={lang('Перейти', localization)}
-            textStyle={styles.goTo}
+            textStyle={[styles.goTo, {color: settings?.color_app}]}
             style={styles.button}
             onPress={open}
           />

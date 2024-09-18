@@ -23,7 +23,7 @@ import { SearchIcon } from '../../../assets/icons';
 import { ROUTE_NAMES } from '../../../components/navigation/routes';
 
 const CoursesScreen = props => {
-  const { nstatus, nCourse } = useSettings();
+  const { nstatus, nCourse, settings } = useSettings();
   const [page, setPage] = useState(1);
   const [filters, setFilters] = useState(null);
   const [lastPage, setLastPage] = useState(1);
@@ -107,7 +107,7 @@ const CoursesScreen = props => {
   }
 
   return (
-    <UniversalView style={styles.universalView}>
+    <UniversalView style={{backgroundColor: settings?.color_app}}>
       <View style={styles.primaryView}>
         <FlatList
           data={data}

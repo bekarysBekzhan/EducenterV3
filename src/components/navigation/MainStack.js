@@ -212,6 +212,7 @@ const Navigation = () => {
     setNCourse,
     setNMyCourse,
     setNIcon,
+    settings,
   } = useSettings();
 
   const { localization } = useLocalization();
@@ -309,7 +310,7 @@ const Navigation = () => {
                   ? true
                   : false,
               headerStyle: {
-                backgroundColor: APP_COLORS.primary,
+                backgroundColor: settings?.color_app,
               },
               headerTitleStyle: {
                 ...setFontStyle(20, '700', APP_COLORS.white),
@@ -328,7 +329,7 @@ const Navigation = () => {
                 headerShown: true,
                 headerBackTitleVisible: false,
                 headerStyle: {
-                  backgroundColor: APP_COLORS.primary,
+                  backgroundColor: settings?.color_app,
                 },
                 headerTitleStyle: {
                   ...setFontStyle(20, '700', APP_COLORS.white),

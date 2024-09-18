@@ -1,13 +1,13 @@
-import {StyleSheet} from 'react-native';
-import React, {useLayoutEffect} from 'react';
+import { StyleSheet } from 'react-native';
+import React, { useLayoutEffect } from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
-import {useState} from 'react';
+import { useState } from 'react';
 import SimpleButton from '../../components/button/SimpleButton';
 import TextButton from '../../components/button/TextButton';
 import AuthDetailView from '../../components/view/AuthDetailView';
-import {useFetching} from '../../hooks/useFetching';
-import {AuthService} from '../../services/API';
+import { useFetching } from '../../hooks/useFetching';
+import { AuthService } from '../../services/API';
 import {
   APP_COLORS,
   AUTH_TYPE,
@@ -15,21 +15,21 @@ import {
   REQUEST_HEADERS,
   STORAGE,
 } from '../../constants/constants';
-import {getString, storeString} from '../../storage/AsyncStorage';
-import {ROUTE_NAMES} from '../../components/navigation/routes';
-import {useSettings} from '../../components/context/Provider';
-import {API_V2} from '../../services/axios';
-import {firebaseService} from '../../services/FirebaseService';
-import {HideIcon, ShowIcon} from '../../assets/icons';
-import {useToggle} from '../../hooks/useToggle';
-import { useLocalization} from './../../components/context/LocalizationProvider'
-import {lang} from './../../localization/lang'
+import { getString, storeString } from '../../storage/AsyncStorage';
+import { ROUTE_NAMES } from '../../components/navigation/routes';
+import { useSettings } from '../../components/context/Provider';
+import { API_V2 } from '../../services/axios';
+import { firebaseService } from '../../services/FirebaseService';
+import { HideIcon, ShowIcon } from '../../assets/icons';
+import { useToggle } from '../../hooks/useToggle';
+import { useLocalization } from './../../components/context/LocalizationProvider'
+import { lang } from './../../localization/lang'
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
 
-  const {localization} = useLocalization();
-  
-  const {setIsAuth, settings, nstatus} = useSettings();
+  const { localization } = useLocalization();
+
+  const { setIsAuth, settings, nstatus } = useSettings();
 
   const [dataSource, setDataSource] = useState({
     email: '',
@@ -45,7 +45,7 @@ const LoginScreen = ({navigation}) => {
     await storeString(STORAGE.userToken, token);
     API_V2.defaults.headers[REQUEST_HEADERS.Authorization] = 'Bearer ' + token;
     setIsAuth(true);
-    navigation.reset({index: 0, routes: [{name: ROUTE_NAMES.bottomTab}]});
+    navigation.reset({ index: 0, routes: [{ name: ROUTE_NAMES.bottomTab }] });
     if (nstatus !== N_STATUS) {
       firebaseService.registerAppWithFCM();
       const fcmToken = await getString(STORAGE.firebaseToken);
@@ -156,7 +156,7 @@ const LoginScreen = ({navigation}) => {
       <TextButton
         style={styles.registerButton}
         text={lang('У меня нет аккаунта', localization)}
-        textStyle={styles.registerText}
+        textStyle={[styles.registerText, { color: settings?.color_app }]}
         onPress={onNavigationRegister}
       />
     </UniversalView>

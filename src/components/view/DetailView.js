@@ -2,15 +2,11 @@ import { View, Text, StyleSheet } from 'react-native';
 import React from 'react';
 import { setFontStyle } from '../../utils/utils';
 import { APP_COLORS, HEIGHT, WIDTH } from '../../constants/constants';
-import TextButton from '../button/TextButton';
-import HtmlView from '../HtmlView';
-import ItemRating from '../ItemRating';
 import FastImage from 'react-native-fast-image';
 import { useState } from 'react';
-import RowView from './RowView';
-import { time } from '../../assets/icons';
 import { useLocalization } from '../context/LocalizationProvider';
 import { lang } from '../../localization/lang';
+import { useSettings } from '../context/Provider';
 
 const DetailView = ({
   poster,
@@ -24,19 +20,20 @@ const DetailView = ({
   const { localization } = useLocalization();
 
   const [isDescriptionMore, setDescriptionMore] = useState(false);
+  const { settings } = useSettings();
 
   return (
     <View style={styles.container}>
       {poster ? (
         <FastImage
           source={{ uri: poster, priority: 'high' }}
-          style={styles.poster}
+          style={[styles.poster, { backgroundColor: settings?.color_app }]}
         />
       ) : (
-        <View style={styles.emptyPoster} />
+        <View style={[styles.emptyPoster, { backgroundColor: settings?.color_app }]} />
       )}
       <View style={styles.mainView}>
-        {category ? <Text style={styles.category}>{category}</Text> : null}
+        {category ? <Text style={[styles.category, { color: settings?.color_app }]}>{category}</Text> : null}
         <Text style={styles.title}>{title}</Text>
       </View>
     </View>

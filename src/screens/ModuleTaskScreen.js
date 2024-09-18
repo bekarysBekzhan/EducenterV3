@@ -498,6 +498,7 @@ const ModuleTaskScreen = props => {
           onContentSizeChange={onContentSizeChange}
           onChangeText={value => setAnswer(value)}
           placeholder={lang('Напишите результаты задания', localization)}
+          placeholderTextColor={APP_COLORS.placeholder}
         />
         <TouchableOpacity
           style={styles.sendIcon}

@@ -1,4 +1,4 @@
-import { Text, FlatList, StyleSheet, View, Switch } from 'react-native';
+import { Text, FlatList, StyleSheet, View, Switch, TouchableOpacity } from 'react-native';
 import React from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import { useFetching } from '../../../hooks/useFetching';
@@ -20,6 +20,8 @@ import { useLocalization } from '../../../components/context/LocalizationProvide
 import { lang } from '../../../localization/lang';
 import SmallHeaderBar from '../../../components/SmallHeaderBar';
 import RowView from '../../../components/view/RowView';
+import { useLayoutEffect } from 'react';
+import { LeftArrowIcon } from '../../../assets/icons';
 
 const CourseDetailScreen = props => {
   const { localization } = useLocalization();
@@ -36,6 +38,23 @@ const CourseDetailScreen = props => {
     const response = await CourseService.fetchCourseByID(courseID, params);
     setData(response.data?.data);
   });
+
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerLeft: renderHeaderLeft,
+      headerRight: null,
+    });
+  });
+
+  const renderHeaderLeft = () => (
+    <TouchableOpacity
+      onPress={() => props.navigation.goBack()}
+      style={styles.iconButton}
+      activeOpacity={0.65}
+    >
+      <LeftArrowIcon />
+    </TouchableOpacity>
+  );
 
   useEffect(() => {
     fetchCourse();
@@ -158,21 +177,21 @@ const CourseListHeader = ({ data, localization }) => {
       />
       <Divider isAbsolute={false} />
       <View style={styles.courseInfoContainer}>
-          <Text style={styles.courseProgram}>
-            {lang('Программа курса', localization)}
+        <Text style={styles.courseProgram}>
+          {lang('Программа курса', localization)}
+        </Text>
+        <RowView style={{ justifyContent: 'space-between', margin: 16 }}>
+          <Text style={{ color: APP_COLORS.font }}>
+            {lang('Скрыть пройденные курсы', localization)}
           </Text>
-          <RowView style={{ justifyContent: 'space-between', margin: 16 }}>
-            <Text style={{ color: APP_COLORS.font }}>
-              {lang('Скрыть пройденные курсы', localization)}
-            </Text>
-            <Switch
-              value={isFilter}
-              onValueChange={value => setIsFilter(value)}
-              thumbColor={isFilter ? APP_COLORS.primary : APP_COLORS.placeholder}
-              trackColor={{ true: '#EBEBFE', false: '#eee' }}
-            />
-          </RowView>
-        </View>
+          <Switch
+            value={isFilter}
+            onValueChange={value => setIsFilter(value)}
+            thumbColor={isFilter ? APP_COLORS.primary : APP_COLORS.placeholder}
+            trackColor={{ true: '#EBEBFE', false: '#eee' }}
+          />
+        </RowView>
+      </View>
     </UniversalView>
   );
 };
@@ -191,6 +210,18 @@ const styles = StyleSheet.create({
   courseProgram: {
     margin: 16,
     ...setFontStyle(21, '700'),
+  },
+  iconButton: {
+    position: 'absolute',
+    left: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
   },
 });
 

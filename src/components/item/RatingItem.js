@@ -8,7 +8,7 @@ import RowView from '../view/RowView';
 import {useLocalization} from '../context/LocalizationProvider';
 import {lang} from '../../localization/lang';
 
-const RaitingItem = ({count, avatar, category, name, title, score}) => {
+const RaitingItem = ({count, avatar, category, name, title, score, settings}) => {
   const {localization} = useLocalization();
 
   return (
@@ -17,11 +17,11 @@ const RaitingItem = ({count, avatar, category, name, title, score}) => {
       <RowView style={styles.innerRow}>
         <Avatar source={avatar} style={styles.avatar} />
         <View style={styles.col}>
-          {category ? <Text style={styles.category}>{category}</Text> : null}
+          {category ? <Text style={[styles.category, {color: settings?.color_app}]}>{category}</Text> : null}
           {name ? <Text style={styles.name}>{name}</Text> : null}
           {title ? <Text style={styles.title}>{title}</Text> : null}
         </View>
-        <Text style={styles.score}>
+        <Text style={[styles.score, {color: settings?.color_app}]}>
           {score ? score : 0}-{lang('БАЛЛ', localization)}
         </Text>
         <Divider />

@@ -34,7 +34,7 @@ const RatingScreen = ({}) => {
     list: [],
   });
 
-  const {nstatus} = useSettings();
+  const {nstatus, settings} = useSettings();
   const [value, setValue] = useState('');
   const [isFilter, setIsFilter] = useState(false);
   const [dataFilter, setDataFilter] = useState();
@@ -151,6 +151,7 @@ const RatingScreen = ({}) => {
         name={item?.user?.name}
         title={item?.entity?.title}
         score={item?.score}
+        settings={settings}
       />
     ),
     [],
@@ -179,7 +180,7 @@ const RatingScreen = ({}) => {
   return (
     <UniversalView>
       {nstatus === N_STATUS ? null : (
-        <RowView style={styles.searchBar}>
+        <RowView style={[styles.searchBar, {backgroundColor: settings?.color_app}]}>
           <Input
             // _focus={focus}
             placeholder={lang('Поиск тестов', localization)}

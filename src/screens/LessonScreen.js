@@ -249,14 +249,14 @@ const LessonScreen = props => {
           <OutlineButton
             text={lang('Пройти тест', localization)}
             onPress={onPressTest}
-            style={styles.testButton}
+            style={[styles.testButton, {backgroundColor: settings?.color_app}]}
           />
         ) : null}
         {data?.task_enabled ? (
           <OutlineButton
             text={lang('Пройти задание', localization)}
             onPress={onPressTask}
-            style={styles.taskButton}
+            style={[styles.taskButton, {backgroundColor: settings?.color_app}]}
           />
         ) : null}
         {settings?.modules_enable_comments_lesson ? (
@@ -367,7 +367,7 @@ const LessonScreen = props => {
         removeClippedSubviews={true}
         overScrollMode="never"
       />
-      <View style={styles.switchBar} onLayout={onLayoutSwitchBar}>
+      <View style={[styles.switchBar, {backgroundColor: settings?.color_app}]} onLayout={onLayoutSwitchBar}>
         {data?.isFirst ? (
           <View />
         ) : (

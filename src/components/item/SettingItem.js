@@ -5,7 +5,7 @@ import {setFontStyle} from '../../utils/utils';
 import Divider from '../Divider';
 import RowView from '../view/RowView';
 
-const SettingItem = ({text, label, value, style, onValueChange}) => {
+const SettingItem = ({text, label, value, style, onValueChange, settings}) => {
   const memoStyle = useMemo(() => [styles.view, style], [style]);
   const memoTrackColor = useMemo(() => ({true: 'rgba(85, 89, 244,0.12)',false:'#eee'}), []);
   return (
@@ -14,7 +14,7 @@ const SettingItem = ({text, label, value, style, onValueChange}) => {
         <Text style={styles.text}>{text}</Text>
         <Switch
           value={value}
-          thumbColor={value ? APP_COLORS.primary : APP_COLORS.placeholder}
+          thumbColor={value ? settings?.color_app : APP_COLORS.placeholder}
           trackColor={memoTrackColor}
           onValueChange={onValueChange}
         />

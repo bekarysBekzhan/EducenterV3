@@ -19,7 +19,7 @@ const OutlineButton = ({
   ...props
 }) => {
   const {settings} = useSettings();
-  const memoStyle = useMemo(() => [styles.buttonStyle, style], [style]);
+  const memoStyle = useMemo(() => [{...styles.buttonStyle, backgroundColor: settings?.color_app}, style], [style]);
   const memoTextStyle = useMemo(() => [{...styles.text, color: settings?.color_app}, textStyle], [textStyle]);
 
   return (

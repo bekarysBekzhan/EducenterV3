@@ -19,9 +19,11 @@ import RNFS from 'react-native-fs';
 import Downloader from '../components/Downloader';
 import { useLocalization } from '../components/context/LocalizationProvider';
 import { lang } from '../localization/lang';
+import { useSettings } from '../components/context/Provider';
 
 const CourseCompletedScreen = props => {
   const { localization } = useLocalization();
+  const { settings } = useSettings();
 
   const id = props.route?.params?.id;
 
@@ -126,7 +128,7 @@ const CourseCompletedScreen = props => {
           <SimpleButton
             text={lang('Скачать сертификат', localization)}
             style={styles.downloadButton}
-            textStyle={styles.downloadText}
+            textStyle={{color: settings?.color_app}}
             onPress={downloader}
           />
         ) : null}
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
     marginVertical: 16,
   },
   downloadButton: {
-    backgroundColor: 'transparent',
+    backgroundColor: APP_COLORS.mediumgray,
     borderWidth: 0.75,
     borderColor: APP_COLORS.border,
     marginBottom: 8,
