@@ -24,6 +24,7 @@ export const APP_COLORS = {
   black: '#222222',
   darkblack: '#000000',
   green: '#00BF00',
+  progress: '#ff6d00'
 };
 
 export const DOMAIN = 'https://demo.educenter.kz';
