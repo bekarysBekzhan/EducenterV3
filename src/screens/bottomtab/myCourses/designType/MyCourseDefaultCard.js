@@ -87,7 +87,7 @@ export const MyCourseDefaultCard = ({ item, index, navigation }) => {
             borderWidth={4}
             borderColor={APP_COLORS.white}
             unfilledColor={APP_COLORS.gray}
-            color={item?.progress_information?.finished ? APP_COLORS.green : settings?.color_app}
+            color={item?.progress_information?.finished ? APP_COLORS.green : APP_COLORS.progress}
             style={styles.progressBar}
           />
           <RowView style={styles.rowView}>

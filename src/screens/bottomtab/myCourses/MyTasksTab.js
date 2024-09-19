@@ -9,14 +9,16 @@ import LoadingScreen from '../../../components/LoadingScreen';
 import {setFontStyle, wordLocalization} from '../../../utils/utils';
 import Divider from '../../../components/Divider';
 import RowView from '../../../components/view/RowView';
-import {check, PlayIcon} from '../../../assets/icons';
+import {check, iconPlay, PlayIcon} from '../../../assets/icons';
 import TextButton from '../../../components/button/TextButton';
 import Empty from '../../../components/Empty';
 import { useLocalization } from '../../../components/context/LocalizationProvider';
 import { lang } from '../../../localization/lang';
+import { useSettings } from '../../../components/context/Provider';
 
 const MyTasksTab = props => {
   const {localization} = useLocalization();
+  const { settings } = useSettings();
 
   const [data, setData] = useState(null);
   const [page, setPage] = useState(1);
@@ -109,6 +111,7 @@ const MyTask = ({
   localization,
   onPress = () => undefined,
 }) => {
+  const { settings } = useSettings();
   return (
     <View style={task.container}>
       <Text style={task.title}>{title}</Text>
@@ -130,8 +133,8 @@ const MyTask = ({
             {check()}
           </View>
         ) : (
-          <View style={task.icon}>
-            <PlayIcon size={0.6} />
+          <View style={[task.icon, {backgroundColor: settings?.color_app}]}>
+            {iconPlay(0.85)}
           </View>
         )}
         {finished ? (
@@ -145,7 +148,7 @@ const MyTask = ({
           <TextButton
             onPress={() => onPress(id)}
             style={task.button}
-            textStyle={task.buttonText}
+            textStyle={[task.buttonText, {color: settings?.color_app}]}
             text={lang('Пройти задание', localization)}
           />
         )}

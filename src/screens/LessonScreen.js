@@ -306,7 +306,7 @@ const LessonScreen = props => {
       <RowView style={modal.header}>
         <Text style={modal.text}>{lang('Программа курса', localization)}</Text>
         <TouchableOpacity onPress={() => setIsCourseProgram(false)}>
-          {x(16, APP_COLORS.placeholder)}
+          {x(16, settings?.color_app)}
         </TouchableOpacity>
       </RowView>
     );

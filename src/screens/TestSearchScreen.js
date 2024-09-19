@@ -212,7 +212,7 @@ const TestSearchScreen = props => {
           <TouchableOpacity
             onPress={() => props.navigation.goBack()}
             activeOpacity={0.8}>
-            {x(16, APP_COLORS.placeholder)}
+            {x(16, APP_COLORS.gray3)}
           </TouchableOpacity>
           <Input
             _focus={focus}

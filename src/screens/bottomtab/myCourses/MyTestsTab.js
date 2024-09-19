@@ -13,7 +13,7 @@ import LoadingScreen from '../../../components/LoadingScreen';
 import {MyCourseService} from '../../../services/API';
 import {APP_COLORS} from '../../../constants/constants';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
-import {check, down, lock, PlayIcon, TimeIcon, up} from '../../../assets/icons';
+import {check, down, iconPlay, lock, PlayIcon, TimeIcon, up} from '../../../assets/icons';
 import RowView from '../../../components/view/RowView';
 import {
   fileDownloader,
@@ -30,6 +30,7 @@ import Downloader from '../../../components/Downloader';
 import Empty from '../../../components/Empty';
 import {useLocalization} from '../../../components/context/LocalizationProvider';
 import {lang} from '../../../localization/lang';
+import { color } from 'react-native-reanimated';
 
 const MyTestsTab = props => {
   const [data, setData] = useState(null);
@@ -221,8 +222,8 @@ const ModuleMyTestItem = ({
   const renderIcon = () => {
     if (usedAttempts() < attempts) {
       return (
-        <View style={testItem.icon}>
-          <PlayIcon size={0.6} />
+        <View style={[testItem.icon, {backgroundColor: settings?.color_app}]}>
+          {iconPlay(0.85)}
         </View>
       );
     }
@@ -243,7 +244,7 @@ const ModuleMyTestItem = ({
         <TextButton
           onPress={() => onStartTest(id)}
           style={testItem.button}
-          textStyle={[testItem.buttonText]}
+          textStyle={[testItem.buttonText, {color: settings?.color_app}]}
           text={lang('Пройти тест', localization)}
         />
       );
@@ -264,8 +265,8 @@ const ModuleMyTestItem = ({
       return (
         <TouchableOpacity onPress={() => onStartTest(id)} activeOpacity={0.88}>
           <RowView style={testItem.current}>
-            <View style={[testItem.icon, {backgroundColor: APP_COLORS.input}]}>
-              <PlayIcon size={0.6} color={APP_COLORS.primary} />
+            <View style={[testItem.icon, {backgroundColor: settings?.color_app}]}>
+              {iconPlay(0.65)}
             </View>
             <Text style={testItem.attemptText}>
               {lang('Пройти', localization)}. {lang('Попытка', localization)}{' '}
@@ -298,8 +299,8 @@ const ModuleMyTestItem = ({
         activeOpacity={0.88}>
         <RowView style={[testItem.attemptRow, {marginBottom: 10}]}>
           <RowView>
-            <View style={[testItem.icon, {backgroundColor: APP_COLORS.input}]}>
-              <PlayIcon size={0.6} color={APP_COLORS.primary} />
+            <View style={[testItem.icon, {backgroundColor: settings?.color_app}]}>
+              {iconPlay(0.85)}
             </View>
             <Text style={testItem.attemptText}>
               {lang('Попытка', localization)} {item?.attempts}
@@ -337,7 +338,7 @@ const ModuleMyTestItem = ({
         <TextButton
           onPress={() => onDownload(certificate?.file)}
           style={testItem.button}
-          textStyle={testItem.buttonText}
+          textStyle={[testItem.buttonText, {color: settings?.color_app}]}
           text={lang('Скачать сертификат', localization)}
         />
       ) : null}
@@ -351,7 +352,7 @@ const ModuleMyTestItem = ({
           onPress={() => setIsCollapsed(prev => !prev)}
           activeOpacity={0.7}>
           <RowView style={testItem.row2}>
-            <Text style={testItem.attemptsLeft}>
+            <Text style={[testItem.attemptsLeft, {color: settings?.color_app}]}>
               {wordLocalization(
                 lang('Осталось :attempts попытки', localization),
                 {

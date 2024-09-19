@@ -27,7 +27,7 @@ const DetailView = ({
       {poster ? (
         <FastImage
           source={{ uri: poster, priority: 'high' }}
-          style={[styles.poster, { backgroundColor: settings?.color_app }]}
+          style={styles.poster}
         />
       ) : (
         <View style={[styles.emptyPoster, { backgroundColor: settings?.color_app }]} />
@@ -66,7 +66,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     borderWidth: 1,
     borderColor: APP_COLORS.border,
-    backgroundColor: APP_COLORS.primary,
     padding: 16,
 
     shadowOpacity: 0.1,

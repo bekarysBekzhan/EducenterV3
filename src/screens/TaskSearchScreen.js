@@ -210,11 +210,11 @@ const TaskSearchScreen = props => {
   return (
     <UniversalView>
       <SafeAreaView style={{flex: 1}}>
-        <RowView style={styles.searchBar}>
+        <RowView style={[styles.searchBar, {backgroundColor: settings?.color_app}]}>
           <TouchableOpacity
             onPress={() => props.navigation.goBack()}
             activeOpacity={0.8}>
-            {x(16, APP_COLORS.placeholder)}
+            {x(16, APP_COLORS.gray3)}
           </TouchableOpacity>
           <Input
             _focus={focus}
@@ -279,7 +279,7 @@ const TaskSearchScreen = props => {
               activeOpacity={0.65}
               onPress={() => historyItemTapped(item)}
               key={index}>
-              <Text style={styles.historyItemText}>{item}</Text>
+              <Text style={[styles.historyItemText, {color: settings?.color_app}]}>{item}</Text>
             </TouchableOpacity>
           ))
         )}

@@ -201,7 +201,7 @@ export const x = (size = 8, color = '#FEFEFE') => (
       width="36"
       height="36"
       rx="18"
-      fill={APP_COLORS.gray3}
+      fill={color}
       fill-opacity="0.2"
     />
     <Path

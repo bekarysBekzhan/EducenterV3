@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useSettings } from '../context/Provider';
 import { ROUTE_NAMES } from '../navigation/routes';
 import { APP_COLORS, WIDTH } from '../../constants/constants';
-import { down, iconPlay, lock, PlayIcon, time, up } from '../../assets/icons';
+import { down, iconPlay, LeftArrowIcon, lock, PlayIcon, time, up } from '../../assets/icons';
 import RowView from '../view/RowView';
 import FastImage from 'react-native-fast-image';
 import Collapsible from 'react-native-collapsible';
@@ -13,6 +13,7 @@ import { useLocalization } from './../../components/context/LocalizationProvider
 import { lang } from '../../localization/lang';
 import { CourseService } from '../../services/API';
 import { useFetching } from '../../hooks/useFetching';
+import { useLayoutEffect } from 'react';
 
 const MyCourseChapter = ({
   item,
@@ -54,6 +55,23 @@ const MyCourseChapter = ({
   });
   //--
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: renderHeaderLeft,
+      headerRight: null,
+    });
+  });
+
+  const renderHeaderLeft = () => (
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={styles.iconButton}
+      activeOpacity={0.65}
+    >
+      <LeftArrowIcon />
+    </TouchableOpacity>
+  );
+
   const renderProgressBar = (percent = 10) => {
     console.log('percent : ', percent);
     return (
@@ -63,7 +81,7 @@ const MyCourseChapter = ({
             styles.completedProgress,
             {
               width: percent + '%',
-              backgroundColor: percent === 100 ? 'green' : settings?.color_app,
+              backgroundColor: percent === 100 ? 'green' : APP_COLORS.progress,
             },
           ]}
         />
@@ -265,6 +283,18 @@ const styles = StyleSheet.create({
   completedProgress: {
     height: 7.0,
     borderRadius: 13,
+  },
+  iconButton: {
+    position: 'absolute',
+    left: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
   },
 });
 
