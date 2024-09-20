@@ -207,6 +207,8 @@ const TaskSearchScreen = props => {
     }
   }, []);
 
+  console.log('Filters TaskSS:::', filters)
+
   return (
     <UniversalView>
       <SafeAreaView style={{flex: 1}}>

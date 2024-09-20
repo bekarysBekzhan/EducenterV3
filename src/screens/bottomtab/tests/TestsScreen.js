@@ -65,7 +65,7 @@ const TestsScreen = props => {
       fetchNext();
     }
   }, [page]);
-
+  
   const testItemTapped = item => {
     if (isAuth) {
       props.navigation.navigate(ROUTE_NAMES.testDetail, { id: item?.id });
@@ -73,7 +73,9 @@ const TestsScreen = props => {
       props.navigation.navigate(ROUTE_NAMES.login);
     }
   };
-
+  
+  console.log('Filters in TestsScreen1', filters)
+  
   const renderHeaderRight = () => (
     <TouchableOpacity
       onPress={() => props.navigation.navigate(route, { filters })}
@@ -116,6 +118,8 @@ const TestsScreen = props => {
   if (isFetching) {
     return <LoadingScreen />;
   }
+
+  console.log('Filters in TestsScreen2', filters)
 
   return (
     <UniversalView style={{backgroundColor: settings?.color_app}}>

@@ -38,6 +38,8 @@ const CoursesScreen = props => {
     setLastPage(response.data?.last_page);
   });
 
+  console.log('Filters in CoursesScreen 1', filters)
+  
   useLayoutEffect(() => {
     let navigationOptions = navHeaderOptions(
       lang('Курсы', localization),
@@ -48,6 +50,27 @@ const CoursesScreen = props => {
     props.navigation.setOptions(navigationOptions);
   }, []);
 
+  useEffect(() => {
+    if (page === 1) {
+      fetchCourses();
+    } else {
+      fetchNextPage();
+    }
+  }, [page]);
+  
+  const fetchNextPage = async () => {
+    const response = await CourseService.fetchCourses('', page);
+    setData(data.concat(response.data?.data));
+    setLoadingNext(false);
+  };
+  
+  const onEndReached = () => {
+    if (page < lastPage && !loadingNext) {
+      setLoadingNext(true);
+      setPage(prev => prev + 1);
+    }
+  };
+  
   const renderHeaderRight = () => (
     <TouchableOpacity
       onPress={() => props.navigation.navigate(route, { filters })}
@@ -57,27 +80,6 @@ const CoursesScreen = props => {
       <SearchIcon />
     </TouchableOpacity>
   );
-
-  useEffect(() => {
-    if (page === 1) {
-      fetchCourses();
-    } else {
-      fetchNextPage();
-    }
-  }, [page]);
-
-  const fetchNextPage = async () => {
-    const response = await CourseService.fetchCourses('', page);
-    setData(data.concat(response.data?.data));
-    setLoadingNext(false);
-  };
-
-  const onEndReached = () => {
-    if (page < lastPage && !loadingNext) {
-      setLoadingNext(true);
-      setPage(prev => prev + 1);
-    }
-  };
 
   const renderCourse = ({ item, index }) => {
     if (nCourse == '1') {
@@ -90,12 +92,12 @@ const CoursesScreen = props => {
         <DoubleCard item={item} index={index} navigation={props?.navigation} />
       );
     }
-
+    
     return (
       <DefaultCard item={item} index={index} navigation={props?.navigation} />
     );
   };
-
+  
   const renderFooter = () => (
     <View style={styles.footer}>
       {loadingNext ? <ActivityIndicator color={APP_COLORS.primary} /> : null}
@@ -105,6 +107,8 @@ const CoursesScreen = props => {
   if (isLoading) {
     return <LoadingScreen />;
   }
+
+  console.log('Filters in CoursesScreen 2', filters)
 
   return (
     <UniversalView style={{backgroundColor: settings?.color_app}}>

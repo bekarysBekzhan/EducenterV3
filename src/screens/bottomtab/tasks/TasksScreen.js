@@ -77,6 +77,8 @@ const TasksScreen = props => {
     }
   };
 
+  console.log('Filters in TasksScreen 1', filters)
+  
   const renderHeaderRight = () => (
     <TouchableOpacity
       onPress={() => props.navigation.navigate(route, { filters })}
@@ -86,7 +88,7 @@ const TasksScreen = props => {
       <SearchIcon />
     </TouchableOpacity>
   );
-  
+
   const renderTask = ({ item, index }) => {
     console.log('Item: ', item)
     return (
@@ -124,8 +126,11 @@ const TasksScreen = props => {
     return <LoadingScreen />;
   }
 
+
+  console.log('Filters in TasksScreen 2', filters)
+
   return (
-    <UniversalView style={{backgroundColor: settings?.color_app}}>
+    <UniversalView style={{ backgroundColor: settings?.color_app }}>
       <View style={styles.primaryView}>
         <FlatList
           data={data}

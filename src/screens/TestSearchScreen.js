@@ -205,6 +205,8 @@ const TestSearchScreen = props => {
     }
   }, []);
 
+  console.log('Filters TestSS:::', filters)
+
   return (
     <UniversalView>
       <SafeAreaView style={{ flex: 1 }}>

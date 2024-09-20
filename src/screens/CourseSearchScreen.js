@@ -208,6 +208,8 @@ const CourseSearchScreen = props => {
     }
   }, []);
 
+  console.log('Filters CourseSS:::', filters)
+
   return (
     <UniversalView>
       <SafeAreaView style={{flex: 1}}>

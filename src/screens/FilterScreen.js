@@ -67,10 +67,11 @@ const FilterScreen = ({navigation, route}) => {
   };
 
   const renderFooter = () => {
+    console.log('Filters', filters)
     return (
       <View>
         <SectionView label={lang('Сортировка', localization)} />
-        {convertToIterable(filters.sorts).map((sort, index) => (
+        {convertToIterable(filters?.sorts).map((sort, index) => (
           <SelectOption
             value={sort.key}
             _key={sort.key}
