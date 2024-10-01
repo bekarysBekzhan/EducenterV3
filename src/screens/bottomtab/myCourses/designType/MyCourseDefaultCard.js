@@ -81,7 +81,7 @@ export const MyCourseDefaultCard = ({ item, index, navigation }) => {
                 ? parseFloat(item.progress_information?.number) / 100
                 : 0
             }
-            width={WIDTH / 1.2}
+            width={null}
             height={4}
             borderRadius={12}
             borderWidth={4}

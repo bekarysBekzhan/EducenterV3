@@ -145,7 +145,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 8,
-    width: 311,
     height: 46,
     paddingVertical: 16,
     paddingHorizontal: 12,

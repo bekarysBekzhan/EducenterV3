@@ -40,7 +40,7 @@ import DevView from '../../../components/view/DevView';
 import { useFetching } from '../../../hooks/useFetching';
 import { ProfileService } from '../../../services/API';
 import { setFontStyle } from '../../../utils/utils';
-import { APP_COLORS, N_STATUS, STORAGE } from '../../../constants/constants';
+import { APP_COLORS, N_STATUS, STORAGE, WIDTH } from '../../../constants/constants';
 import LoadingScreen from '../../../components/LoadingScreen';
 import { storeObject } from '../../../storage/AsyncStorage';
 import { lang } from '../../../localization/lang';
@@ -270,6 +270,8 @@ const ProfileScreen = ({ navigation, route }) => {
       return nameParts[0].charAt(0).toUpperCase() + nameParts[0].charAt(0).toUpperCase();
     }
 
+    console.log('Initials', nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase())
+
     return nameParts[0].charAt(0).toUpperCase() + nameParts[1].charAt(0).toUpperCase();
   };
 
@@ -456,7 +458,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     top: 12,
-    left: 134,
+    left: WIDTH/2-60,
     paddingVertical: 40,
     paddingHorizontal: 22,
     borderRadius: 100,
