@@ -27,6 +27,7 @@ import { lang } from '../../localization/lang';
 import { APP_COLORS } from '../../constants/constants';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { BellIcon, LeftArrowIcon, SearchIcon, SettingsIcon } from '../../assets/icons';
+import UnauthorizedScreen from '../../screens/bottomtab/myCourses/UnauthorizedScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -55,7 +56,10 @@ const MenuStack = ({ navigation }) => {
     },
     {
       name: ROUTE_NAMES.profile,
-      component: ProfileScreen,
+      component: isAuth ? ProfileScreen : UnauthorizedScreen,
+      options: {
+        title: lang('Профиль', localization),
+      },
       initialParams: { profile: false },
     },
     {

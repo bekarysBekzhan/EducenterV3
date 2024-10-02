@@ -191,13 +191,13 @@ const BottomTab = props => {
         //     return null
         //   }
         // }
-        // else if (route.name === ROUTE_NAMES.tasksStack) {
-        //   if (nstatus !== N_STATUS && settings?.modules_enabled_tasks) {
-        //     return screen;
-        //   } else {
-        //     return null;
-        //   }
-        // }
+        else if (route.name === ROUTE_NAMES.tasksStack) {
+          if (nstatus !== N_STATUS && settings?.modules_enabled_tasks) {
+            return screen;
+          } else {
+            return null;
+          }
+        }
 
         return screen;
       })}

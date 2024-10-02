@@ -12,6 +12,14 @@ import { lang } from '../../../localization/lang';
 const UnauthorizedScreen = props => {
   const {localization} = useLocalization();
 
+  useLayoutEffect(() => {
+    props.navigation.setOptions({
+      headerTitleAlign: 'center',
+      headerLeft: null,
+      headerRight: null,
+    });
+  });
+
   const loginTapped = () => {
     props.navigation.navigate(ROUTE_NAMES.login);
   };

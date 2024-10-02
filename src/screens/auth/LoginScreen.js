@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import React, { useLayoutEffect } from 'react';
 import UniversalView from '../../components/view/UniversalView';
 import Input from '../../components/Input';
@@ -20,7 +20,7 @@ import { ROUTE_NAMES } from '../../components/navigation/routes';
 import { useSettings } from '../../components/context/Provider';
 import { API_V2 } from '../../services/axios';
 import { firebaseService } from '../../services/FirebaseService';
-import { HideIcon, ShowIcon } from '../../assets/icons';
+import { HideIcon, LeftArrowIcon, ShowIcon } from '../../assets/icons';
 import { useToggle } from '../../hooks/useToggle';
 import { useLocalization } from './../../components/context/LocalizationProvider'
 import { lang } from './../../localization/lang'
@@ -57,8 +57,19 @@ const LoginScreen = ({ navigation }) => {
     navigation.setOptions({
       title: lang('Войти в аккаунт', localization),
       headerTitleAlign: 'center',
+      headerLeft: renderHeaderLeft,
     });
   });
+
+  const renderHeaderLeft = () => (
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={styles.iconButton}
+      activeOpacity={0.65}
+    >
+      <LeftArrowIcon />
+    </TouchableOpacity>
+  );
 
   const onChangeEmailOrPhone = email => {
     setDataSource(prev => ({
@@ -189,5 +200,17 @@ const styles = StyleSheet.create({
   },
   registerText: {
     color: APP_COLORS.primary,
+  },
+  iconButton: {
+    position: 'absolute',
+    left: 0,
+    padding: 10,
+    backgroundColor: '#FFFFFF33',
+    borderRadius: 31,
+    width: 36,
+    height: 36,
+    paddingTop: 9,
+    gap: 16,
+    alignItems: 'center',
   },
 });

@@ -51,7 +51,7 @@ const MyCourses = () => {
           key={index}
           options={{
             headerShown: true,
-            headerTitle: screen.name == ROUTE_NAMES.myCourseDetail ? lang('Курс', localization) : lang('Тест', localization),
+            headerTitle: lang('Мои курсы', localization),
             headerTitleAlign: 'center',
             headerTitleStyle: {
               ...setFontStyle(20, '700', APP_COLORS.white),

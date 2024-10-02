@@ -62,8 +62,8 @@ const ProfileScreen = ({ navigation, route }) => {
     let navigationOptions = navHeaderOptions(
       lang('Мой профиль', localization),
     );
-    navigationOptions.headerTitleAlign = 'center',
-      navigationOptions.headerRight = renderHeaderRight;
+    navigationOptions.headerTitleAlign = 'center';
+    navigationOptions.headerRight = renderHeaderRight;
     navigationOptions.headerLeft = null;
     navigation.setOptions(navigationOptions);
   }, [isRead]);
@@ -458,7 +458,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     top: 12,
-    left: WIDTH/2-60,
+    left: WIDTH / 2 - 60,
     paddingVertical: 40,
     paddingHorizontal: 22,
     borderRadius: 100,
