@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import UniversalView from '../../../components/view/UniversalView';
 import FastImage from 'react-native-fast-image';
 import {WIDTH} from '../../../constants/constants';
