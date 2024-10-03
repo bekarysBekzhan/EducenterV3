@@ -174,7 +174,7 @@ const MenuStack = ({ navigation }) => {
 
   return (
     <Stack.Navigator
-      initialRouteName={ROUTE_NAMES.profile}
+      initialRouteName={isAuth ? ROUTE_NAMES.profile : ROUTE_NAMES.menu}
       screenOptions={{
         headerShown: true,
         headerTitleAlign: 'center',
