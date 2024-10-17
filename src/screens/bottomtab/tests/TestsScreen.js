@@ -12,7 +12,7 @@ import LoadingScreen from '../../../components/LoadingScreen';
 import SearchButton from '../../../components/button/SearchButton';
 import ModuleTestItem from '../../../components/test/ModuleTestItem';
 import { TestService } from '../../../services/API';
-import { APP_COLORS, N_STATUS, WIDTH } from '../../../constants/constants';
+import { APP_COLORS, HEIGHT, N_STATUS, WIDTH } from '../../../constants/constants';
 import { ROUTE_NAMES } from '../../../components/navigation/routes';
 import Empty from '../../../components/Empty';
 import WhatsappButton from '../../../components/button/WhatsappButton';
@@ -154,6 +154,7 @@ const styles = StyleSheet.create({
   primaryView: {
     borderRadius: 20,
     backgroundColor: APP_COLORS.white,
+    height: HEIGHT,
   },
   container: {
     padding: 16,

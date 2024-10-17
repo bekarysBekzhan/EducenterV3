@@ -21,15 +21,20 @@ import {useSettings} from '../../../components/context/Provider';
 import {ROUTE_NAMES} from '../../../components/navigation/routes';
 import {useLocalization} from '../../../components/context/LocalizationProvider';
 import {lang} from '../../../localization/lang';
+import { navHeaderOptions } from '../../../components/navigation/navHeaderOptions';
 
 const MenuScreen = ({navigation}) => {
   const {settings, nstatus, isAuth} = useSettings();
   const {localization} = useLocalization();
 
   useLayoutEffect(() => {
-    navigation.setOptions(
-      navHeaderOptions(lang('Меню', localization)),
+    let navigationOptions = navHeaderOptions(
+      lang('Мой профиль', localization),
     );
+    navigationOptions.headerTitleAlign = 'center';
+    navigationOptions.headerRight = null;
+    navigationOptions.headerLeft = null;
+    navigation.setOptions(navigationOptions);
   }, []);
 
   const MENU = [
@@ -215,7 +220,7 @@ const styles = StyleSheet.create({
   },
   row: {
     paddingHorizontal: 16,
-    paddingTop: 8,
+    paddingTop: 16,
     paddingBottom: 12,
   },
   profile: {

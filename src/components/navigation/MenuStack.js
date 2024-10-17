@@ -87,7 +87,7 @@ const MenuStack = ({ navigation }) => {
       name: ROUTE_NAMES.scheduleNavigator,
       component: ScheduleNavigator,
       options: {
-        title: lang('Редактировать профиль', localization),
+        title: lang('Расписание', localization),
       },
     },
     {

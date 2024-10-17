@@ -5,7 +5,7 @@ import SearchButton from '../../../components/button/SearchButton';
 import { useFetching } from '../../../hooks/useFetching';
 import { CourseService } from '../../../services/API';
 import { useState } from 'react';
-import { APP_COLORS, N_STATUS, WIDTH } from '../../../constants/constants';
+import { APP_COLORS, HEIGHT, N_STATUS, WIDTH } from '../../../constants/constants';
 import { useEffect } from 'react';
 import { setFontStyle } from '../../../utils/utils';
 import LoadingScreen from '../../../components/LoadingScreen';
@@ -144,6 +144,7 @@ export const styles = StyleSheet.create({
   primaryView: {
     borderRadius: 20,
     backgroundColor: APP_COLORS.white,
+    height: HEIGHT,
   },
   contentContainer: {
     padding: 16,

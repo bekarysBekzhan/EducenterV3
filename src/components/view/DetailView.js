@@ -68,12 +68,6 @@ const styles = StyleSheet.create({
     borderColor: APP_COLORS.border,
     padding: 16,
 
-    shadowOpacity: 0.1,
-    shadowRadius: 92,
-    shadowColor: '#000153',
-    shadowOffset: { width: 0, height: 4 },
-    elevation: 10,
-
     marginBottom: 16,
   },
   emptyPoster: {
